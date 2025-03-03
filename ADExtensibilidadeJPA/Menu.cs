@@ -38,6 +38,12 @@ namespace ADExtensibilidadeJPA
             BTF4.FlatStyle = FlatStyle.Flat;
             btnGravarObra.FlatStyle = FlatStyle.Flat;
 
+            // Configurar os botões para anexar documentos específicos
+            btnAnexoFinancas.FlatStyle = FlatStyle.Flat;
+            btnAnexoFinancas.BackColor = Color.LightBlue;
+            btnAnexoSegSocial.FlatStyle = FlatStyle.Flat;
+            btnAnexoSegSocial.BackColor = Color.LightBlue;
+
             // Configurar painéis
             AlertaValidadeAlvara.BackColor = Color.Red;
 
@@ -60,6 +66,16 @@ namespace ADExtensibilidadeJPA
             TXT_FolhaPagSegSocial.Format = DateTimePickerFormat.Short;
         }
 
+        private void AtualizarLabelsAnexos()
+        {
+            // Atualiza o texto nos labels que mostram os anexos específicos
+            lblAnexoFinancas.Text = string.IsNullOrEmpty(caminhoAnexoFinancas) ?
+                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoFinancas);
+
+            lblAnexoSegSocial.Text = string.IsNullOrEmpty(caminhoAnexoSegSocial) ?
+                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoSegSocial);
+        }
+
         private void BTF4_Click(object sender, EventArgs e)
         {
             CarregarDadosEntidade();
@@ -75,6 +91,10 @@ namespace ADExtensibilidadeJPA
                 SetInfoEntidades(entidade);
             }
         }
+
+        // Variáveis para armazenar os caminhos dos anexos específicos
+        private string caminhoAnexoFinancas = "";
+        private string caminhoAnexoSegSocial = "";
 
         private void SetInfoEntidades(Dictionary<string, string> entidade)
         {
@@ -137,6 +157,13 @@ namespace ADExtensibilidadeJPA
 
             // Recupera o caminho da pasta
             txtCaminhoPasta.Text = entidade["CDU_Caminho"];
+
+            // Recupera os caminhos dos anexos específicos
+            caminhoAnexoFinancas = entidade["CDU_AnexoFinancas"] ?? "";
+            caminhoAnexoSegSocial = entidade["CDU_AnexoSegSocial"] ?? "";
+
+            // Atualiza os labels de anexos específicos
+            AtualizarLabelsAnexos();
 
             // Atualiza a lista de documentos ao carregar a entidade
             AtualizarListaDocumentos();
@@ -449,10 +476,10 @@ namespace ADExtensibilidadeJPA
         private void GetEntidades(ref Dictionary<string, string> entidade)
         {
             string NomeLista = "Entidades";
-            string Campos = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id";
+            string Campos = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id,CDU_AnexoFinancas,CDU_AnexoSegSocial";
             string Tabela = "Geral_Entidade (NOLOCK)";
             string Where = "CDU_TrataSGS = 0";
-            string CamposF4 = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id";
+            string CamposF4 = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id,CDU_AnexoFinancas,CDU_AnexoSegSocial";
             string orderby = "Codigo, Nome";
 
             List<string> ResQuery = new List<string>();
@@ -491,6 +518,174 @@ namespace ADExtensibilidadeJPA
             }
         }
 
+        private void btnAnexoFinancas_Click(object sender, EventArgs e)
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Documento da Certidão de Não Dívida às Finanças";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "NaoDivFinancas_" + TXT_Codigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        caminhoAnexoFinancas = destFile;
+
+                        // Atualiza o label
+                        AtualizarLabelsAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Atualiza a lista de documentos
+                        AtualizarListaDocumentos();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnAnexoSegSocial_Click(object sender, EventArgs e)
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Documento da Certidão de Não Dívida à Segurança Social";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "NaoDivSegSocial_" + TXT_Codigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        caminhoAnexoSegSocial = destFile;
+
+                        // Atualiza o label
+                        AtualizarLabelsAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Atualiza a lista de documentos
+                        AtualizarListaDocumentos();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void visualizarAnexoFinancas_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(caminhoAnexoFinancas) || !System.IO.File.Exists(caminhoAnexoFinancas))
+            {
+                MessageBox.Show("Não existe anexo para a certidão de não dívida às Finanças.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(caminhoAnexoFinancas);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void visualizarAnexoSegSocial_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(caminhoAnexoSegSocial) || !System.IO.File.Exists(caminhoAnexoSegSocial))
+            {
+                MessageBox.Show("Não existe anexo para a certidão de não dívida à Segurança Social.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(caminhoAnexoSegSocial);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void BT_Salvar_Click_Click(object sender, EventArgs e)
         {
             try
@@ -514,7 +709,9 @@ namespace ADExtensibilidadeJPA
                 CDU_HorarioTrabalho = '{cb_HorarioTrabalho.Text}', 
                 CDU_DecTrabIlegais = '{cb_DecTrabIlegais.Text}', 
                 CDU_DecRespEstaleiro = '{cb_DecRespEstaleiro.Text}', 
-                CDU_DecConhecimPSS = '{cb_DecConhecimPSS.Text}'
+                CDU_DecConhecimPSS = '{cb_DecConhecimPSS.Text}',
+                CDU_AnexoFinancas = '{caminhoAnexoFinancas}',
+                CDU_AnexoSegSocial = '{caminhoAnexoSegSocial}'
             WHERE ID = '{_ID}';
         ";
 
