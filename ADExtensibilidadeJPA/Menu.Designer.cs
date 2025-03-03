@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             this.TXT_Nome = new System.Windows.Forms.TextBox();
             this.BTF4 = new System.Windows.Forms.Button();
             this.TXT_Codigo = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.cb_Obras = new System.Windows.Forms.ComboBox();
             this.AlertaValidadeAlvara = new System.Windows.Forms.Panel();
             this.cb_DecConhecimPSS = new System.Windows.Forms.ComboBox();
             this.cb_DecRespEstaleiro = new System.Windows.Forms.ComboBox();
@@ -67,12 +69,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.EntradaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SaidaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContratoSubempreitada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AutorizacaoEntrada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TXT_Nome
@@ -113,9 +120,8 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.dataGridView1);
-            this.tabPage1.Controls.Add(this.comboBox1);
+            this.tabPage1.Controls.Add(this.cb_Obras);
             this.tabPage1.Controls.Add(this.AlertaValidadeAlvara);
             this.tabPage1.Controls.Add(this.cb_DecConhecimPSS);
             this.tabPage1.Controls.Add(this.cb_DecRespEstaleiro);
@@ -157,15 +163,28 @@
             this.tabPage1.Text = "Empresa";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // dataGridView1
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 23);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(683, 355);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Trabalhadores";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.EntradaObra_,
+            this.SaidaObra_,
+            this.ContratoSubempreitada,
+            this.AutorizacaoEntrada});
+            this.dataGridView1.Location = new System.Drawing.Point(19, 269);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(645, 144);
+            this.dataGridView1.TabIndex = 90;
+            // 
+            // cb_Obras
+            // 
+            this.cb_Obras.FormattingEnabled = true;
+            this.cb_Obras.Location = new System.Drawing.Point(19, 241);
+            this.cb_Obras.Name = "cb_Obras";
+            this.cb_Obras.Size = new System.Drawing.Size(343, 22);
+            this.cb_Obras.TabIndex = 89;
+            this.cb_Obras.SelectedIndexChanged += new System.EventHandler(this.cb_Obras_SelectedIndexChanged);
             // 
             // AlertaValidadeAlvara
             // 
@@ -441,35 +460,61 @@
             this.label2.TabIndex = 56;
             this.label2.Text = "Sede";
             // 
-            // comboBox1
+            // tabPage2
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(19, 241);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(303, 22);
-            this.comboBox1.TabIndex = 89;
+            this.tabPage2.Location = new System.Drawing.Point(4, 23);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(683, 419);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Trabalhadores";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // toolStrip1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(19, 269);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(645, 144);
-            this.dataGridView1.TabIndex = 90;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BT_Salvar_Click});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(725, 25);
+            this.toolStrip1.TabIndex = 4;
+            this.toolStrip1.Text = "toolStrip1";
             // 
-            // button2
+            // EntradaObra_
             // 
-            this.button2.Location = new System.Drawing.Point(328, 241);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 91;
-            this.button2.Text = "+ Adcionar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.EntradaObra_.HeaderText = "Entrada em Obra";
+            this.EntradaObra_.Name = "EntradaObra_";
+            // 
+            // SaidaObra_
+            // 
+            this.SaidaObra_.HeaderText = "Saida de Obra";
+            this.SaidaObra_.Name = "SaidaObra_";
+            // 
+            // ContratoSubempreitada
+            // 
+            this.ContratoSubempreitada.HeaderText = "Contrato Subempreitada";
+            this.ContratoSubempreitada.Name = "ContratoSubempreitada";
+            // 
+            // AutorizacaoEntrada
+            // 
+            this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
+            this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
+            // 
+            // BT_Salvar_Click
+            // 
+            this.BT_Salvar_Click.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BT_Salvar_Click.Image = ((System.Drawing.Image)(resources.GetObject("BT_Salvar_Click.Image")));
+            this.BT_Salvar_Click.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BT_Salvar_Click.Name = "BT_Salvar_Click";
+            this.BT_Salvar_Click.Size = new System.Drawing.Size(23, 22);
+            this.BT_Salvar_Click.Text = "toolStripButton1";
+            this.BT_Salvar_Click.Click += new System.EventHandler(this.BT_Salvar_Click_Click);
             // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.TXT_Codigo);
             this.Controls.Add(this.BTF4);
@@ -482,6 +527,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -528,8 +575,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cb_Obras;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EntradaObra_;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SaidaObra_;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContratoSubempreitada;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AutorizacaoEntrada;
+        private System.Windows.Forms.ToolStripButton BT_Salvar_Click;
     }
 }
