@@ -34,85 +34,110 @@
             this.TXT_Codigo = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.cb_Obras = new System.Windows.Forms.ComboBox();
-            this.AlertaValidadeAlvara = new System.Windows.Forms.Panel();
-            this.cb_DecConhecimPSS = new System.Windows.Forms.ComboBox();
-            this.cb_DecRespEstaleiro = new System.Windows.Forms.ComboBox();
-            this.cb_DecTrabIlegais = new System.Windows.Forms.ComboBox();
-            this.cb_HorarioTrabalho = new System.Windows.Forms.ComboBox();
-            this.cb_ApoliceRC = new System.Windows.Forms.ComboBox();
-            this.cb_ApoliceAT = new System.Windows.Forms.ComboBox();
-            this.cb_ReciboPagSegSocial = new System.Windows.Forms.ComboBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.TXT_AlvaraValidade = new System.Windows.Forms.TextBox();
-            this.TXT_ReciboRC = new System.Windows.Forms.TextBox();
-            this.TXT_ReciboApoliceAT = new System.Windows.Forms.TextBox();
-            this.TXT_FolhaPagSegSocial = new System.Windows.Forms.TextBox();
-            this.TXT_NaoDivSegSocial = new System.Windows.Forms.TextBox();
-            this.TXT_NaoDivFinancas = new System.Windows.Forms.TextBox();
-            this.TXT_Alvara = new System.Windows.Forms.TextBox();
-            this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
-            this.TXT_Sede = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.panelDadosEmpresa = new System.Windows.Forms.Panel();
+            this.groupBoxInfoBasica = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
+            this.TXT_Sede = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TXT_Alvara = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.TXT_AlvaraValidade = new System.Windows.Forms.DateTimePicker();
+            this.AlertaValidadeAlvara = new System.Windows.Forms.Panel();
+            this.groupBoxSituacaoFiscal = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.TXT_NaoDivFinancas = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.TXT_NaoDivSegSocial = new System.Windows.Forms.DateTimePicker();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TXT_FolhaPagSegSocial = new System.Windows.Forms.DateTimePicker();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cb_ReciboPagSegSocial = new System.Windows.Forms.ComboBox();
+            this.groupBoxApolices = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cb_ApoliceAT = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.TXT_ReciboApoliceAT = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cb_ApoliceRC = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.TXT_ReciboRC = new System.Windows.Forms.TextBox();
+            this.groupBoxDeclaracoes = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.cb_HorarioTrabalho = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cb_DecTrabIlegais = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cb_DecRespEstaleiro = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.cb_DecConhecimPSS = new System.Windows.Forms.ComboBox();
+            this.panelObras = new System.Windows.Forms.Panel();
+            this.groupBoxObras = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.cb_Obras = new System.Windows.Forms.ComboBox();
+            this.btnGravarObra = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.EntradaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SaidaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContratoSubempreitada = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AutorizacaoEntrada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
+            this.lblSelecionar = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.panelDadosEmpresa.SuspendLayout();
+            this.groupBoxInfoBasica.SuspendLayout();
+            this.groupBoxSituacaoFiscal.SuspendLayout();
+            this.groupBoxApolices.SuspendLayout();
+            this.groupBoxDeclaracoes.SuspendLayout();
+            this.panelObras.SuspendLayout();
+            this.groupBoxObras.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TXT_Nome
             // 
+            this.TXT_Nome.BackColor = System.Drawing.Color.White;
+            this.TXT_Nome.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TXT_Nome.Enabled = false;
-            this.TXT_Nome.Location = new System.Drawing.Point(121, 36);
+            this.TXT_Nome.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.TXT_Nome.Location = new System.Drawing.Point(175, 35);
             this.TXT_Nome.Name = "TXT_Nome";
-            this.TXT_Nome.Size = new System.Drawing.Size(520, 22);
+            this.TXT_Nome.Size = new System.Drawing.Size(466, 24);
             this.TXT_Nome.TabIndex = 0;
             // 
             // BTF4
             // 
+            this.BTF4.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.BTF4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BTF4.Location = new System.Drawing.Point(647, 35);
             this.BTF4.Name = "BTF4";
-            this.BTF4.Size = new System.Drawing.Size(55, 23);
+            this.BTF4.Size = new System.Drawing.Size(55, 24);
             this.BTF4.TabIndex = 1;
             this.BTF4.Text = "F4";
-            this.BTF4.UseVisualStyleBackColor = true;
+            this.BTF4.UseVisualStyleBackColor = false;
             this.BTF4.Click += new System.EventHandler(this.BTF4_Click);
             // 
             // TXT_Codigo
             // 
+            this.TXT_Codigo.BackColor = System.Drawing.Color.White;
+            this.TXT_Codigo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TXT_Codigo.Enabled = false;
-            this.TXT_Codigo.Location = new System.Drawing.Point(15, 37);
+            this.TXT_Codigo.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.TXT_Codigo.Location = new System.Drawing.Point(70, 35);
             this.TXT_Codigo.Name = "TXT_Codigo";
-            this.TXT_Codigo.Size = new System.Drawing.Size(100, 22);
+            this.TXT_Codigo.Size = new System.Drawing.Size(100, 24);
             this.TXT_Codigo.TabIndex = 2;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.tabControl1.Location = new System.Drawing.Point(15, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -121,365 +146,508 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button1);
-            this.tabPage1.Controls.Add(this.dataGridView1);
-            this.tabPage1.Controls.Add(this.cb_Obras);
-            this.tabPage1.Controls.Add(this.AlertaValidadeAlvara);
-            this.tabPage1.Controls.Add(this.cb_DecConhecimPSS);
-            this.tabPage1.Controls.Add(this.cb_DecRespEstaleiro);
-            this.tabPage1.Controls.Add(this.cb_DecTrabIlegais);
-            this.tabPage1.Controls.Add(this.cb_HorarioTrabalho);
-            this.tabPage1.Controls.Add(this.cb_ApoliceRC);
-            this.tabPage1.Controls.Add(this.cb_ApoliceAT);
-            this.tabPage1.Controls.Add(this.cb_ReciboPagSegSocial);
-            this.tabPage1.Controls.Add(this.label22);
-            this.tabPage1.Controls.Add(this.TXT_AlvaraValidade);
-            this.tabPage1.Controls.Add(this.TXT_ReciboRC);
-            this.tabPage1.Controls.Add(this.TXT_ReciboApoliceAT);
-            this.tabPage1.Controls.Add(this.TXT_FolhaPagSegSocial);
-            this.tabPage1.Controls.Add(this.TXT_NaoDivSegSocial);
-            this.tabPage1.Controls.Add(this.TXT_NaoDivFinancas);
-            this.tabPage1.Controls.Add(this.TXT_Alvara);
-            this.tabPage1.Controls.Add(this.TXT_Contribuinte);
-            this.tabPage1.Controls.Add(this.TXT_Sede);
-            this.tabPage1.Controls.Add(this.label16);
-            this.tabPage1.Controls.Add(this.label15);
-            this.tabPage1.Controls.Add(this.label14);
-            this.tabPage1.Controls.Add(this.label13);
-            this.tabPage1.Controls.Add(this.label12);
-            this.tabPage1.Controls.Add(this.label11);
-            this.tabPage1.Controls.Add(this.label10);
-            this.tabPage1.Controls.Add(this.label9);
-            this.tabPage1.Controls.Add(this.label8);
-            this.tabPage1.Controls.Add(this.label7);
-            this.tabPage1.Controls.Add(this.label6);
-            this.tabPage1.Controls.Add(this.label5);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Location = new System.Drawing.Point(4, 23);
+            this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage1.Controls.Add(this.panelDadosEmpresa);
+            this.tabPage1.Controls.Add(this.panelObras);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(683, 419);
+            this.tabPage1.Size = new System.Drawing.Size(683, 418);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Empresa";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EntradaObra_,
-            this.SaidaObra_,
-            this.ContratoSubempreitada,
-            this.AutorizacaoEntrada});
-            this.dataGridView1.Location = new System.Drawing.Point(19, 269);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(645, 144);
-            this.dataGridView1.TabIndex = 90;
-            // 
-            // cb_Obras
-            // 
-            this.cb_Obras.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_Obras.FormattingEnabled = true;
-            this.cb_Obras.Location = new System.Drawing.Point(19, 241);
-            this.cb_Obras.Name = "cb_Obras";
-            this.cb_Obras.Size = new System.Drawing.Size(343, 22);
-            this.cb_Obras.TabIndex = 89;
-            this.cb_Obras.SelectedIndexChanged += new System.EventHandler(this.cb_Obras_SelectedIndexChanged);
-            // 
-            // AlertaValidadeAlvara
-            // 
-            this.AlertaValidadeAlvara.Location = new System.Drawing.Point(368, 99);
-            this.AlertaValidadeAlvara.Name = "AlertaValidadeAlvara";
-            this.AlertaValidadeAlvara.Size = new System.Drawing.Size(10, 10);
-            this.AlertaValidadeAlvara.TabIndex = 88;
-            // 
-            // cb_DecConhecimPSS
-            // 
-            this.cb_DecConhecimPSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_DecConhecimPSS.FormattingEnabled = true;
-            this.cb_DecConhecimPSS.Location = new System.Drawing.Point(538, 201);
-            this.cb_DecConhecimPSS.Name = "cb_DecConhecimPSS";
-            this.cb_DecConhecimPSS.Size = new System.Drawing.Size(100, 22);
-            this.cb_DecConhecimPSS.TabIndex = 87;
-            // 
-            // cb_DecRespEstaleiro
-            // 
-            this.cb_DecRespEstaleiro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_DecRespEstaleiro.FormattingEnabled = true;
-            this.cb_DecRespEstaleiro.Location = new System.Drawing.Point(538, 174);
-            this.cb_DecRespEstaleiro.Name = "cb_DecRespEstaleiro";
-            this.cb_DecRespEstaleiro.Size = new System.Drawing.Size(100, 22);
-            this.cb_DecRespEstaleiro.TabIndex = 86;
-            // 
-            // cb_DecTrabIlegais
-            // 
-            this.cb_DecTrabIlegais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_DecTrabIlegais.FormattingEnabled = true;
-            this.cb_DecTrabIlegais.Location = new System.Drawing.Point(538, 147);
-            this.cb_DecTrabIlegais.Name = "cb_DecTrabIlegais";
-            this.cb_DecTrabIlegais.Size = new System.Drawing.Size(100, 22);
-            this.cb_DecTrabIlegais.TabIndex = 85;
-            // 
-            // cb_HorarioTrabalho
-            // 
-            this.cb_HorarioTrabalho.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_HorarioTrabalho.FormattingEnabled = true;
-            this.cb_HorarioTrabalho.Location = new System.Drawing.Point(538, 120);
-            this.cb_HorarioTrabalho.Name = "cb_HorarioTrabalho";
-            this.cb_HorarioTrabalho.Size = new System.Drawing.Size(100, 22);
-            this.cb_HorarioTrabalho.TabIndex = 84;
-            // 
-            // cb_ApoliceRC
-            // 
-            this.cb_ApoliceRC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_ApoliceRC.FormattingEnabled = true;
-            this.cb_ApoliceRC.Items.AddRange(new object[] {
-            "C",
-            "N/C",
-            "N/A"});
-            this.cb_ApoliceRC.Location = new System.Drawing.Point(538, 66);
-            this.cb_ApoliceRC.Name = "cb_ApoliceRC";
-            this.cb_ApoliceRC.Size = new System.Drawing.Size(100, 22);
-            this.cb_ApoliceRC.TabIndex = 83;
-            // 
-            // cb_ApoliceAT
-            // 
-            this.cb_ApoliceAT.FormattingEnabled = true;
-            this.cb_ApoliceAT.Location = new System.Drawing.Point(538, 12);
-            this.cb_ApoliceAT.Name = "cb_ApoliceAT";
-            this.cb_ApoliceAT.Size = new System.Drawing.Size(100, 22);
-            this.cb_ApoliceAT.TabIndex = 82;
-            // 
-            // cb_ReciboPagSegSocial
-            // 
-            this.cb_ReciboPagSegSocial.FormattingEnabled = true;
-            this.cb_ReciboPagSegSocial.Location = new System.Drawing.Point(164, 198);
-            this.cb_ReciboPagSegSocial.Name = "cb_ReciboPagSegSocial";
-            this.cb_ReciboPagSegSocial.Size = new System.Drawing.Size(198, 22);
-            this.cb_ReciboPagSegSocial.TabIndex = 81;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(65, 99);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(93, 14);
-            this.label22.TabIndex = 80;
-            this.label22.Text = "Alvará Validade";
-            // 
-            // TXT_AlvaraValidade
-            // 
-            this.TXT_AlvaraValidade.Location = new System.Drawing.Point(164, 93);
-            this.TXT_AlvaraValidade.Name = "TXT_AlvaraValidade";
-            this.TXT_AlvaraValidade.Size = new System.Drawing.Size(198, 22);
-            this.TXT_AlvaraValidade.TabIndex = 79;
-            // 
-            // TXT_ReciboRC
-            // 
-            this.TXT_ReciboRC.Location = new System.Drawing.Point(538, 93);
-            this.TXT_ReciboRC.Name = "TXT_ReciboRC";
-            this.TXT_ReciboRC.Size = new System.Drawing.Size(100, 22);
-            this.TXT_ReciboRC.TabIndex = 78;
-            // 
-            // TXT_ReciboApoliceAT
-            // 
-            this.TXT_ReciboApoliceAT.Location = new System.Drawing.Point(538, 39);
-            this.TXT_ReciboApoliceAT.Name = "TXT_ReciboApoliceAT";
-            this.TXT_ReciboApoliceAT.Size = new System.Drawing.Size(100, 22);
-            this.TXT_ReciboApoliceAT.TabIndex = 77;
-            // 
-            // TXT_FolhaPagSegSocial
-            // 
-            this.TXT_FolhaPagSegSocial.Location = new System.Drawing.Point(164, 171);
-            this.TXT_FolhaPagSegSocial.Name = "TXT_FolhaPagSegSocial";
-            this.TXT_FolhaPagSegSocial.Size = new System.Drawing.Size(198, 22);
-            this.TXT_FolhaPagSegSocial.TabIndex = 76;
-            // 
-            // TXT_NaoDivSegSocial
-            // 
-            this.TXT_NaoDivSegSocial.Location = new System.Drawing.Point(164, 144);
-            this.TXT_NaoDivSegSocial.Name = "TXT_NaoDivSegSocial";
-            this.TXT_NaoDivSegSocial.Size = new System.Drawing.Size(198, 22);
-            this.TXT_NaoDivSegSocial.TabIndex = 75;
-            // 
-            // TXT_NaoDivFinancas
-            // 
-            this.TXT_NaoDivFinancas.Location = new System.Drawing.Point(164, 117);
-            this.TXT_NaoDivFinancas.Name = "TXT_NaoDivFinancas";
-            this.TXT_NaoDivFinancas.Size = new System.Drawing.Size(198, 22);
-            this.TXT_NaoDivFinancas.TabIndex = 74;
-            // 
-            // TXT_Alvara
-            // 
-            this.TXT_Alvara.Location = new System.Drawing.Point(164, 69);
-            this.TXT_Alvara.Name = "TXT_Alvara";
-            this.TXT_Alvara.Size = new System.Drawing.Size(199, 22);
-            this.TXT_Alvara.TabIndex = 73;
-            // 
-            // TXT_Contribuinte
-            // 
-            this.TXT_Contribuinte.Location = new System.Drawing.Point(164, 42);
-            this.TXT_Contribuinte.Name = "TXT_Contribuinte";
-            this.TXT_Contribuinte.Size = new System.Drawing.Size(199, 22);
-            this.TXT_Contribuinte.TabIndex = 72;
-            // 
-            // TXT_Sede
-            // 
-            this.TXT_Sede.Location = new System.Drawing.Point(164, 15);
-            this.TXT_Sede.Name = "TXT_Sede";
-            this.TXT_Sede.Size = new System.Drawing.Size(199, 22);
-            this.TXT_Sede.TabIndex = 71;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(422, 204);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(110, 14);
-            this.label16.TabIndex = 70;
-            this.label16.Text = "Dec. Conhecim. PSS";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(420, 177);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(115, 14);
-            this.label15.TabIndex = 69;
-            this.label15.Text = "Dec. Resp. Estaleiro";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(432, 150);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(103, 14);
-            this.label14.TabIndex = 68;
-            this.label14.Text = "Dec.  Trab. Ilegais";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(420, 123);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(116, 14);
-            this.label13.TabIndex = 67;
-            this.label13.Text = "Horário de Trabalho";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(472, 96);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(60, 14);
-            this.label12.TabIndex = 66;
-            this.label12.Text = "Recibo RC";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(468, 69);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(64, 14);
-            this.label11.TabIndex = 65;
-            this.label11.Text = "Apólice RC";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(432, 42);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(103, 14);
-            this.label10.TabIndex = 64;
-            this.label10.Text = "Recibo Apólice AT";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(469, 15);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(63, 14);
-            this.label9.TabIndex = 63;
-            this.label9.Text = "Apólice AT";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(16, 201);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(147, 14);
-            this.label8.TabIndex = 62;
-            this.label8.Text = "Recibo de Pag. Seg. Social";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(34, 177);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(124, 14);
-            this.label7.TabIndex = 61;
-            this.label7.Text = "Folha Pag. Seg. Social";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(46, 150);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(112, 14);
-            this.label6.TabIndex = 60;
-            this.label6.Text = "Não Div. Seg. Social";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(55, 123);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(103, 14);
-            this.label5.TabIndex = 59;
-            this.label5.Text = "Não Div. Finanças";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(117, 77);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 14);
-            this.label4.TabIndex = 58;
-            this.label4.Text = "Alvará";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(83, 47);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 14);
-            this.label3.TabIndex = 57;
-            this.label3.Text = "Contribuinte";
+            // panelDadosEmpresa
+            // 
+            this.panelDadosEmpresa.Controls.Add(this.groupBoxInfoBasica);
+            this.panelDadosEmpresa.Controls.Add(this.groupBoxSituacaoFiscal);
+            this.panelDadosEmpresa.Controls.Add(this.groupBoxApolices);
+            this.panelDadosEmpresa.Controls.Add(this.groupBoxDeclaracoes);
+            this.panelDadosEmpresa.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelDadosEmpresa.Location = new System.Drawing.Point(3, 3);
+            this.panelDadosEmpresa.Name = "panelDadosEmpresa";
+            this.panelDadosEmpresa.Size = new System.Drawing.Size(677, 230);
+            this.panelDadosEmpresa.TabIndex = 92;
+            // 
+            // groupBoxInfoBasica
+            // 
+            this.groupBoxInfoBasica.Controls.Add(this.label2);
+            this.groupBoxInfoBasica.Controls.Add(this.TXT_Sede);
+            this.groupBoxInfoBasica.Controls.Add(this.label3);
+            this.groupBoxInfoBasica.Controls.Add(this.TXT_Contribuinte);
+            this.groupBoxInfoBasica.Controls.Add(this.label4);
+            this.groupBoxInfoBasica.Controls.Add(this.TXT_Alvara);
+            this.groupBoxInfoBasica.Controls.Add(this.label22);
+            this.groupBoxInfoBasica.Controls.Add(this.TXT_AlvaraValidade);
+            this.groupBoxInfoBasica.Controls.Add(this.AlertaValidadeAlvara);
+            this.groupBoxInfoBasica.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBoxInfoBasica.Location = new System.Drawing.Point(8, 5);
+            this.groupBoxInfoBasica.Name = "groupBoxInfoBasica";
+            this.groupBoxInfoBasica.Size = new System.Drawing.Size(325, 125);
+            this.groupBoxInfoBasica.TabIndex = 0;
+            this.groupBoxInfoBasica.TabStop = false;
+            this.groupBoxInfoBasica.Text = "Informações Básicas";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(124, 18);
+            this.label2.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label2.Location = new System.Drawing.Point(26, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 14);
             this.label2.TabIndex = 56;
             this.label2.Text = "Sede";
             // 
+            // TXT_Sede
+            // 
+            this.TXT_Sede.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_Sede.Location = new System.Drawing.Point(66, 19);
+            this.TXT_Sede.Name = "TXT_Sede";
+            this.TXT_Sede.Size = new System.Drawing.Size(245, 22);
+            this.TXT_Sede.TabIndex = 71;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label3.Location = new System.Drawing.Point(6, 50);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 14);
+            this.label3.TabIndex = 57;
+            this.label3.Text = "NIF/NIPC";
+            // 
+            // TXT_Contribuinte
+            // 
+            this.TXT_Contribuinte.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_Contribuinte.Location = new System.Drawing.Point(66, 47);
+            this.TXT_Contribuinte.Name = "TXT_Contribuinte";
+            this.TXT_Contribuinte.Size = new System.Drawing.Size(245, 22);
+            this.TXT_Contribuinte.TabIndex = 72;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label4.Location = new System.Drawing.Point(19, 78);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 14);
+            this.label4.TabIndex = 58;
+            this.label4.Text = "Alvará";
+            // 
+            // TXT_Alvara
+            // 
+            this.TXT_Alvara.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_Alvara.Location = new System.Drawing.Point(66, 75);
+            this.TXT_Alvara.Name = "TXT_Alvara";
+            this.TXT_Alvara.Size = new System.Drawing.Size(125, 22);
+            this.TXT_Alvara.TabIndex = 73;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label22.Location = new System.Drawing.Point(197, 78);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(55, 14);
+            this.label22.TabIndex = 80;
+            this.label22.Text = "Validade";
+            // 
+            // TXT_AlvaraValidade
+            // 
+            this.TXT_AlvaraValidade.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_AlvaraValidade.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.TXT_AlvaraValidade.Location = new System.Drawing.Point(258, 75);
+            this.TXT_AlvaraValidade.Name = "TXT_AlvaraValidade";
+            this.TXT_AlvaraValidade.Size = new System.Drawing.Size(53, 22);
+            this.TXT_AlvaraValidade.TabIndex = 79;
+            this.TXT_AlvaraValidade.ShowCheckBox = true;
+            // 
+            // AlertaValidadeAlvara
+            // 
+            this.AlertaValidadeAlvara.Location = new System.Drawing.Point(315, 75);
+            this.AlertaValidadeAlvara.Name = "AlertaValidadeAlvara";
+            this.AlertaValidadeAlvara.Size = new System.Drawing.Size(10, 10);
+            this.AlertaValidadeAlvara.TabIndex = 88;
+            // 
+            // groupBoxSituacaoFiscal
+            // 
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label5);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_NaoDivFinancas);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label6);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_NaoDivSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label7);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_FolhaPagSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label8);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.cb_ReciboPagSegSocial);
+            this.groupBoxSituacaoFiscal.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBoxSituacaoFiscal.Location = new System.Drawing.Point(8, 136);
+            this.groupBoxSituacaoFiscal.Name = "groupBoxSituacaoFiscal";
+            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(325, 90);
+            this.groupBoxSituacaoFiscal.TabIndex = 1;
+            this.groupBoxSituacaoFiscal.TabStop = false;
+            this.groupBoxSituacaoFiscal.Text = "Situação Fiscal";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label5.Location = new System.Drawing.Point(9, 22);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 14);
+            this.label5.TabIndex = 59;
+            this.label5.Text = "Não Div. Fin.";
+            // 
+            // TXT_NaoDivFinancas
+            // 
+            this.TXT_NaoDivFinancas.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_NaoDivFinancas.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.TXT_NaoDivFinancas.Location = new System.Drawing.Point(92, 19);
+            this.TXT_NaoDivFinancas.Name = "TXT_NaoDivFinancas";
+            this.TXT_NaoDivFinancas.Size = new System.Drawing.Size(219, 22);
+            this.TXT_NaoDivFinancas.TabIndex = 74;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label6.Location = new System.Drawing.Point(9, 47);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(82, 14);
+            this.label6.TabIndex = 60;
+            this.label6.Text = "Não Div. S.S.";
+            // 
+            // TXT_NaoDivSegSocial
+            // 
+            this.TXT_NaoDivSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_NaoDivSegSocial.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.TXT_NaoDivSegSocial.Location = new System.Drawing.Point(92, 45);
+            this.TXT_NaoDivSegSocial.Name = "TXT_NaoDivSegSocial";
+            this.TXT_NaoDivSegSocial.Size = new System.Drawing.Size(219, 22);
+            this.TXT_NaoDivSegSocial.TabIndex = 75;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label7.Location = new System.Drawing.Point(9, 71);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(83, 14);
+            this.label7.TabIndex = 61;
+            this.label7.Text = "Folha Pag. S.S";
+            // 
+            // TXT_FolhaPagSegSocial
+            // 
+            this.TXT_FolhaPagSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_FolhaPagSegSocial.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.TXT_FolhaPagSegSocial.Location = new System.Drawing.Point(92, 68);
+            this.TXT_FolhaPagSegSocial.Name = "TXT_FolhaPagSegSocial";
+            this.TXT_FolhaPagSegSocial.Size = new System.Drawing.Size(125, 22);
+            this.TXT_FolhaPagSegSocial.TabIndex = 76;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label8.Location = new System.Drawing.Point(219, 71);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 14);
+            this.label8.TabIndex = 62;
+            this.label8.Text = "Recibo:";
+            // 
+            // cb_ReciboPagSegSocial
+            // 
+            this.cb_ReciboPagSegSocial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_ReciboPagSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_ReciboPagSegSocial.FormattingEnabled = true;
+            this.cb_ReciboPagSegSocial.Location = new System.Drawing.Point(267, 68);
+            this.cb_ReciboPagSegSocial.Name = "cb_ReciboPagSegSocial";
+            this.cb_ReciboPagSegSocial.Size = new System.Drawing.Size(44, 22);
+            this.cb_ReciboPagSegSocial.TabIndex = 81;
+            // 
+            // groupBoxApolices
+            // 
+            this.groupBoxApolices.Controls.Add(this.label9);
+            this.groupBoxApolices.Controls.Add(this.cb_ApoliceAT);
+            this.groupBoxApolices.Controls.Add(this.label10);
+            this.groupBoxApolices.Controls.Add(this.TXT_ReciboApoliceAT);
+            this.groupBoxApolices.Controls.Add(this.label11);
+            this.groupBoxApolices.Controls.Add(this.cb_ApoliceRC);
+            this.groupBoxApolices.Controls.Add(this.label12);
+            this.groupBoxApolices.Controls.Add(this.TXT_ReciboRC);
+            this.groupBoxApolices.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBoxApolices.Location = new System.Drawing.Point(345, 5);
+            this.groupBoxApolices.Name = "groupBoxApolices";
+            this.groupBoxApolices.Size = new System.Drawing.Size(325, 100);
+            this.groupBoxApolices.TabIndex = 2;
+            this.groupBoxApolices.TabStop = false;
+            this.groupBoxApolices.Text = "Apólices de Seguro";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label9.Location = new System.Drawing.Point(20, 22);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(63, 14);
+            this.label9.TabIndex = 63;
+            this.label9.Text = "Apólice AT";
+            // 
+            // cb_ApoliceAT
+            // 
+            this.cb_ApoliceAT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_ApoliceAT.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_ApoliceAT.FormattingEnabled = true;
+            this.cb_ApoliceAT.Location = new System.Drawing.Point(88, 19);
+            this.cb_ApoliceAT.Name = "cb_ApoliceAT";
+            this.cb_ApoliceAT.Size = new System.Drawing.Size(50, 22);
+            this.cb_ApoliceAT.TabIndex = 82;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label10.Location = new System.Drawing.Point(143, 22);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(49, 14);
+            this.label10.TabIndex = 64;
+            this.label10.Text = "Recibo:";
+            // 
+            // TXT_ReciboApoliceAT
+            // 
+            this.TXT_ReciboApoliceAT.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_ReciboApoliceAT.Location = new System.Drawing.Point(198, 19);
+            this.TXT_ReciboApoliceAT.Name = "TXT_ReciboApoliceAT";
+            this.TXT_ReciboApoliceAT.Size = new System.Drawing.Size(113, 22);
+            this.TXT_ReciboApoliceAT.TabIndex = 77;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label11.Location = new System.Drawing.Point(19, 52);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 14);
+            this.label11.TabIndex = 65;
+            this.label11.Text = "Apólice RC";
+            // 
+            // cb_ApoliceRC
+            // 
+            this.cb_ApoliceRC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_ApoliceRC.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_ApoliceRC.FormattingEnabled = true;
+            this.cb_ApoliceRC.Items.AddRange(new object[] {
+            "C",
+            "N/C",
+            "N/A"});
+            this.cb_ApoliceRC.Location = new System.Drawing.Point(88, 49);
+            this.cb_ApoliceRC.Name = "cb_ApoliceRC";
+            this.cb_ApoliceRC.Size = new System.Drawing.Size(50, 22);
+            this.cb_ApoliceRC.TabIndex = 83;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label12.Location = new System.Drawing.Point(143, 52);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(49, 14);
+            this.label12.TabIndex = 66;
+            this.label12.Text = "Recibo:";
+            // 
+            // TXT_ReciboRC
+            // 
+            this.TXT_ReciboRC.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_ReciboRC.Location = new System.Drawing.Point(198, 49);
+            this.TXT_ReciboRC.Name = "TXT_ReciboRC";
+            this.TXT_ReciboRC.Size = new System.Drawing.Size(113, 22);
+            this.TXT_ReciboRC.TabIndex = 78;
+            // 
+            // groupBoxDeclaracoes
+            // 
+            this.groupBoxDeclaracoes.Controls.Add(this.label13);
+            this.groupBoxDeclaracoes.Controls.Add(this.cb_HorarioTrabalho);
+            this.groupBoxDeclaracoes.Controls.Add(this.label14);
+            this.groupBoxDeclaracoes.Controls.Add(this.cb_DecTrabIlegais);
+            this.groupBoxDeclaracoes.Controls.Add(this.label15);
+            this.groupBoxDeclaracoes.Controls.Add(this.cb_DecRespEstaleiro);
+            this.groupBoxDeclaracoes.Controls.Add(this.label16);
+            this.groupBoxDeclaracoes.Controls.Add(this.cb_DecConhecimPSS);
+            this.groupBoxDeclaracoes.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBoxDeclaracoes.Location = new System.Drawing.Point(345, 111);
+            this.groupBoxDeclaracoes.Name = "groupBoxDeclaracoes";
+            this.groupBoxDeclaracoes.Size = new System.Drawing.Size(325, 115);
+            this.groupBoxDeclaracoes.TabIndex = 3;
+            this.groupBoxDeclaracoes.TabStop = false;
+            this.groupBoxDeclaracoes.Text = "Declarações";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label13.Location = new System.Drawing.Point(9, 22);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(116, 14);
+            this.label13.TabIndex = 67;
+            this.label13.Text = "Horário de Trabalho";
+            // 
+            // cb_HorarioTrabalho
+            // 
+            this.cb_HorarioTrabalho.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_HorarioTrabalho.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_HorarioTrabalho.FormattingEnabled = true;
+            this.cb_HorarioTrabalho.Location = new System.Drawing.Point(131, 19);
+            this.cb_HorarioTrabalho.Name = "cb_HorarioTrabalho";
+            this.cb_HorarioTrabalho.Size = new System.Drawing.Size(180, 22);
+            this.cb_HorarioTrabalho.TabIndex = 84;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label14.Location = new System.Drawing.Point(22, 47);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(103, 14);
+            this.label14.TabIndex = 68;
+            this.label14.Text = "Dec. Trab. Ilegais";
+            // 
+            // cb_DecTrabIlegais
+            // 
+            this.cb_DecTrabIlegais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_DecTrabIlegais.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_DecTrabIlegais.FormattingEnabled = true;
+            this.cb_DecTrabIlegais.Location = new System.Drawing.Point(131, 44);
+            this.cb_DecTrabIlegais.Name = "cb_DecTrabIlegais";
+            this.cb_DecTrabIlegais.Size = new System.Drawing.Size(180, 22);
+            this.cb_DecTrabIlegais.TabIndex = 85;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label15.Location = new System.Drawing.Point(10, 70);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(115, 14);
+            this.label15.TabIndex = 69;
+            this.label15.Text = "Dec. Resp. Estaleiro";
+            // 
+            // cb_DecRespEstaleiro
+            // 
+            this.cb_DecRespEstaleiro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_DecRespEstaleiro.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_DecRespEstaleiro.FormattingEnabled = true;
+            this.cb_DecRespEstaleiro.Location = new System.Drawing.Point(131, 67);
+            this.cb_DecRespEstaleiro.Name = "cb_DecRespEstaleiro";
+            this.cb_DecRespEstaleiro.Size = new System.Drawing.Size(180, 22);
+            this.cb_DecRespEstaleiro.TabIndex = 86;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label16.Location = new System.Drawing.Point(12, 94);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(110, 14);
+            this.label16.TabIndex = 70;
+            this.label16.Text = "Dec. Conhecim. PSS";
+            // 
+            // cb_DecConhecimPSS
+            // 
+            this.cb_DecConhecimPSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_DecConhecimPSS.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_DecConhecimPSS.FormattingEnabled = true;
+            this.cb_DecConhecimPSS.Location = new System.Drawing.Point(131, 91);
+            this.cb_DecConhecimPSS.Name = "cb_DecConhecimPSS";
+            this.cb_DecConhecimPSS.Size = new System.Drawing.Size(180, 22);
+            this.cb_DecConhecimPSS.TabIndex = 87;
+            // 
+            // panelObras
+            // 
+            this.panelObras.Controls.Add(this.groupBoxObras);
+            this.panelObras.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelObras.Location = new System.Drawing.Point(3, 236);
+            this.panelObras.Name = "panelObras";
+            this.panelObras.Size = new System.Drawing.Size(677, 179);
+            this.panelObras.TabIndex = 93;
+            // 
+            // groupBoxObras
+            // 
+            this.groupBoxObras.Controls.Add(this.label17);
+            this.groupBoxObras.Controls.Add(this.cb_Obras);
+            this.groupBoxObras.Controls.Add(this.btnGravarObra);
+            this.groupBoxObras.Controls.Add(this.dataGridView1);
+            this.groupBoxObras.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxObras.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBoxObras.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxObras.Name = "groupBoxObras";
+            this.groupBoxObras.Size = new System.Drawing.Size(677, 179);
+            this.groupBoxObras.TabIndex = 0;
+            this.groupBoxObras.TabStop = false;
+            this.groupBoxObras.Text = "Obras";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label17.Location = new System.Drawing.Point(11, 24);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(106, 14);
+            this.label17.TabIndex = 93;
+            this.label17.Text = "Selecione a Obra:";
+            // 
+            // cb_Obras
+            // 
+            this.cb_Obras.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_Obras.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_Obras.FormattingEnabled = true;
+            this.cb_Obras.Location = new System.Drawing.Point(123, 21);
+            this.cb_Obras.Name = "cb_Obras";
+            this.cb_Obras.Size = new System.Drawing.Size(470, 22);
+            this.cb_Obras.TabIndex = 89;
+            this.cb_Obras.SelectedIndexChanged += new System.EventHandler(this.cb_Obras_SelectedIndexChanged);
+            // 
+            // btnGravarObra
+            // 
+            this.btnGravarObra.BackColor = System.Drawing.Color.LightGreen;
+            this.btnGravarObra.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGravarObra.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnGravarObra.Location = new System.Drawing.Point(599, 21);
+            this.btnGravarObra.Name = "btnGravarObra";
+            this.btnGravarObra.Size = new System.Drawing.Size(70, 22);
+            this.btnGravarObra.TabIndex = 91;
+            this.btnGravarObra.Text = "Gravar";
+            this.btnGravarObra.UseVisualStyleBackColor = false;
+            this.btnGravarObra.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dataGridView1.ColumnHeadersHeight = 25;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.EntradaObra_,
+            this.SaidaObra_,
+            this.ContratoSubempreitada,
+            this.AutorizacaoEntrada});
+            this.dataGridView1.Location = new System.Drawing.Point(11, 49);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 25;
+            this.dataGridView1.Size = new System.Drawing.Size(658, 124);
+            this.dataGridView1.TabIndex = 90;
+            // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 23);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(683, 419);
+            this.tabPage2.Size = new System.Drawing.Size(683, 418);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // toolStrip1
             // 
+            this.toolStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BT_Salvar_Click});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -495,8 +663,19 @@
             this.BT_Salvar_Click.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BT_Salvar_Click.Name = "BT_Salvar_Click";
             this.BT_Salvar_Click.Size = new System.Drawing.Size(23, 22);
-            this.BT_Salvar_Click.Text = "toolStripButton1";
+            this.BT_Salvar_Click.Text = "Gravar Alterações";
+            this.BT_Salvar_Click.ToolTipText = "Gravar Alterações";
             this.BT_Salvar_Click.Click += new System.EventHandler(this.BT_Salvar_Click_Click);
+            // 
+            // lblSelecionar
+            // 
+            this.lblSelecionar.AutoSize = true;
+            this.lblSelecionar.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.lblSelecionar.Location = new System.Drawing.Point(15, 40);
+            this.lblSelecionar.Name = "lblSelecionar";
+            this.lblSelecionar.Size = new System.Drawing.Size(49, 14);
+            this.lblSelecionar.TabIndex = 5;
+            this.lblSelecionar.Text = "Código:";
             // 
             // EntradaObra_
             // 
@@ -518,20 +697,12 @@
             this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
             this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(368, 241);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(70, 23);
-            this.button1.TabIndex = 91;
-            this.button1.Text = "Gravar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.TXT_Codigo);
@@ -540,10 +711,21 @@
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Menu";
             this.Size = new System.Drawing.Size(725, 514);
-            this.Text = "Menu";
+            this.Text = "Gestão de Subempreiteiros";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.panelDadosEmpresa.ResumeLayout(false);
+            this.groupBoxInfoBasica.ResumeLayout(false);
+            this.groupBoxInfoBasica.PerformLayout();
+            this.groupBoxSituacaoFiscal.ResumeLayout(false);
+            this.groupBoxSituacaoFiscal.PerformLayout();
+            this.groupBoxApolices.ResumeLayout(false);
+            this.groupBoxApolices.PerformLayout();
+            this.groupBoxDeclaracoes.ResumeLayout(false);
+            this.groupBoxDeclaracoes.PerformLayout();
+            this.panelObras.ResumeLayout(false);
+            this.groupBoxObras.ResumeLayout(false);
+            this.groupBoxObras.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -568,12 +750,12 @@
         private System.Windows.Forms.ComboBox cb_ApoliceAT;
         private System.Windows.Forms.ComboBox cb_ReciboPagSegSocial;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox TXT_AlvaraValidade;
+        private System.Windows.Forms.DateTimePicker TXT_AlvaraValidade;
         private System.Windows.Forms.TextBox TXT_ReciboRC;
         private System.Windows.Forms.TextBox TXT_ReciboApoliceAT;
-        private System.Windows.Forms.TextBox TXT_FolhaPagSegSocial;
-        private System.Windows.Forms.TextBox TXT_NaoDivSegSocial;
-        private System.Windows.Forms.TextBox TXT_NaoDivFinancas;
+        private System.Windows.Forms.DateTimePicker TXT_FolhaPagSegSocial;
+        private System.Windows.Forms.DateTimePicker TXT_NaoDivSegSocial;
+        private System.Windows.Forms.DateTimePicker TXT_NaoDivFinancas;
         private System.Windows.Forms.TextBox TXT_Alvara;
         private System.Windows.Forms.TextBox TXT_Contribuinte;
         private System.Windows.Forms.TextBox TXT_Sede;
@@ -601,6 +783,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn SaidaObra_;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContratoSubempreitada;
         private System.Windows.Forms.DataGridViewCheckBoxColumn AutorizacaoEntrada;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panelDadosEmpresa;
+        private System.Windows.Forms.GroupBox groupBoxInfoBasica;
+        private System.Windows.Forms.GroupBox groupBoxSituacaoFiscal;
+        private System.Windows.Forms.GroupBox groupBoxApolices;
+        private System.Windows.Forms.GroupBox groupBoxDeclaracoes;
+        private System.Windows.Forms.Panel panelObras;
+        private System.Windows.Forms.GroupBox groupBoxObras;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button btnGravarObra;
+        private System.Windows.Forms.Label lblSelecionar;
     }
 }

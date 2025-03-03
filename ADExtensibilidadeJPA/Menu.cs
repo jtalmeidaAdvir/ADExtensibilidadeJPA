@@ -15,54 +15,134 @@ namespace ADExtensibilidadeJPA
     public partial class Menu : CustomForm
     {
         public string _ID;
+
         public Menu()
         {
             InitializeComponent();
+            ConfigurarEstiloControles();
+        }
+
+        private void ConfigurarEstiloControles()
+        {
+            // Configuração das cores dos controles para uma aparência mais moderna
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+
+            // Configurar estilo do DataGridView
+            dataGridView1.BorderStyle = BorderStyle.None;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+
+            // Destacar botões
+            BTF4.FlatStyle = FlatStyle.Flat;
+            btnGravarObra.FlatStyle = FlatStyle.Flat;
+
+            // Configurar painéis
+            AlertaValidadeAlvara.BackColor = Color.Red;
+
+            // Configurar valores iniciais para os DateTimePickers
+            // Se a data atual não for apropriada como valor padrão, pode definir um valor mínimo
+            TXT_NaoDivFinancas.Value = DateTime.Today;
+            TXT_NaoDivSegSocial.Value = DateTime.Today;
+            TXT_FolhaPagSegSocial.Value = DateTime.Today;
+            TXT_AlvaraValidade.Value = DateTime.Today;
+
+            // Permitir limpar as datas (opcional)
+            TXT_NaoDivFinancas.ShowCheckBox = true;
+            TXT_NaoDivSegSocial.ShowCheckBox = true;
+            TXT_FolhaPagSegSocial.ShowCheckBox = true;
+            TXT_AlvaraValidade.ShowCheckBox = true;
+
+            // Definir o formato de exibição para mostrar a data completa
+            TXT_NaoDivFinancas.Format = DateTimePickerFormat.Short;
+            TXT_NaoDivSegSocial.Format = DateTimePickerFormat.Short;
+            TXT_FolhaPagSegSocial.Format = DateTimePickerFormat.Short;
         }
 
         private void BTF4_Click(object sender, EventArgs e)
         {
-            MetodoGetEntidades();
+            CarregarDadosEntidade();
         }
 
-        private void MetodoGetEntidades()
+        private void CarregarDadosEntidade()
         {
-            Dictionary<string, string> veiculo = new Dictionary<string, string>();
-            GetEntidades(ref veiculo);
+            Dictionary<string, string> entidade = new Dictionary<string, string>();
+            GetEntidades(ref entidade);
 
-            if (veiculo.Count > 0)
+            if (entidade.Count > 0)
             {
-                SetInfoEntidades(veiculo);
+                SetInfoEntidades(entidade);
             }
         }
 
-
-        private void SetInfoEntidades(Dictionary<string, string> veiculo)
+        private void SetInfoEntidades(Dictionary<string, string> entidade)
         {
-            _ID = veiculo["id"]; 
-            TXT_Codigo.Text = veiculo["Codigo"];
-            TXT_Nome.Text = veiculo["Nome"];
-            TXT_Contribuinte.Text = veiculo["NIPC"];
-            TXT_Alvara.Text = veiculo["AlvaraNumero"];
-            TXT_AlvaraValidade.Text = veiculo["AlvaraValidade"];
+            _ID = entidade["id"];
+            TXT_Codigo.Text = entidade["Codigo"];
+            TXT_Nome.Text = entidade["Nome"];
+            TXT_Contribuinte.Text = entidade["NIPC"];
+            TXT_Alvara.Text = entidade["AlvaraNumero"];
 
-            TXT_NaoDivFinancas.Text = veiculo["CDU_NaoDivFinancas"];
-            TXT_NaoDivSegSocial.Text = veiculo["CDU_NaoDivSegSocial"];
-            TXT_FolhaPagSegSocial.Text = veiculo["CDU_FolhaPagSegSocial"];
-            TXT_ReciboApoliceAT.Text = veiculo["CDU_ReciboApoliceAT"];
-            TXT_ReciboRC.Text = veiculo["CDU_ReciboRC"];
+            // Tratamento da validade do alvará como um DateTimePicker
+            if (!string.IsNullOrEmpty(entidade["AlvaraValidade"]))
+            {
+                try
+                {
+                    TXT_AlvaraValidade.Value = Convert.ToDateTime(entidade["AlvaraValidade"]);
+                    TXT_AlvaraValidade.Checked = true;
+                }
+                catch
+                {
+                    TXT_AlvaraValidade.Checked = false;
+                }
+            }
+            else
+            {
+                TXT_AlvaraValidade.Checked = false;
+            }
 
+            // Converter strings para DateTime para os campos de data
+            if (!string.IsNullOrEmpty(entidade["CDU_NaoDivFinancas"]))
+            {
+                TXT_NaoDivFinancas.Value = Convert.ToDateTime(entidade["CDU_NaoDivFinancas"]);
+                TXT_NaoDivFinancas.Checked = true;
+            }
+            else
+            {
+                TXT_NaoDivFinancas.Checked = false;
+            }
 
+            if (!string.IsNullOrEmpty(entidade["CDU_NaoDivSegSocial"]))
+            {
+                TXT_NaoDivSegSocial.Value = Convert.ToDateTime(entidade["CDU_NaoDivSegSocial"]);
+                TXT_NaoDivSegSocial.Checked = true;
+            }
+            else
+            {
+                TXT_NaoDivSegSocial.Checked = false;
+            }
+
+            if (!string.IsNullOrEmpty(entidade["CDU_FolhaPagSegSocial"]))
+            {
+                TXT_FolhaPagSegSocial.Value = Convert.ToDateTime(entidade["CDU_FolhaPagSegSocial"]);
+                TXT_FolhaPagSegSocial.Checked = true;
+            }
+            else
+            {
+                TXT_FolhaPagSegSocial.Checked = false;
+            }
+            TXT_ReciboApoliceAT.Text = entidade["CDU_ReciboApoliceAT"];
+            TXT_ReciboRC.Text = entidade["CDU_ReciboRC"];
 
             // Recupera os valores do banco de dados
-            string reciboPagSegSocial = veiculo["CDU_ReciboPagSegSocial"];
-            string apoliceAT = veiculo["CDU_ApoliceAT"];
-            string apoliceRC = veiculo["CDU_ApoliceRC"];
-            string horarioTrabalho = veiculo["CDU_HorarioTrabalho"];
-            string decTrabIlegais = veiculo["CDU_DecTrabIlegais"];
-            string decRespEstaleiro = veiculo["CDU_DecRespEstaleiro"];
-            string decConhecimPSS = veiculo["CDU_DecConhecimPSS"];
-
+            string reciboPagSegSocial = entidade["CDU_ReciboPagSegSocial"];
+            string apoliceAT = entidade["CDU_ApoliceAT"];
+            string apoliceRC = entidade["CDU_ApoliceRC"];
+            string horarioTrabalho = entidade["CDU_HorarioTrabalho"];
+            string decTrabIlegais = entidade["CDU_DecTrabIlegais"];
+            string decRespEstaleiro = entidade["CDU_DecRespEstaleiro"];
+            string decConhecimPSS = entidade["CDU_DecConhecimPSS"];
 
             PreencherComboBox(cb_ReciboPagSegSocial, reciboPagSegSocial);
             PreencherComboBox(cb_ApoliceAT, apoliceAT);
@@ -72,9 +152,7 @@ namespace ADExtensibilidadeJPA
             PreencherComboBox(cb_DecRespEstaleiro, decRespEstaleiro);
             PreencherComboBox(cb_DecConhecimPSS, decConhecimPSS);
 
-
-            var moradaCompleta = $"{veiculo["Morada"]}, {veiculo["Localidade"]}, {veiculo["CodPostal"]}, {veiculo["CodPostalLocal"]}";
-
+            var moradaCompleta = $"{entidade["Morada"]}, {entidade["Localidade"]}, {entidade["CodPostal"]}, {entidade["CodPostalLocal"]}";
 
             if (moradaCompleta == ", , , ")
             {
@@ -85,8 +163,9 @@ namespace ADExtensibilidadeJPA
                 TXT_Sede.Text = moradaCompleta;
             }
 
-            carregarObrasCB(veiculo);
+            CarregarObrasComboBox(entidade);
         }
+
         private void cb_Obras_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cb_Obras.SelectedItem is KeyValuePair<string, string> obraSelecionada)
@@ -121,13 +200,12 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        private void carregarObrasCB(Dictionary<string, string> veiculo)
+        private void CarregarObrasComboBox(Dictionary<string, string> entidade)
         {
-            var BDObras = GetObrasSumbempreiteiro(veiculo["EntidadeId"]);
+            var BDObras = GetObrasSumbempreiteiro(entidade["EntidadeId"]);
 
             cb_Obras.Items.Clear(); // Limpa antes de adicionar novos itens
 
-            var numLinhasObras = BDObras.NumLinhas();
             while (!BDObras.NoFim())
             {
                 string codigo = BDObras.DaValor<string>("Codigo");
@@ -143,10 +221,10 @@ namespace ADExtensibilidadeJPA
             cb_Obras.ValueMember = "Key"; // O valor interno
         }
 
-        private StdBELista GetObrasSumbempreiteiro(string v)
+        private StdBELista GetObrasSumbempreiteiro(string entidadeId)
         {
             var query = $@"SELECT * FROM COP_Obras 
-                            where Tipo = 'S' AND EntidadeIDA = '{v}'";
+                            WHERE Tipo = 'S' AND EntidadeIDA = '{entidadeId}'";
             var BDObras = BSO.Consulta(query);
             return BDObras;
         }
@@ -179,7 +257,8 @@ namespace ADExtensibilidadeJPA
                 }
             }
         }
-        private void GetEntidades(ref Dictionary<string, string> veiculo)
+
+        private void GetEntidades(ref Dictionary<string, string> entidade)
         {
             string NomeLista = "Entidades";
             string Campos = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id";
@@ -199,7 +278,7 @@ namespace ADExtensibilidadeJPA
                 {
                     if (i < ResQuery.Count)
                     {
-                        veiculo[colunas[i].Trim()] = ResQuery[i].ToString();
+                        entidade[colunas[i].Trim()] = ResQuery[i].ToString();
                     }
                 }
             }
@@ -224,9 +303,6 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-
-
-
         private void BT_Salvar_Click_Click(object sender, EventArgs e)
         {
             try
@@ -237,10 +313,10 @@ namespace ADExtensibilidadeJPA
             SET 
                 NIPC = '{TXT_Contribuinte.Text}', 
                 AlvaraNumero = '{TXT_Alvara.Text}', 
-                AlvaraValidade = '{TXT_AlvaraValidade.Text}', 
-                CDU_NaoDivFinancas = '{TXT_NaoDivFinancas.Text}', 
-                CDU_NaoDivSegSocial = '{TXT_NaoDivSegSocial.Text}', 
-                CDU_FolhaPagSegSocial = '{TXT_FolhaPagSegSocial.Text}', 
+                AlvaraValidade = '{(TXT_AlvaraValidade.Checked ? TXT_AlvaraValidade.Value.ToString("yyyy-MM-dd") : "")}', 
+                CDU_NaoDivFinancas = '{(TXT_NaoDivFinancas.Checked ? TXT_NaoDivFinancas.Value.ToString("yyyy-MM-dd") : "")}', 
+                CDU_NaoDivSegSocial = '{(TXT_NaoDivSegSocial.Checked ? TXT_NaoDivSegSocial.Value.ToString("yyyy-MM-dd") : "")}', 
+                CDU_FolhaPagSegSocial = '{(TXT_FolhaPagSegSocial.Checked ? TXT_FolhaPagSegSocial.Value.ToString("yyyy-MM-dd") : "")}', 
                 CDU_ReciboApoliceAT = '{TXT_ReciboApoliceAT.Text}', 
                 CDU_ReciboRC = '{TXT_ReciboRC.Text}', 
                 CDU_ReciboPagSegSocial = '{cb_ReciboPagSegSocial.Text}', 
@@ -254,8 +330,7 @@ namespace ADExtensibilidadeJPA
         ";
 
                 BSO.DSO.ExecuteSQL(querySalvar);
-
-            
+                MessageBox.Show("Dados salvos com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -319,12 +394,9 @@ namespace ADExtensibilidadeJPA
         (CDU_Codigo, CDU_Obra, CDU_EntradaObra, CDU_SaidaObra, CDU_ContratoSubempreitada, CDU_AutorizacaoEntrada) 
         VALUES 
         ('{id}', '{codigoObraSelecionada}', '{entradaObra}', '{saidaObra}', '{contratoSubempreitada}', {(autorizacaoEntrada ? 1 : 0)});
-    END
-";
+    END";
 
                         BSO.DSO.ExecuteSQL(queryUpsert);
-
-
                     }
                 }
 
@@ -335,8 +407,5 @@ namespace ADExtensibilidadeJPA
                 MessageBox.Show($"Erro ao salvar os dados: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
     }
 }
