@@ -71,11 +71,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
             this.EntradaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SaidaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContratoSubempreitada = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AutorizacaoEntrada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -120,6 +121,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.dataGridView1);
             this.tabPage1.Controls.Add(this.cb_Obras);
             this.tabPage1.Controls.Add(this.AlertaValidadeAlvara);
@@ -179,6 +181,7 @@
             // 
             // cb_Obras
             // 
+            this.cb_Obras.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Obras.FormattingEnabled = true;
             this.cb_Obras.Location = new System.Drawing.Point(19, 241);
             this.cb_Obras.Name = "cb_Obras";
@@ -195,6 +198,7 @@
             // 
             // cb_DecConhecimPSS
             // 
+            this.cb_DecConhecimPSS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_DecConhecimPSS.FormattingEnabled = true;
             this.cb_DecConhecimPSS.Location = new System.Drawing.Point(538, 201);
             this.cb_DecConhecimPSS.Name = "cb_DecConhecimPSS";
@@ -203,6 +207,7 @@
             // 
             // cb_DecRespEstaleiro
             // 
+            this.cb_DecRespEstaleiro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_DecRespEstaleiro.FormattingEnabled = true;
             this.cb_DecRespEstaleiro.Location = new System.Drawing.Point(538, 174);
             this.cb_DecRespEstaleiro.Name = "cb_DecRespEstaleiro";
@@ -211,6 +216,7 @@
             // 
             // cb_DecTrabIlegais
             // 
+            this.cb_DecTrabIlegais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_DecTrabIlegais.FormattingEnabled = true;
             this.cb_DecTrabIlegais.Location = new System.Drawing.Point(538, 147);
             this.cb_DecTrabIlegais.Name = "cb_DecTrabIlegais";
@@ -219,6 +225,7 @@
             // 
             // cb_HorarioTrabalho
             // 
+            this.cb_HorarioTrabalho.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_HorarioTrabalho.FormattingEnabled = true;
             this.cb_HorarioTrabalho.Location = new System.Drawing.Point(538, 120);
             this.cb_HorarioTrabalho.Name = "cb_HorarioTrabalho";
@@ -227,6 +234,7 @@
             // 
             // cb_ApoliceRC
             // 
+            this.cb_ApoliceRC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_ApoliceRC.FormattingEnabled = true;
             this.cb_ApoliceRC.Items.AddRange(new object[] {
             "C",
@@ -480,6 +488,16 @@
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // BT_Salvar_Click
+            // 
+            this.BT_Salvar_Click.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BT_Salvar_Click.Image = ((System.Drawing.Image)(resources.GetObject("BT_Salvar_Click.Image")));
+            this.BT_Salvar_Click.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BT_Salvar_Click.Name = "BT_Salvar_Click";
+            this.BT_Salvar_Click.Size = new System.Drawing.Size(23, 22);
+            this.BT_Salvar_Click.Text = "toolStripButton1";
+            this.BT_Salvar_Click.Click += new System.EventHandler(this.BT_Salvar_Click_Click);
+            // 
             // EntradaObra_
             // 
             this.EntradaObra_.HeaderText = "Entrada em Obra";
@@ -500,15 +518,15 @@
             this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
             this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
             // 
-            // BT_Salvar_Click
+            // button1
             // 
-            this.BT_Salvar_Click.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BT_Salvar_Click.Image = ((System.Drawing.Image)(resources.GetObject("BT_Salvar_Click.Image")));
-            this.BT_Salvar_Click.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BT_Salvar_Click.Name = "BT_Salvar_Click";
-            this.BT_Salvar_Click.Size = new System.Drawing.Size(23, 22);
-            this.BT_Salvar_Click.Text = "toolStripButton1";
-            this.BT_Salvar_Click.Click += new System.EventHandler(this.BT_Salvar_Click_Click);
+            this.button1.Location = new System.Drawing.Point(368, 241);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(70, 23);
+            this.button1.TabIndex = 91;
+            this.button1.Text = "Gravar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Menu
             // 
@@ -578,10 +596,11 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ComboBox cb_Obras;
         private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton BT_Salvar_Click;
         private System.Windows.Forms.DataGridViewTextBoxColumn EntradaObra_;
         private System.Windows.Forms.DataGridViewTextBoxColumn SaidaObra_;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContratoSubempreitada;
         private System.Windows.Forms.DataGridViewCheckBoxColumn AutorizacaoEntrada;
-        private System.Windows.Forms.ToolStripButton BT_Salvar_Click;
+        private System.Windows.Forms.Button button1;
     }
 }

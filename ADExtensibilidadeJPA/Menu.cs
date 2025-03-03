@@ -87,19 +87,60 @@ namespace ADExtensibilidadeJPA
 
             carregarObrasCB(veiculo);
         }
+        private void cb_Obras_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cb_Obras.SelectedItem is KeyValuePair<string, string> obraSelecionada)
+            {
+                string codigoObraSelecionada = obraSelecionada.Key;
+                string queryGetObras = $@"SELECT * FROM TDU_AD_Obras 
+                                  WHERE CDU_Obra = '{codigoObraSelecionada}'";
+
+                var DBObras = BSO.Consulta(queryGetObras);
+
+                dataGridView1.Rows.Clear();
+
+                if (DBObras.NumLinhas() > 0)
+                {
+                    DBObras.Inicio();
+
+                    while (!DBObras.NoFim())
+                    {
+                        dataGridView1.Rows.Add(
+                            DBObras.DaValor<string>("CDU_EntradaObra"),
+                            DBObras.DaValor<string>("CDU_SaidaObra"),
+                            DBObras.DaValor<string>("CDU_ContratoSubempreitada"),
+                            DBObras.DaValor<int>("CDU_AutorizacaoEntrada") == 1
+                        );
+
+                        int lastRowIndex = dataGridView1.Rows.Count - 1;
+                        dataGridView1.Rows[lastRowIndex].DefaultCellStyle.BackColor = Color.LightYellow;
+
+                        DBObras.Seguinte();
+                    }
+                }
+            }
+        }
 
         private void carregarObrasCB(Dictionary<string, string> veiculo)
         {
             var BDObras = GetObrasSumbempreiteiro(veiculo["EntidadeId"]);
 
+            cb_Obras.Items.Clear(); // Limpa antes de adicionar novos itens
 
             var numLinhasObras = BDObras.NumLinhas();
-            for (int i = 0; i < numLinhasObras; i++)
+            while (!BDObras.NoFim())
             {
-                var txt = BDObras.DaValor<string>("Codigo") + " - " + BDObras.DaValor<string>("Descricao");
-                cb_Obras.Items.Add(BDObras.DaValor<string>("Codigo"));
+                string codigo = BDObras.DaValor<string>("Codigo");
+                string descricao = BDObras.DaValor<string>("Descricao");
+
+                // Adiciona um item ao ComboBox
+                cb_Obras.Items.Add(new KeyValuePair<string, string>(codigo, $"{codigo} - {descricao}"));
+
                 BDObras.Seguinte();
             }
+
+            cb_Obras.DisplayMember = "Value"; // O que será exibido
+            cb_Obras.ValueMember = "Key"; // O valor interno
         }
 
         private StdBELista GetObrasSumbempreiteiro(string v)
@@ -183,60 +224,119 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        private void cb_Obras_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cb_Obras.SelectedItem != null)
-            {
-                // Obtenha o código da obra selecionada
-                string codigoObraSelecionada = cb_Obras.SelectedItem.ToString();
-
-                // Aqui você pode usar o código conforme necessário
-                MessageBox.Show($"Código da obra selecionada: {codigoObraSelecionada}");
-                var queryGetObras = $@"SELECT * FROM COP_Obras 
-                                        WHERE Codigo = '{codigoObraSelecionada}'";
-
-                var DBObras = BSO.Consulta(queryGetObras);
 
 
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    row.Cells["EntradaObra_"].Value = DBObras.DaValor<string>("CDU_EntradaObra");
-                    row.Cells["SaidaObra_"].Value = DBObras.DaValor<string>("CDU_SaidaObra");
-                    row.Cells["ContratoSubempreitada"].Value = DBObras.DaValor<string>("CDU_ContratoSubempreitada");
-                    row.Cells["AutorizacaoEntrada"].Value = DBObras.DaValor<int>("CDU_AutorizacaoEntrada") == 1;
-
-                    row.DefaultCellStyle.BackColor = Color.LightYellow;
-
-                    break;
-
-                }
-            }
-        }
 
         private void BT_Salvar_Click_Click(object sender, EventArgs e)
         {
-            var querySalvar = $@"
-                                UPDATE Geral_Entidade
-                                SET 
-                                    NIPC = '{TXT_Contribuinte.Text}', 
-                                    AlvaraNumero = '{TXT_Alvara.Text}', 
-                                    AlvaraValidade = '{TXT_AlvaraValidade.Text}', 
-                                    CDU_NaoDivFinancas = '{TXT_NaoDivFinancas.Text}', 
-                                    CDU_NaoDivSegSocial = '{TXT_NaoDivSegSocial.Text}', 
-                                    CDU_FolhaPagSegSocial = '{TXT_FolhaPagSegSocial.Text}', 
-                                    CDU_ReciboApoliceAT = '{TXT_ReciboApoliceAT.Text}', 
-                                    CDU_ReciboRC = '{TXT_ReciboRC.Text}', 
-                                    CDU_ReciboPagSegSocial = '{cb_ReciboPagSegSocial.Text}', 
-                                    CDU_ApoliceAT = '{cb_ApoliceAT.Text}', 
-                                    CDU_ApoliceRC = '{cb_ApoliceRC.Text}', 
-                                    CDU_HorarioTrabalho = '{cb_HorarioTrabalho.Text}', 
-                                    CDU_DecTrabIlegais = '{cb_DecTrabIlegais.Text}', 
-                                    CDU_DecRespEstaleiro = '{cb_DecRespEstaleiro.Text}', 
-                                    CDU_DecConhecimPSS = '{cb_DecConhecimPSS.Text}'
-                                WHERE ID = '{_ID}';
-                            ";
+            try
+            {
+                // Atualiza a tabela Geral_Entidade
+                var querySalvar = $@"
+            UPDATE Geral_Entidade
+            SET 
+                NIPC = '{TXT_Contribuinte.Text}', 
+                AlvaraNumero = '{TXT_Alvara.Text}', 
+                AlvaraValidade = '{TXT_AlvaraValidade.Text}', 
+                CDU_NaoDivFinancas = '{TXT_NaoDivFinancas.Text}', 
+                CDU_NaoDivSegSocial = '{TXT_NaoDivSegSocial.Text}', 
+                CDU_FolhaPagSegSocial = '{TXT_FolhaPagSegSocial.Text}', 
+                CDU_ReciboApoliceAT = '{TXT_ReciboApoliceAT.Text}', 
+                CDU_ReciboRC = '{TXT_ReciboRC.Text}', 
+                CDU_ReciboPagSegSocial = '{cb_ReciboPagSegSocial.Text}', 
+                CDU_ApoliceAT = '{cb_ApoliceAT.Text}', 
+                CDU_ApoliceRC = '{cb_ApoliceRC.Text}', 
+                CDU_HorarioTrabalho = '{cb_HorarioTrabalho.Text}', 
+                CDU_DecTrabIlegais = '{cb_DecTrabIlegais.Text}', 
+                CDU_DecRespEstaleiro = '{cb_DecRespEstaleiro.Text}', 
+                CDU_DecConhecimPSS = '{cb_DecConhecimPSS.Text}'
+            WHERE ID = '{_ID}';
+        ";
+
+                BSO.DSO.ExecuteSQL(querySalvar);
+
             
-            BSO.DSO.ExecuteSQL(querySalvar);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao salvar os dados: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Verifica se há linhas no DataGridView
+                if (dataGridView1.Rows.Count == 0)
+                {
+                    MessageBox.Show("Não há dados para salvar!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Verifica se uma obra foi selecionada no ComboBox
+                if (cb_Obras.SelectedItem == null)
+                {
+                    MessageBox.Show("Selecione uma obra antes de salvar!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Obtém o código da obra selecionada
+                string codigoObraSelecionada = ((KeyValuePair<string, string>)cb_Obras.SelectedItem).Key;
+
+                // Percorre cada linha do DataGridView
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    // Garante que a linha não esteja vazia
+                    if (row.Cells[0].Value != null)
+                    {
+                        string entradaObra = row.Cells[0].Value.ToString();
+                        string saidaObra = row.Cells[1].Value.ToString();
+                        string contratoSubempreitada = row.Cells[2].Value.ToString();
+                        bool autorizacaoEntrada = Convert.ToBoolean(row.Cells[3].Value);
+                        Guid id = Guid.NewGuid();
+
+                        // Monta a query de inserção
+                        string queryUpsert = $@"
+    IF EXISTS (
+        SELECT 1 FROM TDU_AD_Obras 
+        WHERE CDU_Obra = '{codigoObraSelecionada}' 
+        AND CDU_EntradaObra = '{entradaObra}'
+        AND CDU_SaidaObra = '{saidaObra}'
+        AND CDU_ContratoSubempreitada = '{contratoSubempreitada}'
+    )
+    BEGIN
+        UPDATE TDU_AD_Obras 
+        SET CDU_AutorizacaoEntrada = {(autorizacaoEntrada ? 1 : 0)}
+        WHERE CDU_Obra = '{codigoObraSelecionada}' 
+        AND CDU_EntradaObra = '{entradaObra}'
+        AND CDU_SaidaObra = '{saidaObra}'
+        AND CDU_ContratoSubempreitada = '{contratoSubempreitada}';
+    END
+    ELSE
+    BEGIN
+        INSERT INTO TDU_AD_Obras 
+        (CDU_Codigo, CDU_Obra, CDU_EntradaObra, CDU_SaidaObra, CDU_ContratoSubempreitada, CDU_AutorizacaoEntrada) 
+        VALUES 
+        ('{id}', '{codigoObraSelecionada}', '{entradaObra}', '{saidaObra}', '{contratoSubempreitada}', {(autorizacaoEntrada ? 1 : 0)});
+    END
+";
+
+                        BSO.DSO.ExecuteSQL(queryUpsert);
+
+
+                    }
+                }
+
+                MessageBox.Show("Registros adicionados com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao salvar os dados: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
     }
 }
