@@ -54,6 +54,15 @@
             this.TXT_FolhaPagSegSocial = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.cb_ReciboPagSegSocial = new System.Windows.Forms.ComboBox();
+            this.labelCaminho = new System.Windows.Forms.Label();
+            this.txtCaminhoPasta = new System.Windows.Forms.TextBox();
+            this.btnSelecionarPasta = new System.Windows.Forms.Button();
+            this.panelAnexos = new System.Windows.Forms.Panel();
+            this.listBoxDocumentos = new System.Windows.Forms.ListBox();
+            this.labelAnexos = new System.Windows.Forms.Label();
+            this.btnAnexarDocumento = new System.Windows.Forms.Button();
+            this.btnVisualizarDocumento = new System.Windows.Forms.Button();
+            this.btnRemoverDocumento = new System.Windows.Forms.Button();
             this.groupBoxApolices = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.cb_ApoliceAT = new System.Windows.Forms.ComboBox();
@@ -91,6 +100,7 @@
             this.panelDadosEmpresa.SuspendLayout();
             this.groupBoxInfoBasica.SuspendLayout();
             this.groupBoxSituacaoFiscal.SuspendLayout();
+            this.panelAnexos.SuspendLayout();
             this.groupBoxApolices.SuspendLayout();
             this.groupBoxDeclaracoes.SuspendLayout();
             this.panelObras.SuspendLayout();
@@ -247,7 +257,7 @@
             this.label22.Font = new System.Drawing.Font("Calibri", 9F);
             this.label22.Location = new System.Drawing.Point(197, 78);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(55, 14);
+            this.label22.Size = new System.Drawing.Size(56, 14);
             this.label22.TabIndex = 80;
             this.label22.Text = "Validade";
             // 
@@ -257,9 +267,9 @@
             this.TXT_AlvaraValidade.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.TXT_AlvaraValidade.Location = new System.Drawing.Point(258, 75);
             this.TXT_AlvaraValidade.Name = "TXT_AlvaraValidade";
+            this.TXT_AlvaraValidade.ShowCheckBox = true;
             this.TXT_AlvaraValidade.Size = new System.Drawing.Size(53, 22);
             this.TXT_AlvaraValidade.TabIndex = 79;
-            this.TXT_AlvaraValidade.ShowCheckBox = true;
             // 
             // AlertaValidadeAlvara
             // 
@@ -278,6 +288,10 @@
             this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_FolhaPagSegSocial);
             this.groupBoxSituacaoFiscal.Controls.Add(this.label8);
             this.groupBoxSituacaoFiscal.Controls.Add(this.cb_ReciboPagSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.labelCaminho);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.txtCaminhoPasta);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnSelecionarPasta);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.panelAnexos);
             this.groupBoxSituacaoFiscal.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxSituacaoFiscal.Location = new System.Drawing.Point(8, 136);
             this.groupBoxSituacaoFiscal.Name = "groupBoxSituacaoFiscal";
@@ -292,7 +306,7 @@
             this.label5.Font = new System.Drawing.Font("Calibri", 9F);
             this.label5.Location = new System.Drawing.Point(9, 22);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 14);
+            this.label5.Size = new System.Drawing.Size(74, 14);
             this.label5.TabIndex = 59;
             this.label5.Text = "Não Div. Fin.";
             // 
@@ -302,7 +316,7 @@
             this.TXT_NaoDivFinancas.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.TXT_NaoDivFinancas.Location = new System.Drawing.Point(92, 19);
             this.TXT_NaoDivFinancas.Name = "TXT_NaoDivFinancas";
-            this.TXT_NaoDivFinancas.Size = new System.Drawing.Size(219, 22);
+            this.TXT_NaoDivFinancas.Size = new System.Drawing.Size(218, 22);
             this.TXT_NaoDivFinancas.TabIndex = 74;
             // 
             // label6
@@ -311,7 +325,7 @@
             this.label6.Font = new System.Drawing.Font("Calibri", 9F);
             this.label6.Location = new System.Drawing.Point(9, 47);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(82, 14);
+            this.label6.Size = new System.Drawing.Size(72, 14);
             this.label6.TabIndex = 60;
             this.label6.Text = "Não Div. S.S.";
             // 
@@ -319,7 +333,7 @@
             // 
             this.TXT_NaoDivSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
             this.TXT_NaoDivSegSocial.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.TXT_NaoDivSegSocial.Location = new System.Drawing.Point(92, 45);
+            this.TXT_NaoDivSegSocial.Location = new System.Drawing.Point(92, 42);
             this.TXT_NaoDivSegSocial.Name = "TXT_NaoDivSegSocial";
             this.TXT_NaoDivSegSocial.Size = new System.Drawing.Size(219, 22);
             this.TXT_NaoDivSegSocial.TabIndex = 75;
@@ -330,7 +344,7 @@
             this.label7.Font = new System.Drawing.Font("Calibri", 9F);
             this.label7.Location = new System.Drawing.Point(9, 71);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(83, 14);
+            this.label7.Size = new System.Drawing.Size(81, 14);
             this.label7.TabIndex = 61;
             this.label7.Text = "Folha Pag. S.S";
             // 
@@ -362,6 +376,101 @@
             this.cb_ReciboPagSegSocial.Name = "cb_ReciboPagSegSocial";
             this.cb_ReciboPagSegSocial.Size = new System.Drawing.Size(44, 22);
             this.cb_ReciboPagSegSocial.TabIndex = 81;
+            // 
+            // labelCaminho
+            // 
+            this.labelCaminho.AutoSize = true;
+            this.labelCaminho.Font = new System.Drawing.Font("Calibri", 9F);
+            this.labelCaminho.Location = new System.Drawing.Point(9, 47);
+            this.labelCaminho.Name = "labelCaminho";
+            this.labelCaminho.Size = new System.Drawing.Size(58, 14);
+            this.labelCaminho.TabIndex = 82;
+            this.labelCaminho.Text = "Caminho:";
+            // 
+            // txtCaminhoPasta
+            // 
+            this.txtCaminhoPasta.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtCaminhoPasta.Location = new System.Drawing.Point(92, -6);
+            this.txtCaminhoPasta.Name = "txtCaminhoPasta";
+            this.txtCaminhoPasta.ReadOnly = true;
+            this.txtCaminhoPasta.Size = new System.Drawing.Size(193, 22);
+            this.txtCaminhoPasta.TabIndex = 83;
+            // 
+            // btnSelecionarPasta
+            // 
+            this.btnSelecionarPasta.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnSelecionarPasta.Location = new System.Drawing.Point(291, -3);
+            this.btnSelecionarPasta.Name = "btnSelecionarPasta";
+            this.btnSelecionarPasta.Size = new System.Drawing.Size(23, 22);
+            this.btnSelecionarPasta.TabIndex = 84;
+            this.btnSelecionarPasta.Text = "...";
+            this.btnSelecionarPasta.UseVisualStyleBackColor = true;
+            this.btnSelecionarPasta.Click += new System.EventHandler(this.btnSelecionarPasta_Click);
+            // 
+            // panelAnexos
+            // 
+            this.panelAnexos.Controls.Add(this.listBoxDocumentos);
+            this.panelAnexos.Controls.Add(this.labelAnexos);
+            this.panelAnexos.Controls.Add(this.btnAnexarDocumento);
+            this.panelAnexos.Controls.Add(this.btnVisualizarDocumento);
+            this.panelAnexos.Controls.Add(this.btnRemoverDocumento);
+            this.panelAnexos.Location = new System.Drawing.Point(9, 75);
+            this.panelAnexos.Name = "panelAnexos";
+            this.panelAnexos.Size = new System.Drawing.Size(303, 130);
+            this.panelAnexos.TabIndex = 85;
+            // 
+            // listBoxDocumentos
+            // 
+            this.listBoxDocumentos.Font = new System.Drawing.Font("Calibri", 9F);
+            this.listBoxDocumentos.FormattingEnabled = true;
+            this.listBoxDocumentos.ItemHeight = 14;
+            this.listBoxDocumentos.Location = new System.Drawing.Point(0, 25);
+            this.listBoxDocumentos.Name = "listBoxDocumentos";
+            this.listBoxDocumentos.Size = new System.Drawing.Size(303, 88);
+            this.listBoxDocumentos.TabIndex = 0;
+            // 
+            // labelAnexos
+            // 
+            this.labelAnexos.AutoSize = true;
+            this.labelAnexos.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.labelAnexos.Location = new System.Drawing.Point(0, 5);
+            this.labelAnexos.Name = "labelAnexos";
+            this.labelAnexos.Size = new System.Drawing.Size(122, 14);
+            this.labelAnexos.TabIndex = 1;
+            this.labelAnexos.Text = "Documentos anexados:";
+            // 
+            // btnAnexarDocumento
+            // 
+            this.btnAnexarDocumento.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnAnexarDocumento.Location = new System.Drawing.Point(0, 125);
+            this.btnAnexarDocumento.Name = "btnAnexarDocumento";
+            this.btnAnexarDocumento.Size = new System.Drawing.Size(95, 23);
+            this.btnAnexarDocumento.TabIndex = 2;
+            this.btnAnexarDocumento.Text = "Anexar";
+            this.btnAnexarDocumento.UseVisualStyleBackColor = true;
+            this.btnAnexarDocumento.Click += new System.EventHandler(this.btnAnexarDocumento_Click);
+            // 
+            // btnVisualizarDocumento
+            // 
+            this.btnVisualizarDocumento.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnVisualizarDocumento.Location = new System.Drawing.Point(103, 125);
+            this.btnVisualizarDocumento.Name = "btnVisualizarDocumento";
+            this.btnVisualizarDocumento.Size = new System.Drawing.Size(95, 23);
+            this.btnVisualizarDocumento.TabIndex = 3;
+            this.btnVisualizarDocumento.Text = "Visualizar";
+            this.btnVisualizarDocumento.UseVisualStyleBackColor = true;
+            this.btnVisualizarDocumento.Click += new System.EventHandler(this.btnVisualizarDocumento_Click);
+            // 
+            // btnRemoverDocumento
+            // 
+            this.btnRemoverDocumento.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnRemoverDocumento.Location = new System.Drawing.Point(206, 125);
+            this.btnRemoverDocumento.Name = "btnRemoverDocumento";
+            this.btnRemoverDocumento.Size = new System.Drawing.Size(95, 23);
+            this.btnRemoverDocumento.TabIndex = 4;
+            this.btnRemoverDocumento.Text = "Remover";
+            this.btnRemoverDocumento.UseVisualStyleBackColor = true;
+            this.btnRemoverDocumento.Click += new System.EventHandler(this.btnRemoverDocumento_Click);
             // 
             // groupBoxApolices
             // 
@@ -407,7 +516,7 @@
             this.label10.Font = new System.Drawing.Font("Calibri", 9F);
             this.label10.Location = new System.Drawing.Point(143, 22);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(49, 14);
+            this.label10.Size = new System.Drawing.Size(47, 14);
             this.label10.TabIndex = 64;
             this.label10.Text = "Recibo:";
             // 
@@ -449,7 +558,7 @@
             this.label12.Font = new System.Drawing.Font("Calibri", 9F);
             this.label12.Location = new System.Drawing.Point(143, 52);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(49, 14);
+            this.label12.Size = new System.Drawing.Size(47, 14);
             this.label12.TabIndex = 66;
             this.label12.Text = "Recibo:";
             // 
@@ -505,7 +614,7 @@
             this.label14.Font = new System.Drawing.Font("Calibri", 9F);
             this.label14.Location = new System.Drawing.Point(22, 47);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(103, 14);
+            this.label14.Size = new System.Drawing.Size(100, 14);
             this.label14.TabIndex = 68;
             this.label14.Text = "Dec. Trab. Ilegais";
             // 
@@ -589,7 +698,7 @@
             this.label17.Font = new System.Drawing.Font("Calibri", 9F);
             this.label17.Location = new System.Drawing.Point(11, 24);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(106, 14);
+            this.label17.Size = new System.Drawing.Size(103, 14);
             this.label17.TabIndex = 93;
             this.label17.Text = "Selecione a Obra:";
             // 
@@ -634,6 +743,26 @@
             this.dataGridView1.Size = new System.Drawing.Size(658, 124);
             this.dataGridView1.TabIndex = 90;
             // 
+            // EntradaObra_
+            // 
+            this.EntradaObra_.HeaderText = "Entrada em Obra";
+            this.EntradaObra_.Name = "EntradaObra_";
+            // 
+            // SaidaObra_
+            // 
+            this.SaidaObra_.HeaderText = "Saida de Obra";
+            this.SaidaObra_.Name = "SaidaObra_";
+            // 
+            // ContratoSubempreitada
+            // 
+            this.ContratoSubempreitada.HeaderText = "Contrato Subempreitada";
+            this.ContratoSubempreitada.Name = "ContratoSubempreitada";
+            // 
+            // AutorizacaoEntrada
+            // 
+            this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
+            this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
@@ -673,29 +802,9 @@
             this.lblSelecionar.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.lblSelecionar.Location = new System.Drawing.Point(15, 40);
             this.lblSelecionar.Name = "lblSelecionar";
-            this.lblSelecionar.Size = new System.Drawing.Size(49, 14);
+            this.lblSelecionar.Size = new System.Drawing.Size(43, 14);
             this.lblSelecionar.TabIndex = 5;
             this.lblSelecionar.Text = "Código:";
-            // 
-            // EntradaObra_
-            // 
-            this.EntradaObra_.HeaderText = "Entrada em Obra";
-            this.EntradaObra_.Name = "EntradaObra_";
-            // 
-            // SaidaObra_
-            // 
-            this.SaidaObra_.HeaderText = "Saida de Obra";
-            this.SaidaObra_.Name = "SaidaObra_";
-            // 
-            // ContratoSubempreitada
-            // 
-            this.ContratoSubempreitada.HeaderText = "Contrato Subempreitada";
-            this.ContratoSubempreitada.Name = "ContratoSubempreitada";
-            // 
-            // AutorizacaoEntrada
-            // 
-            this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
-            this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
             // 
             // Menu
             // 
@@ -719,6 +828,8 @@
             this.groupBoxInfoBasica.PerformLayout();
             this.groupBoxSituacaoFiscal.ResumeLayout(false);
             this.groupBoxSituacaoFiscal.PerformLayout();
+            this.panelAnexos.ResumeLayout(false);
+            this.panelAnexos.PerformLayout();
             this.groupBoxApolices.ResumeLayout(false);
             this.groupBoxApolices.PerformLayout();
             this.groupBoxDeclaracoes.ResumeLayout(false);
@@ -733,6 +844,13 @@
             this.PerformLayout();
 
         }
+
+        private System.Windows.Forms.Panel panelAnexos;
+        private System.Windows.Forms.ListBox listBoxDocumentos;
+        private System.Windows.Forms.Label labelAnexos;
+        private System.Windows.Forms.Button btnAnexarDocumento;
+        private System.Windows.Forms.Button btnVisualizarDocumento;
+        private System.Windows.Forms.Button btnRemoverDocumento;
 
         #endregion
 
@@ -793,5 +911,8 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button btnGravarObra;
         private System.Windows.Forms.Label lblSelecionar;
+        private System.Windows.Forms.Label labelCaminho;
+        private System.Windows.Forms.TextBox txtCaminhoPasta;
+        private System.Windows.Forms.Button btnSelecionarPasta;
     }
 }
