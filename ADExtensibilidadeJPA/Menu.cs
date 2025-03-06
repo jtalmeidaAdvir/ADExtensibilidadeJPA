@@ -74,6 +74,9 @@ namespace ADExtensibilidadeJPA
 
             lblAnexoSegSocial.Text = string.IsNullOrEmpty(caminhoAnexoSegSocial) ?
                 "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoSegSocial);
+
+            lblFolhaPagSS.Text = string.IsNullOrEmpty(caminhoAnexoFolhaPag) ?
+                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoFolhaPag);
         }
 
         private void BTF4_Click(object sender, EventArgs e)
@@ -95,6 +98,7 @@ namespace ADExtensibilidadeJPA
         // Variáveis para armazenar os caminhos dos anexos específicos
         private string caminhoAnexoFinancas = "";
         private string caminhoAnexoSegSocial = "";
+        private string caminhoAnexoFolhaPag = "";
 
         private void SetInfoEntidades(Dictionary<string, string> entidade)
         {
@@ -161,6 +165,7 @@ namespace ADExtensibilidadeJPA
             // Recupera os caminhos dos anexos específicos
             caminhoAnexoFinancas = entidade["CDU_AnexoFinancas"] ?? "";
             caminhoAnexoSegSocial = entidade["CDU_AnexoSegSocial"] ?? "";
+            caminhoAnexoFolhaPag = entidade["CDU_FolhaPag"] ?? "";
 
             // Atualiza os labels de anexos específicos
             AtualizarLabelsAnexos();
@@ -365,8 +370,6 @@ namespace ADExtensibilidadeJPA
 
         private void AtualizarListaDocumentos()
         {
-            // Limpa a lista atual
-            listBoxDocumentos.Items.Clear();
 
             // Verifica se o caminho da pasta existe
             if (string.IsNullOrEmpty(txtCaminhoPasta.Text) || !System.IO.Directory.Exists(txtCaminhoPasta.Text))
@@ -380,7 +383,6 @@ namespace ADExtensibilidadeJPA
                 // Adiciona cada arquivo à lista
                 foreach (string arquivo in arquivos)
                 {
-                    listBoxDocumentos.Items.Add(System.IO.Path.GetFileName(arquivo));
                 }
             }
             catch (Exception ex)
@@ -390,96 +392,16 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        private void btnVisualizarDocumento_Click(object sender, EventArgs e)
-        {
-            // Verifica se há um documento selecionado
-            if (listBoxDocumentos.SelectedItem == null)
-            {
-                MessageBox.Show("Por favor, selecione um documento para visualizar.",
-                    "Nenhum documento selecionado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
 
-            try
-            {
-                // Obtém o caminho completo do arquivo
-                string nomeArquivo = listBoxDocumentos.SelectedItem.ToString();
-                string caminhoCompleto = System.IO.Path.Combine(txtCaminhoPasta.Text, nomeArquivo);
 
-                // Verifica se o arquivo existe
-                if (!System.IO.File.Exists(caminhoCompleto))
-                {
-                    MessageBox.Show("O arquivo selecionado não existe mais na pasta.",
-                        "Arquivo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Abre o arquivo com o programa padrão do sistema
-                System.Diagnostics.Process.Start(caminhoCompleto);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao abrir o documento: {ex.Message}",
-                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnRemoverDocumento_Click(object sender, EventArgs e)
-        {
-            // Verifica se há um documento selecionado
-            if (listBoxDocumentos.SelectedItem == null)
-            {
-                MessageBox.Show("Por favor, selecione um documento para remover.",
-                    "Nenhum documento selecionado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            try
-            {
-                // Obtém o caminho completo do arquivo
-                string nomeArquivo = listBoxDocumentos.SelectedItem.ToString();
-                string caminhoCompleto = System.IO.Path.Combine(txtCaminhoPasta.Text, nomeArquivo);
-
-                // Confirma a remoção
-                DialogResult result = MessageBox.Show(
-                    $"Tem certeza que deseja remover o documento '{nomeArquivo}'?",
-                    "Confirmar remoção",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    // Verifica se o arquivo existe
-                    if (System.IO.File.Exists(caminhoCompleto))
-                    {
-                        System.IO.File.Delete(caminhoCompleto);
-                        MessageBox.Show("Documento removido com sucesso!",
-                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        // Atualiza a lista de documentos
-                        AtualizarListaDocumentos();
-                    }
-                    else
-                    {
-                        MessageBox.Show("O arquivo selecionado não existe mais na pasta.",
-                            "Arquivo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro ao remover o documento: {ex.Message}",
-                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void GetEntidades(ref Dictionary<string, string> entidade)
         {
             string NomeLista = "Entidades";
-            string Campos = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id,CDU_AnexoFinancas,CDU_AnexoSegSocial";
+            string Campos = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id,CDU_AnexoFinancas,CDU_AnexoSegSocial,CDU_FolhaPag";
             string Tabela = "Geral_Entidade (NOLOCK)";
             string Where = "CDU_TrataSGS = 0";
-            string CamposF4 = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id,CDU_AnexoFinancas,CDU_AnexoSegSocial";
+            string CamposF4 = "Codigo,Nome, NIPC, AlvaraNumero, AlvaraValidade, CDU_NaoDivFinancas, CDU_NaoDivSegSocial, CDU_FolhaPagSegSocial, CDU_ReciboApoliceAT, CDU_ReciboRC, CDU_Caminho, CDU_ReciboPagSegSocial, CDU_ApoliceAT, CDU_ApoliceRC, CDU_HorarioTrabalho, CDU_DecTrabIlegais, CDU_DecRespEstaleiro, CDU_DecConhecimPSS, Morada, Localidade ,CodPostal,CodPostalLocal,EntidadeId,id,CDU_AnexoFinancas,CDU_AnexoSegSocial,CDU_FolhaPag";
             string orderby = "Codigo, Nome";
 
             List<string> ResQuery = new List<string>();
@@ -686,6 +608,27 @@ namespace ADExtensibilidadeJPA
             }
         }
 
+        private void visualizarFolhaPag_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(caminhoAnexoFolhaPag) || !System.IO.File.Exists(caminhoAnexoFolhaPag))
+            {
+                MessageBox.Show("Não existe anexo para a Folha Pag.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(caminhoAnexoFolhaPag);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void BT_Salvar_Click_Click(object sender, EventArgs e)
         {
             try
@@ -711,7 +654,8 @@ namespace ADExtensibilidadeJPA
                 CDU_DecRespEstaleiro = '{cb_DecRespEstaleiro.Text}', 
                 CDU_DecConhecimPSS = '{cb_DecConhecimPSS.Text}',
                 CDU_AnexoFinancas = '{caminhoAnexoFinancas}',
-                CDU_AnexoSegSocial = '{caminhoAnexoSegSocial}'
+                CDU_AnexoSegSocial = '{caminhoAnexoSegSocial}',
+                CDU_FolhaPag = '{caminhoAnexoFolhaPag}'
             WHERE ID = '{_ID}';
         ";
 
@@ -791,6 +735,71 @@ namespace ADExtensibilidadeJPA
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao salvar os dados: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnAnexoFolhaPag_Click(object sender, EventArgs e)
+        {
+
+                // Verifica se o caminho da pasta foi definido
+                if (string.IsNullOrEmpty(txtCaminhoPasta.Text))
+                {
+                    MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                        "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                    openFileDialog.FilterIndex = 1;
+                    openFileDialog.Multiselect = false;
+                    openFileDialog.Title = "Selecionar Documento da Folha Pag.";
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        try
+                        {
+                            string sourceFile = openFileDialog.FileName;
+                            string fileName = "FolhaPagSS_" + TXT_Codigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                              System.IO.Path.GetExtension(sourceFile);
+                            string destFile = System.IO.Path.Combine(txtCaminhoPasta.Text, fileName);
+
+                            // Verifica se o arquivo já existe
+                            if (System.IO.File.Exists(destFile))
+                            {
+                                DialogResult result = MessageBox.Show(
+                                    $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                    "Arquivo já existe",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question);
+
+                                if (result == DialogResult.No)
+                                    return;
+                            }
+
+                            // Copia o arquivo para a pasta de destino
+                            System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                            caminhoAnexoFolhaPag = destFile;
+
+                            // Atualiza o label
+                            AtualizarLabelsAnexos();
+
+                            MessageBox.Show("Documento anexado com sucesso!",
+                                "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // Atualiza a lista de documentos
+                            AtualizarListaDocumentos();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                                "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    
+                }
             }
         }
     }

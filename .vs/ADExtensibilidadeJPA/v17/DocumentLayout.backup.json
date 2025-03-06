@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|c:\\users\\jtalm\\source\\repos\\adextensibilidadejpa\\adextensibilidadejpa\\quadrocontrolo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\quadrocontrolo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|c:\\users\\jtalm\\source\\repos\\adextensibilidadejpa\\adextensibilidadejpa\\quadrocontrolo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\quadrocontrolo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\adextensibilidadejpa\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|c:\\users\\jtalm\\source\\repos\\adextensibilidadejpa\\adextensibilidadejpa\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\adextensibilidadejpa\\menu.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\menu.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|c:\\users\\jtalm\\source\\repos\\adextensibilidadejpa\\adextensibilidadejpa\\menu.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\menu.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|c:\\users\\jtalm\\source\\repos\\adextensibilidadejpa\\adextensibilidadejpa\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +30,70 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "QuadroControlo.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs [Design]*",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs [Design]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T10:46:06.877Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "QuadroControlo.cs",
+              "DocumentMoniker": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs*",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs*",
+              "ViewState": "AgIAABoAAAAAAAAAAAAUwEoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T10:45:42.973Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Menu.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.cs",
+              "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\Menu.cs",
+              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.cs [Design]",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\Menu.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-03T09:36:23.142Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Menu.cs",
               "DocumentMoniker": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\Menu.cs",
-              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.cs*",
-              "RelativeToolTip": "ADExtensibilidadeJPA\\Menu.cs*",
-              "ViewState": "AgIAAJcBAAAAAAAAAIAwwIsBAAAQAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.cs",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\Menu.cs",
+              "ViewState": "AgIAADcCAAAAAAAAAAAIwIwCAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-03T17:21:34.684Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Menu.Designer.cs",
               "DocumentMoniker": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.Designer.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\Menu.Designer.cs",
-              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.Designer.cs*",
-              "RelativeToolTip": "ADExtensibilidadeJPA\\Menu.Designer.cs*",
-              "ViewState": "AgIAAKYDAAAAAAAAAAAwwM4DAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.Designer.cs",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\Menu.Designer.cs",
+              "ViewState": "AgIAAHkDAAAAAAAAAAAcwJsDAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-03T10:39:26.091Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Menu.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.cs",
-              "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\Menu.cs",
-              "ToolTip": "C:\\Users\\jtalm\\source\\repos\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\Menu.cs [Design]*",
-              "RelativeToolTip": "ADExtensibilidadeJPA\\Menu.cs [Design]*",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-03T09:36:23.142Z",
-              "EditorCaption": " [Design]"
             }
           ]
         }

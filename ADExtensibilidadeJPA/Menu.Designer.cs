@@ -47,6 +47,8 @@ namespace ADExtensibilidadeJPA
             this.TXT_AlvaraValidade = new System.Windows.Forms.DateTimePicker();
             this.AlertaValidadeAlvara = new System.Windows.Forms.Panel();
             this.groupBoxSituacaoFiscal = new System.Windows.Forms.GroupBox();
+            this.lblFolhaPagSS = new System.Windows.Forms.Label();
+            this.btnAnexoFolhaPag = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.TXT_NaoDivFinancas = new System.Windows.Forms.DateTimePicker();
             this.btnAnexoFinancas = new System.Windows.Forms.Button();
@@ -94,12 +96,6 @@ namespace ADExtensibilidadeJPA
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
             this.lblSelecionar = new System.Windows.Forms.Label();
-            this.btnRemoverDocumento = new System.Windows.Forms.Button();
-            this.btnVisualizarDocumento = new System.Windows.Forms.Button();
-            this.btnAnexarDocumento = new System.Windows.Forms.Button();
-            this.labelAnexos = new System.Windows.Forms.Label();
-            this.listBoxDocumentos = new System.Windows.Forms.ListBox();
-            this.panelAnexos = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelDadosEmpresa.SuspendLayout();
@@ -111,7 +107,6 @@ namespace ADExtensibilidadeJPA
             this.groupBoxObras.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
-            this.panelAnexos.SuspendLayout();
             this.SuspendLayout();
             // 
             // TXT_Nome
@@ -156,7 +151,7 @@ namespace ADExtensibilidadeJPA
             this.tabControl1.Location = new System.Drawing.Point(15, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(704, 544);
+            this.tabControl1.Size = new System.Drawing.Size(704, 669);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -167,7 +162,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(696, 516);
+            this.tabPage1.Size = new System.Drawing.Size(696, 641);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Empresa";
             // 
@@ -180,7 +175,7 @@ namespace ADExtensibilidadeJPA
             this.panelDadosEmpresa.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDadosEmpresa.Location = new System.Drawing.Point(3, 3);
             this.panelDadosEmpresa.Name = "panelDadosEmpresa";
-            this.panelDadosEmpresa.Size = new System.Drawing.Size(690, 326);
+            this.panelDadosEmpresa.Size = new System.Drawing.Size(690, 450);
             this.panelDadosEmpresa.TabIndex = 92;
             // 
             // groupBoxInfoBasica
@@ -285,6 +280,8 @@ namespace ADExtensibilidadeJPA
             // 
             // groupBoxSituacaoFiscal
             // 
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblFolhaPagSS);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoFolhaPag);
             this.groupBoxSituacaoFiscal.Controls.Add(this.label5);
             this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_NaoDivFinancas);
             this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoFinancas);
@@ -303,10 +300,34 @@ namespace ADExtensibilidadeJPA
             this.groupBoxSituacaoFiscal.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxSituacaoFiscal.Location = new System.Drawing.Point(8, 136);
             this.groupBoxSituacaoFiscal.Name = "groupBoxSituacaoFiscal";
-            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(325, 168);
+            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(662, 170);
             this.groupBoxSituacaoFiscal.TabIndex = 1;
             this.groupBoxSituacaoFiscal.TabStop = false;
             this.groupBoxSituacaoFiscal.Text = "Situação Fiscal";
+            // 
+            // lblFolhaPagSS
+            // 
+            this.lblFolhaPagSS.AutoSize = true;
+            this.lblFolhaPagSS.Font = new System.Drawing.Font("Calibri", 8F);
+            this.lblFolhaPagSS.Location = new System.Drawing.Point(269, 121);
+            this.lblFolhaPagSS.Name = "lblFolhaPagSS";
+            this.lblFolhaPagSS.Size = new System.Drawing.Size(78, 13);
+            this.lblFolhaPagSS.TabIndex = 105;
+            this.lblFolhaPagSS.Text = "Nenhum anexo";
+            this.lblFolhaPagSS.Click += new System.EventHandler(this.visualizarFolhaPag_Click);
+            // 
+            // btnAnexoFolhaPag
+            // 
+            this.btnAnexoFolhaPag.BackColor = System.Drawing.Color.LightBlue;
+            this.btnAnexoFolhaPag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnexoFolhaPag.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnAnexoFolhaPag.Location = new System.Drawing.Point(215, 117);
+            this.btnAnexoFolhaPag.Name = "btnAnexoFolhaPag";
+            this.btnAnexoFolhaPag.Size = new System.Drawing.Size(47, 22);
+            this.btnAnexoFolhaPag.TabIndex = 104;
+            this.btnAnexoFolhaPag.Text = "...";
+            this.btnAnexoFolhaPag.UseVisualStyleBackColor = false;
+            this.btnAnexoFolhaPag.Click += new System.EventHandler(this.btnAnexoFolhaPag_Click);
             // 
             // label5
             // 
@@ -332,9 +353,9 @@ namespace ADExtensibilidadeJPA
             this.btnAnexoFinancas.Font = new System.Drawing.Font("Calibri", 9F);
             this.btnAnexoFinancas.Location = new System.Drawing.Point(215, 61);
             this.btnAnexoFinancas.Name = "btnAnexoFinancas";
-            this.btnAnexoFinancas.Size = new System.Drawing.Size(90, 22);
+            this.btnAnexoFinancas.Size = new System.Drawing.Size(47, 22);
             this.btnAnexoFinancas.TabIndex = 100;
-            this.btnAnexoFinancas.Text = "Anexar";
+            this.btnAnexoFinancas.Text = "...";
             this.btnAnexoFinancas.UseVisualStyleBackColor = true;
             this.btnAnexoFinancas.Click += new System.EventHandler(this.btnAnexoFinancas_Click);
             // 
@@ -342,7 +363,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.lblAnexoFinancas.AutoSize = true;
             this.lblAnexoFinancas.Font = new System.Drawing.Font("Calibri", 8F);
-            this.lblAnexoFinancas.Location = new System.Drawing.Point(89, 45);
+            this.lblAnexoFinancas.Location = new System.Drawing.Point(268, 66);
             this.lblAnexoFinancas.Name = "lblAnexoFinancas";
             this.lblAnexoFinancas.Size = new System.Drawing.Size(78, 13);
             this.lblAnexoFinancas.TabIndex = 101;
@@ -353,7 +374,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label6.Location = new System.Drawing.Point(11, 107);
+            this.label6.Location = new System.Drawing.Point(11, 95);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 14);
             this.label6.TabIndex = 60;
@@ -363,7 +384,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.TXT_NaoDivSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
             this.TXT_NaoDivSegSocial.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.TXT_NaoDivSegSocial.Location = new System.Drawing.Point(89, 101);
+            this.TXT_NaoDivSegSocial.Location = new System.Drawing.Point(89, 89);
             this.TXT_NaoDivSegSocial.Name = "TXT_NaoDivSegSocial";
             this.TXT_NaoDivSegSocial.Size = new System.Drawing.Size(120, 22);
             this.TXT_NaoDivSegSocial.TabIndex = 75;
@@ -371,11 +392,11 @@ namespace ADExtensibilidadeJPA
             // btnAnexoSegSocial
             // 
             this.btnAnexoSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnAnexoSegSocial.Location = new System.Drawing.Point(215, 103);
+            this.btnAnexoSegSocial.Location = new System.Drawing.Point(215, 91);
             this.btnAnexoSegSocial.Name = "btnAnexoSegSocial";
-            this.btnAnexoSegSocial.Size = new System.Drawing.Size(90, 22);
+            this.btnAnexoSegSocial.Size = new System.Drawing.Size(47, 22);
             this.btnAnexoSegSocial.TabIndex = 102;
-            this.btnAnexoSegSocial.Text = "Anexar";
+            this.btnAnexoSegSocial.Text = "...";
             this.btnAnexoSegSocial.UseVisualStyleBackColor = true;
             this.btnAnexoSegSocial.Click += new System.EventHandler(this.btnAnexoSegSocial_Click);
             // 
@@ -383,7 +404,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.lblAnexoSegSocial.AutoSize = true;
             this.lblAnexoSegSocial.Font = new System.Drawing.Font("Calibri", 8F);
-            this.lblAnexoSegSocial.Location = new System.Drawing.Point(87, 85);
+            this.lblAnexoSegSocial.Location = new System.Drawing.Point(268, 95);
             this.lblAnexoSegSocial.Name = "lblAnexoSegSocial";
             this.lblAnexoSegSocial.Size = new System.Drawing.Size(78, 13);
             this.lblAnexoSegSocial.TabIndex = 103;
@@ -394,7 +415,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label7.Location = new System.Drawing.Point(9, 137);
+            this.label7.Location = new System.Drawing.Point(9, 123);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(81, 14);
             this.label7.TabIndex = 61;
@@ -404,7 +425,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.TXT_FolhaPagSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
             this.TXT_FolhaPagSegSocial.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.TXT_FolhaPagSegSocial.Location = new System.Drawing.Point(89, 131);
+            this.TXT_FolhaPagSegSocial.Location = new System.Drawing.Point(89, 117);
             this.TXT_FolhaPagSegSocial.Name = "TXT_FolhaPagSegSocial";
             this.TXT_FolhaPagSegSocial.Size = new System.Drawing.Size(120, 22);
             this.TXT_FolhaPagSegSocial.TabIndex = 76;
@@ -413,7 +434,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label8.Location = new System.Drawing.Point(215, 137);
+            this.label8.Location = new System.Drawing.Point(330, 25);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(47, 14);
             this.label8.TabIndex = 62;
@@ -424,7 +445,7 @@ namespace ADExtensibilidadeJPA
             this.cb_ReciboPagSegSocial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_ReciboPagSegSocial.Font = new System.Drawing.Font("Calibri", 9F);
             this.cb_ReciboPagSegSocial.FormattingEnabled = true;
-            this.cb_ReciboPagSegSocial.Location = new System.Drawing.Point(261, 131);
+            this.cb_ReciboPagSegSocial.Location = new System.Drawing.Point(383, 22);
             this.cb_ReciboPagSegSocial.Name = "cb_ReciboPagSegSocial";
             this.cb_ReciboPagSegSocial.Size = new System.Drawing.Size(44, 22);
             this.cb_ReciboPagSegSocial.TabIndex = 81;
@@ -453,7 +474,7 @@ namespace ADExtensibilidadeJPA
             this.btnSelecionarPasta.Font = new System.Drawing.Font("Calibri", 9F);
             this.btnSelecionarPasta.Location = new System.Drawing.Point(291, 20);
             this.btnSelecionarPasta.Name = "btnSelecionarPasta";
-            this.btnSelecionarPasta.Size = new System.Drawing.Size(23, 22);
+            this.btnSelecionarPasta.Size = new System.Drawing.Size(34, 22);
             this.btnSelecionarPasta.TabIndex = 84;
             this.btnSelecionarPasta.Text = "...";
             this.btnSelecionarPasta.UseVisualStyleBackColor = true;
@@ -568,9 +589,9 @@ namespace ADExtensibilidadeJPA
             this.groupBoxDeclaracoes.Controls.Add(this.label16);
             this.groupBoxDeclaracoes.Controls.Add(this.cb_DecConhecimPSS);
             this.groupBoxDeclaracoes.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBoxDeclaracoes.Location = new System.Drawing.Point(345, 144);
+            this.groupBoxDeclaracoes.Location = new System.Drawing.Point(8, 312);
             this.groupBoxDeclaracoes.Name = "groupBoxDeclaracoes";
-            this.groupBoxDeclaracoes.Size = new System.Drawing.Size(325, 115);
+            this.groupBoxDeclaracoes.Size = new System.Drawing.Size(662, 122);
             this.groupBoxDeclaracoes.TabIndex = 3;
             this.groupBoxDeclaracoes.TabStop = false;
             this.groupBoxDeclaracoes.Text = "Declarações";
@@ -659,7 +680,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.panelObras.Controls.Add(this.groupBoxObras);
             this.panelObras.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelObras.Location = new System.Drawing.Point(3, 334);
+            this.panelObras.Location = new System.Drawing.Point(3, 459);
             this.panelObras.Name = "panelObras";
             this.panelObras.Size = new System.Drawing.Size(690, 179);
             this.panelObras.TabIndex = 93;
@@ -755,7 +776,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(696, 502);
+            this.tabPage2.Size = new System.Drawing.Size(696, 641);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -793,72 +814,6 @@ namespace ADExtensibilidadeJPA
             this.lblSelecionar.TabIndex = 5;
             this.lblSelecionar.Text = "Código:";
             // 
-            // btnRemoverDocumento
-            // 
-            this.btnRemoverDocumento.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnRemoverDocumento.Location = new System.Drawing.Point(206, 125);
-            this.btnRemoverDocumento.Name = "btnRemoverDocumento";
-            this.btnRemoverDocumento.Size = new System.Drawing.Size(95, 23);
-            this.btnRemoverDocumento.TabIndex = 4;
-            this.btnRemoverDocumento.Text = "Remover";
-            this.btnRemoverDocumento.UseVisualStyleBackColor = true;
-            this.btnRemoverDocumento.Click += new System.EventHandler(this.btnRemoverDocumento_Click);
-            // 
-            // btnVisualizarDocumento
-            // 
-            this.btnVisualizarDocumento.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnVisualizarDocumento.Location = new System.Drawing.Point(103, 125);
-            this.btnVisualizarDocumento.Name = "btnVisualizarDocumento";
-            this.btnVisualizarDocumento.Size = new System.Drawing.Size(95, 23);
-            this.btnVisualizarDocumento.TabIndex = 3;
-            this.btnVisualizarDocumento.Text = "Visualizar";
-            this.btnVisualizarDocumento.UseVisualStyleBackColor = true;
-            this.btnVisualizarDocumento.Click += new System.EventHandler(this.btnVisualizarDocumento_Click);
-            // 
-            // btnAnexarDocumento
-            // 
-            this.btnAnexarDocumento.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnAnexarDocumento.Location = new System.Drawing.Point(0, 125);
-            this.btnAnexarDocumento.Name = "btnAnexarDocumento";
-            this.btnAnexarDocumento.Size = new System.Drawing.Size(95, 23);
-            this.btnAnexarDocumento.TabIndex = 2;
-            this.btnAnexarDocumento.Text = "Anexar";
-            this.btnAnexarDocumento.UseVisualStyleBackColor = true;
-            this.btnAnexarDocumento.Click += new System.EventHandler(this.btnAnexarDocumento_Click);
-            // 
-            // labelAnexos
-            // 
-            this.labelAnexos.AutoSize = true;
-            this.labelAnexos.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.labelAnexos.Location = new System.Drawing.Point(0, 5);
-            this.labelAnexos.Name = "labelAnexos";
-            this.labelAnexos.Size = new System.Drawing.Size(122, 14);
-            this.labelAnexos.TabIndex = 1;
-            this.labelAnexos.Text = "Documentos anexados:";
-            // 
-            // listBoxDocumentos
-            // 
-            this.listBoxDocumentos.Font = new System.Drawing.Font("Calibri", 9F);
-            this.listBoxDocumentos.FormattingEnabled = true;
-            this.listBoxDocumentos.ItemHeight = 14;
-            this.listBoxDocumentos.Location = new System.Drawing.Point(0, 25);
-            this.listBoxDocumentos.Name = "listBoxDocumentos";
-            this.listBoxDocumentos.Size = new System.Drawing.Size(303, 88);
-            this.listBoxDocumentos.TabIndex = 0;
-            // 
-            // panelAnexos
-            // 
-            this.panelAnexos.Controls.Add(this.listBoxDocumentos);
-            this.panelAnexos.Controls.Add(this.labelAnexos);
-            this.panelAnexos.Controls.Add(this.btnAnexarDocumento);
-            this.panelAnexos.Controls.Add(this.btnVisualizarDocumento);
-            this.panelAnexos.Controls.Add(this.btnRemoverDocumento);
-            this.panelAnexos.Location = new System.Drawing.Point(721, 399);
-            this.panelAnexos.Name = "panelAnexos";
-            this.panelAnexos.Size = new System.Drawing.Size(303, 160);
-            this.panelAnexos.TabIndex = 85;
-            this.panelAnexos.Visible = false;
-            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -868,12 +823,11 @@ namespace ADExtensibilidadeJPA
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.TXT_Codigo);
-            this.Controls.Add(this.panelAnexos);
             this.Controls.Add(this.BTF4);
             this.Controls.Add(this.TXT_Nome);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Menu";
-            this.Size = new System.Drawing.Size(736, 616);
+            this.Size = new System.Drawing.Size(736, 737);
             this.Text = "Gestão de Subempreiteiros";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -892,8 +846,6 @@ namespace ADExtensibilidadeJPA
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.panelAnexos.ResumeLayout(false);
-            this.panelAnexos.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -965,11 +917,7 @@ namespace ADExtensibilidadeJPA
         private System.Windows.Forms.Label lblAnexoFinancas;
         private System.Windows.Forms.Button btnAnexoSegSocial;
         private System.Windows.Forms.Label lblAnexoSegSocial;
-        private System.Windows.Forms.Panel panelAnexos;
-        private System.Windows.Forms.ListBox listBoxDocumentos;
-        private System.Windows.Forms.Label labelAnexos;
-        private System.Windows.Forms.Button btnAnexarDocumento;
-        private System.Windows.Forms.Button btnVisualizarDocumento;
-        private System.Windows.Forms.Button btnRemoverDocumento;
+        private System.Windows.Forms.Label lblFolhaPagSS;
+        private System.Windows.Forms.Button btnAnexoFolhaPag;
     }
 }
