@@ -17,95 +17,71 @@ namespace ADExtensibilidadeJPA
     public partial class Menu : Form
     {
         public string _ID;
-
-        public Menu(ErpBS100.ErpBS bSO, StdPlatBS100.StdBSInterfPub pSO)
+        public string IdSelecionado;
+        public Menu(ErpBS100.ErpBS bSO, StdPlatBS100.StdBSInterfPub pSO, string idSelecionado)
         {
             InitializeComponent();
             ConfigurarEstiloControles();
             BSO = bSO;
             PSO = pSO;
+            IdSelecionado = idSelecionado;
+
+            if(IdSelecionado != "")
+            {
+                DaValores();
+            }
         }
 
-        private void ConfigurarEstiloControles()
-        {
-            // Configuração das cores dos controles para uma aparência mais moderna
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
-
-            // Configurar estilo do DataGridView
-            dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue;
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
-
-            // Destacar botões
-            BTF4.FlatStyle = FlatStyle.Flat;
-            btnGravarObra.FlatStyle = FlatStyle.Flat;
-
-            // Configurar os botões para anexar documentos específicos
-            btnAnexoFinancas.FlatStyle = FlatStyle.Flat;
-            btnAnexoFinancas.BackColor = Color.LightBlue;
-            btnAnexoSegSocial.FlatStyle = FlatStyle.Flat;
-            btnAnexoSegSocial.BackColor = Color.LightBlue;
-
-            // Configurar painéis
-            AlertaValidadeAlvara.BackColor = Color.Red;
-
-            // Configurar valores iniciais para os DateTimePickers
-            // Se a data atual não for apropriada como valor padrão, pode definir um valor mínimo
-            TXT_NaoDivFinancas.Value = DateTime.Today;
-            TXT_NaoDivSegSocial.Value = DateTime.Today;
-            TXT_FolhaPagSegSocial.Value = DateTime.Today;
-            TXT_AlvaraValidade.Value = DateTime.Today;
-
-            // Permitir limpar as datas (opcional)
-            TXT_NaoDivFinancas.ShowCheckBox = true;
-            TXT_NaoDivSegSocial.ShowCheckBox = true;
-            TXT_FolhaPagSegSocial.ShowCheckBox = true;
-            TXT_AlvaraValidade.ShowCheckBox = true;
-
-            // Definir o formato de exibição para mostrar a data completa
-            TXT_NaoDivFinancas.Format = DateTimePickerFormat.Short;
-            TXT_NaoDivSegSocial.Format = DateTimePickerFormat.Short;
-            TXT_FolhaPagSegSocial.Format = DateTimePickerFormat.Short;
-        }
-
-        private void AtualizarLabelsAnexos()
-        {
-            // Atualiza o texto nos labels que mostram os anexos específicos
-            lblAnexoFinancas.Text = string.IsNullOrEmpty(caminhoAnexoFinancas) ?
-                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoFinancas);
-
-            lblAnexoSegSocial.Text = string.IsNullOrEmpty(caminhoAnexoSegSocial) ?
-                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoSegSocial);
-
-            lblFolhaPagSS.Text = string.IsNullOrEmpty(caminhoAnexoFolhaPag) ?
-                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoFolhaPag);
-        }
-
-        private void BTF4_Click(object sender, EventArgs e)
-        {
-            CarregarDadosEntidade();
-        }
-
-        private void CarregarDadosEntidade()
+        private void DaValores()
         {
             Dictionary<string, string> entidade = new Dictionary<string, string>();
-            GetEntidades(ref entidade);
-
+            GetEntidadesID(ref entidade);
             if (entidade.Count > 0)
             {
                 SetInfoEntidades(entidade);
             }
         }
 
-        // Variáveis para armazenar os caminhos dos anexos específicos
-        private string caminhoAnexoFinancas = "";
-        private string caminhoAnexoSegSocial = "";
-        private string caminhoAnexoFolhaPag = "";
 
-        public ErpBS BSO { get; private set; }
-        public StdBSInterfPub PSO { get; private set; }
+        private void GetEntidadesID(ref Dictionary<string, string> entidade)
+        {
+            // Consulta SQL para pegar os dados
+            var query = $@"SELECT * FROM Geral_Entidade WHERE CDU_TrataSGS = 0 AND Id='{IdSelecionado}'";
+            var dados = BSO.Consulta(query);
+
+            // Iniciando a leitura dos dados
+            dados.Inicio();
+
+            // Verificando se há resultados
+            if (dados.NumLinhas() > 0)
+            {
+                // Definindo as colunas esperadas na consulta
+                string[] colunas = new string[] { "Codigo", "Nome", "NIPC", "AlvaraNumero", "AlvaraValidade", "CDU_NaoDivFinancas",
+                                          "CDU_NaoDivSegSocial", "CDU_FolhaPagSegSocial", "CDU_ReciboApoliceAT",
+                                          "CDU_ReciboRC", "CDU_Caminho", "CDU_ReciboPagSegSocial", "CDU_ApoliceAT",
+                                          "CDU_ApoliceRC", "CDU_HorarioTrabalho", "CDU_DecTrabIlegais",
+                                          "CDU_DecRespEstaleiro", "CDU_DecConhecimPSS", "Morada", "Localidade",
+                                          "CodPostal", "CodPostalLocal", "EntidadeId", "id", "CDU_AnexoFinancas",
+                                          "CDU_AnexoSegSocial", "CDU_FolhaPag" };
+
+                // Iterando sobre as linhas dos dados
+                for (int i = 0; i < dados.NumLinhas(); i++)
+                {
+                    // Preenchendo o dicionário com os valores de cada coluna
+                    foreach (var coluna in colunas)
+                    {
+                        // Obtendo o valor de cada coluna para o tipo string e armazenando no dicionário
+                        var valor = dados.DaValor<string>(coluna);
+                        entidade[coluna] = valor; // Atribui o valor à chave correspondente
+                    }
+
+                    // Avançando para a próxima linha de dados
+                    dados.Seguinte();
+                }
+            }
+        }
+
+
 
         private void SetInfoEntidades(Dictionary<string, string> entidade)
         {
@@ -210,6 +186,88 @@ namespace ADExtensibilidadeJPA
 
             CarregarObrasComboBox(entidade);
         }
+        private void ConfigurarEstiloControles()
+        {
+            // Configuração das cores dos controles para uma aparência mais moderna
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+
+            // Configurar estilo do DataGridView
+            dataGridView1.BorderStyle = BorderStyle.None;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+
+            // Destacar botões
+            BTF4.FlatStyle = FlatStyle.Flat;
+            btnGravarObra.FlatStyle = FlatStyle.Flat;
+
+            // Configurar os botões para anexar documentos específicos
+            btnAnexoFinancas.FlatStyle = FlatStyle.Flat;
+            btnAnexoFinancas.BackColor = Color.LightBlue;
+            btnAnexoSegSocial.FlatStyle = FlatStyle.Flat;
+            btnAnexoSegSocial.BackColor = Color.LightBlue;
+
+            // Configurar painéis
+            AlertaValidadeAlvara.BackColor = Color.Red;
+
+            // Configurar valores iniciais para os DateTimePickers
+            // Se a data atual não for apropriada como valor padrão, pode definir um valor mínimo
+            TXT_NaoDivFinancas.Value = DateTime.Today;
+            TXT_NaoDivSegSocial.Value = DateTime.Today;
+            TXT_FolhaPagSegSocial.Value = DateTime.Today;
+            TXT_AlvaraValidade.Value = DateTime.Today;
+
+            // Permitir limpar as datas (opcional)
+            TXT_NaoDivFinancas.ShowCheckBox = true;
+            TXT_NaoDivSegSocial.ShowCheckBox = true;
+            TXT_FolhaPagSegSocial.ShowCheckBox = true;
+            TXT_AlvaraValidade.ShowCheckBox = true;
+
+            // Definir o formato de exibição para mostrar a data completa
+            TXT_NaoDivFinancas.Format = DateTimePickerFormat.Short;
+            TXT_NaoDivSegSocial.Format = DateTimePickerFormat.Short;
+            TXT_FolhaPagSegSocial.Format = DateTimePickerFormat.Short;
+        }
+
+        private void AtualizarLabelsAnexos()
+        {
+            // Atualiza o texto nos labels que mostram os anexos específicos
+            lblAnexoFinancas.Text = string.IsNullOrEmpty(caminhoAnexoFinancas) ?
+                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoFinancas);
+
+            lblAnexoSegSocial.Text = string.IsNullOrEmpty(caminhoAnexoSegSocial) ?
+                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoSegSocial);
+
+            lblFolhaPagSS.Text = string.IsNullOrEmpty(caminhoAnexoFolhaPag) ?
+                "Nenhum anexo" : System.IO.Path.GetFileName(caminhoAnexoFolhaPag);
+        }
+
+        private void BTF4_Click(object sender, EventArgs e)
+        {
+            CarregarDadosEntidade();
+        }
+
+        private void CarregarDadosEntidade()
+        {
+            Dictionary<string, string> entidade = new Dictionary<string, string>();
+            GetEntidades(ref entidade);
+
+            if (entidade.Count > 0)
+            {
+                SetInfoEntidades(entidade);
+            }
+        }
+
+        // Variáveis para armazenar os caminhos dos anexos específicos
+        private string caminhoAnexoFinancas = "";
+        private string caminhoAnexoSegSocial = "";
+        private string caminhoAnexoFolhaPag = "";
+
+        public ErpBS BSO { get; private set; }
+        public StdBSInterfPub PSO { get; private set; }
+
+   
 
         private void cb_Obras_SelectedIndexChanged(object sender, EventArgs e)
         {

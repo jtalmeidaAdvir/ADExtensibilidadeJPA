@@ -30,6 +30,7 @@
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.BT_Editar = new System.Windows.Forms.Button();
+            this.Bt_Email = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,10 +53,21 @@
             this.BT_Editar.UseVisualStyleBackColor = true;
             this.BT_Editar.Click += new System.EventHandler(this.BT_Editar_Click);
             // 
+            // Bt_Email
+            // 
+            this.Bt_Email.Location = new System.Drawing.Point(84, 4);
+            this.Bt_Email.Name = "Bt_Email";
+            this.Bt_Email.Size = new System.Drawing.Size(75, 23);
+            this.Bt_Email.TabIndex = 2;
+            this.Bt_Email.Text = "Enviar Email";
+            this.Bt_Email.UseVisualStyleBackColor = true;
+            this.Bt_Email.Click += new System.EventHandler(this.Bt_Email_Click);
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Bt_Email);
             this.Controls.Add(this.BT_Editar);
             this.Controls.Add(this.dataGridView1);
             this.Name = "QuadroControlo";
@@ -70,5 +82,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button BT_Editar;
+        private System.Windows.Forms.Button Bt_Email;
     }
 }

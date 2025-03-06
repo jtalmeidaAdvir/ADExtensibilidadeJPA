@@ -38,6 +38,10 @@
     <Reference Include="ErpDS100">
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Outlook.15.0.4797.1004\lib\net20\Microsoft.Office.Interop.Outlook.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Primavera.Extensibility.Attributes">
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\APL\Primavera.Extensibility.Attributes.dll</HintPath>
       <Private>False</Private>
@@ -108,6 +112,9 @@
     <EmbeddedResource Include="QuadroControlo.resx">
       <DependentUpon>QuadroControlo.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
