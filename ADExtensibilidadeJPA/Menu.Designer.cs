@@ -151,7 +151,7 @@ namespace ADExtensibilidadeJPA
             this.tabControl1.Location = new System.Drawing.Point(15, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(704, 669);
+            this.tabControl1.Size = new System.Drawing.Size(700, 740);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -162,7 +162,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(696, 641);
+            this.tabPage1.Size = new System.Drawing.Size(692, 712);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Empresa";
             // 
@@ -175,7 +175,7 @@ namespace ADExtensibilidadeJPA
             this.panelDadosEmpresa.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDadosEmpresa.Location = new System.Drawing.Point(3, 3);
             this.panelDadosEmpresa.Name = "panelDadosEmpresa";
-            this.panelDadosEmpresa.Size = new System.Drawing.Size(690, 450);
+            this.panelDadosEmpresa.Size = new System.Drawing.Size(686, 450);
             this.panelDadosEmpresa.TabIndex = 92;
             // 
             // groupBoxInfoBasica
@@ -192,7 +192,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxInfoBasica.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxInfoBasica.Location = new System.Drawing.Point(8, 5);
             this.groupBoxInfoBasica.Name = "groupBoxInfoBasica";
-            this.groupBoxInfoBasica.Size = new System.Drawing.Size(325, 125);
+            this.groupBoxInfoBasica.Size = new System.Drawing.Size(325, 132);
             this.groupBoxInfoBasica.TabIndex = 0;
             this.groupBoxInfoBasica.TabStop = false;
             this.groupBoxInfoBasica.Text = "Informações Básicas";
@@ -248,14 +248,14 @@ namespace ADExtensibilidadeJPA
             this.TXT_Alvara.Font = new System.Drawing.Font("Calibri", 9F);
             this.TXT_Alvara.Location = new System.Drawing.Point(66, 75);
             this.TXT_Alvara.Name = "TXT_Alvara";
-            this.TXT_Alvara.Size = new System.Drawing.Size(125, 22);
+            this.TXT_Alvara.Size = new System.Drawing.Size(245, 22);
             this.TXT_Alvara.TabIndex = 73;
             // 
             // label22
             // 
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label22.Location = new System.Drawing.Point(197, 78);
+            this.label22.Location = new System.Drawing.Point(6, 108);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(56, 14);
             this.label22.TabIndex = 80;
@@ -265,15 +265,15 @@ namespace ADExtensibilidadeJPA
             // 
             this.TXT_AlvaraValidade.Font = new System.Drawing.Font("Calibri", 9F);
             this.TXT_AlvaraValidade.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.TXT_AlvaraValidade.Location = new System.Drawing.Point(258, 75);
+            this.TXT_AlvaraValidade.Location = new System.Drawing.Point(67, 105);
             this.TXT_AlvaraValidade.Name = "TXT_AlvaraValidade";
             this.TXT_AlvaraValidade.ShowCheckBox = true;
-            this.TXT_AlvaraValidade.Size = new System.Drawing.Size(53, 22);
+            this.TXT_AlvaraValidade.Size = new System.Drawing.Size(228, 22);
             this.TXT_AlvaraValidade.TabIndex = 79;
             // 
             // AlertaValidadeAlvara
             // 
-            this.AlertaValidadeAlvara.Location = new System.Drawing.Point(315, 75);
+            this.AlertaValidadeAlvara.Location = new System.Drawing.Point(301, 105);
             this.AlertaValidadeAlvara.Name = "AlertaValidadeAlvara";
             this.AlertaValidadeAlvara.Size = new System.Drawing.Size(10, 10);
             this.AlertaValidadeAlvara.TabIndex = 88;
@@ -493,7 +493,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxApolices.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxApolices.Location = new System.Drawing.Point(345, 5);
             this.groupBoxApolices.Name = "groupBoxApolices";
-            this.groupBoxApolices.Size = new System.Drawing.Size(325, 125);
+            this.groupBoxApolices.Size = new System.Drawing.Size(325, 132);
             this.groupBoxApolices.TabIndex = 2;
             this.groupBoxApolices.TabStop = false;
             this.groupBoxApolices.Text = "Apólices de Seguro";
@@ -680,9 +680,9 @@ namespace ADExtensibilidadeJPA
             // 
             this.panelObras.Controls.Add(this.groupBoxObras);
             this.panelObras.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelObras.Location = new System.Drawing.Point(3, 459);
+            this.panelObras.Location = new System.Drawing.Point(3, 530);
             this.panelObras.Name = "panelObras";
-            this.panelObras.Size = new System.Drawing.Size(690, 179);
+            this.panelObras.Size = new System.Drawing.Size(686, 179);
             this.panelObras.TabIndex = 93;
             // 
             // groupBoxObras
@@ -695,7 +695,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxObras.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxObras.Location = new System.Drawing.Point(0, 0);
             this.groupBoxObras.Name = "groupBoxObras";
-            this.groupBoxObras.Size = new System.Drawing.Size(690, 179);
+            this.groupBoxObras.Size = new System.Drawing.Size(686, 179);
             this.groupBoxObras.TabIndex = 0;
             this.groupBoxObras.TabStop = false;
             this.groupBoxObras.Text = "Obras";
@@ -776,7 +776,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(696, 641);
+            this.tabPage2.Size = new System.Drawing.Size(846, 712);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -789,7 +789,7 @@ namespace ADExtensibilidadeJPA
             this.BT_Salvar_Click});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(736, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(734, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -819,6 +819,7 @@ namespace ADExtensibilidadeJPA
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(734, 817);
             this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
@@ -826,8 +827,9 @@ namespace ADExtensibilidadeJPA
             this.Controls.Add(this.BTF4);
             this.Controls.Add(this.TXT_Nome);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Menu";
-            this.Size = new System.Drawing.Size(736, 737);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestão de Subempreiteiros";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
