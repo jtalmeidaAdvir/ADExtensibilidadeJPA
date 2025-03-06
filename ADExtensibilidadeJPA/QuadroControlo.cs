@@ -27,11 +27,12 @@ namespace ADExtensibilidadeJPA
         {
             try
             {
-                string query = "SELECT Nome, CDU_EmailEnviado, CDU_DataEnvio FROM Geral_Entidade WHERE CDU_TrataSGS = 0";
+                string query = "SELECT id, Nome, CDU_EmailEnviado, CDU_DataEnvio FROM Geral_Entidade WHERE CDU_TrataSGS = 0";
                 StdBELista dt = BSO.Consulta(query);
 
                 // Criando um DataTable para armazenar os dados
                 DataTable dataTable = new DataTable();
+                dataTable.Columns.Add("ID", typeof(string));  // Adicionando coluna de ID
                 dataTable.Columns.Add("Nome", typeof(string));
                 dataTable.Columns.Add("EmailEnviadoColumn", typeof(bool)); // Ajuste o tipo conforme necessário
                 dataTable.Columns.Add("DataEnvioColumn", typeof(DateTime)); // Ajuste o tipo conforme necessário
@@ -40,6 +41,7 @@ namespace ADExtensibilidadeJPA
                 while (!dt.NoFim())
                 {
                     // Verificando e tratando valores nulos
+                    string id = dt.Valor("id")?.ToString() ?? string.Empty;
                     string nome = dt.Valor("Nome")?.ToString() ?? string.Empty;
                     bool emailEnviado = false;
 
@@ -57,7 +59,7 @@ namespace ADExtensibilidadeJPA
                     }
 
                     // Adicionando os dados à tabela
-                    dataTable.Rows.Add(nome, emailEnviado, dataEnvio);
+                    dataTable.Rows.Add(id, nome, emailEnviado, dataEnvio);
 
                     dt.Seguinte();
                 }
@@ -70,5 +72,32 @@ namespace ADExtensibilidadeJPA
                 MessageBox.Show("Erro ao carregar dados: " + ex.Message);
             }
         }
+
+
+        private void BT_Editar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Verificando se uma linha foi selecionada no DataGridView
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    // Obtendo o ID da linha selecionada
+                    //string idSelecionado = dataGridView1.SelectedRows[0].Cells["ID"].Value?.ToString();
+
+                    // Criando e exibindo o formulário "Menu" e passando o ID
+                    Menu menuForm = new Menu(BSO,PSO);
+                    menuForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, selecione uma linha para editar.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao editar: " + ex.Message);
+            }
+        }
+
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.BT_Editar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,10 +42,21 @@
             this.dataGridView1.Size = new System.Drawing.Size(794, 414);
             this.dataGridView1.TabIndex = 0;
             // 
+            // BT_Editar
+            // 
+            this.BT_Editar.Location = new System.Drawing.Point(3, 4);
+            this.BT_Editar.Name = "BT_Editar";
+            this.BT_Editar.Size = new System.Drawing.Size(75, 23);
+            this.BT_Editar.TabIndex = 1;
+            this.BT_Editar.Text = "Editar";
+            this.BT_Editar.UseVisualStyleBackColor = true;
+            this.BT_Editar.Click += new System.EventHandler(this.BT_Editar_Click);
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BT_Editar);
             this.Controls.Add(this.dataGridView1);
             this.Name = "QuadroControlo";
             this.Size = new System.Drawing.Size(800, 450);
@@ -57,5 +69,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button BT_Editar;
     }
 }

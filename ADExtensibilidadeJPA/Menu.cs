@@ -1,6 +1,8 @@
-﻿using Primavera.Extensibility.BusinessEntities;
+﻿using ErpBS100;
+using Primavera.Extensibility.BusinessEntities;
 using Primavera.Extensibility.CustomForm;
 using StdBE100;
+using StdPlatBS100;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,14 +14,16 @@ using System.Windows.Forms;
 
 namespace ADExtensibilidadeJPA
 {
-    public partial class Menu : CustomForm
+    public partial class Menu : Form
     {
         public string _ID;
 
-        public Menu()
+        public Menu(ErpBS100.ErpBS bSO, StdPlatBS100.StdBSInterfPub pSO)
         {
             InitializeComponent();
             ConfigurarEstiloControles();
+            BSO = bSO;
+            PSO = pSO;
         }
 
         private void ConfigurarEstiloControles()
@@ -99,6 +103,9 @@ namespace ADExtensibilidadeJPA
         private string caminhoAnexoFinancas = "";
         private string caminhoAnexoSegSocial = "";
         private string caminhoAnexoFolhaPag = "";
+
+        public ErpBS BSO { get; private set; }
+        public StdBSInterfPub PSO { get; private set; }
 
         private void SetInfoEntidades(Dictionary<string, string> entidade)
         {
@@ -391,9 +398,6 @@ namespace ADExtensibilidadeJPA
                     "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
 
         private void GetEntidades(ref Dictionary<string, string> entidade)
         {
