@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Construction\UiEditorOrcamentos.cs" />
+    <Compile Include="EmpresaManager.cs" />
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +110,7 @@
     <Compile Include="QuadroControlo.Designer.cs">
       <DependentUpon>QuadroControlo.cs</DependentUpon>
     </Compile>
+    <Compile Include="TrabalhadorManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Menu.resx">
