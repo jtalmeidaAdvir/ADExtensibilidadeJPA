@@ -117,12 +117,15 @@ namespace ADExtensibilidadeJPA
             {
                 // Definindo as colunas esperadas na consulta
                 string[] colunas = new string[] { "Codigo", "Nome", "NIPC", "AlvaraNumero", "AlvaraValidade", "CDU_NaoDivFinancas",
-                                          "CDU_NaoDivSegSocial", "CDU_FolhaPagSegSocial", "CDU_ReciboApoliceAT",
-                                          "CDU_ReciboRC", "CDU_Caminho", "CDU_ReciboPagSegSocial", "CDU_ApoliceAT",
-                                          "CDU_ApoliceRC", "CDU_HorarioTrabalho", "CDU_DecTrabIlegais",
-                                          "CDU_DecRespEstaleiro", "CDU_DecConhecimPSS", "Morada", "Localidade",
-                                          "CodPostal", "CodPostalLocal", "EntidadeId", "id", "CDU_AnexoFinancas",
-                                          "CDU_AnexoSegSocial", "CDU_FolhaPag" };
+                                      "CDU_NaoDivSegSocial", "CDU_FolhaPagSegSocial", "CDU_ReciboApoliceAT",
+                                      "CDU_ReciboRC", "CDU_Caminho", "CDU_ReciboPagSegSocial", "CDU_ApoliceAT",
+                                      "CDU_ApoliceRC", "CDU_HorarioTrabalho", "CDU_DecTrabIlegais",
+                                      "CDU_DecRespEstaleiro", "CDU_DecConhecimPSS", "Morada", "Localidade",
+                                      "CodPostal", "CodPostalLocal", "EntidadeId", "id", "CDU_AnexoFinancas",
+                                      "CDU_AnexoSegSocial", "CDU_FolhaPag", "CDU_AnexoApoliceAT",
+                                      "CDU_AnexoApoliceRC", "CDU_AnexoHorarioTrabalho",
+                                      "CDU_AnexoD", "CDU_DecTrabEmigr", "CDU_InscricaoSS",
+                                      "CDU_AnexoDStatus", "CDU_DecTrabEmigrStatus", "CDU_InscricaoSSStatus" };
 
                 // Iterando sobre as linhas dos dados
                 for (int i = 0; i < dados.NumLinhas(); i++)
@@ -207,6 +210,12 @@ namespace ADExtensibilidadeJPA
             _caminhoAnexoFinancas = entidade["CDU_AnexoFinancas"] ?? "";
             _caminhoAnexoSegSocial = entidade["CDU_AnexoSegSocial"] ?? "";
             _caminhoAnexoFolhaPag = entidade["CDU_FolhaPag"] ?? "";
+            _caminhoAnexoApoliceAT = entidade["CDU_AnexoApoliceAT"] ?? "";
+            _caminhoAnexoApoliceRC = entidade["CDU_AnexoApoliceRC"] ?? "";
+            _caminhoAnexoHorarioTrabalho = entidade["CDU_AnexoHorarioTrabalho"] ?? "";
+            _caminhoAnexoD = entidade["CDU_AnexoD"] ?? "";
+            _caminhoDecTrabEmigr = entidade["CDU_DecTrabEmigr"] ?? "";
+            _caminhoInscricaoSS = entidade["CDU_InscricaoSS"] ?? "";
 
             // Atualiza os labels de anexos específicos
             AtualizarLabelsAnexos();
@@ -371,7 +380,13 @@ namespace ADExtensibilidadeJPA
                 CDU_DecConhecimPSS = '{_cbDecConhecimPSS.Text}',
                 CDU_AnexoFinancas = '{_caminhoAnexoFinancas}',
                 CDU_AnexoSegSocial = '{_caminhoAnexoSegSocial}',
-                CDU_FolhaPag = '{_caminhoAnexoFolhaPag}'
+                CDU_FolhaPag = '{_caminhoAnexoFolhaPag}',
+                CDU_AnexoApoliceAT = '{_caminhoAnexoApoliceAT}',
+                CDU_AnexoApoliceRC = '{_caminhoAnexoApoliceRC}',
+                CDU_AnexoHorarioTrabalho = '{_caminhoAnexoHorarioTrabalho}',
+                CDU_AnexoD = '{_caminhoAnexoD}',
+                CDU_DecTrabEmigr = '{_caminhoDecTrabEmigr}',
+                CDU_InscricaoSS = '{_caminhoInscricaoSS}'
             WHERE ID = '{_id}';
         ";
 
@@ -587,6 +602,49 @@ namespace ADExtensibilidadeJPA
 
             _lblFolhaPagSS.Text = string.IsNullOrEmpty(_caminhoAnexoFolhaPag) ?
                 "Nenhum anexo" : System.IO.Path.GetFileName(_caminhoAnexoFolhaPag);
+
+            // Atualiza os novos labels adicionados
+            Control lblAnexoApoliceAT = _lblFolhaPagSS.Parent.Controls.Find("lblAnexoApoliceAT", true).FirstOrDefault();
+            if (lblAnexoApoliceAT != null)
+            {
+                lblAnexoApoliceAT.Text = string.IsNullOrEmpty(_caminhoAnexoApoliceAT) ?
+                    "Nenhum anexo" : System.IO.Path.GetFileName(_caminhoAnexoApoliceAT);
+            }
+
+            Control lblAnexoApoliceRC = _lblFolhaPagSS.Parent.Controls.Find("lblAnexoApoliceRC", true).FirstOrDefault();
+            if (lblAnexoApoliceRC != null)
+            {
+                lblAnexoApoliceRC.Text = string.IsNullOrEmpty(_caminhoAnexoApoliceRC) ?
+                    "Nenhum anexo" : System.IO.Path.GetFileName(_caminhoAnexoApoliceRC);
+            }
+
+            Control lblAnexoHorarioTrabalho = _lblFolhaPagSS.Parent.Controls.Find("lblAnexoHorarioTrabalho", true).FirstOrDefault();
+            if (lblAnexoHorarioTrabalho != null)
+            {
+                lblAnexoHorarioTrabalho.Text = string.IsNullOrEmpty(_caminhoAnexoHorarioTrabalho) ?
+                    "Nenhum anexo" : System.IO.Path.GetFileName(_caminhoAnexoHorarioTrabalho);
+            }
+
+            Control lblAnexoD = _lblFolhaPagSS.Parent.Controls.Find("lblAnexoD", true).FirstOrDefault();
+            if (lblAnexoD != null)
+            {
+                lblAnexoD.Text = string.IsNullOrEmpty(_caminhoAnexoD) ?
+                    "Nenhum anexo" : System.IO.Path.GetFileName(_caminhoAnexoD);
+            }
+
+            Control lblDecTrabEmigr = _lblFolhaPagSS.Parent.Controls.Find("lblDecTrabEmigr", true).FirstOrDefault();
+            if (lblDecTrabEmigr != null)
+            {
+                lblDecTrabEmigr.Text = string.IsNullOrEmpty(_caminhoDecTrabEmigr) ?
+                    "Nenhum anexo" : System.IO.Path.GetFileName(_caminhoDecTrabEmigr);
+            }
+
+            Control lblInscricaoSS = _lblFolhaPagSS.Parent.Controls.Find("lblInscricaoSS", true).FirstOrDefault();
+            if (lblInscricaoSS != null)
+            {
+                lblInscricaoSS.Text = string.IsNullOrEmpty(_caminhoInscricaoSS) ?
+                    "Nenhum anexo" : System.IO.Path.GetFileName(_caminhoInscricaoSS);
+            }
         }
 
         public void AnexarDocumentoFinancas()
@@ -838,6 +896,662 @@ namespace ADExtensibilidadeJPA
             {
                 MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
                     "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Variáveis para armazenar os caminhos dos anexos adicionais
+        private string _caminhoAnexoApoliceAT = "";
+        private string _caminhoAnexoApoliceRC = "";
+        private string _caminhoAnexoHorarioTrabalho = "";
+        private string _caminhoAnexoD = "";
+        private string _caminhoDecTrabEmigr = "";
+        private string _caminhoInscricaoSS = "";
+
+        public void AnexarDocumentoApoliceAT()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Documento da Apólice de Seguro de Acidentes de Trabalho";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "ApoliceAT_" + _txtCodigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(_txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        _caminhoAnexoApoliceAT = destFile;
+
+                        // Atualiza o sistema
+                        AtualizarStatusAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        public void AnexarDocumentoApoliceRC()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Documento da Apólice de Responsabilidade Civil";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "ApoliceRC_" + _txtCodigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(_txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        _caminhoAnexoApoliceRC = destFile;
+
+                        // Atualiza o sistema
+                        AtualizarStatusAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        public void AnexarHorarioTrabalho()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Documento de Horário de Trabalho";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "HorarioTrabalho_" + _txtCodigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(_txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        _caminhoAnexoHorarioTrabalho = destFile;
+
+                        // Atualiza o sistema
+                        AtualizarStatusAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        public void AnexarAnexoD()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Anexo D RU 2023";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "AnexoD_" + _txtCodigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(_txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        _caminhoAnexoD = destFile;
+
+                        // Atualiza o sistema
+                        AtualizarStatusAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        public void AnexarDecTrabEmigr()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Declaração de Trabalhadores Emigrantes";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "DecTrabEmigr_" + _txtCodigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(_txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        _caminhoDecTrabEmigr = destFile;
+
+                        // Atualiza o sistema
+                        AtualizarStatusAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        public void AnexarInscricaoSS()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Documento de Inscrição na Segurança Social";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "InscricaoSS_" + _txtCodigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(_txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualiza o caminho do anexo
+                        _caminhoInscricaoSS = destFile;
+
+                        // Atualiza o sistema
+                        AtualizarStatusAnexos();
+
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        public void VisualizarApoliceAT()
+        {
+            if (string.IsNullOrEmpty(_caminhoAnexoApoliceAT) || !System.IO.File.Exists(_caminhoAnexoApoliceAT))
+            {
+                MessageBox.Show("Não existe anexo para a Apólice de Seguro de Acidentes de Trabalho.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(_caminhoAnexoApoliceAT);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void VisualizarApoliceRC()
+        {
+            if (string.IsNullOrEmpty(_caminhoAnexoApoliceRC) || !System.IO.File.Exists(_caminhoAnexoApoliceRC))
+            {
+                MessageBox.Show("Não existe anexo para a Apólice de Responsabilidade Civil.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(_caminhoAnexoApoliceRC);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void VisualizarHorarioTrabalho()
+        {
+            if (string.IsNullOrEmpty(_caminhoAnexoHorarioTrabalho) || !System.IO.File.Exists(_caminhoAnexoHorarioTrabalho))
+            {
+                MessageBox.Show("Não existe anexo para o Horário de Trabalho.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(_caminhoAnexoHorarioTrabalho);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void VisualizarAnexoD()
+        {
+            if (string.IsNullOrEmpty(_caminhoAnexoD) || !System.IO.File.Exists(_caminhoAnexoD))
+            {
+                MessageBox.Show("Não existe anexo para o Anexo D RU 2023.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(_caminhoAnexoD);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void VisualizarDecTrabEmigr()
+        {
+            if (string.IsNullOrEmpty(_caminhoDecTrabEmigr) || !System.IO.File.Exists(_caminhoDecTrabEmigr))
+            {
+                MessageBox.Show("Não existe anexo para a Declaração de Trabalhadores Emigrantes.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(_caminhoDecTrabEmigr);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void VisualizarInscricaoSS()
+        {
+            if (string.IsNullOrEmpty(_caminhoInscricaoSS) || !System.IO.File.Exists(_caminhoInscricaoSS))
+            {
+                MessageBox.Show("Não existe anexo para Inscrição na Segurança Social.",
+                    "Anexo não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                // Abre o arquivo com o programa padrão do sistema
+                System.Diagnostics.Process.Start(_caminhoInscricaoSS);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir o anexo: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AtualizarStatusAnexos()
+        {
+            // Atualizar labels para todos os anexos
+            AtualizarLabelsAnexos();
+
+            // Atualizar base de dados com novos caminhos
+            try
+            {
+                var query = $@"
+                    UPDATE Geral_Entidade
+                    SET 
+                        CDU_AnexoApoliceAT = '{_caminhoAnexoApoliceAT}',
+                        CDU_AnexoApoliceRC = '{_caminhoAnexoApoliceRC}',
+                        CDU_AnexoHorarioTrabalho = '{_caminhoAnexoHorarioTrabalho}',
+                        CDU_AnexoD = '{_caminhoAnexoD}',
+                        CDU_DecTrabEmigr = '{_caminhoDecTrabEmigr}',
+                        CDU_InscricaoSS = '{_caminhoInscricaoSS}'
+                    WHERE ID = '{_id}';
+                ";
+
+                _bso.DSO.ExecuteSQL(query);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar a base de dados: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void VerificarDocumentosFaltantes()
+        {
+            List<string> documentosFaltantes = new List<string>();
+
+            // Verificar todos os documentos obrigatórios
+            if (string.IsNullOrEmpty(_caminhoAnexoFinancas))
+                documentosFaltantes.Add("Certidão de Não Dívida às Finanças");
+
+            if (string.IsNullOrEmpty(_caminhoAnexoSegSocial))
+                documentosFaltantes.Add("Certidão de Não Dívida à Segurança Social");
+
+            if (string.IsNullOrEmpty(_caminhoAnexoFolhaPag))
+                documentosFaltantes.Add("Folha de Pagamento da Segurança Social");
+
+            if (string.IsNullOrEmpty(_caminhoAnexoApoliceAT))
+                documentosFaltantes.Add("Apólice de Seguro de Acidentes de Trabalho");
+
+            if (string.IsNullOrEmpty(_caminhoAnexoApoliceRC))
+                documentosFaltantes.Add("Apólice de Responsabilidade Civil");
+
+            if (string.IsNullOrEmpty(_caminhoAnexoHorarioTrabalho))
+                documentosFaltantes.Add("Horário de Trabalho");
+
+            if (string.IsNullOrEmpty(_caminhoAnexoD))
+                documentosFaltantes.Add("Anexo D RU 2023");
+
+            if (string.IsNullOrEmpty(_caminhoDecTrabEmigr))
+                documentosFaltantes.Add("Declaração de Trabalhadores Emigrantes");
+
+            if (string.IsNullOrEmpty(_caminhoInscricaoSS))
+                documentosFaltantes.Add("Inscrição na Segurança Social");
+
+            // Verificar status dos comboboxes quando estão como "N/C" (Não Conforme)
+            if (_cbReciboPagSegSocial.Text == "N/C")
+                documentosFaltantes.Add("Recibo de Pagamento à Segurança Social");
+
+            if (_cbApoliceAT.Text == "N/C")
+                documentosFaltantes.Add("Conformidade da Apólice AT");
+
+            if (_cbApoliceRC.Text == "N/C")
+                documentosFaltantes.Add("Conformidade da Apólice RC");
+
+            if (_cbHorarioTrabalho.Text == "N/C")
+                documentosFaltantes.Add("Conformidade do Horário de Trabalho");
+
+            if (_cbDecTrabIlegais.Text == "N/C")
+                documentosFaltantes.Add("Declaração de Trabalhadores Ilegais");
+
+            if (_cbDecRespEstaleiro.Text == "N/C")
+                documentosFaltantes.Add("Declaração de Responsabilidade de Estaleiro");
+
+            if (_cbDecConhecimPSS.Text == "N/C")
+                documentosFaltantes.Add("Declaração de Conhecimento PSS");
+
+            // Exibir resultado
+            if (documentosFaltantes.Count > 0)
+            {
+                string mensagem = "Documentos em falta:\n\n";
+                foreach (var doc in documentosFaltantes)
+                {
+                    mensagem += "• " + doc + "\n";
+                }
+
+                // Criar um formulário personalizado para exibir a lista
+                Form frmDocumentosFaltantes = new Form
+                {
+                    Text = "Documentos em Falta - " + _txtNome.Text,
+                    Width = 450,
+                    Height = 400,
+                    StartPosition = FormStartPosition.CenterParent,
+                    FormBorderStyle = FormBorderStyle.FixedDialog,
+                    MaximizeBox = false,
+                    MinimizeBox = false
+                };
+
+                // Adicionar um TextBox para exibir a lista
+                TextBox txtLista = new TextBox
+                {
+                    Multiline = true,
+                    ReadOnly = true,
+                    BackColor = Color.White,
+                    ForeColor = Color.Red,
+                    Font = new Font("Calibri", 10),
+                    Text = mensagem,
+                    Dock = DockStyle.Fill,
+                    ScrollBars = ScrollBars.Vertical
+                };
+
+                // Adicionar um painel de título
+                Panel panelTitulo = new Panel
+                {
+                    Height = 40,
+                    Dock = DockStyle.Top,
+                    BackColor = Color.FromArgb(59, 89, 152)
+                };
+
+                Label lblTitulo = new Label
+                {
+                    Text = "Lista de Documentos em Falta",
+                    ForeColor = Color.White,
+                    Font = new Font("Calibri", 12, FontStyle.Bold),
+                    AutoSize = true,
+                    Location = new Point(10, 10)
+                };
+                panelTitulo.Controls.Add(lblTitulo);
+
+                // Adicionar botão OK
+                Button btnOK = new Button
+                {
+                    Text = "OK",
+                    DialogResult = DialogResult.OK,
+                    Width = 100,
+                    Height = 30,
+                    Dock = DockStyle.Bottom,
+                    BackColor = Color.LightSteelBlue,
+                    FlatStyle = FlatStyle.Flat
+                };
+
+                // Adicionar controles ao formulário
+                frmDocumentosFaltantes.Controls.Add(txtLista);
+                frmDocumentosFaltantes.Controls.Add(btnOK);
+                frmDocumentosFaltantes.Controls.Add(panelTitulo);
+
+                // Exibir o formulário
+                frmDocumentosFaltantes.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Todos os documentos obrigatórios estão presentes e conformes.",
+                    "Verificação de Documentos", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         #endregion

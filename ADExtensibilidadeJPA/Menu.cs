@@ -147,6 +147,36 @@ namespace ADExtensibilidadeJPA
             _empresaManager.AnexarFolhaPag();
         }
 
+        private void btnAnexoApoliceAT_Click(object sender, EventArgs e)
+        {
+            _empresaManager.AnexarDocumentoApoliceAT();
+        }
+
+        private void btnAnexoApoliceRC_Click(object sender, EventArgs e)
+        {
+            _empresaManager.AnexarDocumentoApoliceRC();
+        }
+
+        private void btnAnexoHorarioTrabalho_Click(object sender, EventArgs e)
+        {
+            _empresaManager.AnexarHorarioTrabalho();
+        }
+
+        private void btnAnexoD_Click(object sender, EventArgs e)
+        {
+            _empresaManager.AnexarAnexoD();
+        }
+
+        private void btnDecTrabEmigr_Click(object sender, EventArgs e)
+        {
+            _empresaManager.AnexarDecTrabEmigr();
+        }
+
+        private void btnInscricaoSS_Click(object sender, EventArgs e)
+        {
+            _empresaManager.AnexarInscricaoSS();
+        }
+
         private void visualizarAnexoFinancas_Click(object sender, EventArgs e)
         {
             _empresaManager.VisualizarAnexoFinancas();
@@ -160,6 +190,108 @@ namespace ADExtensibilidadeJPA
         private void visualizarFolhaPag_Click(object sender, EventArgs e)
         {
             _empresaManager.VisualizarFolhaPag();
+        }
+
+        private void visualizarApoliceAT_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VisualizarApoliceAT();
+        }
+
+        private void visualizarApoliceRC_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VisualizarApoliceRC();
+        }
+
+        private void visualizarHorarioTrabalho_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VisualizarHorarioTrabalho();
+        }
+
+        private void visualizarAnexoD_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VisualizarAnexoD();
+        }
+
+        private void visualizarDecTrabEmigr_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VisualizarDecTrabEmigr();
+        }
+
+        private void visualizarInscricaoSS_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VisualizarInscricaoSS();
+        }
+
+        private void btnAnexarDocumentoGeral_Click(object sender, EventArgs e)
+        {
+            // Posicionar o modal no centro do formulário
+            panelModalDocumentos.Location = new Point(
+                (this.ClientSize.Width - panelModalDocumentos.Width) / 2,
+                (this.ClientSize.Height - panelModalDocumentos.Height) / 2);
+
+            // Exibir o modal
+            panelModalDocumentos.Visible = true;
+            panelModalDocumentos.BringToFront();
+
+            // Selecionar a primeira opção por padrão
+            if (cmbTipoDocumento.Items.Count > 0)
+                cmbTipoDocumento.SelectedIndex = 0;
+        }
+
+        private void btnCancelarAnexo_Click(object sender, EventArgs e)
+        {
+            // Fechar o modal
+            panelModalDocumentos.Visible = false;
+        }
+
+        private void btnConfirmarAnexo_Click(object sender, EventArgs e)
+        {
+            if (cmbTipoDocumento.SelectedIndex == -1)
+            {
+                MessageBox.Show("Por favor, selecione um tipo de documento.",
+                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Fechar o modal
+            panelModalDocumentos.Visible = false;
+
+            // Anexar o documento de acordo com o tipo selecionado
+            string tipoSelecionado = cmbTipoDocumento.SelectedItem.ToString();
+
+            switch (tipoSelecionado)
+            {
+                case "Não Div. Financas":
+                    _empresaManager.AnexarDocumentoFinancas();
+                    break;
+                case "Não Div. Seg. Social":
+                    _empresaManager.AnexarDocumentoSegSocial();
+                    break;
+                case "Folha Pag. S.S.":
+                    _empresaManager.AnexarFolhaPag();
+                    break;
+                case "Apólice AT":
+                    _empresaManager.AnexarDocumentoApoliceAT();
+                    break;
+                case "Apólice RC":
+                    _empresaManager.AnexarDocumentoApoliceRC();
+                    break;
+                case "Horário Trabalho":
+                    _empresaManager.AnexarHorarioTrabalho();
+                    break;
+                case "Anexo D":
+                    _empresaManager.AnexarAnexoD();
+                    break;
+                case "Dec. Trab. Emigrantes":
+                    _empresaManager.AnexarDecTrabEmigr();
+                    break;
+                case "Inscrição SS":
+                    _empresaManager.AnexarInscricaoSS();
+                    break;
+                case "Outro documento":
+                    _empresaManager.AnexarDocumento();
+                    break;
+            }
         }
 
         private void dgvTrabalhadores_CellClick(object sender, DataGridViewCellEventArgs e)
