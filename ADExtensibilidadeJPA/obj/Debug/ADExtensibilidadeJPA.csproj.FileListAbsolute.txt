@@ -11,3 +11,4 @@ C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\
 C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\bin\Debug\ErpDS100.dll
 C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\ADExtensibilidadeJPA.QuadroControlo.resources
 C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\ADExtensibilidadeJPA.Properties.Resources.resources
+C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\bin\Debug\BasBE100.dll

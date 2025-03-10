@@ -62,7 +62,7 @@ namespace ADExtensibilidadeJPA
             _dgvTrabalhadores = new DataGridView
             {
                 Name = "dgvTrabalhadores",
-                Size = new Size(680, 250),
+                Size = new Size(780, 250),
                 Location = new Point(8, 10),
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
                 AllowUserToAddRows = false,
@@ -95,35 +95,63 @@ namespace ADExtensibilidadeJPA
                 CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal
             };
 
-            // Adicionar colunas conforme imagem de referência
+            // Adicionar colunas conforme imagem de referência atualizada
             _dgvTrabalhadores.Columns.Add("Empresa", "Empresa");
+            _dgvTrabalhadores.Columns.Add("NomeCompleto", "Nome Completo");
             _dgvTrabalhadores.Columns.Add("CategoriaFuncao", "Categoria/Função");
             _dgvTrabalhadores.Columns.Add("Contribuinte", "Contribuinte");
             _dgvTrabalhadores.Columns.Add("SegurancaSocial", "Segurança Social");
-            _dgvTrabalhadores.Columns.Add("CCidadaoNTitulo", "CC/Passaporte/T.Res./República");
-            _dgvTrabalhadores.Columns.Add("FichaMedica", "Ficha de Aptidão Médica");
-            _dgvTrabalhadores.Columns.Add("ContratoMesa", "Contrato de Mesa");
-            _dgvTrabalhadores.Columns.Add("FormacaoTrabalhador", "Trabalhador Estrangeiro");
-            _dgvTrabalhadores.Columns.Add("FormacaoInformacao", "Formação/Informação");
-            _dgvTrabalhadores.Columns.Add("EPIs", "EPIs");
+            _dgvTrabalhadores.Columns.Add("CCidadaoNTitulo", "CC/Passaporte/Título");
+            _dgvTrabalhadores.Columns.Add("CCValidade", "CC Validade");
+            _dgvTrabalhadores.Columns.Add("FichaAptidao", "Ficha de Aptidão Médica");
+            _dgvTrabalhadores.Columns.Add("FichaEPI", "Ficha de EPI");
+            _dgvTrabalhadores.Columns.Add("FichaAssociado", "Ficha de Associado");
+            _dgvTrabalhadores.Columns.Add("ContaMesa", "Conta Mesa");
+            _dgvTrabalhadores.Columns.Add("MapaSS", "Consta no Mapa SS / Inscrito?");
+            _dgvTrabalhadores.Columns.Add("TrabalhadorEstrangeiro", "Trabalhador Estrangeiro");
+            _dgvTrabalhadores.Columns.Add("VistoNumero", "Trab. Estrangeiro - Visto número");
+            _dgvTrabalhadores.Columns.Add("VistoValidade", "Trab. Estrangeiro - Visto Validade");
+            _dgvTrabalhadores.Columns.Add("ContratoACTData", "Trab. Estrangeiro - Contrato Carimb. ACT - Data");
+            _dgvTrabalhadores.Columns.Add("FormacaoSobrepresion", "Formação/Sobrepressão");
+            _dgvTrabalhadores.Columns.Add("FormacaoAcolhimentoData", "Formação/Informação Acolhimento Data");
+            _dgvTrabalhadores.Columns.Add("FormacaoEspecificaData", "Formação/Informação Específica Data");
+            _dgvTrabalhadores.Columns.Add("Contacto", "Contacto");
+            _dgvTrabalhadores.Columns.Add("ACAUDEmSr", "ACAUDEM Sr");
+            _dgvTrabalhadores.Columns.Add("TrAutoriz", "Tr. Autoriz");
+            _dgvTrabalhadores.Columns.Add("Cadastro1AvisoData", "Cadastro 1.º Aviso Data");
+            _dgvTrabalhadores.Columns.Add("Cadastro2AvisoData", "Cadastro 2.º Aviso Data");
             _dgvTrabalhadores.Columns.Add("EntradaObra", "Entrada Obra");
             _dgvTrabalhadores.Columns.Add("SaidaObra", "Saída Obra");
             _dgvTrabalhadores.Columns.Add("AutorizacaoEntrada", "Autorização de Entrada em Obra");
 
             // Configurar largura das colunas
-            _dgvTrabalhadores.Columns["Empresa"].Width = 120;
+            _dgvTrabalhadores.Columns["Empresa"].Width = 100;
+            _dgvTrabalhadores.Columns["NomeCompleto"].Width = 150;
             _dgvTrabalhadores.Columns["CategoriaFuncao"].Width = 80;
-            _dgvTrabalhadores.Columns["Contribuinte"].Width = 90;
-            _dgvTrabalhadores.Columns["SegurancaSocial"].Width = 90;
-            _dgvTrabalhadores.Columns["CCidadaoNTitulo"].Width = 130;
-            _dgvTrabalhadores.Columns["FichaMedica"].Width = 80;
-            _dgvTrabalhadores.Columns["ContratoMesa"].Width = 80;
-            _dgvTrabalhadores.Columns["FormacaoTrabalhador"].Width = 80;
-            _dgvTrabalhadores.Columns["FormacaoInformacao"].Width = 90;
-            _dgvTrabalhadores.Columns["EPIs"].Width = 60;
+            _dgvTrabalhadores.Columns["Contribuinte"].Width = 80;
+            _dgvTrabalhadores.Columns["SegurancaSocial"].Width = 80;
+            _dgvTrabalhadores.Columns["CCidadaoNTitulo"].Width = 80;
+            _dgvTrabalhadores.Columns["CCValidade"].Width = 80;
+            _dgvTrabalhadores.Columns["FichaAptidao"].Width = 80;
+            _dgvTrabalhadores.Columns["FichaEPI"].Width = 80;
+            _dgvTrabalhadores.Columns["FichaAssociado"].Width = 80;
+            _dgvTrabalhadores.Columns["ContaMesa"].Width = 80;
+            _dgvTrabalhadores.Columns["MapaSS"].Width = 100;
+            _dgvTrabalhadores.Columns["TrabalhadorEstrangeiro"].Width = 80;
+            _dgvTrabalhadores.Columns["VistoNumero"].Width = 80;
+            _dgvTrabalhadores.Columns["VistoValidade"].Width = 80;
+            _dgvTrabalhadores.Columns["ContratoACTData"].Width = 100;
+            _dgvTrabalhadores.Columns["FormacaoSobrepresion"].Width = 80;
+            _dgvTrabalhadores.Columns["FormacaoAcolhimentoData"].Width = 100;
+            _dgvTrabalhadores.Columns["FormacaoEspecificaData"].Width = 100;
+            _dgvTrabalhadores.Columns["Contacto"].Width = 80;
+            _dgvTrabalhadores.Columns["ACAUDEmSr"].Width = 80;
+            _dgvTrabalhadores.Columns["TrAutoriz"].Width = 80;
+            _dgvTrabalhadores.Columns["Cadastro1AvisoData"].Width = 80;
+            _dgvTrabalhadores.Columns["Cadastro2AvisoData"].Width = 80;
             _dgvTrabalhadores.Columns["EntradaObra"].Width = 80;
             _dgvTrabalhadores.Columns["SaidaObra"].Width = 80;
-            _dgvTrabalhadores.Columns["AutorizacaoEntrada"].Width = 120;
+            _dgvTrabalhadores.Columns["AutorizacaoEntrada"].Width = 110;
 
             // Adicionar botões de ação
             DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn
@@ -174,12 +202,13 @@ namespace ADExtensibilidadeJPA
             _panelFormulario = new Panel
             {
                 Name = "panelFormulario",
-                Size = new Size(680, 340),
+                Size = new Size(_tabPage.Width - 20, 440),
                 Location = new Point(8, 290),
                 Visible = false,
                 BackColor = System.Drawing.Color.White,
                 BorderStyle = BorderStyle.FixedSingle,
-                AutoScroll = true,
+                AutoScroll = false, // Desativamos aqui porque o contentPanel terá o scroll
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
             };
 
             // Barra de título
@@ -200,20 +229,25 @@ namespace ADExtensibilidadeJPA
             titleBar.Controls.Add(titleLabel);
             _panelFormulario.Controls.Add(titleBar);
 
-            // Área de conteúdo
+            // Área de conteúdo com suporte a scroll horizontal e vertical
             Panel contentPanel = new Panel
             {
                 Dock = DockStyle.Fill,
-                Padding = new Padding(15)
+                Padding = new Padding(15),
+                AutoScroll = true,
+                Width = 1200, // Definir uma largura maior para garantir que todos os campos sejam visíveis com scroll
+                MinimumSize = new Size(1200, 0),
+                AutoScrollMargin = new Size(20, 20),
+                AutoScrollMinSize = new Size(1200, 600) // Garante dimensões mínimas para ativar o scroll
             };
             _panelFormulario.Controls.Add(contentPanel);
 
             // Primeira coluna - Dados básicos
             int yPos = 50;
             int labelWidth = 130;
-            int controlWidth = 180;
+            int controlWidth = 150;
             int controlHeight = 25;
-            int spacing = 30;
+            int spacing = 28;
 
             // Empresa
             Label lblEmpresa = new Label
@@ -227,6 +261,25 @@ namespace ADExtensibilidadeJPA
             TextBox txtEmpresa = new TextBox
             {
                 Name = "txtEmpresa",
+                Location = new Point(labelWidth + 10, yPos),
+                Width = controlWidth,
+                Height = controlHeight - 5,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // Nome Completo
+            Label lblNomeCompleto = new Label
+            {
+                Text = "Nome Completo:",
+                Location = new Point(10, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            TextBox txtNomeCompleto = new TextBox
+            {
+                Name = "txtNomeCompleto",
                 Location = new Point(labelWidth + 10, yPos),
                 Width = controlWidth,
                 Height = controlHeight - 5,
@@ -310,51 +363,138 @@ namespace ADExtensibilidadeJPA
             };
             yPos += spacing;
 
-            // Ficha Médica
-            Label lblFichaMedica = new Label
+            // CC Validade
+            Label lblCCValidade = new Label
             {
-                Text = "Ficha Médica:",
+                Text = "CC Validade:",
                 Location = new Point(10, yPos),
                 Size = new Size(labelWidth, controlHeight),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Calibri", 9F)
             };
-            ComboBox cmbFichaMedica = new ComboBox
+            DateTimePicker dtpCCValidade = new DateTimePicker
             {
-                Name = "cmbFichaMedica",
+                Name = "dtpCCValidade",
+                Location = new Point(labelWidth + 10, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                Format = DateTimePickerFormat.Short,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // Ficha de Aptidão
+            Label lblFichaAptidao = new Label
+            {
+                Text = "Ficha Aptidão:",
+                Location = new Point(10, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            ComboBox cmbFichaAptidao = new ComboBox
+            {
+                Name = "cmbFichaAptidao",
                 Location = new Point(labelWidth + 10, yPos),
                 Width = controlWidth,
                 Height = controlHeight,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Font = new Font("Calibri", 9F)
             };
-            cmbFichaMedica.Items.AddRange(new object[] { "C", "N/C", "N/A" });
-            cmbFichaMedica.SelectedIndex = 0;
+            cmbFichaAptidao.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbFichaAptidao.SelectedIndex = 0;
+            yPos += spacing;
+
+            // Ficha de EPI
+            Label lblFichaEPI = new Label
+            {
+                Text = "Ficha de EPI:",
+                Location = new Point(10, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            ComboBox cmbFichaEPI = new ComboBox
+            {
+                Name = "cmbFichaEPI",
+                Location = new Point(labelWidth + 10, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Calibri", 9F)
+            };
+            cmbFichaEPI.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbFichaEPI.SelectedIndex = 0;
+            yPos += spacing;
 
             // Segunda coluna
             yPos = 50;
-            int col2X = 340;
+            int col2X = 320;
 
-            // Contrato Mesa
-            Label lblContratoMesa = new Label
+            // Ficha de Associado
+            Label lblFichaAssociado = new Label
             {
-                Text = "Contrato Mesa:",
+                Text = "Ficha Associado:",
                 Location = new Point(col2X, yPos),
                 Size = new Size(labelWidth, controlHeight),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Calibri", 9F)
             };
-            ComboBox cmbContratoMesa = new ComboBox
+            ComboBox cmbFichaAssociado = new ComboBox
             {
-                Name = "cmbContratoMesa",
+                Name = "cmbFichaAssociado",
                 Location = new Point(col2X + labelWidth, yPos),
                 Width = controlWidth,
                 Height = controlHeight,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Font = new Font("Calibri", 9F)
             };
-            cmbContratoMesa.Items.AddRange(new object[] { "C", "N/C", "N/A" });
-            cmbContratoMesa.SelectedIndex = 0;
+            cmbFichaAssociado.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbFichaAssociado.SelectedIndex = 0;
+            yPos += spacing;
+
+            // Conta Mesa
+            Label lblContaMesa = new Label
+            {
+                Text = "Conta Mesa:",
+                Location = new Point(col2X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            ComboBox cmbContaMesa = new ComboBox
+            {
+                Name = "cmbContaMesa",
+                Location = new Point(col2X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Calibri", 9F)
+            };
+            cmbContaMesa.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbContaMesa.SelectedIndex = 0;
+            yPos += spacing;
+
+            // Mapa SS
+            Label lblMapaSS = new Label
+            {
+                Text = "Mapa SS/Inscrito:",
+                Location = new Point(col2X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            ComboBox cmbMapaSS = new ComboBox
+            {
+                Name = "cmbMapaSS",
+                Location = new Point(col2X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Calibri", 9F)
+            };
+            cmbMapaSS.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbMapaSS.SelectedIndex = 0;
             yPos += spacing;
 
             // Trabalhador Estrangeiro
@@ -379,55 +519,239 @@ namespace ADExtensibilidadeJPA
             cmbTrabEstrangeiro.SelectedIndex = 0;
             yPos += spacing;
 
-            // Formação/Informação
-            Label lblFormacaoInfo = new Label
+            // Visto Número
+            Label lblVistoNumero = new Label
             {
-                Text = "Formação/Info:",
+                Text = "Visto Número:",
                 Location = new Point(col2X, yPos),
                 Size = new Size(labelWidth, controlHeight),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Calibri", 9F)
             };
-            ComboBox cmbFormacaoInfo = new ComboBox
+            TextBox txtVistoNumero = new TextBox
             {
-                Name = "cmbFormacaoInfo",
+                Name = "txtVistoNumero",
                 Location = new Point(col2X + labelWidth, yPos),
                 Width = controlWidth,
-                Height = controlHeight,
-                DropDownStyle = ComboBoxStyle.DropDownList,
+                Height = controlHeight - 5,
                 Font = new Font("Calibri", 9F)
             };
-            cmbFormacaoInfo.Items.AddRange(new object[] { "C", "N/C", "N/A" });
-            cmbFormacaoInfo.SelectedIndex = 0;
             yPos += spacing;
 
-            // EPIs
-            Label lblEPIs = new Label
+            // Visto Validade
+            Label lblVistoValidade = new Label
             {
-                Text = "EPIs:",
+                Text = "Visto Validade:",
                 Location = new Point(col2X, yPos),
                 Size = new Size(labelWidth, controlHeight),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Calibri", 9F)
             };
-            ComboBox cmbEPIs = new ComboBox
+            DateTimePicker dtpVistoValidade = new DateTimePicker
             {
-                Name = "cmbEPIs",
+                Name = "dtpVistoValidade",
+                Location = new Point(col2X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                Format = DateTimePickerFormat.Short,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // Contrato ACT Data
+            Label lblContratoACTData = new Label
+            {
+                Text = "Contrato ACT Data:",
+                Location = new Point(col2X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            DateTimePicker dtpContratoACTData = new DateTimePicker
+            {
+                Name = "dtpContratoACTData",
+                Location = new Point(col2X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                Format = DateTimePickerFormat.Short,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // Formação/Sobrepressão
+            Label lblFormacaoSobrepresion = new Label
+            {
+                Text = "Formação/Sobrep.:",
+                Location = new Point(col2X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            ComboBox cmbFormacaoSobrepresion = new ComboBox
+            {
+                Name = "cmbFormacaoSobrepresion",
                 Location = new Point(col2X + labelWidth, yPos),
                 Width = controlWidth,
                 Height = controlHeight,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Font = new Font("Calibri", 9F)
             };
-            cmbEPIs.Items.AddRange(new object[] { "C", "N/C", "N/A" });
-            cmbEPIs.SelectedIndex = 0;
+            cmbFormacaoSobrepresion.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbFormacaoSobrepresion.SelectedIndex = 0;
+            yPos += spacing;
+
+            // Terceira coluna
+            yPos = 50;
+            int col3X = 600;
+
+            // Formação Acolhimento Data
+            Label lblFormacaoAcolhimentoData = new Label
+            {
+                Text = "Form. Acolh. Data:",
+                Location = new Point(col3X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            DateTimePicker dtpFormacaoAcolhimentoData = new DateTimePicker
+            {
+                Name = "dtpFormacaoAcolhimentoData",
+                Location = new Point(col3X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                Format = DateTimePickerFormat.Short,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // Formação Específica Data
+            Label lblFormacaoEspecificaData = new Label
+            {
+                Text = "Form. Espec. Data:",
+                Location = new Point(col3X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            DateTimePicker dtpFormacaoEspecificaData = new DateTimePicker
+            {
+                Name = "dtpFormacaoEspecificaData",
+                Location = new Point(col3X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                Format = DateTimePickerFormat.Short,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // Contacto
+            Label lblContacto = new Label
+            {
+                Text = "Contacto:",
+                Location = new Point(col3X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            TextBox txtContacto = new TextBox
+            {
+                Name = "txtContacto",
+                Location = new Point(col3X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight - 5,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // ACAUDEM Sr
+            Label lblACAUDEmSr = new Label
+            {
+                Text = "ACAUDEM Sr:",
+                Location = new Point(col3X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            ComboBox cmbACAUDEmSr = new ComboBox
+            {
+                Name = "cmbACAUDEmSr",
+                Location = new Point(col3X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Calibri", 9F)
+            };
+            cmbACAUDEmSr.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbACAUDEmSr.SelectedIndex = 0;
+            yPos += spacing;
+
+            // Tr. Autoriz
+            Label lblTrAutoriz = new Label
+            {
+                Text = "Tr. Autoriz:",
+                Location = new Point(col3X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            ComboBox cmbTrAutoriz = new ComboBox
+            {
+                Name = "cmbTrAutoriz",
+                Location = new Point(col3X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font = new Font("Calibri", 9F)
+            };
+            cmbTrAutoriz.Items.AddRange(new object[] { "C", "N/C", "N/A" });
+            cmbTrAutoriz.SelectedIndex = 0;
+            yPos += spacing;
+
+            // Cadastro 1º Aviso Data
+            Label lblCadastro1AvisoData = new Label
+            {
+                Text = "Cadastro 1º Aviso:",
+                Location = new Point(col3X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            DateTimePicker dtpCadastro1AvisoData = new DateTimePicker
+            {
+                Name = "dtpCadastro1AvisoData",
+                Location = new Point(col3X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                Format = DateTimePickerFormat.Short,
+                Font = new Font("Calibri", 9F)
+            };
+            yPos += spacing;
+
+            // Cadastro 2º Aviso Data
+            Label lblCadastro2AvisoData = new Label
+            {
+                Text = "Cadastro 2º Aviso:",
+                Location = new Point(col3X, yPos),
+                Size = new Size(labelWidth, controlHeight),
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Calibri", 9F)
+            };
+            DateTimePicker dtpCadastro2AvisoData = new DateTimePicker
+            {
+                Name = "dtpCadastro2AvisoData",
+                Location = new Point(col3X + labelWidth, yPos),
+                Width = controlWidth,
+                Height = controlHeight,
+                Format = DateTimePickerFormat.Short,
+                Font = new Font("Calibri", 9F)
+            };
             yPos += spacing;
 
             // Entrada Obra
             Label lblEntrada = new Label
             {
                 Text = "Entrada Obra:",
-                Location = new Point(col2X, yPos),
+                Location = new Point(col3X, yPos),
                 Size = new Size(labelWidth, controlHeight),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Calibri", 9F)
@@ -435,7 +759,7 @@ namespace ADExtensibilidadeJPA
             DateTimePicker dtpEntrada = new DateTimePicker
             {
                 Name = "dtpEntrada",
-                Location = new Point(col2X + labelWidth, yPos),
+                Location = new Point(col3X + labelWidth, yPos),
                 Width = controlWidth,
                 Height = controlHeight,
                 Format = DateTimePickerFormat.Short,
@@ -447,7 +771,7 @@ namespace ADExtensibilidadeJPA
             Label lblSaida = new Label
             {
                 Text = "Saída Obra:",
-                Location = new Point(col2X, yPos),
+                Location = new Point(col3X, yPos),
                 Size = new Size(labelWidth, controlHeight),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Calibri", 9F)
@@ -455,19 +779,21 @@ namespace ADExtensibilidadeJPA
             DateTimePicker dtpSaida = new DateTimePicker
             {
                 Name = "dtpSaida",
-                Location = new Point(col2X + labelWidth, yPos),
+                Location = new Point(col3X + labelWidth, yPos),
                 Width = controlWidth,
                 Height = controlHeight,
                 Format = DateTimePickerFormat.Short,
                 Font = new Font("Calibri", 9F)
             };
+            yPos += spacing;
 
             // Autorização de Entrada
             CheckBox chkAutorizado = new CheckBox
             {
                 Text = "Autorização de Entrada em Obra",
                 Name = "chkAutorizado",
-                Location = new Point(10, 260),
+                Location = new Point(10, yPos),
+                Size = new Size(controlWidth + labelWidth, controlHeight),
                 Font = new Font("Calibri", 9.5F),
                 AutoSize = true
             };
@@ -513,15 +839,29 @@ namespace ADExtensibilidadeJPA
             // Adicionar todos os controles ao painel de conteúdo
             contentPanel.Controls.AddRange(new Control[] {
                 lblEmpresa, txtEmpresa,
+                lblNomeCompleto, txtNomeCompleto,
                 lblFuncao, txtFuncao,
                 lblContribuinte, txtContribuinte,
                 lblSegurancaSocial, txtSegurancaSocial,
                 lblCCidadao, txtCCidadao,
-                lblFichaMedica, cmbFichaMedica,
-                lblContratoMesa, cmbContratoMesa,
+                lblCCValidade, dtpCCValidade,
+                lblFichaAptidao, cmbFichaAptidao,
+                lblFichaEPI, cmbFichaEPI,
+                lblFichaAssociado, cmbFichaAssociado,
+                lblContaMesa, cmbContaMesa,
+                lblMapaSS, cmbMapaSS,
                 lblTrabEstrangeiro, cmbTrabEstrangeiro,
-                lblFormacaoInfo, cmbFormacaoInfo,
-                lblEPIs, cmbEPIs,
+                lblVistoNumero, txtVistoNumero,
+                lblVistoValidade, dtpVistoValidade,
+                lblContratoACTData, dtpContratoACTData,
+                lblFormacaoSobrepresion, cmbFormacaoSobrepresion,
+                lblFormacaoAcolhimentoData, dtpFormacaoAcolhimentoData,
+                lblFormacaoEspecificaData, dtpFormacaoEspecificaData,
+                lblContacto, txtContacto,
+                lblACAUDEmSr, cmbACAUDEmSr,
+                lblTrAutoriz, cmbTrAutoriz,
+                lblCadastro1AvisoData, dtpCadastro1AvisoData,
+                lblCadastro2AvisoData, dtpCadastro2AvisoData,
                 lblEntrada, dtpEntrada,
                 lblSaida, dtpSaida,
                 chkAutorizado
@@ -537,15 +877,29 @@ namespace ADExtensibilidadeJPA
 
             // Obter referências para todos os controles
             TextBox txtEmpresa = contentPanel.Controls["txtEmpresa"] as TextBox;
+            TextBox txtNomeCompleto = contentPanel.Controls["txtNomeCompleto"] as TextBox;
             TextBox txtFuncao = contentPanel.Controls["txtFuncao"] as TextBox;
             TextBox txtContribuinte = contentPanel.Controls["txtContribuinte"] as TextBox;
             TextBox txtSegurancaSocial = contentPanel.Controls["txtSegurancaSocial"] as TextBox;
             TextBox txtCCidadao = contentPanel.Controls["txtCCidadao"] as TextBox;
-            ComboBox cmbFichaMedica = contentPanel.Controls["cmbFichaMedica"] as ComboBox;
-            ComboBox cmbContratoMesa = contentPanel.Controls["cmbContratoMesa"] as ComboBox;
+            DateTimePicker dtpCCValidade = contentPanel.Controls["dtpCCValidade"] as DateTimePicker;
+            ComboBox cmbFichaAptidao = contentPanel.Controls["cmbFichaAptidao"] as ComboBox;
+            ComboBox cmbFichaEPI = contentPanel.Controls["cmbFichaEPI"] as ComboBox;
+            ComboBox cmbFichaAssociado = contentPanel.Controls["cmbFichaAssociado"] as ComboBox;
+            ComboBox cmbContaMesa = contentPanel.Controls["cmbContaMesa"] as ComboBox;
+            ComboBox cmbMapaSS = contentPanel.Controls["cmbMapaSS"] as ComboBox;
             ComboBox cmbTrabEstrangeiro = contentPanel.Controls["cmbTrabEstrangeiro"] as ComboBox;
-            ComboBox cmbFormacaoInfo = contentPanel.Controls["cmbFormacaoInfo"] as ComboBox;
-            ComboBox cmbEPIs = contentPanel.Controls["cmbEPIs"] as ComboBox;
+            TextBox txtVistoNumero = contentPanel.Controls["txtVistoNumero"] as TextBox;
+            DateTimePicker dtpVistoValidade = contentPanel.Controls["dtpVistoValidade"] as DateTimePicker;
+            DateTimePicker dtpContratoACTData = contentPanel.Controls["dtpContratoACTData"] as DateTimePicker;
+            ComboBox cmbFormacaoSobrepresion = contentPanel.Controls["cmbFormacaoSobrepresion"] as ComboBox;
+            DateTimePicker dtpFormacaoAcolhimentoData = contentPanel.Controls["dtpFormacaoAcolhimentoData"] as DateTimePicker;
+            DateTimePicker dtpFormacaoEspecificaData = contentPanel.Controls["dtpFormacaoEspecificaData"] as DateTimePicker;
+            TextBox txtContacto = contentPanel.Controls["txtContacto"] as TextBox;
+            ComboBox cmbACAUDEmSr = contentPanel.Controls["cmbACAUDEmSr"] as ComboBox;
+            ComboBox cmbTrAutoriz = contentPanel.Controls["cmbTrAutoriz"] as ComboBox;
+            DateTimePicker dtpCadastro1AvisoData = contentPanel.Controls["dtpCadastro1AvisoData"] as DateTimePicker;
+            DateTimePicker dtpCadastro2AvisoData = contentPanel.Controls["dtpCadastro2AvisoData"] as DateTimePicker;
             DateTimePicker dtpEntrada = contentPanel.Controls["dtpEntrada"] as DateTimePicker;
             DateTimePicker dtpSaida = contentPanel.Controls["dtpSaida"] as DateTimePicker;
             CheckBox chkAutorizado = contentPanel.Controls["chkAutorizado"] as CheckBox;
@@ -554,15 +908,29 @@ namespace ADExtensibilidadeJPA
             DataGridViewRow row = new DataGridViewRow();
             _dgvTrabalhadores.Rows.Add(
                 txtEmpresa.Text,
+                txtNomeCompleto.Text,
                 txtFuncao.Text,
                 txtContribuinte.Text,
                 txtSegurancaSocial.Text,
                 txtCCidadao.Text,
-                cmbFichaMedica.Text,
-                cmbContratoMesa.Text,
+                dtpCCValidade.Value.ToShortDateString(),
+                cmbFichaAptidao.Text,
+                cmbFichaEPI.Text,
+                cmbFichaAssociado.Text,
+                cmbContaMesa.Text,
+                cmbMapaSS.Text,
                 cmbTrabEstrangeiro.Text,
-                cmbFormacaoInfo.Text,
-                cmbEPIs.Text,
+                txtVistoNumero.Text,
+                dtpVistoValidade.Value.ToShortDateString(),
+                dtpContratoACTData.Value.ToShortDateString(),
+                cmbFormacaoSobrepresion.Text,
+                dtpFormacaoAcolhimentoData.Value.ToShortDateString(),
+                dtpFormacaoEspecificaData.Value.ToShortDateString(),
+                txtContacto.Text,
+                cmbACAUDEmSr.Text,
+                cmbTrAutoriz.Text,
+                dtpCadastro1AvisoData.Value.ToShortDateString(),
+                dtpCadastro2AvisoData.Value.ToShortDateString(),
                 dtpEntrada.Value.ToShortDateString(),
                 dtpSaida.Value.ToShortDateString(),
                 chkAutorizado.Checked ? "Sim" : "Não"
@@ -598,34 +966,105 @@ namespace ADExtensibilidadeJPA
 
                     // Obter referências para todos os controles
                     TextBox txtEmpresa = contentPanel.Controls["txtEmpresa"] as TextBox;
+                    TextBox txtNomeCompleto = contentPanel.Controls["txtNomeCompleto"] as TextBox;
                     TextBox txtFuncao = contentPanel.Controls["txtFuncao"] as TextBox;
                     TextBox txtContribuinte = contentPanel.Controls["txtContribuinte"] as TextBox;
                     TextBox txtSegurancaSocial = contentPanel.Controls["txtSegurancaSocial"] as TextBox;
                     TextBox txtCCidadao = contentPanel.Controls["txtCCidadao"] as TextBox;
-                    ComboBox cmbFichaMedica = contentPanel.Controls["cmbFichaMedica"] as ComboBox;
-                    ComboBox cmbContratoMesa = contentPanel.Controls["cmbContratoMesa"] as ComboBox;
+                    DateTimePicker dtpCCValidade = contentPanel.Controls["dtpCCValidade"] as DateTimePicker;
+                    ComboBox cmbFichaAptidao = contentPanel.Controls["cmbFichaAptidao"] as ComboBox;
+                    ComboBox cmbFichaEPI = contentPanel.Controls["cmbFichaEPI"] as ComboBox;
+                    ComboBox cmbFichaAssociado = contentPanel.Controls["cmbFichaAssociado"] as ComboBox;
+                    ComboBox cmbContaMesa = contentPanel.Controls["cmbContaMesa"] as ComboBox;
+                    ComboBox cmbMapaSS = contentPanel.Controls["cmbMapaSS"] as ComboBox;
                     ComboBox cmbTrabEstrangeiro = contentPanel.Controls["cmbTrabEstrangeiro"] as ComboBox;
-                    ComboBox cmbFormacaoInfo = contentPanel.Controls["cmbFormacaoInfo"] as ComboBox;
-                    ComboBox cmbEPIs = contentPanel.Controls["cmbEPIs"] as ComboBox;
+                    TextBox txtVistoNumero = contentPanel.Controls["txtVistoNumero"] as TextBox;
+                    DateTimePicker dtpVistoValidade = contentPanel.Controls["dtpVistoValidade"] as DateTimePicker;
+                    DateTimePicker dtpContratoACTData = contentPanel.Controls["dtpContratoACTData"] as DateTimePicker;
+                    ComboBox cmbFormacaoSobrepresion = contentPanel.Controls["cmbFormacaoSobrepresion"] as ComboBox;
+                    DateTimePicker dtpFormacaoAcolhimentoData = contentPanel.Controls["dtpFormacaoAcolhimentoData"] as DateTimePicker;
+                    DateTimePicker dtpFormacaoEspecificaData = contentPanel.Controls["dtpFormacaoEspecificaData"] as DateTimePicker;
+                    TextBox txtContacto = contentPanel.Controls["txtContacto"] as TextBox;
+                    ComboBox cmbACAUDEmSr = contentPanel.Controls["cmbACAUDEmSr"] as ComboBox;
+                    ComboBox cmbTrAutoriz = contentPanel.Controls["cmbTrAutoriz"] as ComboBox;
+                    DateTimePicker dtpCadastro1AvisoData = contentPanel.Controls["dtpCadastro1AvisoData"] as DateTimePicker;
+                    DateTimePicker dtpCadastro2AvisoData = contentPanel.Controls["dtpCadastro2AvisoData"] as DateTimePicker;
                     DateTimePicker dtpEntrada = contentPanel.Controls["dtpEntrada"] as DateTimePicker;
                     DateTimePicker dtpSaida = contentPanel.Controls["dtpSaida"] as DateTimePicker;
                     CheckBox chkAutorizado = contentPanel.Controls["chkAutorizado"] as CheckBox;
 
                     // Preencher formulário com os dados da linha
                     txtEmpresa.Text = dgv.Rows[e.RowIndex].Cells["Empresa"].Value?.ToString() ?? "";
+                    txtNomeCompleto.Text = dgv.Rows[e.RowIndex].Cells["NomeCompleto"].Value?.ToString() ?? "";
                     txtFuncao.Text = dgv.Rows[e.RowIndex].Cells["CategoriaFuncao"].Value?.ToString() ?? "";
                     txtContribuinte.Text = dgv.Rows[e.RowIndex].Cells["Contribuinte"].Value?.ToString() ?? "";
                     txtSegurancaSocial.Text = dgv.Rows[e.RowIndex].Cells["SegurancaSocial"].Value?.ToString() ?? "";
                     txtCCidadao.Text = dgv.Rows[e.RowIndex].Cells["CCidadaoNTitulo"].Value?.ToString() ?? "";
 
-                    // Selecionar os itens nas ComboBoxes
-                    SelectComboBoxItem(cmbFichaMedica, dgv.Rows[e.RowIndex].Cells["FichaMedica"].Value?.ToString());
-                    SelectComboBoxItem(cmbContratoMesa, dgv.Rows[e.RowIndex].Cells["ContratoMesa"].Value?.ToString());
-                    SelectComboBoxItem(cmbTrabEstrangeiro, dgv.Rows[e.RowIndex].Cells["FormacaoTrabalhador"].Value?.ToString());
-                    SelectComboBoxItem(cmbFormacaoInfo, dgv.Rows[e.RowIndex].Cells["FormacaoInformacao"].Value?.ToString());
-                    SelectComboBoxItem(cmbEPIs, dgv.Rows[e.RowIndex].Cells["EPIs"].Value?.ToString());
+                    // Configurar DateTimePicker para CC Validade
+                    string ccValidadeStr = dgv.Rows[e.RowIndex].Cells["CCValidade"].Value?.ToString();
+                    if (DateTime.TryParse(ccValidadeStr, out DateTime ccValidadeDate))
+                    {
+                        dtpCCValidade.Value = ccValidadeDate;
+                    }
 
-                    // Configurar DateTimePickers
+                    // Selecionar os itens nas ComboBoxes
+                    SelectComboBoxItem(cmbFichaAptidao, dgv.Rows[e.RowIndex].Cells["FichaAptidao"].Value?.ToString());
+                    SelectComboBoxItem(cmbFichaEPI, dgv.Rows[e.RowIndex].Cells["FichaEPI"].Value?.ToString());
+                    SelectComboBoxItem(cmbFichaAssociado, dgv.Rows[e.RowIndex].Cells["FichaAssociado"].Value?.ToString());
+                    SelectComboBoxItem(cmbContaMesa, dgv.Rows[e.RowIndex].Cells["ContaMesa"].Value?.ToString());
+                    SelectComboBoxItem(cmbMapaSS, dgv.Rows[e.RowIndex].Cells["MapaSS"].Value?.ToString());
+                    SelectComboBoxItem(cmbTrabEstrangeiro, dgv.Rows[e.RowIndex].Cells["TrabalhadorEstrangeiro"].Value?.ToString());
+
+                    // Preencher campos relacionados a trabalhador estrangeiro
+                    txtVistoNumero.Text = dgv.Rows[e.RowIndex].Cells["VistoNumero"].Value?.ToString() ?? "";
+
+                    string vistoValidadeStr = dgv.Rows[e.RowIndex].Cells["VistoValidade"].Value?.ToString();
+                    if (DateTime.TryParse(vistoValidadeStr, out DateTime vistoValidadeDate))
+                    {
+                        dtpVistoValidade.Value = vistoValidadeDate;
+                    }
+
+                    string contratoACTStr = dgv.Rows[e.RowIndex].Cells["ContratoACTData"].Value?.ToString();
+                    if (DateTime.TryParse(contratoACTStr, out DateTime contratoACTDate))
+                    {
+                        dtpContratoACTData.Value = contratoACTDate;
+                    }
+
+                    // Preencher campos de formação
+                    SelectComboBoxItem(cmbFormacaoSobrepresion, dgv.Rows[e.RowIndex].Cells["FormacaoSobrepresion"].Value?.ToString());
+
+                    string formacaoAcolhimentoStr = dgv.Rows[e.RowIndex].Cells["FormacaoAcolhimentoData"].Value?.ToString();
+                    if (DateTime.TryParse(formacaoAcolhimentoStr, out DateTime formacaoAcolhimentoDate))
+                    {
+                        dtpFormacaoAcolhimentoData.Value = formacaoAcolhimentoDate;
+                    }
+
+                    string formacaoEspecificaStr = dgv.Rows[e.RowIndex].Cells["FormacaoEspecificaData"].Value?.ToString();
+                    if (DateTime.TryParse(formacaoEspecificaStr, out DateTime formacaoEspecificaDate))
+                    {
+                        dtpFormacaoEspecificaData.Value = formacaoEspecificaDate;
+                    }
+
+                    // Outros campos
+                    txtContacto.Text = dgv.Rows[e.RowIndex].Cells["Contacto"].Value?.ToString() ?? "";
+                    SelectComboBoxItem(cmbACAUDEmSr, dgv.Rows[e.RowIndex].Cells["ACAUDEmSr"].Value?.ToString());
+                    SelectComboBoxItem(cmbTrAutoriz, dgv.Rows[e.RowIndex].Cells["TrAutoriz"].Value?.ToString());
+
+                    // Cadastro avisos
+                    string cadastro1AvisoStr = dgv.Rows[e.RowIndex].Cells["Cadastro1AvisoData"].Value?.ToString();
+                    if (DateTime.TryParse(cadastro1AvisoStr, out DateTime cadastro1AvisoDate))
+                    {
+                        dtpCadastro1AvisoData.Value = cadastro1AvisoDate;
+                    }
+
+                    string cadastro2AvisoStr = dgv.Rows[e.RowIndex].Cells["Cadastro2AvisoData"].Value?.ToString();
+                    if (DateTime.TryParse(cadastro2AvisoStr, out DateTime cadastro2AvisoDate))
+                    {
+                        dtpCadastro2AvisoData.Value = cadastro2AvisoDate;
+                    }
+
+                    // Entrada e saída obra
                     string entradaStr = dgv.Rows[e.RowIndex].Cells["EntradaObra"].Value?.ToString();
                     if (DateTime.TryParse(entradaStr, out DateTime entradaDate))
                     {

@@ -151,7 +151,7 @@ namespace ADExtensibilidadeJPA
             this.tabControl1.Location = new System.Drawing.Point(15, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(700, 740);
+            this.tabControl1.Size = new System.Drawing.Size(726, 720);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -162,7 +162,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(692, 712);
+            this.tabPage1.Size = new System.Drawing.Size(718, 648);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Empresa";
             // 
@@ -175,7 +175,7 @@ namespace ADExtensibilidadeJPA
             this.panelDadosEmpresa.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDadosEmpresa.Location = new System.Drawing.Point(3, 3);
             this.panelDadosEmpresa.Name = "panelDadosEmpresa";
-            this.panelDadosEmpresa.Size = new System.Drawing.Size(686, 450);
+            this.panelDadosEmpresa.Size = new System.Drawing.Size(712, 450);
             this.panelDadosEmpresa.TabIndex = 92;
             // 
             // groupBoxInfoBasica
@@ -680,9 +680,9 @@ namespace ADExtensibilidadeJPA
             // 
             this.panelObras.Controls.Add(this.groupBoxObras);
             this.panelObras.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelObras.Location = new System.Drawing.Point(3, 530);
+            this.panelObras.Location = new System.Drawing.Point(3, 466);
             this.panelObras.Name = "panelObras";
-            this.panelObras.Size = new System.Drawing.Size(686, 179);
+            this.panelObras.Size = new System.Drawing.Size(712, 179);
             this.panelObras.TabIndex = 93;
             // 
             // groupBoxObras
@@ -695,7 +695,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxObras.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxObras.Location = new System.Drawing.Point(0, 0);
             this.groupBoxObras.Name = "groupBoxObras";
-            this.groupBoxObras.Size = new System.Drawing.Size(686, 179);
+            this.groupBoxObras.Size = new System.Drawing.Size(712, 179);
             this.groupBoxObras.TabIndex = 0;
             this.groupBoxObras.TabStop = false;
             this.groupBoxObras.Text = "Obras";
@@ -776,7 +776,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(846, 712);
+            this.tabPage2.Size = new System.Drawing.Size(718, 692);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -789,7 +789,7 @@ namespace ADExtensibilidadeJPA
             this.BT_Salvar_Click});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(734, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(757, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -819,7 +819,7 @@ namespace ADExtensibilidadeJPA
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(734, 817);
+            this.ClientSize = new System.Drawing.Size(757, 797);
             this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);

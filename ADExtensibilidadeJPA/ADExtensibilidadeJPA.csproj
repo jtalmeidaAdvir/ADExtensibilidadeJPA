@@ -31,12 +31,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BasBE100">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\BasBE100.dll</HintPath>
+    </Reference>
+    <Reference Include="CmpBE100">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\APL\CmpBE100.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="ErpBS100">
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\APL\ErpBS100.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ErpDS100">
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
+    </Reference>
+    <Reference Include="ICmpBS100">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\APL\ICmpBS100.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Outlook.15.0.4797.1004\lib\net20\Microsoft.Office.Interop.Outlook.dll</HintPath>
@@ -66,6 +77,10 @@
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\APL\Primavera.Extensibility.Integration.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Primavera.Extensibility.Purchases">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\APL\Primavera.Extensibility.Purchases.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PriTextBoxF4100">
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\PriTextBoxF4100.dll</HintPath>
     </Reference>
@@ -90,6 +105,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compras\ComrpasEditor.cs" />
     <Compile Include="Construction\UiEditorOrcamentos.cs" />
     <Compile Include="EmpresaManager.cs" />
     <Compile Include="Menu.cs">
