@@ -226,15 +226,19 @@ namespace ADExtensibilidadeJPA
         {
             // Atualizar os itens do combobox para mostrar quais documentos já estão anexados
             UpdateDocumentComboBox();
-            panelModalDocumentos.Visible = true;
-            panelModalDocumentos.BringToFront();/*
+            panelModalDocumentos.Visible = true;/*
+            // Limpar campos
+            dtpValidade.Checked = false;
+            txtResponsavel.Text = "";
+
             // Posicionar o modal no centro do formulário
             panelModalDocumentos.Location = new Point(
                 (this.ClientSize.Width - panelModalDocumentos.Width) / 2,
                 (this.ClientSize.Height - panelModalDocumentos.Height) / 2);
 
             // Exibir o modal
-        
+            panelModalDocumentos.Visible = true;
+            panelModalDocumentos.BringToFront();
 
             // Selecionar a primeira opção por padrão
             if (cmbTipoDocumento.Items.Count > 0)
@@ -287,6 +291,18 @@ namespace ADExtensibilidadeJPA
                 return;
             }
 
+            // Validar campos
+            if (string.IsNullOrWhiteSpace(txtResponsavel.Text))
+            {
+                MessageBox.Show("Por favor, informe o responsável pelo documento.",
+                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Obter validade e responsável
+            DateTime? validade = dtpValidade.Checked ? dtpValidade.Value : (DateTime?)null;
+            string responsavel = txtResponsavel.Text.Trim();
+
             // Fechar o modal
             panelModalDocumentos.Visible = false;
 
@@ -297,37 +313,48 @@ namespace ADExtensibilidadeJPA
             if (tipoSelecionado.StartsWith("✓ ") || tipoSelecionado.StartsWith("□ "))
                 tipoSelecionado = tipoSelecionado.Substring(2);
 
+            // Atualizar os campos de validade específicos para cada tipo de documento
             switch (tipoSelecionado)
             {
                 case "Não Div. Financas":
-                    _empresaManager.AnexarDocumentoFinancas();
+                    if (validade.HasValue)
+                        TXT_NaoDivFinancas.Value = validade.Value;
+                    _empresaManager.AnexarDocumentoFinancas(responsavel);
                     break;
                 case "Não Div. Seg. Social":
-                    _empresaManager.AnexarDocumentoSegSocial();
+                    if (validade.HasValue)
+                        TXT_NaoDivSegSocial.Value = validade.Value;
+                    _empresaManager.AnexarDocumentoSegSocial(responsavel);
                     break;
                 case "Folha Pag. S.S.":
-                    _empresaManager.AnexarFolhaPag();
+                    if (validade.HasValue)
+                        TXT_FolhaPagSegSocial.Value = validade.Value;
+                    _empresaManager.AnexarFolhaPag(responsavel);
                     break;
                 case "Apólice AT":
-                    _empresaManager.AnexarDocumentoApoliceAT();
+                    if (validade.HasValue && !string.IsNullOrEmpty(TXT_ReciboApoliceAT.Text))
+                        TXT_ReciboApoliceAT.Text += $" (Val: {validade.Value:dd/MM/yyyy})";
+                    _empresaManager.AnexarDocumentoApoliceAT(responsavel);
                     break;
                 case "Apólice RC":
-                    _empresaManager.AnexarDocumentoApoliceRC();
+                    if (validade.HasValue && !string.IsNullOrEmpty(TXT_ReciboRC.Text))
+                        TXT_ReciboRC.Text += $" (Val: {validade.Value:dd/MM/yyyy})";
+                    _empresaManager.AnexarDocumentoApoliceRC(responsavel);
                     break;
                 case "Horário Trabalho":
-                    _empresaManager.AnexarHorarioTrabalho();
+                    _empresaManager.AnexarHorarioTrabalho(responsavel, validade);
                     break;
                 case "Anexo D":
-                    _empresaManager.AnexarAnexoD();
+                    _empresaManager.AnexarAnexoD(responsavel, validade);
                     break;
                 case "Dec. Trab. Emigrantes":
-                    _empresaManager.AnexarDecTrabEmigr();
+                    _empresaManager.AnexarDecTrabEmigr(responsavel, validade);
                     break;
                 case "Inscrição SS":
-                    _empresaManager.AnexarInscricaoSS();
+                    _empresaManager.AnexarInscricaoSS(responsavel, validade);
                     break;
                 case "Outro documento":
-                    _empresaManager.AnexarDocumento();
+                    _empresaManager.AnexarDocumento(responsavel, validade);
                     break;
             }
         }

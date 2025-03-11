@@ -1,5 +1,4 @@
-﻿
-using ErpBS100;
+﻿using ErpBS100;
 using StdBE100;
 using StdPlatBS100;
 using System;
@@ -647,16 +646,17 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarDocumentoFinancas()
+        public void AnexarDocumentoFinancas(string responsavel = "")
         {
             // Verifica se o caminho da pasta foi definido
-            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text) || !System.IO.Directory.Exists(_txtCaminhoPasta.Text))
             {
-                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
-                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, selecione primeiro o caminho da pasta para armazenar os anexos.",
+                    "Caminho não selecionado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            // Armazenar o responsável (poderia ser salvo em um campo adicional no banco de dados)
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
@@ -710,7 +710,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarDocumentoSegSocial()
+        public void AnexarDocumentoSegSocial(string responsavel = "")
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -773,7 +773,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarFolhaPag()
+        public void AnexarFolhaPag(string responsavel = "")
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -907,7 +907,7 @@ namespace ADExtensibilidadeJPA
         private string _caminhoDecTrabEmigr = "";
         private string _caminhoInscricaoSS = "";
 
-        public void AnexarDocumentoApoliceAT()
+        public void AnexarDocumentoApoliceAT(string responsavel = "")
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -967,7 +967,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarDocumentoApoliceRC()
+        public void AnexarDocumentoApoliceRC(string responsavel = "")
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -1027,7 +1027,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarHorarioTrabalho()
+        public void AnexarHorarioTrabalho(string responsavel = "", DateTime? validade = null)
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -1087,7 +1087,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarAnexoD()
+        public void AnexarAnexoD(string responsavel = "", DateTime? validade = null)
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -1147,7 +1147,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarDecTrabEmigr()
+        public void AnexarDecTrabEmigr(string responsavel = "", DateTime? validade = null)
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -1207,7 +1207,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        public void AnexarInscricaoSS()
+        public void AnexarInscricaoSS(string responsavel = "", DateTime? validade = null)
         {
             // Verifica se o caminho da pasta foi definido
             if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
@@ -1460,6 +1460,64 @@ namespace ADExtensibilidadeJPA
             {
                 MessageBox.Show($"Erro ao abrir a pasta: {ex.Message}",
                     "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void AnexarDocumento(string responsavel = "", DateTime? validade = null)
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Por favor, selecione primeiro uma pasta para guardar os documentos.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.Multiselect = false;
+                openFileDialog.Title = "Selecionar Documento";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string fileName = "Documento_" + _txtCodigo.Text + "_" + DateTime.Now.ToString("yyyyMMdd") +
+                                          System.IO.Path.GetExtension(sourceFile);
+                        string destFile = System.IO.Path.Combine(_txtCaminhoPasta.Text, fileName);
+
+                        // Verifica se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Exibe mensagem de sucesso
+                        MessageBox.Show("Documento anexado com sucesso!",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Atualiza a lista de documentos
+                        AtualizarListaDocumentos();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
