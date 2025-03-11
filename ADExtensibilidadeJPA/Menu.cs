@@ -224,18 +224,52 @@ namespace ADExtensibilidadeJPA
 
         private void btnAnexarDocumentoGeral_Click(object sender, EventArgs e)
         {
+            // Atualizar os itens do combobox para mostrar quais documentos já estão anexados
+            UpdateDocumentComboBox();
+            panelModalDocumentos.Visible = true;
+            panelModalDocumentos.BringToFront();/*
             // Posicionar o modal no centro do formulário
             panelModalDocumentos.Location = new Point(
                 (this.ClientSize.Width - panelModalDocumentos.Width) / 2,
                 (this.ClientSize.Height - panelModalDocumentos.Height) / 2);
 
             // Exibir o modal
-            panelModalDocumentos.Visible = true;
-            panelModalDocumentos.BringToFront();
+        
 
             // Selecionar a primeira opção por padrão
             if (cmbTipoDocumento.Items.Count > 0)
-                cmbTipoDocumento.SelectedIndex = 0;
+                cmbTipoDocumento.SelectedIndex = 0;*/
+        }
+
+        private void UpdateDocumentComboBox()
+        {
+            // Limpar os itens existentes
+            cmbTipoDocumento.Items.Clear();
+
+            // Verificar quais documentos já estão anexados
+            bool[] documentosAnexados = _empresaManager.GetDocumentosAnexados();
+
+            // Adicionar os itens com prefixo indicando status
+            cmbTipoDocumento.Items.Add(documentosAnexados[0] ? "✓ Não Div. Financas" : "□ Não Div. Financas");
+            cmbTipoDocumento.Items.Add(documentosAnexados[1] ? "✓ Não Div. Seg. Social" : "□ Não Div. Seg. Social");
+            cmbTipoDocumento.Items.Add(documentosAnexados[2] ? "✓ Folha Pag. S.S." : "□ Folha Pag. S.S.");
+            cmbTipoDocumento.Items.Add(documentosAnexados[3] ? "✓ Apólice AT" : "□ Apólice AT");
+            cmbTipoDocumento.Items.Add(documentosAnexados[4] ? "✓ Apólice RC" : "□ Apólice RC");
+            cmbTipoDocumento.Items.Add(documentosAnexados[5] ? "✓ Horário Trabalho" : "□ Horário Trabalho");
+            cmbTipoDocumento.Items.Add(documentosAnexados[6] ? "✓ Anexo D" : "□ Anexo D");
+            cmbTipoDocumento.Items.Add(documentosAnexados[7] ? "✓ Dec. Trab. Emigrantes" : "□ Dec. Trab. Emigrantes");
+            cmbTipoDocumento.Items.Add(documentosAnexados[8] ? "✓ Inscrição SS" : "□ Inscrição SS");
+            cmbTipoDocumento.Items.Add("Outro documento");
+        }
+
+        private void btnVerificarDocumentosFaltantes_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VerificarDocumentosFaltantes();
+        }
+
+        private void btnAbrirPastaAnexos_Click(object sender, EventArgs e)
+        {
+            _empresaManager.AbrirPastaAnexos();
         }
 
         private void btnCancelarAnexo_Click(object sender, EventArgs e)
@@ -258,6 +292,10 @@ namespace ADExtensibilidadeJPA
 
             // Anexar o documento de acordo com o tipo selecionado
             string tipoSelecionado = cmbTipoDocumento.SelectedItem.ToString();
+
+            // Remover o prefixo de status (✓ ou □) se estiver presente
+            if (tipoSelecionado.StartsWith("✓ ") || tipoSelecionado.StartsWith("□ "))
+                tipoSelecionado = tipoSelecionado.Substring(2);
 
             switch (tipoSelecionado)
             {
@@ -308,5 +346,10 @@ namespace ADExtensibilidadeJPA
             }
         }
         #endregion
+
+        private void btnAbrirPastaAnexos_Click_1(object sender, EventArgs e)
+        {
+            _empresaManager.AbrirPastaAnexos();
+        }
     }
 }

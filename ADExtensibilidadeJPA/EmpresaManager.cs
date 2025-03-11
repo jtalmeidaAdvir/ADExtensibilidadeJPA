@@ -1422,6 +1422,47 @@ namespace ADExtensibilidadeJPA
             }
         }
 
+        public bool[] GetDocumentosAnexados()
+        {
+            // Array para armazenar status de cada documento (true = anexado, false = não anexado)
+            bool[] documentosAnexados = new bool[9];
+
+            // Verificar cada documento
+            documentosAnexados[0] = !string.IsNullOrEmpty(_caminhoAnexoFinancas);
+            documentosAnexados[1] = !string.IsNullOrEmpty(_caminhoAnexoSegSocial);
+            documentosAnexados[2] = !string.IsNullOrEmpty(_caminhoAnexoFolhaPag);
+            documentosAnexados[3] = !string.IsNullOrEmpty(_caminhoAnexoApoliceAT);
+            documentosAnexados[4] = !string.IsNullOrEmpty(_caminhoAnexoApoliceRC);
+            documentosAnexados[5] = !string.IsNullOrEmpty(_caminhoAnexoHorarioTrabalho);
+            documentosAnexados[6] = !string.IsNullOrEmpty(_caminhoAnexoD);
+            documentosAnexados[7] = !string.IsNullOrEmpty(_caminhoDecTrabEmigr);
+            documentosAnexados[8] = !string.IsNullOrEmpty(_caminhoInscricaoSS);
+
+            return documentosAnexados;
+        }
+
+        public void AbrirPastaAnexos()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(_txtCaminhoPasta.Text) || !System.IO.Directory.Exists(_txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Pasta de anexos não definida ou não existente. Por favor, selecione uma pasta válida primeiro.",
+                    "Pasta não encontrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                // Abre a pasta no explorador de arquivos
+                System.Diagnostics.Process.Start("explorer.exe", _txtCaminhoPasta.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir a pasta: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         public void VerificarDocumentosFaltantes()
         {
             List<string> documentosFaltantes = new List<string>();
