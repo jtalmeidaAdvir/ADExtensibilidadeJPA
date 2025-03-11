@@ -126,6 +126,7 @@
     <Compile Include="QuadroControlo.Designer.cs">
       <DependentUpon>QuadroControlo.cs</DependentUpon>
     </Compile>
+    <Compile Include="TrabalhadorManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Menu.resx">

@@ -8,68 +8,39 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
+using Microsoft.Win32;
 
 namespace ADExtensibilidadeJPA
 {
     public partial class Menu : Form
     {
-        #region Properties and Fields
-        public string _ID;
-        public string IdSelecionado;
-        public ErpBS BSO { get; private set; }
-        public StdBSInterfPub PSO { get; private set; }
-
-        // Managers
+        private readonly ErpBS _BSO;
+        private readonly StdBSInterfPub _PSO;
+        private readonly string _idSelecionado;
         private EmpresaManager _empresaManager;
+        private TrabalhadorManager _trabalhadorManager;
 
-        #endregion
-
-        #region Initialization
-        public Menu(ErpBS100.ErpBS bSO, StdPlatBS100.StdBSInterfPub pSO, string idSelecionado)
+        public Menu()
         {
             InitializeComponent();
-            ConfigurarEstiloControles();
-
-            BSO = bSO;
-            PSO = pSO;
-            IdSelecionado = idSelecionado;
-
-            // Inicializar os managers
-            _empresaManager = new EmpresaManager(BSO, PSO, IdSelecionado, this);
-
-            if (IdSelecionado != "")
-            {
-                _empresaManager.CarregarDados();
-            }
         }
 
-        private void ConfigurarEstiloControles()
+        public Menu(ErpBS BSO, StdBSInterfPub PSO, string idSelecionado)
         {
-            // Configuração das cores dos controles para uma aparência mais moderna
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            InitializeComponent();
+            _BSO = BSO;
+            _PSO = PSO;
+            _idSelecionado = idSelecionado;
+            _empresaManager = new EmpresaManager(_BSO, _PSO, _idSelecionado, this);
+            _trabalhadorManager = new TrabalhadorManager(_BSO, _PSO, _idSelecionado, this);
+            ConfigurarInterface();
+            ConfigurarEventosTrabalhadores();
+        }
 
-            // Configurar estilo do DataGridView
-            dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue;
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
-
-            // Destacar botões
-            BTF4.FlatStyle = FlatStyle.Flat;
-            btnGravarObra.FlatStyle = FlatStyle.Flat;
-
-            // Configurar os botões para anexar documentos específicos
-            btnAnexoFinancas.FlatStyle = FlatStyle.Flat;
-            btnAnexoFinancas.BackColor = Color.LightBlue;
-            btnAnexoSegSocial.FlatStyle = FlatStyle.Flat;
-            btnAnexoSegSocial.BackColor = Color.LightBlue;
-
-            // Configurar painéis
-            AlertaValidadeAlvara.BackColor = Color.Red;
-
-            // Configurar valores iniciais para os DateTimePickers
-            // Se a data atual não for apropriada como valor padrão, pode definir um valor mínimo
+        private void ConfigurarInterface()
+        {
+            // Configuração da interface do usuário, especialmente para os DateTimePickers
+            // Definir valores iniciais para os DateTimePickers
             TXT_NaoDivFinancas.Value = DateTime.Today;
             TXT_NaoDivSegSocial.Value = DateTime.Today;
             TXT_FolhaPagSegSocial.Value = DateTime.Today;
@@ -86,7 +57,79 @@ namespace ADExtensibilidadeJPA
             TXT_NaoDivSegSocial.Format = DateTimePickerFormat.Short;
             TXT_FolhaPagSegSocial.Format = DateTimePickerFormat.Short;
         }
-        #endregion
+
+        private void ConfigurarEventosTrabalhadores()
+        {
+            // Configurar eventos para a aba de Trabalhadores
+
+            // Configurar evento para credenciação (habilitar/desabilitar campo de descrição)
+            CheckBox chkCredenciacao = this.Controls.Find("chkCredenciacao", true).FirstOrDefault() as CheckBox;
+            TextBox txtCredenciacao = this.Controls.Find("txtCredenciacao", true).FirstOrDefault() as TextBox;
+
+            if (chkCredenciacao != null && txtCredenciacao != null)
+            {
+                chkCredenciacao.CheckedChanged += (sender, e) => {
+                    txtCredenciacao.Enabled = chkCredenciacao.Checked;
+                };
+            }
+
+            // Configurar eventos de botões
+            Button btnAdicionarTrabalhador = this.Controls.Find("btnAdicionarTrabalhador", true).FirstOrDefault() as Button;
+            Button btnEditarTrabalhador = this.Controls.Find("btnEditarTrabalhador", true).FirstOrDefault() as Button;
+            Button btnExcluirTrabalhador = this.Controls.Find("btnExcluirTrabalhador", true).FirstOrDefault() as Button;
+            Button btnSalvarTrabalhador = this.Controls.Find("btnSalvarTrabalhador", true).FirstOrDefault() as Button;
+            Button btnAutorizarTrabalhador = this.Controls.Find("btnAutorizarTrabalhador", true).FirstOrDefault() as Button;
+
+            if (btnAdicionarTrabalhador != null)
+                btnAdicionarTrabalhador.Click += new EventHandler(btnAdicionarTrabalhador_Click);
+
+            if (btnEditarTrabalhador != null)
+                btnEditarTrabalhador.Click += new EventHandler(btnEditarTrabalhador_Click);
+
+            if (btnExcluirTrabalhador != null)
+                btnExcluirTrabalhador.Click += new EventHandler(btnExcluirTrabalhador_Click);
+
+            if (btnSalvarTrabalhador != null)
+                btnSalvarTrabalhador.Click += new EventHandler(btnSalvarTrabalhador_Click);
+
+            if (btnAutorizarTrabalhador != null)
+                btnAutorizarTrabalhador.Click += new EventHandler(btnAutorizarTrabalhador_Click);
+
+            // Configurar eventos para botões de anexos
+            Button btnAnexarFichaAptidao = this.Controls.Find("btnAnexarFichaAptidao", true).FirstOrDefault() as Button;
+            Button btnAnexarCredenciacao = this.Controls.Find("btnAnexarCredenciacao", true).FirstOrDefault() as Button;
+            Button btnAnexarFichaEPI = this.Controls.Find("btnAnexarFichaEPI", true).FirstOrDefault() as Button;
+
+            if (btnAnexarFichaAptidao != null)
+                btnAnexarFichaAptidao.Click += new EventHandler(btnAnexarFichaAptidao_Click);
+
+            if (btnAnexarCredenciacao != null)
+                btnAnexarCredenciacao.Click += new EventHandler(btnAnexarCredenciacao_Click);
+
+            if (btnAnexarFichaEPI != null)
+                btnAnexarFichaEPI.Click += new EventHandler(btnAnexarFichaEPI_Click);
+
+            // Configurar evento de seleção de trabalhador na grid
+            DataGridView gridTrabalhadores = this.Controls.Find("gridTrabalhadores", true).FirstOrDefault() as DataGridView;
+            if (gridTrabalhadores != null)
+            {
+                gridTrabalhadores.CellDoubleClick += new DataGridViewCellEventHandler(gridTrabalhadores_CellDoubleClick);
+            }
+
+            // Configurar labels para visualizar anexos
+            Label lblFichaAptidaoAnexo = this.Controls.Find("lblFichaAptidaoAnexo", true).FirstOrDefault() as Label;
+            Label lblCredenciacaoAnexo = this.Controls.Find("lblCredenciacaoAnexo", true).FirstOrDefault() as Label;
+            Label lblFichaEPIAnexo = this.Controls.Find("lblFichaEPIAnexo", true).FirstOrDefault() as Label;
+
+            if (lblFichaAptidaoAnexo != null)
+                lblFichaAptidaoAnexo.Click += new EventHandler(lblFichaAptidaoAnexo_Click);
+
+            if (lblCredenciacaoAnexo != null)
+                lblCredenciacaoAnexo.Click += new EventHandler(lblCredenciacaoAnexo_Click);
+
+            if (lblFichaEPIAnexo != null)
+                lblFichaEPIAnexo.Click += new EventHandler(lblFichaEPIAnexo_Click);
+        }
 
         #region Eventos da Interface
         // Manipuladores de eventos delegados para os managers
@@ -322,11 +365,6 @@ namespace ADExtensibilidadeJPA
             cmbTipoDocumento.Items.Add("Outro documento");
         }
 
-        private void btnVerificarDocumentosFaltantes_Click(object sender, EventArgs e)
-        {
-            _empresaManager.VerificarDocumentosFaltantes();
-        }
-
         private void btnAbrirPastaAnexos_Click(object sender, EventArgs e)
         {
             _empresaManager.AbrirPastaAnexos();
@@ -380,7 +418,7 @@ namespace ADExtensibilidadeJPA
                             TXT_NaoDivFinancas.Checked = true;
                             // Atualizar diretamente no banco de dados
                             string queryFinancas = $"UPDATE Geral_Entidade SET CDU_NaoDivFinancas = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryFinancas);
+                            _BSO.DSO.ExecuteSQL(queryFinancas);
                         }
                         _empresaManager.AnexarDocumentoFinancas();
                         break;
@@ -391,7 +429,7 @@ namespace ADExtensibilidadeJPA
                             TXT_NaoDivSegSocial.Checked = true;
                             // Atualizar diretamente no banco de dados
                             string querySegSocial = $"UPDATE Geral_Entidade SET CDU_NaoDivSegSocial = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(querySegSocial);
+                            _BSO.DSO.ExecuteSQL(querySegSocial);
                         }
                         _empresaManager.AnexarDocumentoSegSocial();
                         break;
@@ -402,7 +440,7 @@ namespace ADExtensibilidadeJPA
                             TXT_FolhaPagSegSocial.Checked = true;
                             // Atualizar diretamente no banco de dados
                             string queryFolhaPag = $"UPDATE Geral_Entidade SET CDU_FolhaPagSegSocial = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryFolhaPag);
+                            _BSO.DSO.ExecuteSQL(queryFolhaPag);
                         }
                         _empresaManager.AnexarFolhaPag();
                         break;
@@ -410,7 +448,7 @@ namespace ADExtensibilidadeJPA
                         if (validade.HasValue)
                         {
                             string queryApoliceAT = $"UPDATE Geral_Entidade SET CDU_ValidadeApoliceAT = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryApoliceAT);
+                            _BSO.DSO.ExecuteSQL(queryApoliceAT);
                         }
                         _empresaManager.AnexarDocumentoApoliceAT();
                         break;
@@ -418,7 +456,7 @@ namespace ADExtensibilidadeJPA
                         if (validade.HasValue)
                         {
                             string queryApoliceRC = $"UPDATE Geral_Entidade SET CDU_ValidadeApoliceRC = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryApoliceRC);
+                            _BSO.DSO.ExecuteSQL(queryApoliceRC);
                         }
                         _empresaManager.AnexarDocumentoApoliceRC();
                         break;
@@ -426,7 +464,7 @@ namespace ADExtensibilidadeJPA
                         if (validade.HasValue)
                         {
                             string queryHorarioTrabalho = $"UPDATE Geral_Entidade SET CDU_ValidadeHorarioTrabalho = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryHorarioTrabalho);
+                            _BSO.DSO.ExecuteSQL(queryHorarioTrabalho);
                         }
                         _empresaManager.AnexarHorarioTrabalho("", validade);
                         break;
@@ -436,7 +474,7 @@ namespace ADExtensibilidadeJPA
                             TXT_AlvaraValidade.Value = validade.Value;
                             TXT_AlvaraValidade.Checked = true;
                             string queryAlvara = $"UPDATE Geral_Entidade SET CDU_ValidadeAlvara = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryAlvara);
+                            _BSO.DSO.ExecuteSQL(queryAlvara);
                         }
                         _empresaManager.AnexarDocumento("AlvaraConstrucao", validade);
                         break;
@@ -444,7 +482,7 @@ namespace ADExtensibilidadeJPA
                         if (validade.HasValue)
                         {
                             string queryCertidaoPermanente = $"UPDATE Geral_Entidade SET CDU_ValidadeCertidaoPermanente = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryCertidaoPermanente);
+                            _BSO.DSO.ExecuteSQL(queryCertidaoPermanente);
                         }
                         _empresaManager.AnexarDocumento("CertidaoPermanente", validade);
                         break;
@@ -452,18 +490,15 @@ namespace ADExtensibilidadeJPA
                         if (validade.HasValue)
                         {
                             string queryContrato = $"UPDATE Geral_Entidade SET CDU_ValidadeContratoSubcontratacao = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryContrato);
+                            _BSO.DSO.ExecuteSQL(queryContrato);
                         }
                         _empresaManager.AnexarDocumento("ContratoSubcontratacao", validade);
                         break;
                     case "Condições particulares do seguro de acidentes de trabalho":
                         if (validade.HasValue)
                         {
-
-
-
                             string queryCondicoesAT = $"UPDATE Geral_Entidade SET CDU_ValidadeCondicoesAT = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryCondicoesAT);
+                            _BSO.DSO.ExecuteSQL(queryCondicoesAT);
                         }
                         _empresaManager.AnexarDocumento("CondicoesAT", validade);
                         break;
@@ -471,7 +506,7 @@ namespace ADExtensibilidadeJPA
                         if (validade.HasValue)
                         {
                             string queryDeclaracaoPSS = $"UPDATE Geral_Entidade SET CDU_ValidadeDeclaracaoPSS = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryDeclaracaoPSS);
+                            _BSO.DSO.ExecuteSQL(queryDeclaracaoPSS);
                         }
                         _empresaManager.AnexarDocumento("DeclaracaoPSS", validade);
                         break;
@@ -479,7 +514,7 @@ namespace ADExtensibilidadeJPA
                         if (validade.HasValue)
                         {
                             string queryDeclaracaoResponsavel = $"UPDATE Geral_Entidade SET CDU_ValidadeDeclaracaoResponsavel = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
-                            BSO.DSO.ExecuteSQL(queryDeclaracaoResponsavel);
+                            _BSO.DSO.ExecuteSQL(queryDeclaracaoResponsavel);
                         }
                         _empresaManager.AnexarDocumento("DeclaracaoResponsavel", validade);
                         break;
@@ -590,7 +625,7 @@ namespace ADExtensibilidadeJPA
                         return;
                 }
 
-                var resultado = BSO.Consulta(query);
+                var resultado = _BSO.Consulta(query);
                 if (resultado.NumLinhas() > 0)
                 {
                     resultado.Inicio();
@@ -1208,7 +1243,7 @@ namespace ADExtensibilidadeJPA
                     END;
                 ";
 
-                BSO.DSO.ExecuteSQL(queryCheckTable);
+                _BSO.DSO.ExecuteSQL(queryCheckTable);
 
                 // Criar um novo registro na tabela
                 Guid id = Guid.NewGuid();
@@ -1220,7 +1255,7 @@ namespace ADExtensibilidadeJPA
                     '{txtContratoSubempreitada.Text.Replace("'", "''")}', {(statusIndex == 0 ? 1 : 0)}, {statusIndex}, '{observacao.Replace("'", "''")}');
                 ";
 
-                BSO.DSO.ExecuteSQL(queryInsert);
+                _BSO.DSO.ExecuteSQL(queryInsert);
 
                 // Atualizar o status de autorização para a obra
                 _empresaManager.AtualizarStatusAutorizacaoObra(codigoObraSelecionada, statusIndex, observacao);
@@ -1362,5 +1397,256 @@ namespace ADExtensibilidadeJPA
             // Chamar o método original para salvar
             _empresaManager.SalvarObra();
         }
+
+        // Using the handler already defined in Menu.Designer.cs
+
+        #region Eventos da Aba Trabalhadores
+
+        private void btnAdicionarTrabalhador_Click(object sender, EventArgs e)
+        {
+            _trabalhadorManager.LimparCampos();
+        }
+
+        private void btnEditarTrabalhador_Click(object sender, EventArgs e)
+        {
+            DataGridView gridTrabalhadores = this.Controls.Find("gridTrabalhadores", true).FirstOrDefault() as DataGridView;
+
+            if (gridTrabalhadores != null && gridTrabalhadores.SelectedRows.Count > 0)
+            {
+                string idTrabalhador = gridTrabalhadores.SelectedRows[0].Tag?.ToString();
+                if (!string.IsNullOrEmpty(idTrabalhador))
+                {
+                    _trabalhadorManager.CarregarDadosTrabalhador(idTrabalhador);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecione um trabalhador na lista.", "Seleção necessária",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnExcluirTrabalhador_Click(object sender, EventArgs e)
+        {
+            DataGridView gridTrabalhadores = this.Controls.Find("gridTrabalhadores", true).FirstOrDefault() as DataGridView;
+
+            if (gridTrabalhadores != null && gridTrabalhadores.SelectedRows.Count > 0)
+            {
+                string idTrabalhador = gridTrabalhadores.SelectedRows[0].Tag?.ToString();
+                if (!string.IsNullOrEmpty(idTrabalhador))
+                {
+                    DialogResult result = MessageBox.Show(
+                        "Tem certeza que deseja excluir este trabalhador?",
+                        "Confirmar exclusão",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question,
+                        MessageBoxDefaultButton.Button2);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        _trabalhadorManager.ExcluirTrabalhador(idTrabalhador);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecione um trabalhador na lista.", "Seleção necessária",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnSalvarTrabalhador_Click(object sender, EventArgs e)
+        {
+            _trabalhadorManager.SalvarTrabalhador();
+        }
+
+        private void btnAutorizarTrabalhador_Click(object sender, EventArgs e)
+        {
+            DataGridView gridTrabalhadores = this.Controls.Find("gridTrabalhadores", true).FirstOrDefault() as DataGridView;
+            ComboBox cmbObrasTrabalhador = this.Controls.Find("cmbObrasTrabalhador", true).FirstOrDefault() as ComboBox;
+
+            if (gridTrabalhadores != null && gridTrabalhadores.SelectedRows.Count > 0 &&
+                cmbObrasTrabalhador != null && cmbObrasTrabalhador.SelectedItem != null)
+            {
+                string idTrabalhador = gridTrabalhadores.SelectedRows[0].Tag?.ToString();
+                string codigoObra = ((KeyValuePair<string, string>)cmbObrasTrabalhador.SelectedItem).Key;
+
+                // Criar formulário de autorização
+                using (Form formAutorizacao = new Form())
+                {
+                    formAutorizacao.Text = "Autorizar Trabalhador";
+                    formAutorizacao.Width = 400;
+                    formAutorizacao.Height = 250;
+                    formAutorizacao.StartPosition = FormStartPosition.CenterParent;
+                    formAutorizacao.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    formAutorizacao.MaximizeBox = false;
+                    formAutorizacao.MinimizeBox = false;
+
+                    // Adicionar controles
+                    Label lblStatus = new Label
+                    {
+                        Text = "Status:",
+                        Location = new Point(20, 20),
+                        AutoSize = true
+                    };
+                    formAutorizacao.Controls.Add(lblStatus);
+
+                    ComboBox cmbStatus = new ComboBox
+                    {
+                        DropDownStyle = ComboBoxStyle.DropDownList,
+                        Location = new Point(150, 17),
+                        Width = 200
+                    };
+                    cmbStatus.Items.AddRange(new object[] {
+                        "Autorizado",
+                        "Pendente",
+                        "Não Autorizado",
+                        "Renovação Necessária",
+                        "Documentos Faltantes"
+                    });
+                    cmbStatus.SelectedIndex = 0;
+                    formAutorizacao.Controls.Add(cmbStatus);
+
+                    Label lblObservacoes = new Label
+                    {
+                        Text = "Observações:",
+                        Location = new Point(20, 60),
+                        AutoSize = true
+                    };
+                    formAutorizacao.Controls.Add(lblObservacoes);
+
+                    TextBox txtObservacoes = new TextBox
+                    {
+                        Multiline = true,
+                        Location = new Point(20, 80),
+                        Width = 330,
+                        Height = 80
+                    };
+                    formAutorizacao.Controls.Add(txtObservacoes);
+
+                    Button btnConfirmar = new Button
+                    {
+                        Text = "Confirmar",
+                        DialogResult = DialogResult.OK,
+                        Location = new Point(120, 170),
+                        Width = 80
+                    };
+                    formAutorizacao.Controls.Add(btnConfirmar);
+
+                    Button btnCancelar = new Button
+                    {
+                        Text = "Cancelar",
+                        DialogResult = DialogResult.Cancel,
+                        Location = new Point(220, 170),
+                        Width = 80
+                    };
+                    formAutorizacao.Controls.Add(btnCancelar);
+
+                    // Mostrar formulário
+                    if (formAutorizacao.ShowDialog() == DialogResult.OK)
+                    {
+                        string status = cmbStatus.Text;
+                        string observacoes = txtObservacoes.Text;
+
+                        _trabalhadorManager.AutorizarTrabalhador(idTrabalhador, codigoObra, status, observacoes);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecione um trabalhador na lista e uma obra.", "Seleção necessária",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void gridTrabalhadores_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridView gridTrabalhadores = sender as DataGridView;
+                string idTrabalhador = gridTrabalhadores.Rows[e.RowIndex].Tag?.ToString();
+
+                if (!string.IsNullOrEmpty(idTrabalhador))
+                {
+                    _trabalhadorManager.CarregarDadosTrabalhador(idTrabalhador);
+                }
+            }
+        }
+
+        private void btnAnexarFichaAptidao_Click(object sender, EventArgs e)
+        {
+            _trabalhadorManager.AnexarFichaAptidao();
+        }
+
+        private void btnAnexarCredenciacao_Click(object sender, EventArgs e)
+        {
+            _trabalhadorManager.AnexarCredenciacao();
+        }
+
+        private void btnAnexarFichaEPI_Click(object sender, EventArgs e)
+        {
+            _trabalhadorManager.AnexarFichaEPI();
+        }
+
+        private void lblFichaAptidaoAnexo_Click(object sender, EventArgs e)
+        {
+            // Buscar o nome do arquivo no texto do label
+            Label label = sender as Label;
+            string texto = label.Text;
+
+            if (texto.Contains(":"))
+            {
+                string[] partes = texto.Split(':');
+                if (partes.Length > 1 && !string.IsNullOrEmpty(partes[1].Trim()))
+                {
+                    // O caminho do anexo já deve estar na propriedade Tag do label
+                    // Implementar o método para visualizar anexo
+                    _trabalhadorManager.VisualizarAnexo(_trabalhadorManager.CaminhoAnexoFichaAptidao);
+                }
+            }
+        }
+
+        private void lblCredenciacaoAnexo_Click(object sender, EventArgs e)
+        {
+            // Buscar o nome do arquivo no texto do label
+            Label label = sender as Label;
+            string texto = label.Text;
+
+            if (texto.Contains(":"))
+            {
+                string[] partes = texto.Split(':');
+                if (partes.Length > 1 && !string.IsNullOrEmpty(partes[1].Trim()))
+                {
+                    // O caminho do anexo já deve estar na propriedade Tag do label
+                    // Implementar o método para visualizar anexo
+                    _trabalhadorManager.VisualizarAnexo(_trabalhadorManager.CaminhoAnexoCredenciacao);
+                }
+            }
+        }
+
+        private void lblFichaEPIAnexo_Click(object sender, EventArgs e)
+        {
+            // Buscar o nome do arquivo no texto do label
+            Label label = sender as Label;
+            string texto = label.Text;
+
+            if (texto.Contains(":"))
+            {
+                string[] partes = texto.Split(':');
+                if (partes.Length > 1 && !string.IsNullOrEmpty(partes[1].Trim()))
+                {
+                    // O caminho do anexo já deve estar na propriedade Tag do label
+                    // Implementar o método para visualizar anexo
+                    _trabalhadorManager.VisualizarAnexo(_trabalhadorManager.CaminhoAnexoFichaEPI);
+                }
+            }
+        }
+
+        #endregion
+        private void btnVerificarDocumentosFaltantes_Click(object sender, EventArgs e)
+        {
+            _empresaManager.VerificarDocumentosFaltantes();
+        }
+
     }
 }

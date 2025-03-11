@@ -106,6 +106,34 @@ namespace ADExtensibilidadeJPA
         private Label lblValidade;
         private DateTimePicker dtpValidade;
         private Button btnAbrirPastaAnexos;
+        // Trabalhadores tab controls
+        private TextBox txtNomeTrabalhador;
+        private ComboBox cmbTipoDocumentoTrabalhador;
+        private TextBox txtNumDocumento;
+        private DateTimePicker dtpValidadeDocumento;
+        private TextBox txtNIF;
+        private TextBox txtNumSS;
+        private CheckBox chkFichaAptidaoMedica;
+        private CheckBox chkCredenciacao;
+        private TextBox txtCredenciacao;
+        private CheckBox chkFichaEPI;
+        private DataGridView gridTrabalhadores;
+        private ComboBox cmbObrasTrabalhador;
+        private Label lblFichaAptidaoAnexo;
+        private Label lblCredenciacaoAnexo;
+        private Label lblFichaEPIAnexo;
+        private Button btnAdicionarTrabalhador;
+        private Button btnEditarTrabalhador;
+        private Button btnExcluirTrabalhador;
+        private Button btnSalvarTrabalhador;
+        private Button btnAutorizarTrabalhador;
+        private Button btnAnexarFichaAptidao;
+        private Button btnAnexarCredenciacao;
+        private Button btnAnexarFichaEPI;
+        private Panel panelTrabalhadores;
+        private GroupBox groupBoxInfoTrabalhador;
+        private GroupBox groupBoxListaTrabalhadores;
+        private Panel panelBotoesTrabalhador;
 
 
         /// <summary>
@@ -239,6 +267,33 @@ namespace ADExtensibilidadeJPA
             this.txtObservacao = new System.Windows.Forms.TextBox();
             this.btnSalvarAutorizacao = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.panelTrabalhadores = new System.Windows.Forms.Panel();
+            this.groupBoxInfoTrabalhador = new System.Windows.Forms.GroupBox();
+            this.txtNomeTrabalhador = new System.Windows.Forms.TextBox();
+            this.cmbTipoDocumentoTrabalhador = new System.Windows.Forms.ComboBox();
+            this.txtNumDocumento = new System.Windows.Forms.TextBox();
+            this.dtpValidadeDocumento = new System.Windows.Forms.DateTimePicker();
+            this.txtNIF = new System.Windows.Forms.TextBox();
+            this.txtNumSS = new System.Windows.Forms.TextBox();
+            this.chkFichaAptidaoMedica = new System.Windows.Forms.CheckBox();
+            this.chkCredenciacao = new System.Windows.Forms.CheckBox();
+            this.txtCredenciacao = new System.Windows.Forms.TextBox();
+            this.chkFichaEPI = new System.Windows.Forms.CheckBox();
+            this.gridTrabalhadores = new System.Windows.Forms.DataGridView();
+            this.cmbObrasTrabalhador = new System.Windows.Forms.ComboBox();
+            this.lblFichaAptidaoAnexo = new System.Windows.Forms.Label();
+            this.lblCredenciacaoAnexo = new System.Windows.Forms.Label();
+            this.lblFichaEPIAnexo = new System.Windows.Forms.Label();
+            this.btnAdicionarTrabalhador = new System.Windows.Forms.Button();
+            this.btnEditarTrabalhador = new System.Windows.Forms.Button();
+            this.btnExcluirTrabalhador = new System.Windows.Forms.Button();
+            this.btnSalvarTrabalhador = new System.Windows.Forms.Button();
+            this.btnAutorizarTrabalhador = new System.Windows.Forms.Button();
+            this.btnAnexarFichaAptidao = new System.Windows.Forms.Button();
+            this.btnAnexarCredenciacao = new System.Windows.Forms.Button();
+            this.btnAnexarFichaEPI = new System.Windows.Forms.Button();
+            this.groupBoxListaTrabalhadores = new System.Windows.Forms.GroupBox();
+            this.panelBotoesTrabalhador = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
             this.lblSelecionar = new System.Windows.Forms.Label();
@@ -257,6 +312,12 @@ namespace ADExtensibilidadeJPA
             this.groupBoxObras.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.pnlAutorizacaoObra.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.panelTrabalhadores.SuspendLayout();
+            this.groupBoxInfoTrabalhador.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).BeginInit();
+            this.groupBoxListaTrabalhadores.SuspendLayout();
+            this.panelBotoesTrabalhador.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -995,7 +1056,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxApolices.Controls.Add(this.label10);
             this.groupBoxApolices.Controls.Add(this.TXT_ReciboApoliceAT);
             this.groupBoxApolices.Controls.Add(this.label4);
-            this.groupBoxApolices.Controls.Add(this.TXT_Alvara);
+            this.label4.Controls.Add(this.TXT_Alvara);
             this.groupBoxApolices.Controls.Add(this.label11);
             this.groupBoxApolices.Controls.Add(this.cb_ApoliceRC);
             this.groupBoxApolices.Controls.Add(this.label22);
@@ -1509,13 +1570,328 @@ namespace ADExtensibilidadeJPA
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.panelTrabalhadores);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(718, 717);
+            this.tabPage2.Size = new System.Drawing.Size(718, 703);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // panelTrabalhadores
+            // 
+            this.panelTrabalhadores.Controls.Add(this.groupBoxInfoTrabalhador);
+            this.panelTrabalhadores.Controls.Add(this.groupBoxListaTrabalhadores);
+            this.panelTrabalhadores.Controls.Add(this.panelBotoesTrabalhador);
+            this.panelTrabalhadores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTrabalhadores.Location = new System.Drawing.Point(3, 3);
+            this.panelTrabalhadores.Name = "panelTrabalhadores";
+            this.panelTrabalhadores.Size = new System.Drawing.Size(712, 697);
+            this.panelTrabalhadores.TabIndex = 0;
+            // 
+            // groupBoxInfoTrabalhador
+            // 
+            this.groupBoxInfoTrabalhador.Controls.Add(this.txtNomeTrabalhador);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.cmbTipoDocumentoTrabalhador);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.txtNumDocumento);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.dtpValidadeDocumento);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.txtNIF);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.txtNumSS);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.chkFichaAptidaoMedica);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.chkCredenciacao);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.txtCredenciacao);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.chkFichaEPI);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.lblFichaAptidaoAnexo);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.btnAnexarFichaAptidao);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.lblCredenciacaoAnexo);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.btnAnexarCredenciacao);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.lblFichaEPIAnexo);
+            this.groupBoxInfoTrabalhador.Controls.Add(this.btnAnexarFichaEPI);
+            this.groupBoxInfoTrabalhador.Location = new System.Drawing.Point(8, 5);
+            this.groupBoxInfoTrabalhador.Name = "groupBoxInfoTrabalhador";
+            this.groupBoxInfoTrabalhador.Size = new System.Drawing.Size(697, 200);
+            this.groupBoxInfoTrabalhador.TabIndex = 0;
+            this.groupBoxInfoTrabalhador.TabStop = false;
+            this.groupBoxInfoTrabalhador.Text = "Informações do Trabalhador";
+            // 
+            // txtNomeTrabalhador
+            // 
+            this.txtNomeTrabalhador.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtNomeTrabalhador.Location = new System.Drawing.Point(70, 27);
+            this.txtNomeTrabalhador.Name = "txtNomeTrabalhador";
+            this.txtNomeTrabalhador.Size = new System.Drawing.Size(300, 22);
+            this.txtNomeTrabalhador.TabIndex = 0;
+            // 
+            // cmbTipoDocumentoTrabalhador
+            // 
+            this.cmbTipoDocumentoTrabalhador.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTipoDocumentoTrabalhador.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cmbTipoDocumentoTrabalhador.FormattingEnabled = true;
+            this.cmbTipoDocumentoTrabalhador.Location = new System.Drawing.Point(120, 57);
+            this.cmbTipoDocumentoTrabalhador.Name = "cmbTipoDocumentoTrabalhador";
+            this.cmbTipoDocumentoTrabalhador.Size = new System.Drawing.Size(150, 22);
+            this.cmbTipoDocumentoTrabalhador.TabIndex = 1;
+            this.cmbTipoDocumentoTrabalhador.Items.AddRange(new object[] {
+            "Cartão Cidadão",
+            "Bilhete de Identidade",
+            "Passaporte",
+            "Título de Residência",
+            "Outro"});
+            // 
+            // txtNumDocumento
+            // 
+            this.txtNumDocumento.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtNumDocumento.Location = new System.Drawing.Point(340, 57);
+            this.txtNumDocumento.Name = "txtNumDocumento";
+            this.txtNumDocumento.Size = new System.Drawing.Size(150, 22);
+            this.txtNumDocumento.TabIndex = 2;
+            // 
+            // dtpValidadeDocumento
+            // 
+            this.dtpValidadeDocumento.Font = new System.Drawing.Font("Calibri", 9F);
+            this.dtpValidadeDocumento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpValidadeDocumento.Location = new System.Drawing.Point(560, 57);
+            this.dtpValidadeDocumento.Name = "dtpValidadeDocumento";
+            this.dtpValidadeDocumento.Size = new System.Drawing.Size(120, 22);
+            this.dtpValidadeDocumento.TabIndex = 3;
+            this.dtpValidadeDocumento.ShowCheckBox = true;
+            // 
+            // txtNIF
+            // 
+            this.txtNIF.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtNIF.Location = new System.Drawing.Point(70, 87);
+            this.txtNIF.Name = "txtNIF";
+            this.txtNIF.Size = new System.Drawing.Size(150, 22);
+            this.txtNIF.TabIndex = 4;
+            // 
+            // txtNumSS
+            // 
+            this.txtNumSS.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtNumSS.Location = new System.Drawing.Point(340, 87);
+            this.txtNumSS.Name = "txtNumSS";
+            this.txtNumSS.Size = new System.Drawing.Size(150, 22);
+            this.txtNumSS.TabIndex = 5;
+            // 
+            // chkFichaAptidaoMedica
+            // 
+            this.chkFichaAptidaoMedica.AutoSize = true;
+            this.chkFichaAptidaoMedica.Font = new System.Drawing.Font("Calibri", 9F);
+            this.chkFichaAptidaoMedica.Location = new System.Drawing.Point(20, 120);
+            this.chkFichaAptidaoMedica.Name = "chkFichaAptidaoMedica";
+            this.chkFichaAptidaoMedica.Size = new System.Drawing.Size(160, 18);
+            this.chkFichaAptidaoMedica.TabIndex = 6;
+            this.chkFichaAptidaoMedica.Text = "Ficha de Aptidão Médica";
+            this.chkFichaAptidaoMedica.UseVisualStyleBackColor = true;
+            // 
+            // chkCredenciacao
+            // 
+            this.chkCredenciacao.AutoSize = true;
+            this.chkCredenciacao.Font = new System.Drawing.Font("Calibri", 9F);
+            this.chkCredenciacao.Location = new System.Drawing.Point(20, 150);
+            this.chkCredenciacao.Name = "chkCredenciacao";
+            this.chkCredenciacao.Size = new System.Drawing.Size(98, 18);
+            this.chkCredenciacao.TabIndex = 7;
+            this.chkCredenciacao.Text = "Credenciação";
+            this.chkCredenciacao.UseVisualStyleBackColor = true;
+            // 
+            // txtCredenciacao
+            // 
+            this.txtCredenciacao.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtCredenciacao.Location = new System.Drawing.Point(120, 148);
+            this.txtCredenciacao.Name = "txtCredenciacao";
+            this.txtCredenciacao.Size = new System.Drawing.Size(180, 22);
+            this.txtCredenciacao.TabIndex = 8;
+            this.txtCredenciacao.Enabled = false;
+            // 
+            // chkFichaEPI
+            // 
+            this.chkFichaEPI.AutoSize = true;
+            this.chkFichaEPI.Font = new System.Drawing.Font("Calibri", 9F);
+            this.chkFichaEPI.Location = new System.Drawing.Point(20, 180);
+            this.chkFichaEPI.Name = "chkFichaEPI";
+            this.chkFichaEPI.Size = new System.Drawing.Size(167, 18);
+            this.chkFichaEPI.TabIndex = 9;
+            this.chkFichaEPI.Text = "Ficha de Distribuição de EPI";
+            this.chkFichaEPI.UseVisualStyleBackColor = true;
+            // 
+            // gridTrabalhadores
+            // 
+            this.gridTrabalhadores.AllowUserToAddRows = false;
+            this.gridTrabalhadores.AllowUserToDeleteRows = false;
+            this.gridTrabalhadores.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.gridTrabalhadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridTrabalhadores.Location = new System.Drawing.Point(10, 25);
+            this.gridTrabalhadores.Name = "gridTrabalhadores";
+            this.gridTrabalhadores.ReadOnly = true;
+            this.gridTrabalhadores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridTrabalhadores.Size = new System.Drawing.Size(677, 180);
+            this.gridTrabalhadores.TabIndex = 0;
+            // 
+            // cmbObrasTrabalhador
+            // 
+            this.cmbObrasTrabalhador.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbObrasTrabalhador.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cmbObrasTrabalhador.FormattingEnabled = true;
+            this.cmbObrasTrabalhador.Location = new System.Drawing.Point(120, 212);
+            this.cmbObrasTrabalhador.Name = "cmbObrasTrabalhador";
+            this.cmbObrasTrabalhador.Size = new System.Drawing.Size(400, 22);
+            this.cmbObrasTrabalhador.TabIndex = 10;
+            // 
+            // lblFichaAptidaoAnexo
+            // 
+            this.lblFichaAptidaoAnexo.AutoSize = true;
+            this.lblFichaAptidaoAnexo.Font = new System.Drawing.Font("Calibri", 8F);
+            this.lblFichaAptidaoAnexo.Location = new System.Drawing.Point(370, 121);
+            this.lblFichaAptidaoAnexo.Name = "lblFichaAptidaoAnexo";
+            this.lblFichaAptidaoAnexo.Size = new System.Drawing.Size(200, 13);
+            this.lblFichaAptidaoAnexo.TabIndex = 11;
+            this.lblFichaAptidaoAnexo.Text = "Ficha de Aptidão Médica:";
+            this.lblFichaAptidaoAnexo.ForeColor = System.Drawing.Color.Blue;
+            this.lblFichaAptidaoAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
+            // 
+            // btnAnexarFichaAptidao
+            // 
+            this.btnAnexarFichaAptidao.BackColor = System.Drawing.Color.LightBlue;
+            this.btnAnexarFichaAptidao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnexarFichaAptidao.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnAnexarFichaAptidao.Location = new System.Drawing.Point(320, 119);
+            this.btnAnexarFichaAptidao.Name = "btnAnexarFichaAptidao";
+            this.btnAnexarFichaAptidao.Size = new System.Drawing.Size(40, 22);
+            this.btnAnexarFichaAptidao.TabIndex = 12;
+            this.btnAnexarFichaAptidao.Text = "...";
+            this.btnAnexarFichaAptidao.UseVisualStyleBackColor = false;
+            // 
+            // lblCredenciacaoAnexo
+            // 
+            this.lblCredenciacaoAnexo.AutoSize = true;
+            this.lblCredenciacaoAnexo.Font = new System.Drawing.Font("Calibri", 8F);
+            this.lblCredenciacaoAnexo.Location = new System.Drawing.Point(370, 151);
+            this.lblCredenciacaoAnexo.Name = "lblCredenciacaoAnexo";
+            this.lblCredenciacaoAnexo.Size = new System.Drawing.Size(100, 13);
+            this.lblCredenciacaoAnexo.TabIndex = 13;
+            this.lblCredenciacaoAnexo.Text = "Credenciação:";
+            this.lblCredenciacaoAnexo.ForeColor = System.Drawing.Color.Blue;
+            this.lblCredenciacaoAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
+            // 
+            // btnAnexarCredenciacao
+            // 
+            this.btnAnexarCredenciacao.BackColor = System.Drawing.Color.LightBlue;
+            this.btnAnexarCredenciacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnexarCredenciacao.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnAnexarCredenciacao.Location = new System.Drawing.Point(320, 149);
+            this.btnAnexarCredenciacao.Name = "btnAnexarCredenciacao";
+            this.btnAnexarCredenciacao.Size = new System.Drawing.Size(40, 22);
+            this.btnAnexarCredenciacao.TabIndex = 14;
+            this.btnAnexarCredenciacao.Text = "...";
+            this.btnAnexarCredenciacao.UseVisualStyleBackColor = false;
+            // 
+            // lblFichaEPIAnexo
+            // 
+            this.lblFichaEPIAnexo.AutoSize = true;
+            this.lblFichaEPIAnexo.Font = new System.Drawing.Font("Calibri", 8F);
+            this.lblFichaEPIAnexo.Location = new System.Drawing.Point(370, 181);
+            this.lblFichaEPIAnexo.Name = "lblFichaEPIAnexo";
+            this.lblFichaEPIAnexo.Size = new System.Drawing.Size(160, 13);
+            this.lblFichaEPIAnexo.TabIndex = 15;
+            this.lblFichaEPIAnexo.Text = "Ficha de Distribuição de EPI:";
+            this.lblFichaEPIAnexo.ForeColor = System.Drawing.Color.Blue;
+            this.lblFichaEPIAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
+            // 
+            // btnAnexarFichaEPI
+            // 
+            this.btnAnexarFichaEPI.BackColor = System.Drawing.Color.LightBlue;
+            this.btnAnexarFichaEPI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAnexarFichaEPI.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnAnexarFichaEPI.Location = new System.Drawing.Point(320, 179);
+            this.btnAnexarFichaEPI.Name = "btnAnexarFichaEPI";
+            this.btnAnexarFichaEPI.Size = new System.Drawing.Size(40, 22);
+            this.btnAnexarFichaEPI.TabIndex = 16;
+            this.btnAnexarFichaEPI.Text = "...";
+            this.btnAnexarFichaEPI.UseVisualStyleBackColor = false;
+            // 
+            // groupBoxListaTrabalhadores
+            // 
+            this.groupBoxListaTrabalhadores.Controls.Add(this.gridTrabalhadores);
+            this.groupBoxListaTrabalhadores.Controls.Add(this.cmbObrasTrabalhador);
+            this.groupBoxListaTrabalhadores.Location = new System.Drawing.Point(8, 210);
+            this.groupBoxListaTrabalhadores.Name = "groupBoxListaTrabalhadores";
+            this.groupBoxListaTrabalhadores.Size = new System.Drawing.Size(697, 265);
+            this.groupBoxListaTrabalhadores.TabIndex = 1;
+            this.groupBoxListaTrabalhadores.TabStop = false;
+            this.groupBoxListaTrabalhadores.Text = "Lista de Trabalhadores";
+            // 
+            // panelBotoesTrabalhador
+            // 
+            this.panelBotoesTrabalhador.Controls.Add(this.btnAdicionarTrabalhador);
+            this.panelBotoesTrabalhador.Controls.Add(this.btnEditarTrabalhador);
+            this.panelBotoesTrabalhador.Controls.Add(this.btnExcluirTrabalhador);
+            this.panelBotoesTrabalhador.Controls.Add(this.btnSalvarTrabalhador);
+            this.panelBotoesTrabalhador.Controls.Add(this.btnAutorizarTrabalhador);
+            this.panelBotoesTrabalhador.Location = new System.Drawing.Point(8, 480);
+            this.panelBotoesTrabalhador.Name = "panelBotoesTrabalhador";
+            this.panelBotoesTrabalhador.Size = new System.Drawing.Size(697, 50);
+            this.panelBotoesTrabalhador.TabIndex = 2;
+            // 
+            // btnAdicionarTrabalhador
+            // 
+            this.btnAdicionarTrabalhador.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.btnAdicionarTrabalhador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdicionarTrabalhador.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAdicionarTrabalhador.Location = new System.Drawing.Point(10, 10);
+            this.btnAdicionarTrabalhador.Name = "btnAdicionarTrabalhador";
+            this.btnAdicionarTrabalhador.Size = new System.Drawing.Size(100, 30);
+            this.btnAdicionarTrabalhador.TabIndex = 0;
+            this.btnAdicionarTrabalhador.Text = "Adicionar";
+            this.btnAdicionarTrabalhador.UseVisualStyleBackColor = false;
+            // 
+            // btnEditarTrabalhador
+            // 
+            this.btnEditarTrabalhador.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.btnEditarTrabalhador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditarTrabalhador.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnEditarTrabalhador.Location = new System.Drawing.Point(120, 10);
+            this.btnEditarTrabalhador.Name = "btnEditarTrabalhador";
+            this.btnEditarTrabalhador.Size = new System.Drawing.Size(100, 30);
+            this.btnEditarTrabalhador.TabIndex = 1;
+            this.btnEditarTrabalhador.Text = "Editar";
+            this.btnEditarTrabalhador.UseVisualStyleBackColor = false;
+            // 
+            // btnExcluirTrabalhador
+            // 
+            this.btnExcluirTrabalhador.BackColor = System.Drawing.Color.LightCoral;
+            this.btnExcluirTrabalhador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExcluirTrabalhador.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnExcluirTrabalhador.Location = new System.Drawing.Point(230, 10);
+            this.btnExcluirTrabalhador.Name = "btnExcluirTrabalhador";
+            this.btnExcluirTrabalhador.Size = new System.Drawing.Size(100, 30);
+            this.btnExcluirTrabalhador.TabIndex = 2;
+            this.btnExcluirTrabalhador.Text = "Excluir";
+            this.btnExcluirTrabalhador.UseVisualStyleBackColor = false;
+            // 
+            // btnSalvarTrabalhador
+            // 
+            this.btnSalvarTrabalhador.BackColor = System.Drawing.Color.LightGreen;
+            this.btnSalvarTrabalhador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalvarTrabalhador.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSalvarTrabalhador.Location = new System.Drawing.Point(340, 10);
+            this.btnSalvarTrabalhador.Name = "btnSalvarTrabalhador";
+            this.btnSalvarTrabalhador.Size = new System.Drawing.Size(100, 30);
+            this.btnSalvarTrabalhador.TabIndex = 3;
+            this.btnSalvarTrabalhador.Text = "Salvar";
+            this.btnSalvarTrabalhador.UseVisualStyleBackColor = false;
+            // 
+            // btnAutorizarTrabalhador
+            // 
+            this.btnAutorizarTrabalhador.BackColor = System.Drawing.Color.PaleGoldenrod;
+            this.btnAutorizarTrabalhador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAutorizarTrabalhador.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAutorizarTrabalhador.Location = new System.Drawing.Point(450, 10);
+            this.btnAutorizarTrabalhador.Name = "btnAutorizarTrabalhador";
+            this.btnAutorizarTrabalhador.Size = new System.Drawing.Size(150, 30);
+            this.btnAutorizarTrabalhador.TabIndex = 4;
+            this.btnAutorizarTrabalhador.Text = "Autorizar para a Obra";
+            this.btnAutorizarTrabalhador.UseVisualStyleBackColor = false;
             // 
             // toolStrip1
             // 
@@ -1590,7 +1966,7 @@ namespace ADExtensibilidadeJPA
             this.Controls.Add(this.BTF4);
             this.Controls.Add(this.TXT_Nome);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+    
             this.Name = "Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestão de Subempreiteiros";
@@ -1613,6 +1989,14 @@ namespace ADExtensibilidadeJPA
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.pnlAutorizacaoObra.ResumeLayout(false);
             this.pnlAutorizacaoObra.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.panelTrabalhadores.ResumeLayout(false);
+            this.groupBoxInfoTrabalhador.ResumeLayout(false);
+            this.groupBoxInfoTrabalhador.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).EndInit();
+            this.groupBoxListaTrabalhadores.ResumeLayout(false);
+            this.groupBoxListaTrabalhadores.PerformLayout();
+            this.panelBotoesTrabalhador.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
