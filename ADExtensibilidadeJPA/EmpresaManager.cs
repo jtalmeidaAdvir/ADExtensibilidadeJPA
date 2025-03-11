@@ -429,8 +429,15 @@ namespace ADExtensibilidadeJPA
                         string entradaObra = row.Cells[0].Value.ToString();
                         string saidaObra = row.Cells[1].Value.ToString();
                         string contratoSubempreitada = row.Cells[2].Value.ToString();
-                        bool autorizacaoEntrada = Convert.ToBoolean(row.Cells[3].Value);
                         Guid id = Guid.NewGuid();
+
+                        // Obtém o valor de autorização atual
+                        bool autorizacaoEntrada = VerificarAutorizacaoObra(codigoObraSelecionada);
+
+                        // Obter status de autorização atual
+                        KeyValuePair<int, string> statusInfo = ObterStatusAutorizacaoObra(codigoObraSelecionada);
+                        int statusIndex = statusInfo.Key;
+                        string observacao = statusInfo.Value;
 
                         // Monta a query de inserção
                         string queryUpsert = $@"
@@ -443,7 +450,9 @@ namespace ADExtensibilidadeJPA
     )
     BEGIN
         UPDATE TDU_AD_Obras 
-        SET CDU_AutorizacaoEntrada = {(autorizacaoEntrada ? 1 : 0)}
+        SET CDU_AutorizacaoEntrada = {(autorizacaoEntrada ? 1 : 0)},
+            CDU_StatusAutorizacao = {statusIndex},
+            CDU_ObservacaoAutorizacao = '{observacao.Replace("'", "''")}'
         WHERE CDU_Obra = '{codigoObraSelecionada}' 
         AND CDU_EntradaObra = '{entradaObra}'
         AND CDU_SaidaObra = '{saidaObra}'
@@ -452,9 +461,9 @@ namespace ADExtensibilidadeJPA
     ELSE
     BEGIN
         INSERT INTO TDU_AD_Obras 
-        (CDU_Codigo, CDU_Obra, CDU_EntradaObra, CDU_SaidaObra, CDU_ContratoSubempreitada, CDU_AutorizacaoEntrada) 
+        (CDU_Codigo, CDU_Obra, CDU_EntradaObra, CDU_SaidaObra, CDU_ContratoSubempreitada, CDU_AutorizacaoEntrada, CDU_StatusAutorizacao, CDU_ObservacaoAutorizacao) 
         VALUES 
-        ('{id}', '{codigoObraSelecionada}', '{entradaObra}', '{saidaObra}', '{contratoSubempreitada}', {(autorizacaoEntrada ? 1 : 0)});
+        ('{id}', '{codigoObraSelecionada}', '{entradaObra}', '{saidaObra}', '{contratoSubempreitada}', {(autorizacaoEntrada ? 1 : 0)}, {statusIndex}, '{observacao.Replace("'", "''")}');
     END";
 
                         _bso.DSO.ExecuteSQL(queryUpsert);
@@ -471,8 +480,17 @@ namespace ADExtensibilidadeJPA
 
         public void CarregarObrasEmDataGridView(string codigoObraSelecionada)
         {
-            string queryGetObras = $@"SELECT * FROM TDU_AD_Obras 
-                                  WHERE CDU_Obra = '{codigoObraSelecionada}'";
+            string queryGetObras = $@"SELECT o.*, 
+                                     CASE o.CDU_StatusAutorizacao 
+                                        WHEN 0 THEN 'Autorizado'
+                                        WHEN 1 THEN 'Pendente'
+                                        WHEN 2 THEN 'Não Autorizado'
+                                        WHEN 3 THEN 'Renovação Necessária'
+                                        WHEN 4 THEN 'Documentos Faltantes'
+                                        ELSE 'Pendente' 
+                                     END AS StatusNome
+                                  FROM TDU_AD_Obras o
+                                  WHERE o.CDU_Obra = '{codigoObraSelecionada}'";
 
             var DBObras = _bso.Consulta(queryGetObras);
 
@@ -484,15 +502,51 @@ namespace ADExtensibilidadeJPA
 
                 while (!DBObras.NoFim())
                 {
+                    // Obter status e converter para texto
+                    string statusNome = DBObras.DaValor<string>("StatusNome");
+                    int statusIndex = 1; // Padrão: Pendente
+
+                    if (statusNome == "Autorizado") statusIndex = 0;
+                    else if (statusNome == "Pendente") statusIndex = 1;
+                    else if (statusNome == "Não Autorizado") statusIndex = 2;
+                    else if (statusNome == "Renovação Necessária") statusIndex = 3;
+                    else if (statusNome == "Documentos Faltantes") statusIndex = 4;
+
+                    // Adicionar linha com status
                     _dataGridView.Rows.Add(
                         DBObras.DaValor<string>("CDU_EntradaObra"),
                         DBObras.DaValor<string>("CDU_SaidaObra"),
                         DBObras.DaValor<string>("CDU_ContratoSubempreitada"),
-                        DBObras.DaValor<int>("CDU_AutorizacaoEntrada") == 1
+                        statusNome
                     );
 
                     int lastRowIndex = _dataGridView.Rows.Count - 1;
                     _dataGridView.Rows[lastRowIndex].DefaultCellStyle.BackColor = Color.LightYellow;
+
+                    // Destacar célula de status conforme seu valor
+                    switch (statusIndex)
+                    {
+                        case 0: // Autorizado
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.BackColor = Color.LightGreen;
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.ForeColor = Color.DarkGreen;
+                            break;
+                        case 1: // Pendente
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.BackColor = Color.LightYellow;
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.ForeColor = Color.DarkOrange;
+                            break;
+                        case 2: // Não Autorizado
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.BackColor = Color.LightCoral;
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.ForeColor = Color.DarkRed;
+                            break;
+                        case 3: // Renovação Necessária
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.BackColor = Color.LightSalmon;
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.ForeColor = Color.Brown;
+                            break;
+                        case 4: // Documentos Faltantes
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.BackColor = Color.LightPink;
+                            _dataGridView.Rows[lastRowIndex].Cells["StatusAutorizacao"].Style.ForeColor = Color.Maroon;
+                            break;
+                    }
 
                     DBObras.Seguinte();
                 }
@@ -957,6 +1011,7 @@ namespace ADExtensibilidadeJPA
                         AtualizarStatusAnexos();
 
                         MessageBox.Show("Documento anexado com sucesso!",
+
                             "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
@@ -1655,5 +1710,153 @@ namespace ADExtensibilidadeJPA
             }
         }
         #endregion
+
+        // Método para atualizar o status de autorização de uma obra com observações
+        public void AtualizarStatusAutorizacaoObra(string codigoObra, int statusIndex, string observacao)
+        {
+            try
+            {
+                // Verifica se há algum registro para esta obra
+                string queryCheck = $@"SELECT COUNT(*) AS Total FROM TDU_AD_Obras WHERE CDU_Obra = '{codigoObra}'";
+                var resultado = _bso.Consulta(queryCheck);
+
+                resultado.Inicio();
+                int total = resultado.DaValor<int>("Total");
+
+                if (total > 0)
+                {
+                    // Verifica se as colunas existem, e se não, cria-as
+                    try
+                    {
+                        // Verifica se a coluna de status existe
+                        string queryCheckColumn = $@"
+                            IF NOT EXISTS (
+                                SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                                WHERE TABLE_NAME = 'TDU_AD_Obras' AND COLUMN_NAME = 'CDU_StatusAutorizacao'
+                            )
+                            BEGIN
+                                ALTER TABLE TDU_AD_Obras ADD CDU_StatusAutorizacao INT DEFAULT 2
+                            END;
+
+                            IF NOT EXISTS (
+                                SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                                WHERE TABLE_NAME = 'TDU_AD_Obras' AND COLUMN_NAME = 'CDU_ObservacaoAutorizacao'
+                            )
+                            BEGIN
+                                ALTER TABLE TDU_AD_Obras ADD CDU_ObservacaoAutorizacao NVARCHAR(500) NULL
+                            END;
+                        ";
+                        _bso.DSO.ExecuteSQL(queryCheckColumn);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao verificar/criar colunas: {ex.Message}",
+                            "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Atualiza todos os registros da obra com o novo status e observação
+                    string queryUpdate = $@"
+                        UPDATE TDU_AD_Obras 
+                        SET CDU_StatusAutorizacao = {statusIndex},
+                            CDU_ObservacaoAutorizacao = '{observacao.Replace("'", "''")}',
+                            CDU_AutorizacaoEntrada = {(statusIndex == 0 ? 1 : 0)} -- Mantém a compatibilidade com o campo antigo
+                        WHERE CDU_Obra = '{codigoObra}'";
+
+                    _bso.DSO.ExecuteSQL(queryUpdate);
+
+                    // Obtém o nome do status conforme o índice
+                    string[] statusNames = { "Autorizado", "Pendente", "Não Autorizado", "Renovação Necessária", "Documentos Faltantes" };
+                    string statusName = (statusIndex >= 0 && statusIndex < statusNames.Length) ? statusNames[statusIndex] : "Desconhecido";
+
+                    // Feedback visual para o usuário
+                    MessageBox.Show($"Status atualizado para: {statusName}\n\nObservações salvas com sucesso!",
+                        "Status de Autorização",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Nenhum registro de obra encontrado. Adicione informações de obra primeiro.",
+                        "Sem Dados", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar autorização: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Método para obter o status de autorização e observações de uma obra
+        public KeyValuePair<int, string> ObterStatusAutorizacaoObra(string codigoObra)
+        {
+            try
+            {
+                // Verifica se há registro de autorização para a obra
+                string query = $@"
+                    IF EXISTS (
+                        SELECT TOP 1 * FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = 'TDU_AD_Obras' AND COLUMN_NAME = 'CDU_StatusAutorizacao'
+                    )
+                    BEGIN
+                        SELECT TOP 1 
+                            ISNULL(CDU_StatusAutorizacao, 
+                                CASE WHEN CDU_AutorizacaoEntrada = 1 THEN 0 ELSE 2 END
+                            ) AS StatusAutorizacao, 
+                            ISNULL(CDU_ObservacaoAutorizacao, '') AS Observacao
+                        FROM TDU_AD_Obras 
+                        WHERE CDU_Obra = '{codigoObra}'
+                    END
+                    ELSE
+                    BEGIN
+                        SELECT TOP 1 
+                            CASE WHEN CDU_AutorizacaoEntrada = 1 THEN 0 ELSE 2 END AS StatusAutorizacao,
+                            '' AS Observacao
+                        FROM TDU_AD_Obras 
+                        WHERE CDU_Obra = '{codigoObra}'
+                    END
+                ";
+
+                var resultado = _bso.Consulta(query);
+
+                if (resultado.NumLinhas() > 0)
+                {
+                    resultado.Inicio();
+                    int status = resultado.DaValor<int>("StatusAutorizacao");
+                    string observacao = resultado.DaValor<string>("Observacao");
+
+                    return new KeyValuePair<int, string>(status, observacao);
+                }
+
+                // Se não há registro, assume como pendente
+                return new KeyValuePair<int, string>(1, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao verificar autorização: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new KeyValuePair<int, string>(1, ""); // Pendente é o padrão em caso de erro
+            }
+        }
+
+        // Mantém o método antigo para compatibilidade, mas agora usa o sistema novo internamente
+        public bool VerificarAutorizacaoObra(string codigoObra)
+        {
+            KeyValuePair<int, string> status = ObterStatusAutorizacaoObra(codigoObra);
+            // Retorna verdadeiro apenas se o status for 0 (Autorizado)
+            return status.Key == 0;
+        }
+
+        // Mantém o método antigo para compatibilidade, mas agora usa o sistema novo internamente
+        public void AtualizarAutorizacaoObra(string codigoObra, bool autorizado)
+        {
+            // Converte o boolean para o índice do status (0=Autorizado, 2=Não Autorizado)
+            int statusIndex = autorizado ? 0 : 2;
+            // Obtém a observação atual para mantê-la
+            KeyValuePair<int, string> statusAtual = ObterStatusAutorizacaoObra(codigoObra);
+            // Atualiza usando o novo método
+            AtualizarStatusAutorizacaoObra(codigoObra, statusIndex, statusAtual.Value);
+        }
     }
 }

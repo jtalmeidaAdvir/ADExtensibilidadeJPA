@@ -24,6 +24,17 @@ namespace ADExtensibilidadeJPA
         private TabControl tabControl1;
         private TabPage tabPage1;
         private Panel AlertaValidadeAlvara;
+        private Panel pnlAutorizacaoObra;
+        private Button btnAutorizarEntrada;
+        private Label lblDataEntrada;
+        private DateTimePicker dtpDataEntrada;
+        private Label lblDataSaida;
+        private DateTimePicker dtpDataSaida;
+        private Label lblContratoSubempreitada;
+        private TextBox txtContratoSubempreitada;
+        private Label lblStatusEntrada;
+        private ComboBox cmbStatusEntrada;
+        private Panel pnlDadosObra;
         private ComboBox cb_ReciboPagSegSocial;
         private Label label22;
         private DateTimePicker TXT_AlvaraValidade;
@@ -48,6 +59,7 @@ namespace ADExtensibilidadeJPA
         private DataGridViewTextBoxColumn EntradaObra_;
         private DataGridViewTextBoxColumn SaidaObra_;
         private DataGridViewTextBoxColumn ContratoSubempreitada;
+        private DataGridViewTextBoxColumn StatusAutorizacao;
         private DataGridViewCheckBoxColumn AutorizacaoEntrada;
         private Panel panelDadosEmpresa;
         private GroupBox groupBoxInfoBasica;
@@ -117,6 +129,7 @@ namespace ADExtensibilidadeJPA
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             this.TXT_Nome = new System.Windows.Forms.TextBox();
             this.BTF4 = new System.Windows.Forms.Button();
@@ -125,15 +138,12 @@ namespace ADExtensibilidadeJPA
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panelDadosEmpresa = new System.Windows.Forms.Panel();
             this.groupBoxInfoBasica = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.TXT_Sede = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.TXT_Alvara = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.TXT_AlvaraValidade = new System.Windows.Forms.DateTimePicker();
-            this.AlertaValidadeAlvara = new System.Windows.Forms.Panel();
             this.groupBoxSituacaoFiscal = new System.Windows.Forms.GroupBox();
             this.btnAbrirPastaAnexos = new System.Windows.Forms.Button();
             this.panelModalDocumentos = new System.Windows.Forms.Panel();
@@ -185,9 +195,14 @@ namespace ADExtensibilidadeJPA
             this.cb_ApoliceAT = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.TXT_ReciboApoliceAT = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TXT_Alvara = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.cb_ApoliceRC = new System.Windows.Forms.ComboBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.TXT_AlvaraValidade = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
+            this.AlertaValidadeAlvara = new System.Windows.Forms.Panel();
             this.TXT_ReciboRC = new System.Windows.Forms.TextBox();
             this.groupBoxDeclaracoes = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -207,11 +222,29 @@ namespace ADExtensibilidadeJPA
             this.EntradaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SaidaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContratoSubempreitada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StatusAutorizacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AutorizacaoEntrada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.pnlAutorizacaoObra = new System.Windows.Forms.Panel();
+            this.lblAutorizacao = new System.Windows.Forms.Label();
+            this.cmbAutorizacaoStatus = new System.Windows.Forms.ComboBox();
+            this.lblObservacao = new System.Windows.Forms.Label();
+            this.txtObservacao = new System.Windows.Forms.TextBox();
+            this.btnSalvarAutorizacao = new System.Windows.Forms.Button();
+            this.btnAutorizarEntrada = new System.Windows.Forms.Button();
+            this.lblDataEntrada = new System.Windows.Forms.Label();
+            this.dtpDataEntrada = new System.Windows.Forms.DateTimePicker();
+            this.lblDataSaida = new System.Windows.Forms.Label();
+            this.dtpDataSaida = new System.Windows.Forms.DateTimePicker();
+            this.lblContratoSubempreitada = new System.Windows.Forms.Label();
+            this.txtContratoSubempreitada = new System.Windows.Forms.TextBox();
+            this.pnlDadosObra = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
             this.lblSelecionar = new System.Windows.Forms.Label();
+            this.lblStatusEntrada = new System.Windows.Forms.Label();
+            this.cmbStatusEntrada = new System.Windows.Forms.ComboBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panelDadosEmpresa.SuspendLayout();
@@ -223,6 +256,7 @@ namespace ADExtensibilidadeJPA
             this.panelObras.SuspendLayout();
             this.groupBoxObras.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.pnlAutorizacaoObra.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -268,7 +302,7 @@ namespace ADExtensibilidadeJPA
             this.tabControl1.Location = new System.Drawing.Point(15, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(726, 583);
+            this.tabControl1.Size = new System.Drawing.Size(726, 745);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -279,7 +313,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(718, 555);
+            this.tabPage1.Size = new System.Drawing.Size(718, 717);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Empresa";
             // 
@@ -297,15 +331,12 @@ namespace ADExtensibilidadeJPA
             // 
             // groupBoxInfoBasica
             // 
+            this.groupBoxInfoBasica.Controls.Add(this.label1);
+            this.groupBoxInfoBasica.Controls.Add(this.textBox1);
             this.groupBoxInfoBasica.Controls.Add(this.label2);
             this.groupBoxInfoBasica.Controls.Add(this.TXT_Sede);
             this.groupBoxInfoBasica.Controls.Add(this.label3);
             this.groupBoxInfoBasica.Controls.Add(this.TXT_Contribuinte);
-            this.groupBoxInfoBasica.Controls.Add(this.label4);
-            this.groupBoxInfoBasica.Controls.Add(this.TXT_Alvara);
-            this.groupBoxInfoBasica.Controls.Add(this.label22);
-            this.groupBoxInfoBasica.Controls.Add(this.TXT_AlvaraValidade);
-            this.groupBoxInfoBasica.Controls.Add(this.AlertaValidadeAlvara);
             this.groupBoxInfoBasica.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxInfoBasica.Location = new System.Drawing.Point(8, 5);
             this.groupBoxInfoBasica.Name = "groupBoxInfoBasica";
@@ -314,11 +345,29 @@ namespace ADExtensibilidadeJPA
             this.groupBoxInfoBasica.TabStop = false;
             this.groupBoxInfoBasica.Text = "Informações Básicas";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label1.Location = new System.Drawing.Point(29, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 14);
+            this.label1.TabIndex = 73;
+            this.label1.Text = "Nome";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Calibri", 9F);
+            this.textBox1.Location = new System.Drawing.Point(69, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(579, 22);
+            this.textBox1.TabIndex = 74;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label2.Location = new System.Drawing.Point(26, 22);
+            this.label2.Location = new System.Drawing.Point(29, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 14);
             this.label2.TabIndex = 56;
@@ -327,16 +376,16 @@ namespace ADExtensibilidadeJPA
             // TXT_Sede
             // 
             this.TXT_Sede.Font = new System.Drawing.Font("Calibri", 9F);
-            this.TXT_Sede.Location = new System.Drawing.Point(66, 19);
+            this.TXT_Sede.Location = new System.Drawing.Point(69, 44);
             this.TXT_Sede.Name = "TXT_Sede";
-            this.TXT_Sede.Size = new System.Drawing.Size(245, 22);
+            this.TXT_Sede.Size = new System.Drawing.Size(579, 22);
             this.TXT_Sede.TabIndex = 71;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label3.Location = new System.Drawing.Point(6, 50);
+            this.label3.Location = new System.Drawing.Point(9, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 14);
             this.label3.TabIndex = 57;
@@ -345,55 +394,10 @@ namespace ADExtensibilidadeJPA
             // TXT_Contribuinte
             // 
             this.TXT_Contribuinte.Font = new System.Drawing.Font("Calibri", 9F);
-            this.TXT_Contribuinte.Location = new System.Drawing.Point(66, 47);
+            this.TXT_Contribuinte.Location = new System.Drawing.Point(69, 72);
             this.TXT_Contribuinte.Name = "TXT_Contribuinte";
-            this.TXT_Contribuinte.Size = new System.Drawing.Size(245, 22);
+            this.TXT_Contribuinte.Size = new System.Drawing.Size(579, 22);
             this.TXT_Contribuinte.TabIndex = 72;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label4.Location = new System.Drawing.Point(19, 78);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 14);
-            this.label4.TabIndex = 58;
-            this.label4.Text = "Alvará";
-            // 
-            // TXT_Alvara
-            // 
-            this.TXT_Alvara.Font = new System.Drawing.Font("Calibri", 9F);
-            this.TXT_Alvara.Location = new System.Drawing.Point(66, 75);
-            this.TXT_Alvara.Name = "TXT_Alvara";
-            this.TXT_Alvara.Size = new System.Drawing.Size(245, 22);
-            this.TXT_Alvara.TabIndex = 73;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label22.Location = new System.Drawing.Point(6, 108);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(56, 14);
-            this.label22.TabIndex = 80;
-            this.label22.Text = "Validade";
-            // 
-            // TXT_AlvaraValidade
-            // 
-            this.TXT_AlvaraValidade.Font = new System.Drawing.Font("Calibri", 9F);
-            this.TXT_AlvaraValidade.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.TXT_AlvaraValidade.Location = new System.Drawing.Point(67, 105);
-            this.TXT_AlvaraValidade.Name = "TXT_AlvaraValidade";
-            this.TXT_AlvaraValidade.ShowCheckBox = true;
-            this.TXT_AlvaraValidade.Size = new System.Drawing.Size(228, 22);
-            this.TXT_AlvaraValidade.TabIndex = 79;
-            // 
-            // AlertaValidadeAlvara
-            // 
-            this.AlertaValidadeAlvara.Location = new System.Drawing.Point(301, 105);
-            this.AlertaValidadeAlvara.Name = "AlertaValidadeAlvara";
-            this.AlertaValidadeAlvara.Size = new System.Drawing.Size(10, 10);
-            this.AlertaValidadeAlvara.TabIndex = 88;
             // 
             // groupBoxSituacaoFiscal
             // 
@@ -468,9 +472,9 @@ namespace ADExtensibilidadeJPA
             this.panelModalDocumentos.Controls.Add(this.dtpValidade);
             this.panelModalDocumentos.Controls.Add(this.btnConfirmarAnexo);
             this.panelModalDocumentos.Controls.Add(this.btnCancelarAnexo);
-            this.panelModalDocumentos.Location = new System.Drawing.Point(348, 13);
+            this.panelModalDocumentos.Location = new System.Drawing.Point(254, 13);
             this.panelModalDocumentos.Name = "panelModalDocumentos";
-            this.panelModalDocumentos.Size = new System.Drawing.Size(300, 208);
+            this.panelModalDocumentos.Size = new System.Drawing.Size(394, 208);
             this.panelModalDocumentos.TabIndex = 125;
             this.panelModalDocumentos.Visible = false;
             // 
@@ -502,7 +506,7 @@ namespace ADExtensibilidadeJPA
             "Outro documento"});
             this.cmbTipoDocumento.Location = new System.Drawing.Point(30, 50);
             this.cmbTipoDocumento.Name = "cmbTipoDocumento";
-            this.cmbTipoDocumento.Size = new System.Drawing.Size(240, 23);
+            this.cmbTipoDocumento.Size = new System.Drawing.Size(330, 23);
             this.cmbTipoDocumento.TabIndex = 0;
             this.cmbTipoDocumento.SelectedIndexChanged += new System.EventHandler(this.cmbTipoDocumento_SelectedIndexChanged);
             // 
@@ -523,7 +527,7 @@ namespace ADExtensibilidadeJPA
             this.dtpValidade.Location = new System.Drawing.Point(30, 105);
             this.dtpValidade.Name = "dtpValidade";
             this.dtpValidade.ShowCheckBox = true;
-            this.dtpValidade.Size = new System.Drawing.Size(240, 22);
+            this.dtpValidade.Size = new System.Drawing.Size(330, 22);
             this.dtpValidade.TabIndex = 4;
             // 
             // btnConfirmarAnexo
@@ -531,7 +535,7 @@ namespace ADExtensibilidadeJPA
             this.btnConfirmarAnexo.BackColor = System.Drawing.Color.LightGreen;
             this.btnConfirmarAnexo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConfirmarAnexo.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnConfirmarAnexo.Location = new System.Drawing.Point(59, 150);
+            this.btnConfirmarAnexo.Location = new System.Drawing.Point(122, 151);
             this.btnConfirmarAnexo.Name = "btnConfirmarAnexo";
             this.btnConfirmarAnexo.Size = new System.Drawing.Size(80, 30);
             this.btnConfirmarAnexo.TabIndex = 1;
@@ -544,7 +548,7 @@ namespace ADExtensibilidadeJPA
             this.btnCancelarAnexo.BackColor = System.Drawing.Color.LightCoral;
             this.btnCancelarAnexo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarAnexo.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnCancelarAnexo.Location = new System.Drawing.Point(159, 150);
+            this.btnCancelarAnexo.Location = new System.Drawing.Point(222, 151);
             this.btnCancelarAnexo.Name = "btnCancelarAnexo";
             this.btnCancelarAnexo.Size = new System.Drawing.Size(80, 30);
             this.btnCancelarAnexo.TabIndex = 2;
@@ -990,9 +994,14 @@ namespace ADExtensibilidadeJPA
             this.groupBoxApolices.Controls.Add(this.cb_ApoliceAT);
             this.groupBoxApolices.Controls.Add(this.label10);
             this.groupBoxApolices.Controls.Add(this.TXT_ReciboApoliceAT);
+            this.groupBoxApolices.Controls.Add(this.label4);
+            this.groupBoxApolices.Controls.Add(this.TXT_Alvara);
             this.groupBoxApolices.Controls.Add(this.label11);
             this.groupBoxApolices.Controls.Add(this.cb_ApoliceRC);
+            this.groupBoxApolices.Controls.Add(this.label22);
+            this.groupBoxApolices.Controls.Add(this.TXT_AlvaraValidade);
             this.groupBoxApolices.Controls.Add(this.label12);
+            this.groupBoxApolices.Controls.Add(this.AlertaValidadeAlvara);
             this.groupBoxApolices.Controls.Add(this.TXT_ReciboRC);
             this.groupBoxApolices.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxApolices.Location = new System.Drawing.Point(345, 5);
@@ -1041,6 +1050,26 @@ namespace ADExtensibilidadeJPA
             this.TXT_ReciboApoliceAT.Size = new System.Drawing.Size(113, 22);
             this.TXT_ReciboApoliceAT.TabIndex = 77;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label4.Location = new System.Drawing.Point(68, 74);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 14);
+            this.label4.TabIndex = 58;
+            this.label4.Text = "Alvará";
+            this.label4.Visible = false;
+            // 
+            // TXT_Alvara
+            // 
+            this.TXT_Alvara.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_Alvara.Location = new System.Drawing.Point(115, 71);
+            this.TXT_Alvara.Name = "TXT_Alvara";
+            this.TXT_Alvara.Size = new System.Drawing.Size(245, 22);
+            this.TXT_Alvara.TabIndex = 73;
+            this.TXT_Alvara.Visible = false;
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -1065,6 +1094,28 @@ namespace ADExtensibilidadeJPA
             this.cb_ApoliceRC.Size = new System.Drawing.Size(50, 22);
             this.cb_ApoliceRC.TabIndex = 83;
             // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label22.Location = new System.Drawing.Point(27, 105);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(56, 14);
+            this.label22.TabIndex = 80;
+            this.label22.Text = "Validade";
+            this.label22.Visible = false;
+            // 
+            // TXT_AlvaraValidade
+            // 
+            this.TXT_AlvaraValidade.Font = new System.Drawing.Font("Calibri", 9F);
+            this.TXT_AlvaraValidade.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.TXT_AlvaraValidade.Location = new System.Drawing.Point(88, 102);
+            this.TXT_AlvaraValidade.Name = "TXT_AlvaraValidade";
+            this.TXT_AlvaraValidade.ShowCheckBox = true;
+            this.TXT_AlvaraValidade.Size = new System.Drawing.Size(228, 22);
+            this.TXT_AlvaraValidade.TabIndex = 79;
+            this.TXT_AlvaraValidade.Visible = false;
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -1074,6 +1125,14 @@ namespace ADExtensibilidadeJPA
             this.label12.Size = new System.Drawing.Size(47, 14);
             this.label12.TabIndex = 66;
             this.label12.Text = "Recibo:";
+            // 
+            // AlertaValidadeAlvara
+            // 
+            this.AlertaValidadeAlvara.Location = new System.Drawing.Point(322, 102);
+            this.AlertaValidadeAlvara.Name = "AlertaValidadeAlvara";
+            this.AlertaValidadeAlvara.Size = new System.Drawing.Size(10, 10);
+            this.AlertaValidadeAlvara.TabIndex = 88;
+            this.AlertaValidadeAlvara.Visible = false;
             // 
             // TXT_ReciboRC
             // 
@@ -1185,9 +1244,10 @@ namespace ADExtensibilidadeJPA
             // panelObras
             // 
             this.panelObras.Controls.Add(this.groupBoxObras);
+            this.panelObras.Controls.Add(this.pnlAutorizacaoObra);
             this.panelObras.Location = new System.Drawing.Point(3, 382);
             this.panelObras.Name = "panelObras";
-            this.panelObras.Size = new System.Drawing.Size(712, 166);
+            this.panelObras.Size = new System.Drawing.Size(712, 329);
             this.panelObras.TabIndex = 93;
             // 
             // groupBoxObras
@@ -1196,10 +1256,18 @@ namespace ADExtensibilidadeJPA
             this.groupBoxObras.Controls.Add(this.cb_Obras);
             this.groupBoxObras.Controls.Add(this.btnGravarObra);
             this.groupBoxObras.Controls.Add(this.dataGridView1);
+            this.groupBoxObras.Controls.Add(this.btnAutorizarEntrada);
+            this.groupBoxObras.Controls.Add(this.lblDataEntrada);
+            this.groupBoxObras.Controls.Add(this.dtpDataEntrada);
+            this.groupBoxObras.Controls.Add(this.lblDataSaida);
+            this.groupBoxObras.Controls.Add(this.dtpDataSaida);
+            this.groupBoxObras.Controls.Add(this.lblContratoSubempreitada);
+            this.groupBoxObras.Controls.Add(this.txtContratoSubempreitada);
+            this.groupBoxObras.Controls.Add(this.pnlDadosObra);
             this.groupBoxObras.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxObras.Location = new System.Drawing.Point(0, 18);
             this.groupBoxObras.Name = "groupBoxObras";
-            this.groupBoxObras.Size = new System.Drawing.Size(712, 205);
+            this.groupBoxObras.Size = new System.Drawing.Size(705, 250);
             this.groupBoxObras.TabIndex = 0;
             this.groupBoxObras.TabStop = false;
             this.groupBoxObras.Text = "Obras";
@@ -1236,7 +1304,7 @@ namespace ADExtensibilidadeJPA
             this.btnGravarObra.TabIndex = 91;
             this.btnGravarObra.Text = "Gravar";
             this.btnGravarObra.UseVisualStyleBackColor = false;
-            this.btnGravarObra.Click += new System.EventHandler(this.button1_Click);
+            this.btnGravarObra.Click += new System.EventHandler(this.ProcessarGravarObra);
             // 
             // dataGridView1
             // 
@@ -1248,11 +1316,12 @@ namespace ADExtensibilidadeJPA
             this.EntradaObra_,
             this.SaidaObra_,
             this.ContratoSubempreitada,
+            this.StatusAutorizacao,
             this.AutorizacaoEntrada});
-            this.dataGridView1.Location = new System.Drawing.Point(11, 49);
+            this.dataGridView1.Location = new System.Drawing.Point(11, 110);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(658, 99);
+            this.dataGridView1.Size = new System.Drawing.Size(658, 75);
             this.dataGridView1.TabIndex = 90;
             // 
             // EntradaObra_
@@ -1270,17 +1339,180 @@ namespace ADExtensibilidadeJPA
             this.ContratoSubempreitada.HeaderText = "Contrato Subempreitada";
             this.ContratoSubempreitada.Name = "ContratoSubempreitada";
             // 
+            // StatusAutorizacao
+            // 
+            this.StatusAutorizacao.HeaderText = "Status";
+            this.StatusAutorizacao.Name = "StatusAutorizacao";
+            // 
             // AutorizacaoEntrada
             // 
             this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
             this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
+            // 
+            // pnlAutorizacaoObra
+            // 
+            this.pnlAutorizacaoObra.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlAutorizacaoObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlAutorizacaoObra.Controls.Add(this.lblAutorizacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.cmbAutorizacaoStatus);
+            this.pnlAutorizacaoObra.Controls.Add(this.lblObservacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.txtObservacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.btnSalvarAutorizacao);
+            this.pnlAutorizacaoObra.Location = new System.Drawing.Point(8, 281);
+            this.pnlAutorizacaoObra.Name = "pnlAutorizacaoObra";
+            this.pnlAutorizacaoObra.Size = new System.Drawing.Size(658, 45);
+            this.pnlAutorizacaoObra.TabIndex = 94;
+            this.pnlAutorizacaoObra.Visible = false;
+            // 
+            // lblAutorizacao
+            // 
+            this.lblAutorizacao.AutoSize = true;
+            this.lblAutorizacao.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.lblAutorizacao.Location = new System.Drawing.Point(10, 12);
+            this.lblAutorizacao.Name = "lblAutorizacao";
+            this.lblAutorizacao.Size = new System.Drawing.Size(50, 17);
+            this.lblAutorizacao.TabIndex = 0;
+            this.lblAutorizacao.Text = "Status:";
+            // 
+            // cmbAutorizacaoStatus
+            // 
+            this.cmbAutorizacaoStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAutorizacaoStatus.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.cmbAutorizacaoStatus.Items.AddRange(new object[] {
+            "Autorizado",
+            "Pendente",
+            "Não Autorizado",
+            "Renovação Necessária",
+            "Documentos Faltantes"});
+            this.cmbAutorizacaoStatus.Location = new System.Drawing.Point(70, 10);
+            this.cmbAutorizacaoStatus.Name = "cmbAutorizacaoStatus";
+            this.cmbAutorizacaoStatus.Size = new System.Drawing.Size(150, 23);
+            this.cmbAutorizacaoStatus.TabIndex = 1;
+            this.cmbAutorizacaoStatus.SelectedIndexChanged += new System.EventHandler(this.cmbAutorizacaoStatus_SelectedIndexChanged);
+            // 
+            // lblObservacao
+            // 
+            this.lblObservacao.AutoSize = true;
+            this.lblObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.lblObservacao.Location = new System.Drawing.Point(230, 12);
+            this.lblObservacao.Name = "lblObservacao";
+            this.lblObservacao.Size = new System.Drawing.Size(32, 15);
+            this.lblObservacao.TabIndex = 2;
+            this.lblObservacao.Text = "Obs:";
+            // 
+            // txtObservacao
+            // 
+            this.txtObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.txtObservacao.Location = new System.Drawing.Point(280, 10);
+            this.txtObservacao.Name = "txtObservacao";
+            this.txtObservacao.Size = new System.Drawing.Size(280, 23);
+            this.txtObservacao.TabIndex = 3;
+            this.toolTip.SetToolTip(this.txtObservacao, "Observações sobre a autorização...");
+            // 
+            // btnSalvarAutorizacao
+            // 
+            this.btnSalvarAutorizacao.BackColor = System.Drawing.Color.LightBlue;
+            this.btnSalvarAutorizacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalvarAutorizacao.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSalvarAutorizacao.Location = new System.Drawing.Point(570, 10);
+            this.btnSalvarAutorizacao.Name = "btnSalvarAutorizacao";
+            this.btnSalvarAutorizacao.Size = new System.Drawing.Size(75, 25);
+            this.btnSalvarAutorizacao.TabIndex = 4;
+            this.btnSalvarAutorizacao.Text = "Salvar";
+            this.btnSalvarAutorizacao.UseVisualStyleBackColor = false;
+            this.btnSalvarAutorizacao.Click += new System.EventHandler(this.btnSalvarAutorizacao_Click);
+            // 
+            // btnAutorizarEntrada
+            // 
+            this.btnAutorizarEntrada.BackColor = System.Drawing.Color.LightGreen;
+            this.btnAutorizarEntrada.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAutorizarEntrada.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAutorizarEntrada.Location = new System.Drawing.Point(11, 49);
+            this.btnAutorizarEntrada.Name = "btnAutorizarEntrada";
+            this.btnAutorizarEntrada.Size = new System.Drawing.Size(180, 30);
+            this.btnAutorizarEntrada.TabIndex = 92;
+            this.btnAutorizarEntrada.Text = "Autorizar Nova Entrada em Obra";
+            this.btnAutorizarEntrada.UseVisualStyleBackColor = false;
+            this.btnAutorizarEntrada.Click += new System.EventHandler(this.btnAutorizarEntrada_Click);
+            // 
+            // lblDataEntrada
+            // 
+            this.lblDataEntrada.AutoSize = true;
+            this.lblDataEntrada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.lblDataEntrada.Location = new System.Drawing.Point(175, 55);
+            this.lblDataEntrada.Name = "lblDataEntrada";
+            this.lblDataEntrada.Size = new System.Drawing.Size(81, 14);
+            this.lblDataEntrada.TabIndex = 95;
+            this.lblDataEntrada.Text = "Data Entrada:";
+            this.lblDataEntrada.Visible = false;
+            // 
+            // dtpDataEntrada
+            // 
+            this.dtpDataEntrada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.dtpDataEntrada.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDataEntrada.Location = new System.Drawing.Point(260, 53);
+            this.dtpDataEntrada.Name = "dtpDataEntrada";
+            this.dtpDataEntrada.Size = new System.Drawing.Size(100, 22);
+            this.dtpDataEntrada.TabIndex = 93;
+            this.dtpDataEntrada.Visible = false;
+            // 
+            // lblDataSaida
+            // 
+            this.lblDataSaida.AutoSize = true;
+            this.lblDataSaida.Font = new System.Drawing.Font("Calibri", 9F);
+            this.lblDataSaida.Location = new System.Drawing.Point(370, 55);
+            this.lblDataSaida.Name = "lblDataSaida";
+            this.lblDataSaida.Size = new System.Drawing.Size(69, 14);
+            this.lblDataSaida.TabIndex = 96;
+            this.lblDataSaida.Text = "Data Saída:";
+            this.lblDataSaida.Visible = false;
+            // 
+            // dtpDataSaida
+            // 
+            this.dtpDataSaida.Font = new System.Drawing.Font("Calibri", 9F);
+            this.dtpDataSaida.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDataSaida.Location = new System.Drawing.Point(440, 53);
+            this.dtpDataSaida.Name = "dtpDataSaida";
+            this.dtpDataSaida.Size = new System.Drawing.Size(100, 22);
+            this.dtpDataSaida.TabIndex = 94;
+            this.dtpDataSaida.Visible = false;
+            // 
+            // lblContratoSubempreitada
+            // 
+            this.lblContratoSubempreitada.AutoSize = true;
+            this.lblContratoSubempreitada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.lblContratoSubempreitada.Location = new System.Drawing.Point(175, 82);
+            this.lblContratoSubempreitada.Name = "lblContratoSubempreitada";
+            this.lblContratoSubempreitada.Size = new System.Drawing.Size(143, 14);
+            this.lblContratoSubempreitada.TabIndex = 97;
+            this.lblContratoSubempreitada.Text = "Contrato Subempreitada:";
+            this.lblContratoSubempreitada.Visible = false;
+            // 
+            // txtContratoSubempreitada
+            // 
+            this.txtContratoSubempreitada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtContratoSubempreitada.Location = new System.Drawing.Point(325, 80);
+            this.txtContratoSubempreitada.Name = "txtContratoSubempreitada";
+            this.txtContratoSubempreitada.Size = new System.Drawing.Size(215, 22);
+            this.txtContratoSubempreitada.TabIndex = 95;
+            this.txtContratoSubempreitada.Visible = false;
+            // 
+            // pnlDadosObra
+            // 
+            this.pnlDadosObra.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlDadosObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlDadosObra.Location = new System.Drawing.Point(170, 49);
+            this.pnlDadosObra.Name = "pnlDadosObra";
+            this.pnlDadosObra.Size = new System.Drawing.Size(499, 30);
+            this.pnlDadosObra.TabIndex = 98;
+            this.pnlDadosObra.Visible = false;
             // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(718, 610);
+            this.tabPage2.Size = new System.Drawing.Size(718, 555);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1318,12 +1550,39 @@ namespace ADExtensibilidadeJPA
             this.lblSelecionar.TabIndex = 5;
             this.lblSelecionar.Text = "Código:";
             // 
+            // lblStatusEntrada
+            // 
+            this.lblStatusEntrada.AutoSize = true;
+            this.lblStatusEntrada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.lblStatusEntrada.Location = new System.Drawing.Point(175, 110);
+            this.lblStatusEntrada.Name = "lblStatusEntrada";
+            this.lblStatusEntrada.Size = new System.Drawing.Size(44, 14);
+            this.lblStatusEntrada.TabIndex = 0;
+            this.lblStatusEntrada.Text = "Status:";
+            this.lblStatusEntrada.Visible = false;
+            // 
+            // cmbStatusEntrada
+            // 
+            this.cmbStatusEntrada.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbStatusEntrada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cmbStatusEntrada.Items.AddRange(new object[] {
+            "Autorizado",
+            "Pendente",
+            "Não Autorizado",
+            "Renovação Necessária",
+            "Documentos Faltantes"});
+            this.cmbStatusEntrada.Location = new System.Drawing.Point(325, 108);
+            this.cmbStatusEntrada.Name = "cmbStatusEntrada";
+            this.cmbStatusEntrada.Size = new System.Drawing.Size(215, 22);
+            this.cmbStatusEntrada.TabIndex = 96;
+            this.cmbStatusEntrada.Visible = false;
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(757, 653);
+            this.ClientSize = new System.Drawing.Size(757, 817);
             this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
@@ -1352,6 +1611,8 @@ namespace ADExtensibilidadeJPA
             this.groupBoxObras.ResumeLayout(false);
             this.groupBoxObras.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.pnlAutorizacaoObra.ResumeLayout(false);
+            this.pnlAutorizacaoObra.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -1379,5 +1640,13 @@ namespace ADExtensibilidadeJPA
         private ComboBox cb_DecRespEstaleiro;
         private Label label16;
         private ComboBox cb_DecConhecimPSS;
+        private Label label1;
+        private TextBox textBox1;
+        private Label lblAutorizacao;
+        private ComboBox cmbAutorizacaoStatus;
+        private Label lblObservacao;
+        private TextBox txtObservacao;
+        private ToolTip toolTip;
+        private Button btnSalvarAutorizacao;
     }
 }
