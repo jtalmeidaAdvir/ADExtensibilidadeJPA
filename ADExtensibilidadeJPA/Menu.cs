@@ -229,7 +229,6 @@ namespace ADExtensibilidadeJPA
             panelModalDocumentos.Visible = true;/*
             // Limpar campos
             dtpValidade.Checked = false;
-            txtResponsavel.Text = "";
 
             // Posicionar o modal no centro do formulário
             panelModalDocumentos.Location = new Point(
@@ -291,17 +290,16 @@ namespace ADExtensibilidadeJPA
                 return;
             }
 
-            // Validar campos
-            if (string.IsNullOrWhiteSpace(txtResponsavel.Text))
+            // Verificar se a validade foi informada
+            if (!dtpValidade.Checked)
             {
-                MessageBox.Show("Por favor, informe o responsável pelo documento.",
+                MessageBox.Show("Por favor, informe a data de validade do documento.",
                     "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Obter validade e responsável
+            // Obter validade
             DateTime? validade = dtpValidade.Checked ? dtpValidade.Value : (DateTime?)null;
-            string responsavel = txtResponsavel.Text.Trim();
 
             // Fechar o modal
             panelModalDocumentos.Visible = false;
@@ -313,52 +311,198 @@ namespace ADExtensibilidadeJPA
             if (tipoSelecionado.StartsWith("✓ ") || tipoSelecionado.StartsWith("□ "))
                 tipoSelecionado = tipoSelecionado.Substring(2);
 
-            // Atualizar os campos de validade específicos para cada tipo de documento
-            switch (tipoSelecionado)
+            try
             {
-                case "Não Div. Financas":
-                    if (validade.HasValue)
-                        TXT_NaoDivFinancas.Value = validade.Value;
-                    _empresaManager.AnexarDocumentoFinancas(responsavel);
-                    break;
-                case "Não Div. Seg. Social":
-                    if (validade.HasValue)
-                        TXT_NaoDivSegSocial.Value = validade.Value;
-                    _empresaManager.AnexarDocumentoSegSocial(responsavel);
-                    break;
-                case "Folha Pag. S.S.":
-                    if (validade.HasValue)
-                        TXT_FolhaPagSegSocial.Value = validade.Value;
-                    _empresaManager.AnexarFolhaPag(responsavel);
-                    break;
-                case "Apólice AT":
-                    if (validade.HasValue && !string.IsNullOrEmpty(TXT_ReciboApoliceAT.Text))
-                        TXT_ReciboApoliceAT.Text += $" (Val: {validade.Value:dd/MM/yyyy})";
-                    _empresaManager.AnexarDocumentoApoliceAT(responsavel);
-                    break;
-                case "Apólice RC":
-                    if (validade.HasValue && !string.IsNullOrEmpty(TXT_ReciboRC.Text))
-                        TXT_ReciboRC.Text += $" (Val: {validade.Value:dd/MM/yyyy})";
-                    _empresaManager.AnexarDocumentoApoliceRC(responsavel);
-                    break;
-                case "Horário Trabalho":
-                    _empresaManager.AnexarHorarioTrabalho(responsavel, validade);
-                    break;
-                case "Anexo D":
-                    _empresaManager.AnexarAnexoD(responsavel, validade);
-                    break;
-                case "Dec. Trab. Emigrantes":
-                    _empresaManager.AnexarDecTrabEmigr(responsavel, validade);
-                    break;
-                case "Inscrição SS":
-                    _empresaManager.AnexarInscricaoSS(responsavel, validade);
-                    break;
-                case "Outro documento":
-                    _empresaManager.AnexarDocumento(responsavel, validade);
-                    break;
+                // Atualizar os campos de validade específicos e armazenar no banco de dados
+                switch (tipoSelecionado)
+                {
+                    case "Não Div. Financas":
+                        if (validade.HasValue)
+                        {
+                            TXT_NaoDivFinancas.Value = validade.Value;
+                            TXT_NaoDivFinancas.Checked = true;
+                            // Atualizar diretamente no banco de dados
+                            string queryFinancas = $"UPDATE Geral_Entidade SET CDU_NaoDivFinancas = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
+                            BSO.DSO.ExecuteSQL(queryFinancas);
+                        }
+                        _empresaManager.AnexarDocumentoFinancas();
+                        break;
+                    case "Não Div. Seg. Social":
+                        if (validade.HasValue)
+                        {
+                            TXT_NaoDivSegSocial.Value = validade.Value;
+                            TXT_NaoDivSegSocial.Checked = true;
+                            // Atualizar diretamente no banco de dados
+                            string querySegSocial = $"UPDATE Geral_Entidade SET CDU_NaoDivSegSocial = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
+                            BSO.DSO.ExecuteSQL(querySegSocial);
+                        }
+                        _empresaManager.AnexarDocumentoSegSocial();
+                        break;
+                    case "Folha Pag. S.S.":
+                        if (validade.HasValue)
+                        {
+                            TXT_FolhaPagSegSocial.Value = validade.Value;
+                            TXT_FolhaPagSegSocial.Checked = true;
+                            // Atualizar diretamente no banco de dados
+                            string queryFolhaPag = $"UPDATE Geral_Entidade SET CDU_FolhaPagSegSocial = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
+                            BSO.DSO.ExecuteSQL(queryFolhaPag);
+                        }
+                        _empresaManager.AnexarFolhaPag();
+                        break;
+                    case "Horário Trabalho":
+                        // Criar uma query para atualizar a validade do horário de trabalho
+                        if (validade.HasValue)
+                        {
+                            string queryHorarioTrabalho = $"UPDATE Geral_Entidade SET CDU_ValidadeHorarioTrabalho = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
+                            BSO.DSO.ExecuteSQL(queryHorarioTrabalho);
+                        }
+                        _empresaManager.AnexarHorarioTrabalho("", validade);
+                        break;
+                    case "Anexo D":
+                        // Criar uma query para atualizar a validade do Anexo D
+                        if (validade.HasValue)
+                        {
+
+                
+
+                            string queryAnexoD = $"UPDATE Geral_Entidade SET CDU_ValidadeAnexoD = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
+                            BSO.DSO.ExecuteSQL(queryAnexoD);
+                        }
+                        _empresaManager.AnexarAnexoD("", validade);
+                        break;
+                    case "Dec. Trab. Emigrantes":
+                        // Criar uma query para atualizar a validade da declaração de trabalhadores emigrantes
+                        if (validade.HasValue)
+                        {
+                            string queryDecTrabEmigr = $"UPDATE Geral_Entidade SET CDU_ValidadeDecTrabEmigr = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
+                            BSO.DSO.ExecuteSQL(queryDecTrabEmigr);
+                        }
+                        _empresaManager.AnexarDecTrabEmigr("", validade);
+                        break;
+                    case "Inscrição SS":
+                        // Criar uma query para atualizar a validade da inscrição na segurança social
+                        if (validade.HasValue)
+                        {
+                            string queryInscricaoSS = $"UPDATE Geral_Entidade SET CDU_ValidadeInscricaoSS = '{validade.Value.ToString("yyyy-MM-dd")}' WHERE ID = '{_empresaManager.IdSelecionado}'";
+                            BSO.DSO.ExecuteSQL(queryInscricaoSS);
+                        }
+                        _empresaManager.AnexarInscricaoSS("", validade);
+                        break;
+                    case "Outro documento":
+                        // Para outros documentos, poderia-se criar um registro em outra tabela
+                        _empresaManager.AnexarDocumento("", validade);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar a validade do documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void cmbTipoDocumento_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbTipoDocumento.SelectedIndex == -1)
+                return;
 
+            string tipoSelecionado = cmbTipoDocumento.SelectedItem.ToString();
+
+            // Remover o prefixo de status (✓ ou □) se estiver presente
+            if (tipoSelecionado.StartsWith("✓ ") || tipoSelecionado.StartsWith("□ "))
+                tipoSelecionado = tipoSelecionado.Substring(2);
+
+            try
+            {
+                // Carregar a validade do documento selecionado
+                string query = "";
+                switch (tipoSelecionado)
+                {
+                    case "Não Div. Financas":
+                        query = $"SELECT CDU_NaoDivFinancas FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Não Div. Seg. Social":
+                        query = $"SELECT CDU_NaoDivSegSocial FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Folha Pag. S.S.":
+                        query = $"SELECT CDU_FolhaPagSegSocial FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Apólice AT":
+                        query = $"SELECT CDU_ReciboApoliceAT FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Apólice RC":
+                        query = $"SELECT CDU_ReciboRC FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Horário Trabalho":
+                        query = $"SELECT CDU_ValidadeHorarioTrabalho FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Anexo D":
+                        query = $"SELECT CDU_ValidadeAnexoD FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Dec. Trab. Emigrantes":
+                        query = $"SELECT CDU_ValidadeDecTrabEmigr FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    case "Inscrição SS":
+                        query = $"SELECT CDU_ValidadeInscricaoSS FROM Geral_Entidade WHERE ID = '{_empresaManager.IdSelecionado}'";
+                        break;
+                    default:
+                        // Para "Outro documento" não há campo específico de validade
+                        dtpValidade.Checked = false;
+                        return;
+                }
+
+                var resultado = BSO.Consulta(query);
+                if (resultado.NumLinhas() > 0)
+                {
+                    resultado.Inicio();
+                    string dataStr = resultado.Valor(0);
+
+                    if (tipoSelecionado == "Apólice AT" || tipoSelecionado == "Apólice RC")
+                    {
+                        // Extrair data de strings como "123456 (Val: 01/01/2023)"
+                        if (!string.IsNullOrEmpty(dataStr) && dataStr.Contains("(Val:"))
+                        {
+                            int inicio = dataStr.IndexOf("(Val:") + 6;
+                            int fim = dataStr.IndexOf(")", inicio);
+                            if (fim > inicio)
+                            {
+                                dataStr = dataStr.Substring(inicio, fim - inicio);
+                                DateTime data;
+                                if (DateTime.TryParse(dataStr, out data))
+                                {
+                                    dtpValidade.Value = data;
+                                    dtpValidade.Checked = true;
+                                    return;
+                                }
+                            }
+                        }
+                        dtpValidade.Checked = false;
+                    }
+                    else
+                    {
+                        // Para outros campos que são diretamente datas
+                        if (!string.IsNullOrEmpty(dataStr))
+                        {
+                            DateTime data;
+                            if (DateTime.TryParse(dataStr, out data))
+                            {
+                                dtpValidade.Value = data;
+                                dtpValidade.Checked = true;
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                // Se não encontrou data ou não conseguiu converter
+                dtpValidade.Checked = false;
+
+            }
+            catch (Exception ex)
+            {
+                // Em caso de erro, apenas não mostra a data
+                dtpValidade.Checked = false;
+            }
+        }
         private void dgvTrabalhadores_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Use directly the DataGridViewCellEventArgs

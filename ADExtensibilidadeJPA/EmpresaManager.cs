@@ -15,6 +15,7 @@ namespace ADExtensibilidadeJPA
         private StdBSInterfPub _pso;
         private string _id;
         private string _idSelecionado;
+        public string IdSelecionado { get { return _idSelecionado; } }
 
         // Controles da UI
         private TextBox _txtCodigo;
