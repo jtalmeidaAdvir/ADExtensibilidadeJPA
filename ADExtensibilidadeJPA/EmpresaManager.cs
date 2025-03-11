@@ -23,6 +23,7 @@ namespace ADExtensibilidadeJPA
         private TextBox _txtSede;
         private TextBox _txtContribuinte;
         private TextBox _txtAlvara;
+        private TextBox _textBox1; // Novo campo para nome
         private DateTimePicker _txtAlvaraValidade;
         private DateTimePicker _txtNaoDivFinancas;
         private DateTimePicker _txtNaoDivSegSocial;
@@ -60,6 +61,7 @@ namespace ADExtensibilidadeJPA
             _txtNome = menu.Controls.Find("TXT_Nome", true).FirstOrDefault() as TextBox;
             _txtSede = menu.Controls.Find("TXT_Sede", true).FirstOrDefault() as TextBox;
             _txtContribuinte = menu.Controls.Find("TXT_Contribuinte", true).FirstOrDefault() as TextBox;
+            _textBox1 = menu.Controls.Find("textBox1", true).FirstOrDefault() as TextBox;
             _txtAlvara = menu.Controls.Find("TXT_Alvara", true).FirstOrDefault() as TextBox;
             _txtAlvaraValidade = menu.Controls.Find("TXT_AlvaraValidade", true).FirstOrDefault() as DateTimePicker;
             _txtNaoDivFinancas = menu.Controls.Find("TXT_NaoDivFinancas", true).FirstOrDefault() as DateTimePicker;
@@ -149,6 +151,11 @@ namespace ADExtensibilidadeJPA
             _id = entidade["id"];
             _txtCodigo.Text = entidade["Codigo"];
             _txtNome.Text = entidade["Nome"];
+
+            // Atualizar também o textBox1 com o nome
+            if (_textBox1 != null)
+                _textBox1.Text = entidade["Nome"];
+
             _txtContribuinte.Text = entidade["NIPC"];
             _txtAlvara.Text = entidade["AlvaraNumero"];
 
@@ -359,9 +366,12 @@ namespace ADExtensibilidadeJPA
             try
             {
                 // Atualiza a tabela Geral_Entidade
+                string nomeEmpresa = _textBox1 != null ? _textBox1.Text : _txtNome.Text;
+
                 var querySalvar = $@"
             UPDATE Geral_Entidade
             SET 
+                Nome = '{nomeEmpresa}',
                 NIPC = '{_txtContribuinte.Text}', 
                 AlvaraNumero = '{_txtAlvara.Text}', 
                 AlvaraValidade = '{(_txtAlvaraValidade.Checked ? _txtAlvaraValidade.Value.ToString("yyyy-MM-dd") : "")}', 

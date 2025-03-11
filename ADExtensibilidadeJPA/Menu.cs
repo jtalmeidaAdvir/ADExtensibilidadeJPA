@@ -21,7 +21,6 @@ namespace ADExtensibilidadeJPA
 
         // Managers
         private EmpresaManager _empresaManager;
-        private TrabalhadorManager _trabalhadorManager;
 
         #endregion
 
@@ -37,7 +36,6 @@ namespace ADExtensibilidadeJPA
 
             // Inicializar os managers
             _empresaManager = new EmpresaManager(BSO, PSO, IdSelecionado, this);
-            _trabalhadorManager = new TrabalhadorManager(tabPage2);
 
             if (IdSelecionado != "")
             {
@@ -645,19 +643,7 @@ namespace ADExtensibilidadeJPA
                 dtpValidade.Checked = false;
             }
         }
-        private void dgvTrabalhadores_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Use directly the DataGridViewCellEventArgs
-            if (e.RowIndex >= 0)
-            {
-                DataGridView dgv = sender as DataGridView;
-                if (dgv.Columns[e.ColumnIndex].Name == "Editar" || dgv.Columns[e.ColumnIndex].Name == "Remover")
-                {
-                    // Call the handler in TrabalhadorManager
-                    _trabalhadorManager.HandleCellClick(dgv, e);
-                }
-            }
-        }
+
 
         private void AtualizarControleAutorizacaoObra(string codigoObra)
         {
@@ -795,101 +781,213 @@ namespace ADExtensibilidadeJPA
             btnGravarObra.Visible = false;
             dataGridView1.Visible = false;
 
-            // Criar botão confirmar se não existir
-            Button btnConfirmar = groupBoxObras.Controls["btnConfirmar"] as Button;
-            if (btnConfirmar == null)
+            // Criar um painel personalizado moderno para o formulário de autorização
+            Panel pnlNovaAutorizacao = groupBoxObras.Controls["pnlNovaAutorizacao"] as Panel;
+            if (pnlNovaAutorizacao == null)
             {
-                btnConfirmar = new Button
+                pnlNovaAutorizacao = new Panel
                 {
-                    Name = "btnConfirmar",
-                    Text = "Confirmar",
-                    BackColor = Color.LightGreen,
-                    FlatStyle = FlatStyle.Flat,
-                    Font = new Font("Calibri", 10F, FontStyle.Bold),
-                    Size = new Size(100, 30),
-                    Location = new Point(550, 95)
+                    Name = "pnlNovaAutorizacao",
+                    BorderStyle = BorderStyle.FixedSingle,
+                    BackColor = Color.FromArgb(245, 245, 250),
+                    Size = new Size(680, 180),
+                    Location = new Point(10, 80)
                 };
-                btnConfirmar.Click += new EventHandler(btnConfirmar_Click);
-                groupBoxObras.Controls.Add(btnConfirmar);
-                btnConfirmar.BringToFront();
+                groupBoxObras.Controls.Add(pnlNovaAutorizacao);
             }
-            else
+            pnlNovaAutorizacao.Visible = true;
+            pnlNovaAutorizacao.BringToFront();
+
+            // Adicionar um cabeçalho ao painel
+            Panel pnlCabecalho = pnlNovaAutorizacao.Controls["pnlCabecalho"] as Panel;
+            if (pnlCabecalho == null)
             {
-                btnConfirmar.Visible = true;
-                btnConfirmar.BringToFront();
-            }
+                pnlCabecalho = new Panel
+                {
+                    Name = "pnlCabecalho",
+                    Dock = DockStyle.Top,
+                    Height = 32,
+                    BackColor = Color.FromArgb(59, 89, 152)
+                };
+                pnlNovaAutorizacao.Controls.Add(pnlCabecalho);
 
-            // Configurar e mostrar os controles dentro do formulário principal - sem depender do painel
-            lblDataEntrada.Parent = groupBoxObras;
-            dtpDataEntrada.Parent = groupBoxObras;
-            lblDataSaida.Parent = groupBoxObras;
-            dtpDataSaida.Parent = groupBoxObras;
-            lblContratoSubempreitada.Parent = groupBoxObras;
-            txtContratoSubempreitada.Parent = groupBoxObras;
-            lblStatusEntrada.Parent = groupBoxObras;
-            cmbStatusEntrada.Parent = groupBoxObras;
-
-            // Posicionar os controles corretamente
-            lblDataEntrada.Location = new Point(25, 95);
-            dtpDataEntrada.Location = new Point(115, 95);
-            lblDataSaida.Location = new Point(235, 95);
-            dtpDataSaida.Location = new Point(315, 95);
-
-            lblContratoSubempreitada.Location = new Point(25, 120);
-            txtContratoSubempreitada.Location = new Point(165, 120);
-            txtContratoSubempreitada.Size = new Size(250, 22);
-
-            lblStatusEntrada.Location = new Point(25, 155);
-            cmbStatusEntrada.Location = new Point(90, 155);
-            cmbStatusEntrada.Size = new Size(150, 22);
-
-            btnConfirmar.Location = new Point(515, 140);
-
-            // Tornar os controles visíveis
-            lblDataEntrada.Visible = true;
-            dtpDataEntrada.Visible = true;
-            lblDataSaida.Visible = true;
-            dtpDataSaida.Visible = true;
-            lblContratoSubempreitada.Visible = true;
-            txtContratoSubempreitada.Visible = true;
-            lblStatusEntrada.Visible = true;
-            cmbStatusEntrada.Visible = true;
-
-            // Titulo para a área de dados
-            Label lblTituloNovaEntrada = groupBoxObras.Controls["lblTituloNovaEntrada"] as Label;
-            if (lblTituloNovaEntrada == null)
-            {
-                lblTituloNovaEntrada = new Label
+                Label lblTitulo = new Label
                 {
                     Name = "lblTituloNovaEntrada",
                     Text = "AUTORIZAÇÃO DE NOVA ENTRADA EM OBRA",
                     Font = new Font("Calibri", 11F, FontStyle.Bold),
+                    ForeColor = Color.White,
                     AutoSize = true,
-                    Location = new Point(200, 70),
-                    BackColor = Color.Transparent
+                    Location = new Point(15, 7)
                 };
-                groupBoxObras.Controls.Add(lblTituloNovaEntrada);
+                pnlCabecalho.Controls.Add(lblTitulo);
+            }
+            pnlCabecalho.Visible = true;
+
+            // Adicionar controles no painel
+            int baseY = 45;
+            int spacing = 35;
+
+            // Data de Entrada
+            Label lblDataEntrada = pnlNovaAutorizacao.Controls["lblDataEntrada"] as Label;
+            DateTimePicker dtpDataEntrada = pnlNovaAutorizacao.Controls["dtpDataEntrada"] as DateTimePicker;
+
+            if (lblDataEntrada == null)
+            {
+                lblDataEntrada = new Label
+                {
+                    Name = "lblDataEntrada",
+                    Text = "Data de Entrada:",
+                    Font = new Font("Calibri", 9.5F),
+                    AutoSize = true,
+                    Location = new Point(20, baseY)
+                };
+                pnlNovaAutorizacao.Controls.Add(lblDataEntrada);
             }
             else
             {
-                lblTituloNovaEntrada.Visible = true;
+                lblDataEntrada.Location = new Point(20, baseY);
+                lblDataEntrada.Visible = true;
             }
-            lblTituloNovaEntrada.BringToFront();
 
-            // Destaque visual
-            lblStatusEntrada.Font = new Font("Calibri", 9, FontStyle.Bold);
-            lblStatusEntrada.ForeColor = Color.Firebrick;
-            lblStatusEntrada.Text = "Status:";
-
-            // Definir valores padrão
-            dtpDataEntrada.Value = DateTime.Today;
-            dtpDataSaida.Value = DateTime.Today.AddMonths(1);
-            txtContratoSubempreitada.Text = "";
-
-            // Certificar que o ComboBox de status tem itens e selecionar "Autorizado" como padrão
-            if (cmbStatusEntrada.Items.Count == 0)
+            if (dtpDataEntrada == null)
             {
-                // Adicionar itens caso não existam
+                dtpDataEntrada = new DateTimePicker
+                {
+                    Name = "dtpDataEntrada",
+                    Format = DateTimePickerFormat.Short,
+                    Font = new Font("Calibri", 9.5F),
+                    Size = new Size(120, 24),
+                    Location = new Point(120, baseY - 3),
+                    Value = DateTime.Today
+                };
+                pnlNovaAutorizacao.Controls.Add(dtpDataEntrada);
+            }
+            else
+            {
+                dtpDataEntrada.Location = new Point(120, baseY - 3);
+                dtpDataEntrada.Value = DateTime.Today;
+                dtpDataEntrada.Visible = true;
+            }
+
+            // Data de Saída
+            Label lblDataSaida = pnlNovaAutorizacao.Controls["lblDataSaida"] as Label;
+            DateTimePicker dtpDataSaida = pnlNovaAutorizacao.Controls["dtpDataSaida"] as DateTimePicker;
+
+            if (lblDataSaida == null)
+            {
+                lblDataSaida = new Label
+                {
+                    Name = "lblDataSaida",
+                    Text = "Data de Saída:",
+                    Font = new Font("Calibri", 9.5F),
+                    AutoSize = true,
+                    Location = new Point(270, baseY)
+                };
+                pnlNovaAutorizacao.Controls.Add(lblDataSaida);
+            }
+            else
+            {
+                lblDataSaida.Location = new Point(270, baseY);
+                lblDataSaida.Visible = true;
+            }
+
+            if (dtpDataSaida == null)
+            {
+                dtpDataSaida = new DateTimePicker
+                {
+                    Name = "dtpDataSaida",
+                    Format = DateTimePickerFormat.Short,
+                    Font = new Font("Calibri", 9.5F),
+                    Size = new Size(120, 24),
+                    Location = new Point(360, baseY - 3),
+                    Value = DateTime.Today.AddMonths(1)
+                };
+                pnlNovaAutorizacao.Controls.Add(dtpDataSaida);
+            }
+            else
+            {
+                dtpDataSaida.Location = new Point(360, baseY - 3);
+                dtpDataSaida.Value = DateTime.Today.AddMonths(1);
+                dtpDataSaida.Visible = true;
+            }
+
+            // Contrato Subempreitada
+            Label lblContratoSubempreitada = pnlNovaAutorizacao.Controls["lblContratoSubempreitada"] as Label;
+            TextBox txtContratoSubempreitada = pnlNovaAutorizacao.Controls["txtContratoSubempreitada"] as TextBox;
+
+            if (lblContratoSubempreitada == null)
+            {
+                lblContratoSubempreitada = new Label
+                {
+                    Name = "lblContratoSubempreitada",
+                    Text = "Contrato Subempreitada:",
+                    Font = new Font("Calibri", 9.5F),
+                    AutoSize = true,
+                    Location = new Point(20, baseY + spacing)
+                };
+                pnlNovaAutorizacao.Controls.Add(lblContratoSubempreitada);
+            }
+            else
+            {
+                lblContratoSubempreitada.Location = new Point(20, baseY + spacing);
+                lblContratoSubempreitada.Visible = true;
+            }
+
+            if (txtContratoSubempreitada == null)
+            {
+                txtContratoSubempreitada = new TextBox
+                {
+                    Name = "txtContratoSubempreitada",
+                    Size = new Size(280, 24),
+                    Font = new Font("Calibri", 9.5F),
+                    Location = new Point(170, baseY + spacing - 3),
+                    BackColor = Color.LightYellow,
+                    BorderStyle = BorderStyle.FixedSingle
+                };
+                pnlNovaAutorizacao.Controls.Add(txtContratoSubempreitada);
+            }
+            else
+            {
+                txtContratoSubempreitada.Location = new Point(170, baseY + spacing - 3);
+                txtContratoSubempreitada.Text = "";
+                txtContratoSubempreitada.BackColor = Color.LightYellow;
+                txtContratoSubempreitada.Visible = true;
+            }
+
+            // Status
+            Label lblStatusEntrada = pnlNovaAutorizacao.Controls["lblStatusEntrada"] as Label;
+            ComboBox cmbStatusEntrada = pnlNovaAutorizacao.Controls["cmbStatusEntrada"] as ComboBox;
+
+            if (lblStatusEntrada == null)
+            {
+                lblStatusEntrada = new Label
+                {
+                    Name = "lblStatusEntrada",
+                    Text = "Status de Autorização:",
+                    Font = new Font("Calibri", 9.5F, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(59, 89, 152),
+                    AutoSize = true,
+                    Location = new Point(20, baseY + spacing * 2)
+                };
+                pnlNovaAutorizacao.Controls.Add(lblStatusEntrada);
+            }
+            else
+            {
+                lblStatusEntrada.Location = new Point(20, baseY + spacing * 2);
+                lblStatusEntrada.Visible = true;
+            }
+
+            if (cmbStatusEntrada == null)
+            {
+                cmbStatusEntrada = new ComboBox
+                {
+                    Name = "cmbStatusEntrada",
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    Size = new Size(180, 24),
+                    Font = new Font("Calibri", 9.5F),
+                    Location = new Point(170, baseY + spacing * 2 - 3)
+                };
                 cmbStatusEntrada.Items.AddRange(new object[] {
                     "Autorizado",
                     "Pendente",
@@ -897,32 +995,126 @@ namespace ADExtensibilidadeJPA
                     "Renovação Necessária",
                     "Documentos Faltantes"
                 });
-            }
-            cmbStatusEntrada.SelectedIndex = 0; // Status padrão "Autorizado"
-
-            // Destaque visual dos campos
-            cmbStatusEntrada.BackColor = Color.LightGreen;
-            txtContratoSubempreitada.BackColor = Color.LightYellow;
-
-            // Desenhar um retângulo como fundo visual
-            Panel backgroundPanel = groupBoxObras.Controls["backgroundPanel"] as Panel;
-            if (backgroundPanel == null)
-            {
-                backgroundPanel = new Panel
-                {
-                    Name = "backgroundPanel",
-                    BorderStyle = BorderStyle.FixedSingle,
-                    BackColor = Color.WhiteSmoke,
-                    Size = new Size(655, 120),
-                    Location = new Point(20, 90)
-                };
-                groupBoxObras.Controls.Add(backgroundPanel);
-                backgroundPanel.SendToBack();
+                cmbStatusEntrada.SelectedIndex = 0;
+                pnlNovaAutorizacao.Controls.Add(cmbStatusEntrada);
             }
             else
             {
-                backgroundPanel.Visible = true;
-                backgroundPanel.SendToBack();
+                cmbStatusEntrada.Location = new Point(170, baseY + spacing * 2 - 3);
+                if (cmbStatusEntrada.Items.Count == 0)
+                {
+                    cmbStatusEntrada.Items.AddRange(new object[] {
+                        "Autorizado",
+                        "Pendente",
+                        "Não Autorizado",
+                        "Renovação Necessária",
+                        "Documentos Faltantes"
+                    });
+                }
+                cmbStatusEntrada.SelectedIndex = 0;
+                cmbStatusEntrada.Visible = true;
+            }
+
+            // Colorir o status de acordo com a seleção
+            cmbStatusEntrada.BackColor = Color.LightGreen;
+            cmbStatusEntrada.SelectedIndexChanged += (s, ev) => {
+                ComboBox cmb = s as ComboBox;
+                switch (cmb.SelectedIndex)
+                {
+                    case 0: // Autorizado
+                        cmb.BackColor = Color.LightGreen;
+                        break;
+                    case 1: // Pendente
+                        cmb.BackColor = Color.LightYellow;
+                        break;
+                    case 2: // Não Autorizado
+                        cmb.BackColor = Color.LightCoral;
+                        break;
+                    case 3: // Renovação Necessária
+                        cmb.BackColor = Color.LightSalmon;
+                        break;
+                    case 4: // Documentos Faltantes
+                        cmb.BackColor = Color.LightPink;
+                        break;
+                    default:
+                        cmb.BackColor = SystemColors.Window;
+                        break;
+                }
+            };
+
+            // Botões de ação
+            Button btnConfirmar = pnlNovaAutorizacao.Controls["btnConfirmar"] as Button;
+            Button btnCancelar = pnlNovaAutorizacao.Controls["btnCancelar"] as Button;
+
+            if (btnConfirmar == null)
+            {
+                btnConfirmar = new Button
+                {
+                    Name = "btnConfirmar",
+                    Text = "Confirmar",
+                    BackColor = Color.FromArgb(76, 175, 80),
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Calibri", 10F, FontStyle.Bold),
+                    Size = new Size(100, 32),
+                    Location = new Point(470, baseY + spacing * 2 - 5)
+                };
+                btnConfirmar.FlatAppearance.BorderColor = Color.FromArgb(56, 142, 60);
+                btnConfirmar.Click += new EventHandler(btnConfirmar_Click);
+                pnlNovaAutorizacao.Controls.Add(btnConfirmar);
+            }
+            else
+            {
+                btnConfirmar.Location = new Point(470, baseY + spacing * 2 - 5);
+                btnConfirmar.Visible = true;
+            }
+
+            if (btnCancelar == null)
+            {
+                btnCancelar = new Button
+                {
+                    Name = "btnCancelar",
+                    Text = "Cancelar",
+                    BackColor = Color.FromArgb(239, 239, 239),
+                    ForeColor = Color.FromArgb(59, 89, 152),
+                    FlatStyle = FlatStyle.Flat,
+                    Font = new Font("Calibri", 10F),
+                    Size = new Size(90, 32),
+                    Location = new Point(580, baseY + spacing * 2 - 5)
+                };
+                btnCancelar.FlatAppearance.BorderColor = Color.LightGray;
+                btnCancelar.Click += (s, ev) => {
+                    pnlNovaAutorizacao.Visible = false;
+                    dataGridView1.Visible = true;
+                    btnGravarObra.Visible = true;
+                };
+                pnlNovaAutorizacao.Controls.Add(btnCancelar);
+            }
+            else
+            {
+                btnCancelar.Location = new Point(580, baseY + spacing * 2 - 5);
+                btnCancelar.Visible = true;
+            }
+
+            // Adicionar informação de ajuda
+            Label lblAjuda = pnlNovaAutorizacao.Controls["lblAjuda"] as Label;
+            if (lblAjuda == null)
+            {
+                lblAjuda = new Label
+                {
+                    Name = "lblAjuda",
+                    Text = "Nota: O status 'Autorizado' permitirá entrada imediata na obra.",
+                    Font = new Font("Calibri", 8F, FontStyle.Italic),
+                    ForeColor = Color.Gray,
+                    AutoSize = true,
+                    Location = new Point(20, baseY + spacing * 3 + 5)
+                };
+                pnlNovaAutorizacao.Controls.Add(lblAjuda);
+            }
+            else
+            {
+                lblAjuda.Location = new Point(20, baseY + spacing * 3 + 5);
+                lblAjuda.Visible = true;
             }
 
             // Focar no primeiro campo
@@ -931,6 +1123,15 @@ namespace ADExtensibilidadeJPA
 
         private void btnConfirmar_Click(object sender, EventArgs e)
         {
+            // Obter as referências dos controles do painel
+            Panel pnlNovaAutorizacao = groupBoxObras.Controls["pnlNovaAutorizacao"] as Panel;
+            if (pnlNovaAutorizacao == null) return;
+
+            DateTimePicker dtpDataEntrada = pnlNovaAutorizacao.Controls["dtpDataEntrada"] as DateTimePicker;
+            DateTimePicker dtpDataSaida = pnlNovaAutorizacao.Controls["dtpDataSaida"] as DateTimePicker;
+            TextBox txtContratoSubempreitada = pnlNovaAutorizacao.Controls["txtContratoSubempreitada"] as TextBox;
+            ComboBox cmbStatusEntrada = pnlNovaAutorizacao.Controls["cmbStatusEntrada"] as ComboBox;
+
             // Verificar se o status foi selecionado (obrigatório)
             if (cmbStatusEntrada.SelectedIndex == -1)
             {
@@ -953,12 +1154,90 @@ namespace ADExtensibilidadeJPA
                 return;
             }
 
+            // Verificar se uma obra está selecionada
+            if (!(cb_Obras.SelectedItem is KeyValuePair<string, string> obraSelecionada))
+            {
+                MessageBox.Show("Por favor, selecione uma obra primeiro.",
+                    "Nenhuma obra selecionada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            string codigoObraSelecionada = obraSelecionada.Key;
+
             // Obter o status selecionado
             string statusText = cmbStatusEntrada.SelectedItem.ToString();
             int statusIndex = cmbStatusEntrada.SelectedIndex;
 
+            // Criar uma observação detalhada
+            string observacao = $"Autorização: {statusText}. Entrada: {dtpDataEntrada.Value:dd/MM/yyyy}, Saída: {dtpDataSaida.Value:dd/MM/yyyy}, Contrato: {txtContratoSubempreitada.Text}";
+
+            try
+            {
+                // Verificar se a tabela TDU_AD_Obras existe
+                string queryCheckTable = @"
+                    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TDU_AD_Obras')
+                    BEGIN
+                        CREATE TABLE TDU_AD_Obras (
+                            CDU_Codigo UNIQUEIDENTIFIER PRIMARY KEY,
+                            CDU_Obra NVARCHAR(50) NOT NULL,
+                            CDU_EntradaObra NVARCHAR(50) NULL,
+                            CDU_SaidaObra NVARCHAR(50) NULL,
+                            CDU_ContratoSubempreitada NVARCHAR(100) NULL,
+                            CDU_AutorizacaoEntrada BIT DEFAULT 0,
+                            CDU_StatusAutorizacao INT DEFAULT 1,
+                            CDU_ObservacaoAutorizacao NVARCHAR(500) NULL
+                        )
+                    END;
+
+                    IF NOT EXISTS (
+                        SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = 'TDU_AD_Obras' AND COLUMN_NAME = 'CDU_StatusAutorizacao'
+                    )
+                    BEGIN
+                        ALTER TABLE TDU_AD_Obras ADD CDU_StatusAutorizacao INT DEFAULT 1
+                    END;
+
+                    IF NOT EXISTS (
+                        SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = 'TDU_AD_Obras' AND COLUMN_NAME = 'CDU_ObservacaoAutorizacao'
+                    )
+                    BEGIN
+                        ALTER TABLE TDU_AD_Obras ADD CDU_ObservacaoAutorizacao NVARCHAR(500) NULL
+                    END;
+                ";
+
+                BSO.DSO.ExecuteSQL(queryCheckTable);
+
+                // Criar um novo registro na tabela
+                Guid id = Guid.NewGuid();
+                string queryInsert = $@"
+                    INSERT INTO TDU_AD_Obras 
+                    (CDU_Codigo, CDU_Obra, CDU_EntradaObra, CDU_SaidaObra, CDU_ContratoSubempreitada, CDU_AutorizacaoEntrada, CDU_StatusAutorizacao, CDU_ObservacaoAutorizacao) 
+                    VALUES 
+                    ('{id}', '{codigoObraSelecionada}', '{dtpDataEntrada.Value.ToString("yyyy-MM-dd")}', '{dtpDataSaida.Value.ToString("yyyy-MM-dd")}', 
+                    '{txtContratoSubempreitada.Text.Replace("'", "''")}', {(statusIndex == 0 ? 1 : 0)}, {statusIndex}, '{observacao.Replace("'", "''")}');
+                ";
+
+                BSO.DSO.ExecuteSQL(queryInsert);
+
+                // Atualizar o status de autorização para a obra
+                _empresaManager.AtualizarStatusAutorizacaoObra(codigoObraSelecionada, statusIndex, observacao);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao salvar autorização: {ex.Message}",
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
             // Restaurar interface - mostrar o DataGridView novamente
+            pnlNovaAutorizacao.Visible = false;
             dataGridView1.Visible = true;
+            btnGravarObra.Visible = true;
 
             // Adicionar os dados diretamente ao DataGridView incluindo o status
             int rowIndex = dataGridView1.Rows.Add(
@@ -999,54 +1278,71 @@ namespace ADExtensibilidadeJPA
                     break;
             }
 
-            // Ocultar os campos após adicionar
-            lblDataEntrada.Visible = false;
-            dtpDataEntrada.Visible = false;
-            lblDataSaida.Visible = false;
-            dtpDataSaida.Visible = false;
-            lblContratoSubempreitada.Visible = false;
-            txtContratoSubempreitada.Visible = false;
-            lblStatusEntrada.Visible = false;
-            cmbStatusEntrada.Visible = false;
+            // Atualizar a visualização de status
+            AtualizarControleAutorizacaoObra(codigoObraSelecionada);
 
-            // Ocultar elementos adicionais
-            Button btnConfirmar = groupBoxObras.Controls["btnConfirmar"] as Button;
-            if (btnConfirmar != null)
-                btnConfirmar.Visible = false;
+            // Salvar os dados imediatamente
+            _empresaManager.SalvarObra();
 
-            Label lblTituloNovaEntrada = groupBoxObras.Controls["lblTituloNovaEntrada"] as Label;
-            if (lblTituloNovaEntrada != null)
-                lblTituloNovaEntrada.Visible = false;
-
-            Panel backgroundPanel = groupBoxObras.Controls["backgroundPanel"] as Panel;
-            if (backgroundPanel != null)
-                backgroundPanel.Visible = false;
-
-            btnGravarObra.Visible = true;
-
-            // Verificar se uma obra está selecionada
-            if (cb_Obras.SelectedItem is KeyValuePair<string, string> obraSelecionada)
+            // Mensagem de sucesso com um design mais moderno
+            using (Form msgForm = new Form())
             {
-                string codigoObraSelecionada = obraSelecionada.Key;
+                msgForm.Size = new Size(400, 150);
+                msgForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                msgForm.StartPosition = FormStartPosition.CenterParent;
+                msgForm.MaximizeBox = false;
+                msgForm.MinimizeBox = false;
+                msgForm.Text = "Autorização Registrada";
+                msgForm.BackColor = Color.White;
 
-                // Criar uma observação detalhada
-                string observacao = $"Autorização: {statusText}. Entrada: {dtpDataEntrada.Value:dd/MM/yyyy}, Saída: {dtpDataSaida.Value:dd/MM/yyyy}, Contrato: {txtContratoSubempreitada.Text}";
+                Panel statusPanel = new Panel
+                {
+                    Dock = DockStyle.Top,
+                    Height = 8,
+                    BackColor = Color.FromArgb(76, 175, 80) // Verde para sucesso
+                };
+                msgForm.Controls.Add(statusPanel);
 
-                // Atualizar o status de autorização para a obra
-                _empresaManager.AtualizarStatusAutorizacaoObra(codigoObraSelecionada, statusIndex, observacao);
+                // Ícone de sucesso (poderia ser substituído por PictureBox com imagem)
+                Label iconLabel = new Label
+                {
+                    Text = "✓",
+                    Font = new Font("Calibri", 24F, FontStyle.Bold),
+                    ForeColor = Color.FromArgb(76, 175, 80),
+                    Size = new Size(50, 50),
+                    Location = new Point(20, 30),
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+                msgForm.Controls.Add(iconLabel);
 
-                // Atualizar a visualização de status
-                AtualizarControleAutorizacaoObra(codigoObraSelecionada);
+                // Mensagem
+                Label msgLabel = new Label
+                {
+                    Text = "Autorização de entrada registrada com sucesso!",
+                    Font = new Font("Calibri", 10F),
+                    Size = new Size(300, 50),
+                    Location = new Point(80, 30),
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
+                msgForm.Controls.Add(msgLabel);
 
-                // Salvar os dados imediatamente
-                _empresaManager.SalvarObra();
+                // Botão OK
+                Button btnOk = new Button
+                {
+                    Text = "OK",
+                    Size = new Size(80, 30),
+                    Location = new Point(300, 80),
+                    BackColor = Color.FromArgb(76, 175, 80),
+                    ForeColor = Color.White,
+                    FlatStyle = FlatStyle.Flat
+                };
+                btnOk.FlatAppearance.BorderSize = 0;
+                btnOk.Click += (s, args) => msgForm.Close();
+                msgForm.Controls.Add(btnOk);
+                msgForm.AcceptButton = btnOk;
+
+                msgForm.ShowDialog();
             }
-
-            // Mensagem de sucesso
-            MessageBox.Show("Autorização de entrada registrada com sucesso!",
-                "Sucesso",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
         }
 
         // Método para processar dados de obra e chamar a gravação

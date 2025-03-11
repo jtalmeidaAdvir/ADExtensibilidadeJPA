@@ -224,12 +224,6 @@ namespace ADExtensibilidadeJPA
             this.ContratoSubempreitada = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusAutorizacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AutorizacaoEntrada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.pnlAutorizacaoObra = new System.Windows.Forms.Panel();
-            this.lblAutorizacao = new System.Windows.Forms.Label();
-            this.cmbAutorizacaoStatus = new System.Windows.Forms.ComboBox();
-            this.lblObservacao = new System.Windows.Forms.Label();
-            this.txtObservacao = new System.Windows.Forms.TextBox();
-            this.btnSalvarAutorizacao = new System.Windows.Forms.Button();
             this.btnAutorizarEntrada = new System.Windows.Forms.Button();
             this.lblDataEntrada = new System.Windows.Forms.Label();
             this.dtpDataEntrada = new System.Windows.Forms.DateTimePicker();
@@ -238,6 +232,12 @@ namespace ADExtensibilidadeJPA
             this.lblContratoSubempreitada = new System.Windows.Forms.Label();
             this.txtContratoSubempreitada = new System.Windows.Forms.TextBox();
             this.pnlDadosObra = new System.Windows.Forms.Panel();
+            this.pnlAutorizacaoObra = new System.Windows.Forms.Panel();
+            this.lblAutorizacao = new System.Windows.Forms.Label();
+            this.cmbAutorizacaoStatus = new System.Windows.Forms.ComboBox();
+            this.lblObservacao = new System.Windows.Forms.Label();
+            this.txtObservacao = new System.Windows.Forms.TextBox();
+            this.btnSalvarAutorizacao = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
@@ -302,7 +302,7 @@ namespace ADExtensibilidadeJPA
             this.tabControl1.Location = new System.Drawing.Point(15, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(726, 745);
+            this.tabControl1.Size = new System.Drawing.Size(726, 731);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -313,20 +313,21 @@ namespace ADExtensibilidadeJPA
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(718, 717);
+            this.tabPage1.Size = new System.Drawing.Size(718, 703);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Empresa";
             // 
             // panelDadosEmpresa
             // 
             this.panelDadosEmpresa.Controls.Add(this.groupBoxInfoBasica);
+            this.panelDadosEmpresa.Controls.Add(this.panelModalDocumentos);
             this.panelDadosEmpresa.Controls.Add(this.groupBoxSituacaoFiscal);
             this.panelDadosEmpresa.Controls.Add(this.groupBoxApolices);
             this.panelDadosEmpresa.Controls.Add(this.groupBoxDeclaracoes);
             this.panelDadosEmpresa.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDadosEmpresa.Location = new System.Drawing.Point(3, 3);
             this.panelDadosEmpresa.Name = "panelDadosEmpresa";
-            this.panelDadosEmpresa.Size = new System.Drawing.Size(712, 375);
+            this.panelDadosEmpresa.Size = new System.Drawing.Size(712, 361);
             this.panelDadosEmpresa.TabIndex = 92;
             // 
             // groupBoxInfoBasica
@@ -340,7 +341,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxInfoBasica.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxInfoBasica.Location = new System.Drawing.Point(8, 5);
             this.groupBoxInfoBasica.Name = "groupBoxInfoBasica";
-            this.groupBoxInfoBasica.Size = new System.Drawing.Size(662, 132);
+            this.groupBoxInfoBasica.Size = new System.Drawing.Size(697, 132);
             this.groupBoxInfoBasica.TabIndex = 0;
             this.groupBoxInfoBasica.TabStop = false;
             this.groupBoxInfoBasica.Text = "Informações Básicas";
@@ -360,7 +361,7 @@ namespace ADExtensibilidadeJPA
             this.textBox1.Font = new System.Drawing.Font("Calibri", 9F);
             this.textBox1.Location = new System.Drawing.Point(69, 16);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(579, 22);
+            this.textBox1.Size = new System.Drawing.Size(611, 22);
             this.textBox1.TabIndex = 74;
             // 
             // label2
@@ -378,7 +379,7 @@ namespace ADExtensibilidadeJPA
             this.TXT_Sede.Font = new System.Drawing.Font("Calibri", 9F);
             this.TXT_Sede.Location = new System.Drawing.Point(69, 44);
             this.TXT_Sede.Name = "TXT_Sede";
-            this.TXT_Sede.Size = new System.Drawing.Size(579, 22);
+            this.TXT_Sede.Size = new System.Drawing.Size(611, 22);
             this.TXT_Sede.TabIndex = 71;
             // 
             // label3
@@ -396,13 +397,12 @@ namespace ADExtensibilidadeJPA
             this.TXT_Contribuinte.Font = new System.Drawing.Font("Calibri", 9F);
             this.TXT_Contribuinte.Location = new System.Drawing.Point(69, 72);
             this.TXT_Contribuinte.Name = "TXT_Contribuinte";
-            this.TXT_Contribuinte.Size = new System.Drawing.Size(579, 22);
+            this.TXT_Contribuinte.Size = new System.Drawing.Size(611, 22);
             this.TXT_Contribuinte.TabIndex = 72;
             // 
             // groupBoxSituacaoFiscal
             // 
             this.groupBoxSituacaoFiscal.Controls.Add(this.btnAbrirPastaAnexos);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.panelModalDocumentos);
             this.groupBoxSituacaoFiscal.Controls.Add(this.lblFolhaPagSS);
             this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoFolhaPag);
             this.groupBoxSituacaoFiscal.Controls.Add(this.label5);
@@ -443,7 +443,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxSituacaoFiscal.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxSituacaoFiscal.Location = new System.Drawing.Point(8, 143);
             this.groupBoxSituacaoFiscal.Name = "groupBoxSituacaoFiscal";
-            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(662, 221);
+            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(352, 208);
             this.groupBoxSituacaoFiscal.TabIndex = 1;
             this.groupBoxSituacaoFiscal.TabStop = false;
             this.groupBoxSituacaoFiscal.Text = "Situação Fiscal";
@@ -454,7 +454,7 @@ namespace ADExtensibilidadeJPA
             this.btnAbrirPastaAnexos.DialogResult = System.Windows.Forms.DialogResult.Retry;
             this.btnAbrirPastaAnexos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAbrirPastaAnexos.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.btnAbrirPastaAnexos.Location = new System.Drawing.Point(115, 79);
+            this.btnAbrirPastaAnexos.Location = new System.Drawing.Point(12, 48);
             this.btnAbrirPastaAnexos.Name = "btnAbrirPastaAnexos";
             this.btnAbrirPastaAnexos.Size = new System.Drawing.Size(130, 24);
             this.btnAbrirPastaAnexos.TabIndex = 126;
@@ -472,9 +472,9 @@ namespace ADExtensibilidadeJPA
             this.panelModalDocumentos.Controls.Add(this.dtpValidade);
             this.panelModalDocumentos.Controls.Add(this.btnConfirmarAnexo);
             this.panelModalDocumentos.Controls.Add(this.btnCancelarAnexo);
-            this.panelModalDocumentos.Location = new System.Drawing.Point(254, 13);
+            this.panelModalDocumentos.Location = new System.Drawing.Point(366, 143);
             this.panelModalDocumentos.Name = "panelModalDocumentos";
-            this.panelModalDocumentos.Size = new System.Drawing.Size(394, 208);
+            this.panelModalDocumentos.Size = new System.Drawing.Size(339, 208);
             this.panelModalDocumentos.TabIndex = 125;
             this.panelModalDocumentos.Visible = false;
             // 
@@ -506,7 +506,7 @@ namespace ADExtensibilidadeJPA
             "Outro documento"});
             this.cmbTipoDocumento.Location = new System.Drawing.Point(30, 50);
             this.cmbTipoDocumento.Name = "cmbTipoDocumento";
-            this.cmbTipoDocumento.Size = new System.Drawing.Size(330, 23);
+            this.cmbTipoDocumento.Size = new System.Drawing.Size(291, 23);
             this.cmbTipoDocumento.TabIndex = 0;
             this.cmbTipoDocumento.SelectedIndexChanged += new System.EventHandler(this.cmbTipoDocumento_SelectedIndexChanged);
             // 
@@ -527,7 +527,7 @@ namespace ADExtensibilidadeJPA
             this.dtpValidade.Location = new System.Drawing.Point(30, 105);
             this.dtpValidade.Name = "dtpValidade";
             this.dtpValidade.ShowCheckBox = true;
-            this.dtpValidade.Size = new System.Drawing.Size(330, 22);
+            this.dtpValidade.Size = new System.Drawing.Size(291, 22);
             this.dtpValidade.TabIndex = 4;
             // 
             // btnConfirmarAnexo
@@ -535,7 +535,7 @@ namespace ADExtensibilidadeJPA
             this.btnConfirmarAnexo.BackColor = System.Drawing.Color.LightGreen;
             this.btnConfirmarAnexo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConfirmarAnexo.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnConfirmarAnexo.Location = new System.Drawing.Point(122, 151);
+            this.btnConfirmarAnexo.Location = new System.Drawing.Point(88, 150);
             this.btnConfirmarAnexo.Name = "btnConfirmarAnexo";
             this.btnConfirmarAnexo.Size = new System.Drawing.Size(80, 30);
             this.btnConfirmarAnexo.TabIndex = 1;
@@ -548,7 +548,7 @@ namespace ADExtensibilidadeJPA
             this.btnCancelarAnexo.BackColor = System.Drawing.Color.LightCoral;
             this.btnCancelarAnexo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarAnexo.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnCancelarAnexo.Location = new System.Drawing.Point(222, 151);
+            this.btnCancelarAnexo.Location = new System.Drawing.Point(188, 150);
             this.btnCancelarAnexo.Name = "btnCancelarAnexo";
             this.btnCancelarAnexo.Size = new System.Drawing.Size(80, 30);
             this.btnCancelarAnexo.TabIndex = 2;
@@ -967,7 +967,7 @@ namespace ADExtensibilidadeJPA
             this.btnAnexarDocumentoGeral.BackColor = System.Drawing.Color.LightSteelBlue;
             this.btnAnexarDocumentoGeral.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAnexarDocumentoGeral.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.btnAnexarDocumentoGeral.Location = new System.Drawing.Point(114, 139);
+            this.btnAnexarDocumentoGeral.Location = new System.Drawing.Point(12, 78);
             this.btnAnexarDocumentoGeral.Name = "btnAnexarDocumentoGeral";
             this.btnAnexarDocumentoGeral.Size = new System.Drawing.Size(130, 24);
             this.btnAnexarDocumentoGeral.TabIndex = 124;
@@ -980,7 +980,7 @@ namespace ADExtensibilidadeJPA
             this.btnVerificarDocumentosFaltantes.BackColor = System.Drawing.Color.LightSalmon;
             this.btnVerificarDocumentosFaltantes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVerificarDocumentosFaltantes.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.btnVerificarDocumentosFaltantes.Location = new System.Drawing.Point(115, 109);
+            this.btnVerificarDocumentosFaltantes.Location = new System.Drawing.Point(148, 48);
             this.btnVerificarDocumentosFaltantes.Name = "btnVerificarDocumentosFaltantes";
             this.btnVerificarDocumentosFaltantes.Size = new System.Drawing.Size(130, 24);
             this.btnVerificarDocumentosFaltantes.TabIndex = 125;
@@ -1245,7 +1245,7 @@ namespace ADExtensibilidadeJPA
             // 
             this.panelObras.Controls.Add(this.groupBoxObras);
             this.panelObras.Controls.Add(this.pnlAutorizacaoObra);
-            this.panelObras.Location = new System.Drawing.Point(3, 382);
+            this.panelObras.Location = new System.Drawing.Point(3, 370);
             this.panelObras.Name = "panelObras";
             this.panelObras.Size = new System.Drawing.Size(712, 329);
             this.panelObras.TabIndex = 93;
@@ -1265,9 +1265,9 @@ namespace ADExtensibilidadeJPA
             this.groupBoxObras.Controls.Add(this.txtContratoSubempreitada);
             this.groupBoxObras.Controls.Add(this.pnlDadosObra);
             this.groupBoxObras.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBoxObras.Location = new System.Drawing.Point(0, 18);
+            this.groupBoxObras.Location = new System.Drawing.Point(0, 3);
             this.groupBoxObras.Name = "groupBoxObras";
-            this.groupBoxObras.Size = new System.Drawing.Size(705, 250);
+            this.groupBoxObras.Size = new System.Drawing.Size(705, 319);
             this.groupBoxObras.TabIndex = 0;
             this.groupBoxObras.TabStop = false;
             this.groupBoxObras.Text = "Obras";
@@ -1348,79 +1348,6 @@ namespace ADExtensibilidadeJPA
             // 
             this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
             this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
-            // 
-            // pnlAutorizacaoObra
-            // 
-            this.pnlAutorizacaoObra.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pnlAutorizacaoObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlAutorizacaoObra.Controls.Add(this.lblAutorizacao);
-            this.pnlAutorizacaoObra.Controls.Add(this.cmbAutorizacaoStatus);
-            this.pnlAutorizacaoObra.Controls.Add(this.lblObservacao);
-            this.pnlAutorizacaoObra.Controls.Add(this.txtObservacao);
-            this.pnlAutorizacaoObra.Controls.Add(this.btnSalvarAutorizacao);
-            this.pnlAutorizacaoObra.Location = new System.Drawing.Point(8, 281);
-            this.pnlAutorizacaoObra.Name = "pnlAutorizacaoObra";
-            this.pnlAutorizacaoObra.Size = new System.Drawing.Size(658, 45);
-            this.pnlAutorizacaoObra.TabIndex = 94;
-            this.pnlAutorizacaoObra.Visible = false;
-            // 
-            // lblAutorizacao
-            // 
-            this.lblAutorizacao.AutoSize = true;
-            this.lblAutorizacao.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            this.lblAutorizacao.Location = new System.Drawing.Point(10, 12);
-            this.lblAutorizacao.Name = "lblAutorizacao";
-            this.lblAutorizacao.Size = new System.Drawing.Size(50, 17);
-            this.lblAutorizacao.TabIndex = 0;
-            this.lblAutorizacao.Text = "Status:";
-            // 
-            // cmbAutorizacaoStatus
-            // 
-            this.cmbAutorizacaoStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAutorizacaoStatus.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.cmbAutorizacaoStatus.Items.AddRange(new object[] {
-            "Autorizado",
-            "Pendente",
-            "Não Autorizado",
-            "Renovação Necessária",
-            "Documentos Faltantes"});
-            this.cmbAutorizacaoStatus.Location = new System.Drawing.Point(70, 10);
-            this.cmbAutorizacaoStatus.Name = "cmbAutorizacaoStatus";
-            this.cmbAutorizacaoStatus.Size = new System.Drawing.Size(150, 23);
-            this.cmbAutorizacaoStatus.TabIndex = 1;
-            this.cmbAutorizacaoStatus.SelectedIndexChanged += new System.EventHandler(this.cmbAutorizacaoStatus_SelectedIndexChanged);
-            // 
-            // lblObservacao
-            // 
-            this.lblObservacao.AutoSize = true;
-            this.lblObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.lblObservacao.Location = new System.Drawing.Point(230, 12);
-            this.lblObservacao.Name = "lblObservacao";
-            this.lblObservacao.Size = new System.Drawing.Size(32, 15);
-            this.lblObservacao.TabIndex = 2;
-            this.lblObservacao.Text = "Obs:";
-            // 
-            // txtObservacao
-            // 
-            this.txtObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.txtObservacao.Location = new System.Drawing.Point(280, 10);
-            this.txtObservacao.Name = "txtObservacao";
-            this.txtObservacao.Size = new System.Drawing.Size(280, 23);
-            this.txtObservacao.TabIndex = 3;
-            this.toolTip.SetToolTip(this.txtObservacao, "Observações sobre a autorização...");
-            // 
-            // btnSalvarAutorizacao
-            // 
-            this.btnSalvarAutorizacao.BackColor = System.Drawing.Color.LightBlue;
-            this.btnSalvarAutorizacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalvarAutorizacao.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.btnSalvarAutorizacao.Location = new System.Drawing.Point(570, 10);
-            this.btnSalvarAutorizacao.Name = "btnSalvarAutorizacao";
-            this.btnSalvarAutorizacao.Size = new System.Drawing.Size(75, 25);
-            this.btnSalvarAutorizacao.TabIndex = 4;
-            this.btnSalvarAutorizacao.Text = "Salvar";
-            this.btnSalvarAutorizacao.UseVisualStyleBackColor = false;
-            this.btnSalvarAutorizacao.Click += new System.EventHandler(this.btnSalvarAutorizacao_Click);
             // 
             // btnAutorizarEntrada
             // 
@@ -1507,12 +1434,85 @@ namespace ADExtensibilidadeJPA
             this.pnlDadosObra.TabIndex = 98;
             this.pnlDadosObra.Visible = false;
             // 
+            // pnlAutorizacaoObra
+            // 
+            this.pnlAutorizacaoObra.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlAutorizacaoObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlAutorizacaoObra.Controls.Add(this.lblAutorizacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.cmbAutorizacaoStatus);
+            this.pnlAutorizacaoObra.Controls.Add(this.lblObservacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.txtObservacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.btnSalvarAutorizacao);
+            this.pnlAutorizacaoObra.Location = new System.Drawing.Point(11, 385);
+            this.pnlAutorizacaoObra.Name = "pnlAutorizacaoObra";
+            this.pnlAutorizacaoObra.Size = new System.Drawing.Size(658, 45);
+            this.pnlAutorizacaoObra.TabIndex = 94;
+            this.pnlAutorizacaoObra.Visible = false;
+            // 
+            // lblAutorizacao
+            // 
+            this.lblAutorizacao.AutoSize = true;
+            this.lblAutorizacao.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.lblAutorizacao.Location = new System.Drawing.Point(10, 12);
+            this.lblAutorizacao.Name = "lblAutorizacao";
+            this.lblAutorizacao.Size = new System.Drawing.Size(50, 17);
+            this.lblAutorizacao.TabIndex = 0;
+            this.lblAutorizacao.Text = "Status:";
+            // 
+            // cmbAutorizacaoStatus
+            // 
+            this.cmbAutorizacaoStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAutorizacaoStatus.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.cmbAutorizacaoStatus.Items.AddRange(new object[] {
+            "Autorizado",
+            "Pendente",
+            "Não Autorizado",
+            "Renovação Necessária",
+            "Documentos Faltantes"});
+            this.cmbAutorizacaoStatus.Location = new System.Drawing.Point(70, 10);
+            this.cmbAutorizacaoStatus.Name = "cmbAutorizacaoStatus";
+            this.cmbAutorizacaoStatus.Size = new System.Drawing.Size(150, 23);
+            this.cmbAutorizacaoStatus.TabIndex = 1;
+            this.cmbAutorizacaoStatus.SelectedIndexChanged += new System.EventHandler(this.cmbAutorizacaoStatus_SelectedIndexChanged);
+            // 
+            // lblObservacao
+            // 
+            this.lblObservacao.AutoSize = true;
+            this.lblObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.lblObservacao.Location = new System.Drawing.Point(230, 12);
+            this.lblObservacao.Name = "lblObservacao";
+            this.lblObservacao.Size = new System.Drawing.Size(32, 15);
+            this.lblObservacao.TabIndex = 2;
+            this.lblObservacao.Text = "Obs:";
+            // 
+            // txtObservacao
+            // 
+            this.txtObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.txtObservacao.Location = new System.Drawing.Point(280, 10);
+            this.txtObservacao.Name = "txtObservacao";
+            this.txtObservacao.Size = new System.Drawing.Size(280, 23);
+            this.txtObservacao.TabIndex = 3;
+            this.toolTip.SetToolTip(this.txtObservacao, "Observações sobre a autorização...");
+            // 
+            // btnSalvarAutorizacao
+            // 
+            this.btnSalvarAutorizacao.BackColor = System.Drawing.Color.LightBlue;
+            this.btnSalvarAutorizacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalvarAutorizacao.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSalvarAutorizacao.Location = new System.Drawing.Point(570, 10);
+            this.btnSalvarAutorizacao.Name = "btnSalvarAutorizacao";
+            this.btnSalvarAutorizacao.Size = new System.Drawing.Size(75, 25);
+            this.btnSalvarAutorizacao.TabIndex = 4;
+            this.btnSalvarAutorizacao.Text = "Salvar";
+            this.btnSalvarAutorizacao.UseVisualStyleBackColor = false;
+            this.btnSalvarAutorizacao.Click += new System.EventHandler(this.btnSalvarAutorizacao_Click);
+            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(718, 555);
+            this.tabPage2.Size = new System.Drawing.Size(718, 717);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1582,7 +1582,7 @@ namespace ADExtensibilidadeJPA
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(757, 817);
+            this.ClientSize = new System.Drawing.Size(757, 804);
             this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
