@@ -25,16 +25,8 @@ namespace ADExtensibilidadeJPA
         private TabPage tabPage1;
         private Panel AlertaValidadeAlvara;
         private Panel pnlAutorizacaoObra;
-        private Button btnAutorizarEntrada;
-        private Label lblDataEntrada;
-        private DateTimePicker dtpDataEntrada;
-        private Label lblDataSaida;
-        private DateTimePicker dtpDataSaida;
-        private Label lblContratoSubempreitada;
-        private TextBox txtContratoSubempreitada;
         private Label lblStatusEntrada;
         private ComboBox cmbStatusEntrada;
-        private Panel pnlDadosObra;
         private ComboBox cb_ReciboPagSegSocial;
         private Label label22;
         private DateTimePicker TXT_AlvaraValidade;
@@ -52,22 +44,12 @@ namespace ADExtensibilidadeJPA
         private Label label3;
         private Label label2;
         private TabPage tabPage2;
-        private DataGridView dataGridView1;
-        private ComboBox cb_Obras;
         private ToolStrip toolStrip1;
         private ToolStripButton BT_Salvar_Click;
-        private DataGridViewTextBoxColumn EntradaObra_;
-        private DataGridViewTextBoxColumn SaidaObra_;
-        private DataGridViewTextBoxColumn ContratoSubempreitada;
-        private DataGridViewTextBoxColumn StatusAutorizacao;
-        private DataGridViewCheckBoxColumn AutorizacaoEntrada;
         private Panel panelDadosEmpresa;
         private GroupBox groupBoxInfoBasica;
         private GroupBox groupBoxSituacaoFiscal;
         private Panel panelObras;
-        private GroupBox groupBoxObras;
-        private Label label17;
-        private Button btnGravarObra;
         private Label lblSelecionar;
         private Label labelCaminho;
         private TextBox txtCaminhoPasta;
@@ -232,6 +214,13 @@ namespace ADExtensibilidadeJPA
             this.label12 = new System.Windows.Forms.Label();
             this.AlertaValidadeAlvara = new System.Windows.Forms.Panel();
             this.TXT_ReciboRC = new System.Windows.Forms.TextBox();
+            this.panelObras = new System.Windows.Forms.Panel();
+            this.pnlAutorizacaoObra = new System.Windows.Forms.Panel();
+            this.lblAutorizacao = new System.Windows.Forms.Label();
+            this.cmbAutorizacaoStatus = new System.Windows.Forms.ComboBox();
+            this.lblObservacao = new System.Windows.Forms.Label();
+            this.txtObservacao = new System.Windows.Forms.TextBox();
+            this.btnSalvarAutorizacao = new System.Windows.Forms.Button();
             this.groupBoxDeclaracoes = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.cb_HorarioTrabalho = new System.Windows.Forms.ComboBox();
@@ -241,31 +230,6 @@ namespace ADExtensibilidadeJPA
             this.cb_DecRespEstaleiro = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.cb_DecConhecimPSS = new System.Windows.Forms.ComboBox();
-            this.panelObras = new System.Windows.Forms.Panel();
-            this.groupBoxObras = new System.Windows.Forms.GroupBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.cb_Obras = new System.Windows.Forms.ComboBox();
-            this.btnGravarObra = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.EntradaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SaidaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ContratoSubempreitada = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StatusAutorizacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AutorizacaoEntrada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.btnAutorizarEntrada = new System.Windows.Forms.Button();
-            this.lblDataEntrada = new System.Windows.Forms.Label();
-            this.dtpDataEntrada = new System.Windows.Forms.DateTimePicker();
-            this.lblDataSaida = new System.Windows.Forms.Label();
-            this.dtpDataSaida = new System.Windows.Forms.DateTimePicker();
-            this.lblContratoSubempreitada = new System.Windows.Forms.Label();
-            this.txtContratoSubempreitada = new System.Windows.Forms.TextBox();
-            this.pnlDadosObra = new System.Windows.Forms.Panel();
-            this.pnlAutorizacaoObra = new System.Windows.Forms.Panel();
-            this.lblAutorizacao = new System.Windows.Forms.Label();
-            this.cmbAutorizacaoStatus = new System.Windows.Forms.ComboBox();
-            this.lblObservacao = new System.Windows.Forms.Label();
-            this.txtObservacao = new System.Windows.Forms.TextBox();
-            this.btnSalvarAutorizacao = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panelTrabalhadores = new System.Windows.Forms.Panel();
             this.groupBoxInfoTrabalhador = new System.Windows.Forms.GroupBox();
@@ -294,6 +258,26 @@ namespace ADExtensibilidadeJPA
             this.btnExcluirTrabalhador = new System.Windows.Forms.Button();
             this.btnSalvarTrabalhador = new System.Windows.Forms.Button();
             this.btnAutorizarTrabalhador = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBoxObras = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.cb_Obras = new System.Windows.Forms.ComboBox();
+            this.btnGravarObra = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.EntradaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SaidaObra_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContratoSubempreitada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StatusAutorizacao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AutorizacaoEntrada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.btnAutorizarEntrada = new System.Windows.Forms.Button();
+            this.lblDataEntrada = new System.Windows.Forms.Label();
+            this.dtpDataEntrada = new System.Windows.Forms.DateTimePicker();
+            this.lblDataSaida = new System.Windows.Forms.Label();
+            this.dtpDataSaida = new System.Windows.Forms.DateTimePicker();
+            this.lblContratoSubempreitada = new System.Windows.Forms.Label();
+            this.txtContratoSubempreitada = new System.Windows.Forms.TextBox();
+            this.pnlDadosObra = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
             this.lblSelecionar = new System.Windows.Forms.Label();
@@ -308,17 +292,18 @@ namespace ADExtensibilidadeJPA
             this.groupBoxSituacaoFiscal.SuspendLayout();
             this.groupBoxApolices.SuspendLayout();
             this.label4.SuspendLayout();
-            this.groupBoxDeclaracoes.SuspendLayout();
             this.panelObras.SuspendLayout();
-            this.groupBoxObras.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.pnlAutorizacaoObra.SuspendLayout();
+            this.groupBoxDeclaracoes.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.panelTrabalhadores.SuspendLayout();
             this.groupBoxInfoTrabalhador.SuspendLayout();
             this.groupBoxListaTrabalhadores.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).BeginInit();
             this.panelBotoesTrabalhador.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBoxObras.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -360,6 +345,8 @@ namespace ADExtensibilidadeJPA
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.tabControl1.Location = new System.Drawing.Point(15, 65);
             this.tabControl1.Name = "tabControl1";
@@ -372,6 +359,7 @@ namespace ADExtensibilidadeJPA
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage1.Controls.Add(this.panelDadosEmpresa);
             this.tabPage1.Controls.Add(this.panelObras);
+            this.tabPage1.Controls.Add(this.groupBoxDeclaracoes);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -385,11 +373,10 @@ namespace ADExtensibilidadeJPA
             this.panelDadosEmpresa.Controls.Add(this.panelModalDocumentos);
             this.panelDadosEmpresa.Controls.Add(this.groupBoxSituacaoFiscal);
             this.panelDadosEmpresa.Controls.Add(this.groupBoxApolices);
-            this.panelDadosEmpresa.Controls.Add(this.groupBoxDeclaracoes);
             this.panelDadosEmpresa.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelDadosEmpresa.Location = new System.Drawing.Point(3, 3);
             this.panelDadosEmpresa.Name = "panelDadosEmpresa";
-            this.panelDadosEmpresa.Size = new System.Drawing.Size(712, 361);
+            this.panelDadosEmpresa.Size = new System.Drawing.Size(712, 693);
             this.panelDadosEmpresa.TabIndex = 92;
             // 
             // groupBoxInfoBasica
@@ -472,7 +459,7 @@ namespace ADExtensibilidadeJPA
             this.panelModalDocumentos.Controls.Add(this.dtpValidade);
             this.panelModalDocumentos.Controls.Add(this.btnConfirmarAnexo);
             this.panelModalDocumentos.Controls.Add(this.btnCancelarAnexo);
-            this.panelModalDocumentos.Location = new System.Drawing.Point(366, 143);
+            this.panelModalDocumentos.Location = new System.Drawing.Point(11, 357);
             this.panelModalDocumentos.Name = "panelModalDocumentos";
             this.panelModalDocumentos.Size = new System.Drawing.Size(339, 208);
             this.panelModalDocumentos.TabIndex = 125;
@@ -599,10 +586,10 @@ namespace ADExtensibilidadeJPA
             this.groupBoxSituacaoFiscal.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
             this.groupBoxSituacaoFiscal.Location = new System.Drawing.Point(8, 143);
             this.groupBoxSituacaoFiscal.Name = "groupBoxSituacaoFiscal";
-            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(352, 208);
+            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(697, 133);
             this.groupBoxSituacaoFiscal.TabIndex = 1;
             this.groupBoxSituacaoFiscal.TabStop = false;
-            this.groupBoxSituacaoFiscal.Text = "Situação Fiscal";
+            this.groupBoxSituacaoFiscal.Text = "Documentos";
             // 
             // btnAbrirPastaAnexos
             // 
@@ -1204,6 +1191,87 @@ namespace ADExtensibilidadeJPA
             this.TXT_ReciboRC.Size = new System.Drawing.Size(113, 22);
             this.TXT_ReciboRC.TabIndex = 78;
             // 
+            // panelObras
+            // 
+            this.panelObras.Controls.Add(this.pnlAutorizacaoObra);
+            this.panelObras.Location = new System.Drawing.Point(3, 689);
+            this.panelObras.Name = "panelObras";
+            this.panelObras.Size = new System.Drawing.Size(712, 10);
+            this.panelObras.TabIndex = 93;
+            // 
+            // pnlAutorizacaoObra
+            // 
+            this.pnlAutorizacaoObra.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlAutorizacaoObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlAutorizacaoObra.Controls.Add(this.lblAutorizacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.cmbAutorizacaoStatus);
+            this.pnlAutorizacaoObra.Controls.Add(this.lblObservacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.txtObservacao);
+            this.pnlAutorizacaoObra.Controls.Add(this.btnSalvarAutorizacao);
+            this.pnlAutorizacaoObra.Location = new System.Drawing.Point(11, 385);
+            this.pnlAutorizacaoObra.Name = "pnlAutorizacaoObra";
+            this.pnlAutorizacaoObra.Size = new System.Drawing.Size(658, 45);
+            this.pnlAutorizacaoObra.TabIndex = 94;
+            this.pnlAutorizacaoObra.Visible = false;
+            // 
+            // lblAutorizacao
+            // 
+            this.lblAutorizacao.AutoSize = true;
+            this.lblAutorizacao.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.lblAutorizacao.Location = new System.Drawing.Point(10, 12);
+            this.lblAutorizacao.Name = "lblAutorizacao";
+            this.lblAutorizacao.Size = new System.Drawing.Size(50, 17);
+            this.lblAutorizacao.TabIndex = 0;
+            this.lblAutorizacao.Text = "Status:";
+            // 
+            // cmbAutorizacaoStatus
+            // 
+            this.cmbAutorizacaoStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAutorizacaoStatus.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.cmbAutorizacaoStatus.Items.AddRange(new object[] {
+            "Autorizado",
+            "Pendente",
+            "Não Autorizado",
+            "Renovação Necessária",
+            "Documentos Faltantes"});
+            this.cmbAutorizacaoStatus.Location = new System.Drawing.Point(70, 10);
+            this.cmbAutorizacaoStatus.Name = "cmbAutorizacaoStatus";
+            this.cmbAutorizacaoStatus.Size = new System.Drawing.Size(150, 23);
+            this.cmbAutorizacaoStatus.TabIndex = 1;
+            this.cmbAutorizacaoStatus.SelectedIndexChanged += new System.EventHandler(this.cmbAutorizacaoStatus_SelectedIndexChanged);
+            // 
+            // lblObservacao
+            // 
+            this.lblObservacao.AutoSize = true;
+            this.lblObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.lblObservacao.Location = new System.Drawing.Point(230, 12);
+            this.lblObservacao.Name = "lblObservacao";
+            this.lblObservacao.Size = new System.Drawing.Size(32, 15);
+            this.lblObservacao.TabIndex = 2;
+            this.lblObservacao.Text = "Obs:";
+            // 
+            // txtObservacao
+            // 
+            this.txtObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.txtObservacao.Location = new System.Drawing.Point(280, 10);
+            this.txtObservacao.Name = "txtObservacao";
+            this.txtObservacao.Size = new System.Drawing.Size(280, 23);
+            this.txtObservacao.TabIndex = 3;
+            this.toolTip.SetToolTip(this.txtObservacao, "Observações sobre a autorização...");
+            // 
+            // btnSalvarAutorizacao
+            // 
+            this.btnSalvarAutorizacao.BackColor = System.Drawing.Color.LightBlue;
+            this.btnSalvarAutorizacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSalvarAutorizacao.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSalvarAutorizacao.Location = new System.Drawing.Point(570, 10);
+            this.btnSalvarAutorizacao.Name = "btnSalvarAutorizacao";
+            this.btnSalvarAutorizacao.Size = new System.Drawing.Size(75, 25);
+            this.btnSalvarAutorizacao.TabIndex = 4;
+            this.btnSalvarAutorizacao.Text = "Salvar";
+            this.btnSalvarAutorizacao.UseVisualStyleBackColor = false;
+            this.btnSalvarAutorizacao.Click += new System.EventHandler(this.btnSalvarAutorizacao_Click);
+            // 
             // groupBoxDeclaracoes
             // 
             this.groupBoxDeclaracoes.Controls.Add(this.label13);
@@ -1215,7 +1283,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxDeclaracoes.Controls.Add(this.label16);
             this.groupBoxDeclaracoes.Controls.Add(this.cb_DecConhecimPSS);
             this.groupBoxDeclaracoes.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBoxDeclaracoes.Location = new System.Drawing.Point(11, 399);
+            this.groupBoxDeclaracoes.Location = new System.Drawing.Point(28, 637);
             this.groupBoxDeclaracoes.Name = "groupBoxDeclaracoes";
             this.groupBoxDeclaracoes.Size = new System.Drawing.Size(662, 122);
             this.groupBoxDeclaracoes.TabIndex = 3;
@@ -1302,272 +1370,6 @@ namespace ADExtensibilidadeJPA
             this.cb_DecConhecimPSS.Name = "cb_DecConhecimPSS";
             this.cb_DecConhecimPSS.Size = new System.Drawing.Size(180, 22);
             this.cb_DecConhecimPSS.TabIndex = 87;
-            // 
-            // panelObras
-            // 
-            this.panelObras.Controls.Add(this.groupBoxObras);
-            this.panelObras.Controls.Add(this.pnlAutorizacaoObra);
-            this.panelObras.Location = new System.Drawing.Point(3, 370);
-            this.panelObras.Name = "panelObras";
-            this.panelObras.Size = new System.Drawing.Size(712, 329);
-            this.panelObras.TabIndex = 93;
-            // 
-            // groupBoxObras
-            // 
-            this.groupBoxObras.Controls.Add(this.label17);
-            this.groupBoxObras.Controls.Add(this.cb_Obras);
-            this.groupBoxObras.Controls.Add(this.btnGravarObra);
-            this.groupBoxObras.Controls.Add(this.dataGridView1);
-            this.groupBoxObras.Controls.Add(this.btnAutorizarEntrada);
-            this.groupBoxObras.Controls.Add(this.lblDataEntrada);
-            this.groupBoxObras.Controls.Add(this.dtpDataEntrada);
-            this.groupBoxObras.Controls.Add(this.lblDataSaida);
-            this.groupBoxObras.Controls.Add(this.dtpDataSaida);
-            this.groupBoxObras.Controls.Add(this.lblContratoSubempreitada);
-            this.groupBoxObras.Controls.Add(this.txtContratoSubempreitada);
-            this.groupBoxObras.Controls.Add(this.pnlDadosObra);
-            this.groupBoxObras.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBoxObras.Location = new System.Drawing.Point(0, 3);
-            this.groupBoxObras.Name = "groupBoxObras";
-            this.groupBoxObras.Size = new System.Drawing.Size(705, 319);
-            this.groupBoxObras.TabIndex = 0;
-            this.groupBoxObras.TabStop = false;
-            this.groupBoxObras.Text = "Obras";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label17.Location = new System.Drawing.Point(11, 24);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(103, 14);
-            this.label17.TabIndex = 93;
-            this.label17.Text = "Selecione a Obra:";
-            // 
-            // cb_Obras
-            // 
-            this.cb_Obras.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_Obras.Font = new System.Drawing.Font("Calibri", 9F);
-            this.cb_Obras.FormattingEnabled = true;
-            this.cb_Obras.Location = new System.Drawing.Point(123, 21);
-            this.cb_Obras.Name = "cb_Obras";
-            this.cb_Obras.Size = new System.Drawing.Size(470, 22);
-            this.cb_Obras.TabIndex = 89;
-            this.cb_Obras.SelectedIndexChanged += new System.EventHandler(this.cb_Obras_SelectedIndexChanged);
-            // 
-            // btnGravarObra
-            // 
-            this.btnGravarObra.BackColor = System.Drawing.Color.LightGreen;
-            this.btnGravarObra.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGravarObra.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnGravarObra.Location = new System.Drawing.Point(599, 21);
-            this.btnGravarObra.Name = "btnGravarObra";
-            this.btnGravarObra.Size = new System.Drawing.Size(70, 22);
-            this.btnGravarObra.TabIndex = 91;
-            this.btnGravarObra.Text = "Gravar";
-            this.btnGravarObra.UseVisualStyleBackColor = false;
-            this.btnGravarObra.Click += new System.EventHandler(this.ProcessarGravarObra);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.dataGridView1.ColumnHeadersHeight = 25;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EntradaObra_,
-            this.SaidaObra_,
-            this.ContratoSubempreitada,
-            this.StatusAutorizacao,
-            this.AutorizacaoEntrada});
-            this.dataGridView1.Location = new System.Drawing.Point(11, 110);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(658, 75);
-            this.dataGridView1.TabIndex = 90;
-            // 
-            // EntradaObra_
-            // 
-            this.EntradaObra_.HeaderText = "Entrada em Obra";
-            this.EntradaObra_.Name = "EntradaObra_";
-            // 
-            // SaidaObra_
-            // 
-            this.SaidaObra_.HeaderText = "Saida de Obra";
-            this.SaidaObra_.Name = "SaidaObra_";
-            // 
-            // ContratoSubempreitada
-            // 
-            this.ContratoSubempreitada.HeaderText = "Contrato Subempreitada";
-            this.ContratoSubempreitada.Name = "ContratoSubempreitada";
-            // 
-            // StatusAutorizacao
-            // 
-            this.StatusAutorizacao.HeaderText = "Status";
-            this.StatusAutorizacao.Name = "StatusAutorizacao";
-            // 
-            // AutorizacaoEntrada
-            // 
-            this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
-            this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
-            // 
-            // btnAutorizarEntrada
-            // 
-            this.btnAutorizarEntrada.BackColor = System.Drawing.Color.LightGreen;
-            this.btnAutorizarEntrada.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAutorizarEntrada.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAutorizarEntrada.Location = new System.Drawing.Point(11, 49);
-            this.btnAutorizarEntrada.Name = "btnAutorizarEntrada";
-            this.btnAutorizarEntrada.Size = new System.Drawing.Size(180, 30);
-            this.btnAutorizarEntrada.TabIndex = 92;
-            this.btnAutorizarEntrada.Text = "Autorizar Nova Entrada em Obra";
-            this.btnAutorizarEntrada.UseVisualStyleBackColor = false;
-            this.btnAutorizarEntrada.Click += new System.EventHandler(this.btnAutorizarEntrada_Click);
-            // 
-            // lblDataEntrada
-            // 
-            this.lblDataEntrada.AutoSize = true;
-            this.lblDataEntrada.Font = new System.Drawing.Font("Calibri", 9F);
-            this.lblDataEntrada.Location = new System.Drawing.Point(175, 55);
-            this.lblDataEntrada.Name = "lblDataEntrada";
-            this.lblDataEntrada.Size = new System.Drawing.Size(81, 14);
-            this.lblDataEntrada.TabIndex = 95;
-            this.lblDataEntrada.Text = "Data Entrada:";
-            this.lblDataEntrada.Visible = false;
-            // 
-            // dtpDataEntrada
-            // 
-            this.dtpDataEntrada.Font = new System.Drawing.Font("Calibri", 9F);
-            this.dtpDataEntrada.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDataEntrada.Location = new System.Drawing.Point(260, 53);
-            this.dtpDataEntrada.Name = "dtpDataEntrada";
-            this.dtpDataEntrada.Size = new System.Drawing.Size(100, 22);
-            this.dtpDataEntrada.TabIndex = 93;
-            this.dtpDataEntrada.Visible = false;
-            // 
-            // lblDataSaida
-            // 
-            this.lblDataSaida.AutoSize = true;
-            this.lblDataSaida.Font = new System.Drawing.Font("Calibri", 9F);
-            this.lblDataSaida.Location = new System.Drawing.Point(370, 55);
-            this.lblDataSaida.Name = "lblDataSaida";
-            this.lblDataSaida.Size = new System.Drawing.Size(69, 14);
-            this.lblDataSaida.TabIndex = 96;
-            this.lblDataSaida.Text = "Data Saída:";
-            this.lblDataSaida.Visible = false;
-            // 
-            // dtpDataSaida
-            // 
-            this.dtpDataSaida.Font = new System.Drawing.Font("Calibri", 9F);
-            this.dtpDataSaida.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDataSaida.Location = new System.Drawing.Point(440, 53);
-            this.dtpDataSaida.Name = "dtpDataSaida";
-            this.dtpDataSaida.Size = new System.Drawing.Size(100, 22);
-            this.dtpDataSaida.TabIndex = 94;
-            this.dtpDataSaida.Visible = false;
-            // 
-            // lblContratoSubempreitada
-            // 
-            this.lblContratoSubempreitada.AutoSize = true;
-            this.lblContratoSubempreitada.Font = new System.Drawing.Font("Calibri", 9F);
-            this.lblContratoSubempreitada.Location = new System.Drawing.Point(175, 82);
-            this.lblContratoSubempreitada.Name = "lblContratoSubempreitada";
-            this.lblContratoSubempreitada.Size = new System.Drawing.Size(143, 14);
-            this.lblContratoSubempreitada.TabIndex = 97;
-            this.lblContratoSubempreitada.Text = "Contrato Subempreitada:";
-            this.lblContratoSubempreitada.Visible = false;
-            // 
-            // txtContratoSubempreitada
-            // 
-            this.txtContratoSubempreitada.Font = new System.Drawing.Font("Calibri", 9F);
-            this.txtContratoSubempreitada.Location = new System.Drawing.Point(325, 80);
-            this.txtContratoSubempreitada.Name = "txtContratoSubempreitada";
-            this.txtContratoSubempreitada.Size = new System.Drawing.Size(215, 22);
-            this.txtContratoSubempreitada.TabIndex = 95;
-            this.txtContratoSubempreitada.Visible = false;
-            // 
-            // pnlDadosObra
-            // 
-            this.pnlDadosObra.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pnlDadosObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlDadosObra.Location = new System.Drawing.Point(170, 49);
-            this.pnlDadosObra.Name = "pnlDadosObra";
-            this.pnlDadosObra.Size = new System.Drawing.Size(499, 30);
-            this.pnlDadosObra.TabIndex = 98;
-            this.pnlDadosObra.Visible = false;
-            // 
-            // pnlAutorizacaoObra
-            // 
-            this.pnlAutorizacaoObra.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pnlAutorizacaoObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlAutorizacaoObra.Controls.Add(this.lblAutorizacao);
-            this.pnlAutorizacaoObra.Controls.Add(this.cmbAutorizacaoStatus);
-            this.pnlAutorizacaoObra.Controls.Add(this.lblObservacao);
-            this.pnlAutorizacaoObra.Controls.Add(this.txtObservacao);
-            this.pnlAutorizacaoObra.Controls.Add(this.btnSalvarAutorizacao);
-            this.pnlAutorizacaoObra.Location = new System.Drawing.Point(11, 385);
-            this.pnlAutorizacaoObra.Name = "pnlAutorizacaoObra";
-            this.pnlAutorizacaoObra.Size = new System.Drawing.Size(658, 45);
-            this.pnlAutorizacaoObra.TabIndex = 94;
-            this.pnlAutorizacaoObra.Visible = false;
-            // 
-            // lblAutorizacao
-            // 
-            this.lblAutorizacao.AutoSize = true;
-            this.lblAutorizacao.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
-            this.lblAutorizacao.Location = new System.Drawing.Point(10, 12);
-            this.lblAutorizacao.Name = "lblAutorizacao";
-            this.lblAutorizacao.Size = new System.Drawing.Size(50, 17);
-            this.lblAutorizacao.TabIndex = 0;
-            this.lblAutorizacao.Text = "Status:";
-            // 
-            // cmbAutorizacaoStatus
-            // 
-            this.cmbAutorizacaoStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAutorizacaoStatus.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.cmbAutorizacaoStatus.Items.AddRange(new object[] {
-            "Autorizado",
-            "Pendente",
-            "Não Autorizado",
-            "Renovação Necessária",
-            "Documentos Faltantes"});
-            this.cmbAutorizacaoStatus.Location = new System.Drawing.Point(70, 10);
-            this.cmbAutorizacaoStatus.Name = "cmbAutorizacaoStatus";
-            this.cmbAutorizacaoStatus.Size = new System.Drawing.Size(150, 23);
-            this.cmbAutorizacaoStatus.TabIndex = 1;
-            this.cmbAutorizacaoStatus.SelectedIndexChanged += new System.EventHandler(this.cmbAutorizacaoStatus_SelectedIndexChanged);
-            // 
-            // lblObservacao
-            // 
-            this.lblObservacao.AutoSize = true;
-            this.lblObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.lblObservacao.Location = new System.Drawing.Point(230, 12);
-            this.lblObservacao.Name = "lblObservacao";
-            this.lblObservacao.Size = new System.Drawing.Size(32, 15);
-            this.lblObservacao.TabIndex = 2;
-            this.lblObservacao.Text = "Obs:";
-            // 
-            // txtObservacao
-            // 
-            this.txtObservacao.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.txtObservacao.Location = new System.Drawing.Point(280, 10);
-            this.txtObservacao.Name = "txtObservacao";
-            this.txtObservacao.Size = new System.Drawing.Size(280, 23);
-            this.txtObservacao.TabIndex = 3;
-            this.toolTip.SetToolTip(this.txtObservacao, "Observações sobre a autorização...");
-            // 
-            // btnSalvarAutorizacao
-            // 
-            this.btnSalvarAutorizacao.BackColor = System.Drawing.Color.LightBlue;
-            this.btnSalvarAutorizacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSalvarAutorizacao.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.btnSalvarAutorizacao.Location = new System.Drawing.Point(570, 10);
-            this.btnSalvarAutorizacao.Name = "btnSalvarAutorizacao";
-            this.btnSalvarAutorizacao.Size = new System.Drawing.Size(75, 25);
-            this.btnSalvarAutorizacao.TabIndex = 4;
-            this.btnSalvarAutorizacao.Text = "Salvar";
-            this.btnSalvarAutorizacao.UseVisualStyleBackColor = false;
-            this.btnSalvarAutorizacao.Click += new System.EventHandler(this.btnSalvarAutorizacao_Click);
             // 
             // tabPage2
             // 
@@ -1894,6 +1696,208 @@ namespace ADExtensibilidadeJPA
             this.btnAutorizarTrabalhador.Text = "Autorizar para a Obra";
             this.btnAutorizarTrabalhador.UseVisualStyleBackColor = false;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(718, 703);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Equipamentos";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBoxObras);
+            this.tabPage4.Location = new System.Drawing.Point(4, 24);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(718, 703);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Autorização Obra";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxObras
+            // 
+            this.groupBoxObras.Controls.Add(this.label17);
+            this.groupBoxObras.Controls.Add(this.cb_Obras);
+            this.groupBoxObras.Controls.Add(this.btnGravarObra);
+            this.groupBoxObras.Controls.Add(this.dataGridView1);
+            this.groupBoxObras.Controls.Add(this.btnAutorizarEntrada);
+            this.groupBoxObras.Controls.Add(this.lblDataEntrada);
+            this.groupBoxObras.Controls.Add(this.dtpDataEntrada);
+            this.groupBoxObras.Controls.Add(this.lblDataSaida);
+            this.groupBoxObras.Controls.Add(this.dtpDataSaida);
+            this.groupBoxObras.Controls.Add(this.lblContratoSubempreitada);
+            this.groupBoxObras.Controls.Add(this.txtContratoSubempreitada);
+            this.groupBoxObras.Controls.Add(this.pnlDadosObra);
+            this.groupBoxObras.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBoxObras.Location = new System.Drawing.Point(7, 6);
+            this.groupBoxObras.Name = "groupBoxObras";
+            this.groupBoxObras.Size = new System.Drawing.Size(705, 691);
+            this.groupBoxObras.TabIndex = 1;
+            this.groupBoxObras.TabStop = false;
+            this.groupBoxObras.Text = "Obras";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Calibri", 9F);
+            this.label17.Location = new System.Drawing.Point(11, 24);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(103, 14);
+            this.label17.TabIndex = 93;
+            this.label17.Text = "Selecione a Obra:";
+            // 
+            // cb_Obras
+            // 
+            this.cb_Obras.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_Obras.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cb_Obras.FormattingEnabled = true;
+            this.cb_Obras.Location = new System.Drawing.Point(123, 21);
+            this.cb_Obras.Name = "cb_Obras";
+            this.cb_Obras.Size = new System.Drawing.Size(470, 22);
+            this.cb_Obras.TabIndex = 89;
+            // 
+            // btnGravarObra
+            // 
+            this.btnGravarObra.BackColor = System.Drawing.Color.LightGreen;
+            this.btnGravarObra.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGravarObra.Font = new System.Drawing.Font("Calibri", 9F);
+            this.btnGravarObra.Location = new System.Drawing.Point(599, 21);
+            this.btnGravarObra.Name = "btnGravarObra";
+            this.btnGravarObra.Size = new System.Drawing.Size(70, 22);
+            this.btnGravarObra.TabIndex = 91;
+            this.btnGravarObra.Text = "Gravar";
+            this.btnGravarObra.UseVisualStyleBackColor = false;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dataGridView1.ColumnHeadersHeight = 25;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.EntradaObra_,
+            this.SaidaObra_,
+            this.ContratoSubempreitada,
+            this.StatusAutorizacao,
+            this.AutorizacaoEntrada});
+            this.dataGridView1.Location = new System.Drawing.Point(11, 110);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 25;
+            this.dataGridView1.Size = new System.Drawing.Size(658, 75);
+            this.dataGridView1.TabIndex = 90;
+            // 
+            // EntradaObra_
+            // 
+            this.EntradaObra_.HeaderText = "Entrada em Obra";
+            this.EntradaObra_.Name = "EntradaObra_";
+            // 
+            // SaidaObra_
+            // 
+            this.SaidaObra_.HeaderText = "Saida de Obra";
+            this.SaidaObra_.Name = "SaidaObra_";
+            // 
+            // ContratoSubempreitada
+            // 
+            this.ContratoSubempreitada.HeaderText = "Contrato Subempreitada";
+            this.ContratoSubempreitada.Name = "ContratoSubempreitada";
+            // 
+            // StatusAutorizacao
+            // 
+            this.StatusAutorizacao.HeaderText = "Status";
+            this.StatusAutorizacao.Name = "StatusAutorizacao";
+            // 
+            // AutorizacaoEntrada
+            // 
+            this.AutorizacaoEntrada.HeaderText = "Autorização de Entrada";
+            this.AutorizacaoEntrada.Name = "AutorizacaoEntrada";
+            // 
+            // btnAutorizarEntrada
+            // 
+            this.btnAutorizarEntrada.BackColor = System.Drawing.Color.LightGreen;
+            this.btnAutorizarEntrada.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAutorizarEntrada.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAutorizarEntrada.Location = new System.Drawing.Point(11, 49);
+            this.btnAutorizarEntrada.Name = "btnAutorizarEntrada";
+            this.btnAutorizarEntrada.Size = new System.Drawing.Size(180, 30);
+            this.btnAutorizarEntrada.TabIndex = 92;
+            this.btnAutorizarEntrada.Text = "Autorizar Nova Entrada em Obra";
+            this.btnAutorizarEntrada.UseVisualStyleBackColor = false;
+            // 
+            // lblDataEntrada
+            // 
+            this.lblDataEntrada.AutoSize = true;
+            this.lblDataEntrada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.lblDataEntrada.Location = new System.Drawing.Point(175, 55);
+            this.lblDataEntrada.Name = "lblDataEntrada";
+            this.lblDataEntrada.Size = new System.Drawing.Size(81, 14);
+            this.lblDataEntrada.TabIndex = 95;
+            this.lblDataEntrada.Text = "Data Entrada:";
+            this.lblDataEntrada.Visible = false;
+            // 
+            // dtpDataEntrada
+            // 
+            this.dtpDataEntrada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.dtpDataEntrada.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDataEntrada.Location = new System.Drawing.Point(260, 53);
+            this.dtpDataEntrada.Name = "dtpDataEntrada";
+            this.dtpDataEntrada.Size = new System.Drawing.Size(100, 22);
+            this.dtpDataEntrada.TabIndex = 93;
+            this.dtpDataEntrada.Visible = false;
+            // 
+            // lblDataSaida
+            // 
+            this.lblDataSaida.AutoSize = true;
+            this.lblDataSaida.Font = new System.Drawing.Font("Calibri", 9F);
+            this.lblDataSaida.Location = new System.Drawing.Point(370, 55);
+            this.lblDataSaida.Name = "lblDataSaida";
+            this.lblDataSaida.Size = new System.Drawing.Size(69, 14);
+            this.lblDataSaida.TabIndex = 96;
+            this.lblDataSaida.Text = "Data Saída:";
+            this.lblDataSaida.Visible = false;
+            // 
+            // dtpDataSaida
+            // 
+            this.dtpDataSaida.Font = new System.Drawing.Font("Calibri", 9F);
+            this.dtpDataSaida.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDataSaida.Location = new System.Drawing.Point(440, 53);
+            this.dtpDataSaida.Name = "dtpDataSaida";
+            this.dtpDataSaida.Size = new System.Drawing.Size(100, 22);
+            this.dtpDataSaida.TabIndex = 94;
+            this.dtpDataSaida.Visible = false;
+            // 
+            // lblContratoSubempreitada
+            // 
+            this.lblContratoSubempreitada.AutoSize = true;
+            this.lblContratoSubempreitada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.lblContratoSubempreitada.Location = new System.Drawing.Point(175, 82);
+            this.lblContratoSubempreitada.Name = "lblContratoSubempreitada";
+            this.lblContratoSubempreitada.Size = new System.Drawing.Size(143, 14);
+            this.lblContratoSubempreitada.TabIndex = 97;
+            this.lblContratoSubempreitada.Text = "Contrato Subempreitada:";
+            this.lblContratoSubempreitada.Visible = false;
+            // 
+            // txtContratoSubempreitada
+            // 
+            this.txtContratoSubempreitada.Font = new System.Drawing.Font("Calibri", 9F);
+            this.txtContratoSubempreitada.Location = new System.Drawing.Point(325, 80);
+            this.txtContratoSubempreitada.Name = "txtContratoSubempreitada";
+            this.txtContratoSubempreitada.Size = new System.Drawing.Size(215, 22);
+            this.txtContratoSubempreitada.TabIndex = 95;
+            this.txtContratoSubempreitada.Visible = false;
+            // 
+            // pnlDadosObra
+            // 
+            this.pnlDadosObra.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlDadosObra.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlDadosObra.Location = new System.Drawing.Point(170, 49);
+            this.pnlDadosObra.Name = "pnlDadosObra";
+            this.pnlDadosObra.Size = new System.Drawing.Size(499, 30);
+            this.pnlDadosObra.TabIndex = 98;
+            this.pnlDadosObra.Visible = false;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
@@ -1984,14 +1988,11 @@ namespace ADExtensibilidadeJPA
             this.groupBoxApolices.PerformLayout();
             this.label4.ResumeLayout(false);
             this.label4.PerformLayout();
-            this.groupBoxDeclaracoes.ResumeLayout(false);
-            this.groupBoxDeclaracoes.PerformLayout();
             this.panelObras.ResumeLayout(false);
-            this.groupBoxObras.ResumeLayout(false);
-            this.groupBoxObras.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.pnlAutorizacaoObra.ResumeLayout(false);
             this.pnlAutorizacaoObra.PerformLayout();
+            this.groupBoxDeclaracoes.ResumeLayout(false);
+            this.groupBoxDeclaracoes.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.panelTrabalhadores.ResumeLayout(false);
             this.groupBoxInfoTrabalhador.ResumeLayout(false);
@@ -1999,6 +2000,10 @@ namespace ADExtensibilidadeJPA
             this.groupBoxListaTrabalhadores.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).EndInit();
             this.panelBotoesTrabalhador.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.groupBoxObras.ResumeLayout(false);
+            this.groupBoxObras.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -2034,5 +2039,25 @@ namespace ADExtensibilidadeJPA
         private TextBox txtObservacao;
         private ToolTip toolTip;
         private Button btnSalvarAutorizacao;
+        private TabPage tabPage3;
+        private TabPage tabPage4;
+        private GroupBox groupBoxObras;
+        private Label label17;
+        private ComboBox cb_Obras;
+        private Button btnGravarObra;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn EntradaObra_;
+        private DataGridViewTextBoxColumn SaidaObra_;
+        private DataGridViewTextBoxColumn ContratoSubempreitada;
+        private DataGridViewTextBoxColumn StatusAutorizacao;
+        private DataGridViewCheckBoxColumn AutorizacaoEntrada;
+        private Button btnAutorizarEntrada;
+        private Label lblDataEntrada;
+        private DateTimePicker dtpDataEntrada;
+        private Label lblDataSaida;
+        private DateTimePicker dtpDataSaida;
+        private Label lblContratoSubempreitada;
+        private TextBox txtContratoSubempreitada;
+        private Panel pnlDadosObra;
     }
 }
