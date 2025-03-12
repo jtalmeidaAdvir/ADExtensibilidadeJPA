@@ -25,6 +25,7 @@ namespace ADExtensibilidadeJPA
             _PSO = PSO;
             _idSelecionado = idSelecionado;
             CarregarDados();
+            InitializeButtonEvents();
         }
 
 
@@ -109,6 +110,229 @@ namespace ADExtensibilidadeJPA
                 {
                     txtCaminhoPasta.Text = folderDialog.SelectedPath;
                 }
+            }
+        }
+
+        private void InitializeButtonEvents()
+        {
+            // Associar eventos de click aos botões
+            button1.Click += (sender, e) => AnexarDocumento("Financas");
+            button2.Click += (sender, e) => AnexarDocumento("SegSocial");
+            button3.Click += (sender, e) => AnexarDocumento("FolhaPagamento");
+            button4.Click += (sender, e) => AnexarDocumento("ComprovativoPagamento");
+            button5.Click += (sender, e) => AnexarDocumento("ReciboSeguroAT");
+            button6.Click += (sender, e) => AnexarDocumento("SeguroRC");
+            button7.Click += (sender, e) => AnexarDocumento("HorarioTrabalho");
+            button8.Click += (sender, e) => AnexarDocumento("SeguroAT");
+            button9.Click += (sender, e) => AnexarDocumento("Alvara");
+            button10.Click += (sender, e) => AnexarDocumento("CertidaoPermanente");
+            button11.Click += (sender, e) => AnexarDocumento("Contrato");
+            button12.Click += (sender, e) => AnexarDocumento("DeclaracaoPSS");
+            button13.Click += (sender, e) => AnexarDocumento("ResponsavelEstaleiro");
+        }
+
+        private void AnexarDocumento(string tipoDocumento)
+        {
+            try
+            {
+                // Verifica se o caminho da pasta foi definido
+                if (string.IsNullOrEmpty(txtCaminhoPasta.Text) || !System.IO.Directory.Exists(txtCaminhoPasta.Text))
+                {
+                    MessageBox.Show("Por favor, selecione uma pasta válida para os anexos primeiro.",
+                        "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Solicitar data de validade
+                DateTime dataValidade;
+                using (Form formValidade = new Form())
+                {
+                    formValidade.Text = "Data de Validade";
+                    formValidade.StartPosition = FormStartPosition.CenterParent;
+                    formValidade.Width = 320;
+                    formValidade.Height = 150;
+                    formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    formValidade.MaximizeBox = false;
+                    formValidade.MinimizeBox = false;
+
+                    Label lblInfo = new Label();
+                    lblInfo.Text = "Informe a data de validade do documento:";
+                    lblInfo.Left = 20;
+                    lblInfo.Top = 20;
+                    lblInfo.Width = 250;
+
+                    DateTimePicker dtpValidade = new DateTimePicker();
+                    dtpValidade.Left = 20;
+                    dtpValidade.Top = 50;
+                    dtpValidade.Width = 250;
+                    dtpValidade.Format = DateTimePickerFormat.Short;
+                    dtpValidade.Value = DateTime.Now.AddMonths(1); // Um mês à frente como padrão
+
+                    Button btnOk = new Button();
+                    btnOk.Text = "OK";
+                    btnOk.DialogResult = DialogResult.OK;
+                    btnOk.Left = 110;
+                    btnOk.Top = 80;
+
+                    formValidade.Controls.Add(lblInfo);
+                    formValidade.Controls.Add(dtpValidade);
+                    formValidade.Controls.Add(btnOk);
+                    formValidade.AcceptButton = btnOk;
+
+                    if (formValidade.ShowDialog() != DialogResult.OK)
+                    {
+                        return; // Usuário cancelou
+                    }
+
+                    dataValidade = dtpValidade.Value;
+                }
+
+                // Abre o diálogo para selecionar o arquivo
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Title = $"Selecionar {tipoDocumento}";
+                    openFileDialog.Filter = "Todos os arquivos (*.*)|*.*|Documentos PDF (*.pdf)|*.pdf|Documentos Word (*.doc;*.docx)|*.doc;*.docx|Imagens (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+                    openFileDialog.FilterIndex = 1;
+                    openFileDialog.RestoreDirectory = true;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string nomeArquivo = string.IsNullOrEmpty(TXT_Nome.Text)
+                            ? "Sem_Nome"
+                            : TXT_Nome.Text.Replace(" ", "_");
+
+                        string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
+                        string destFile = System.IO.Path.Combine(txtCaminhoPasta.Text, fileName);
+
+                        // Verificar se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
+                        AtualizarStatusDocumento(tipoDocumento, destFile, dataValidade);
+
+                        MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AtualizarStatusDocumento(string tipoDocumento, string caminho, DateTime dataValidade)
+        {
+            try
+            {
+                // Atualizar a tabela Geral_Entidade com o caminho do documento e sua validade
+                string colunaCaminho = "CDU_Caminho";
+                string colunaAnexo = $"CDU_Anexo{tipoDocumento.Replace(" ", "")}";
+                string colunaValidade = $"CDU_Validade{tipoDocumento.Replace(" ", "")}";
+
+                string query = $@"UPDATE Geral_Entidade SET 
+                                {colunaCaminho} = '{caminho}',
+                                {colunaAnexo} = 1,
+                                {colunaValidade} = '{dataValidade.ToString("yyyy-MM-dd")}'
+                                WHERE Id = '{_idSelecionado}'";
+                _BSO.DSO.ExecuteSQL(query);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar status do documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private bool VerificarDocumentoAnexado(string tipoDocumento)
+        {
+            try
+            {
+                // Consulta SQL para verificar se o documento está anexado
+                string coluna = $"CDU_Anexo{tipoDocumento.Replace(" ", "")}";
+                string query = $@"SELECT {coluna} FROM Geral_Entidade WHERE Id = '{_idSelecionado}'";
+                var dados = _BSO.Consulta(query);
+
+                dados.Inicio();
+                if (dados.NumLinhas() > 0)
+                {
+                    return dados.DaValor<int>(coluna) == 1;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao verificar documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        // Método para abrir a pasta de anexos
+        public void AbrirPastaAnexos()
+        {
+            // Verifica se o caminho da pasta foi definido
+            if (string.IsNullOrEmpty(txtCaminhoPasta.Text) || !System.IO.Directory.Exists(txtCaminhoPasta.Text))
+            {
+                MessageBox.Show("Pasta de anexos não definida ou não existente.",
+                    "Pasta não encontrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Abre a pasta no explorador de arquivos
+            System.Diagnostics.Process.Start("explorer.exe", txtCaminhoPasta.Text);
+        }
+
+        // Método para abrir um documento específico
+        private void AbrirDocumento(string tipoDocumento)
+        {
+            try
+            {
+                // Consulta SQL para obter o caminho do documento
+                string query = $@"SELECT CDU_Caminho FROM Geral_Entidade WHERE Id = '{_idSelecionado}'";
+                var dados = _BSO.Consulta(query);
+
+                dados.Inicio();
+                if (dados.NumLinhas() > 0)
+                {
+                    string caminho = dados.DaValor<string>("CDU_Caminho");
+
+                    if (!string.IsNullOrEmpty(caminho) && System.IO.File.Exists(caminho))
+                    {
+                        // Abre o documento com o programa padrão
+                        System.Diagnostics.Process.Start(caminho);
+                    }
+                    else
+                    {
+                        MessageBox.Show("O documento não foi encontrado no caminho especificado.",
+                            "Documento não encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Não foi possível encontrar informações do documento.",
+                        "Informação não encontrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao abrir documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
