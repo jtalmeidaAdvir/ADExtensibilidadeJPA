@@ -457,6 +457,274 @@ namespace ADExtensibilidadeJPA
             button11.Click += (sender, e) => AnexarDocumento("Contrato");
             button12.Click += (sender, e) => AnexarDocumento("DeclaracaoPSS");
             button13.Click += (sender, e) => AnexarDocumento("ResponsavelEstaleiro");
+            button14.Click += (sender, e) => AnexarDocumentoTrabalhador("CartaoCidadao");
+            button15.Click += (sender, e) => AnexarDocumentoTrabalhador("FichaMedica");
+            button16.Click += (sender, e) => AnexarDocumentoTrabalhador("Credenciacao");
+            button17.Click += (sender, e) => AnexarDocumentoTrabalhador("Trabalhosespecializados");
+            button18.Click += (sender, e) => AnexarDocumentoTrabalhador("FichaDistribuicao");
+        }
+
+        private void AnexarDocumentoTrabalhador(string tipoDocumento)
+        {
+            try
+            {
+
+                // Verifica se o caminho da pasta foi definido
+                if (string.IsNullOrEmpty(txtCaminhoPasta.Text) || !System.IO.Directory.Exists(txtCaminhoPasta.Text))
+                {
+                    MessageBox.Show("Por favor, selecione uma pasta válida para os anexos primeiro.",
+                        "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Solicitar data de validade
+                DateTime dataValidade;
+                using (Form formValidade = new Form())
+                {
+                    formValidade.Text = "Data de Validade";
+                    formValidade.StartPosition = FormStartPosition.CenterParent;
+                    formValidade.Width = 320;
+                    formValidade.Height = 150;
+                    formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    formValidade.MaximizeBox = false;
+                    formValidade.MinimizeBox = false;
+
+                    Label lblInfo = new Label();
+                    lblInfo.Text = "Informe a data de validade do documento:";
+                    lblInfo.Left = 20;
+                    lblInfo.Top = 20;
+                    lblInfo.Width = 250;
+
+                    DateTimePicker dtpValidade = new DateTimePicker();
+                    dtpValidade.Left = 20;
+                    dtpValidade.Top = 50;
+                    dtpValidade.Width = 250;
+                    dtpValidade.Format = DateTimePickerFormat.Short;
+                    dtpValidade.Value = DateTime.Now.AddMonths(1); // Um mês à frente como padrão
+
+                    Button btnOk = new Button();
+                    btnOk.Text = "OK";
+                    btnOk.DialogResult = DialogResult.OK;
+                    btnOk.Left = 110;
+                    btnOk.Top = 80;
+
+                    formValidade.Controls.Add(lblInfo);
+                    formValidade.Controls.Add(dtpValidade);
+                    formValidade.Controls.Add(btnOk);
+                    formValidade.AcceptButton = btnOk;
+
+                    if (formValidade.ShowDialog() != DialogResult.OK)
+                    {
+                        return; // Usuário cancelou
+                    }
+
+                    dataValidade = dtpValidade.Value;
+                }
+
+                // Abre o diálogo para selecionar o arquivo
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Title = $"Selecionar {tipoDocumento}";
+                    openFileDialog.Filter = "Todos os arquivos (*.*)|*.*|Documentos PDF (*.pdf)|*.pdf|Documentos Word (*.doc;*.docx)|*.doc;*.docx|Imagens (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+                    openFileDialog.FilterIndex = 1;
+                    openFileDialog.RestoreDirectory = true;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string sourceFile = openFileDialog.FileName;
+                        string nomeArquivo = string.IsNullOrEmpty(TXT_Nome.Text)
+                            ? "Sem_Nome"
+                            : TXT_Nome.Text.Replace(" ", "_");
+
+                        string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
+                        string destFile = System.IO.Path.Combine(txtCaminhoPasta.Text, fileName);
+
+                        // Verificar se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
+                        {
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                return;
+                        }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
+                        AtualizarStatusDocumentotrabalhdor(tipoDocumento, destFile, dataValidade);
+
+                        // Atualizar o checkbox correspondente
+                        AtualizarCheckboxtrabalhador(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
+
+                        // Recarregar os dados para garantir exibição correta
+                        // CarregarStatusDocumentos();
+
+                        MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
+                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AtualizarCheckboxtrabalhador(string tipoDocumento, string nomeArquivo, DateTime dataValidade)
+        {
+            CheckBox checkBox = null;
+            string nomeDocumento = "";
+            // Identificar qual checkbox deve ser atualizado com base no tipo de documento
+            switch (tipoDocumento)
+            {
+                case "CartaoCidadao":
+                    checkBox = checkBox14;
+                    nomeDocumento = "CartaoCidadao";
+                    break;
+                case "FichaMedica":
+                    checkBox = checkBox15;
+                    nomeDocumento = "FichaMedica";
+                    break;
+                case "Credenciacao":
+                    checkBox = checkBox16;
+                    nomeDocumento = "Credenciacao";
+                    break;
+                case "Trabalhosespecializados":
+                    checkBox = checkBox17;
+                    nomeDocumento = "Trabalhosespecializados";
+                    break;
+                case "FichaDistribuicao":
+                    checkBox = checkBox18;
+                    nomeDocumento = "FichaDistribuicao";
+                    break;
+            }
+
+            // Se encontrou o checkbox, atualiza seu estado e texto
+            if (checkBox != null)
+            {
+                checkBox.Enabled = true;
+                checkBox.Checked = true;
+                checkBox.Text = $"{nomeDocumento} (Válido até: {dataValidade.ToShortDateString()})";
+
+                // Verificar se a data está expirada
+                bool dataExpirada = dataValidade < DateTime.Today;
+
+                // Atualizar a cor do texto baseado na validade
+                if (dataExpirada)
+                {
+                    checkBox.ForeColor = Color.Red;
+                }
+                else
+                {
+                    checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
+                }
+
+                // Ajustar a largura do checkbox para mostrar o texto completo
+                checkBox.AutoSize = true;
+            }
+        }
+
+        private void AtualizarStatusDocumentotrabalhdor(string tipoDocumento, string caminho, DateTime dataValidade)
+        {
+            try
+            {
+                // Atualizar a tabela Geral_Entidade com o caminho do documento e sua validade
+                string colunaCaminho = "CDU_Caminho";
+                string colunaAnexo;
+                string colunaValidade;
+                // Mapear nomes de documentos para nomes de colunas
+                switch (tipoDocumento)
+                {
+                    case "CartaoCidadao":
+                        colunaAnexo = "CDU_AnexoCartaoCidadao";
+                        colunaValidade = "CDU_ValidadeCartaoCidadao";
+                        break;
+                    case "FichaMedica":
+                        colunaAnexo = "CDU_AnexoFichaMedica";
+                        colunaValidade = "CDU_ValidadeFichaMedica";
+                        break;
+                    case "Credenciacao":
+                        colunaAnexo = "CDU_AnexoCredenciacao";
+                        colunaValidade = "CDU_ValidadeCredenciacao";
+                        break;
+                    case "Trabalhosespecializados":
+                        colunaAnexo = "CDU_AnexoTrabalhosespecializados";
+                        colunaValidade = "CDU_ValidadeTrabalhosespecializados";
+                        break;
+                    case "FichaDistribuicao":
+                        colunaAnexo = "CDU_AnexoFichaDistribuicao";
+                        colunaValidade = "CDU_ValidadeFichaDistribuicao";
+                        break;
+                    default:
+                        // Caso não mapeado, usar o nome do tipo como parte do nome da coluna
+                        colunaAnexo = $"CDU_Anexo{tipoDocumento}";
+                        colunaValidade = $"CDU_Validade{tipoDocumento}";
+                        break;
+                }
+
+                // Primeiro verificar se as colunas existem, e se não, criá-las
+                string queryVerificarColunaCaminho = $@"
+                    IF NOT EXISTS (
+                        SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = '{colunaCaminho}'
+                    )
+                    BEGIN
+                        ALTER TABLE TDU_AD_Trabalhadores ADD {colunaCaminho} NVARCHAR(500) NULL
+                    END";
+                _BSO.DSO.ExecuteSQL(queryVerificarColunaCaminho);
+
+                string queryVerificarColunaAnexo = $@"
+                    IF NOT EXISTS (
+                        SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = '{colunaAnexo}'
+                    )
+                    BEGIN
+                        ALTER TABLE TDU_AD_Trabalhadores ADD {colunaAnexo} INT DEFAULT 0
+                    END";
+                _BSO.DSO.ExecuteSQL(queryVerificarColunaAnexo);
+
+                string queryVerificarColunaValidade = $@"
+                    IF NOT EXISTS (
+                        SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = '{colunaValidade}'
+                    )
+                    BEGIN
+                        ALTER TABLE TDU_AD_Trabalhadores ADD {colunaValidade} DATE NULL
+                    END";
+                _BSO.DSO.ExecuteSQL(queryVerificarColunaValidade);
+
+                // Sanitizar o caminho do arquivo para evitar problemas com aspas
+                string caminhoSanitizado = caminho.Replace("'", "''");
+
+                // Agora, atualizar os dados
+                string query = $@"UPDATE TDU_AD_Trabalhadores SET 
+                                {colunaAnexo} = 1,
+                                {colunaValidade} = '{dataValidade.ToString("yyyy-MM-dd")}'
+                                WHERE CDU_Id = '{_idSelecionado}'";
+                _BSO.DSO.ExecuteSQL(query);
+
+                // Verificar se os dados foram atualizados corretamente
+                string queryVerificar = $"SELECT {colunaValidade} FROM TDU_AD_Trabalhadores WHERE CDU_Id = '{_idSelecionado}'";
+                var dadosVerificar = _BSO.Consulta(queryVerificar);
+
+                if (dadosVerificar != null && dadosVerificar.NumLinhas() > 0)
+                {
+                    dadosVerificar.Inicio();
+                    var valorData = dadosVerificar.Valor(colunaValidade);
+                    Console.WriteLine($"Verificação após salvar: Valor de {colunaValidade} no banco = {valorData}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao atualizar status do documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void AnexarDocumento(string tipoDocumento)
