@@ -1575,17 +1575,243 @@ namespace ADExtensibilidadeJPA
 
         private void btnAnexarFichaAptidao_Click(object sender, EventArgs e)
         {
-            _trabalhadorManager.AnexarFichaAptidao();
+            // Mostrar modal de anexos para Ficha de Aptidão Médica
+            MostrarModalAnexos("Ficha de Aptidão Médica", "fichaAptidao");
         }
 
         private void btnAnexarCredenciacao_Click(object sender, EventArgs e)
         {
-            _trabalhadorManager.AnexarCredenciacao();
+            // Mostrar modal de anexos para Credenciação
+            MostrarModalAnexos("Credenciação", "credenciacao");
         }
 
         private void btnAnexarFichaEPI_Click(object sender, EventArgs e)
         {
-            _trabalhadorManager.AnexarFichaEPI();
+            // Mostrar modal de anexos para Ficha de EPI
+            MostrarModalAnexos("Ficha de Distribuição de EPI", "fichaEPI");
+        }
+
+        private void MostrarModalAnexos(string tipoDocumento, string tipoAnexo)
+        {
+            try
+            {
+                // Criar um form modal para anexos
+                using (Form modalAnexos = new Form())
+                {
+                    modalAnexos.Text = $"Anexar {tipoDocumento}";
+                    modalAnexos.Size = new Size(550, 350);
+                    modalAnexos.StartPosition = FormStartPosition.CenterParent;
+                    modalAnexos.FormBorderStyle = FormBorderStyle.FixedDialog;
+                    modalAnexos.MaximizeBox = false;
+                    modalAnexos.MinimizeBox = false;
+                    modalAnexos.BackColor = Color.White;
+
+                    // Painel de cabeçalho
+                    Panel headerPanel = new Panel
+                    {
+                        Dock = DockStyle.Top,
+                        Height = 40,
+                        BackColor = Color.FromArgb(59, 89, 152)
+                    };
+                    modalAnexos.Controls.Add(headerPanel);
+
+                    Label lblTitulo = new Label
+                    {
+                        Text = $"Anexar {tipoDocumento}",
+                        ForeColor = Color.White,
+                        Font = new Font("Calibri", 14F, FontStyle.Bold),
+                        AutoSize = true,
+                        Location = new Point(20, 10)
+                    };
+                    headerPanel.Controls.Add(lblTitulo);
+
+                    // Painel de conteúdo
+                    Panel contentPanel = new Panel
+                    {
+                        Dock = DockStyle.Fill,
+                        BackColor = Color.White,
+                        Padding = new Padding(20)
+                    };
+                    modalAnexos.Controls.Add(contentPanel);
+
+                    // Inputs e controles
+                    Label lblDescricao = new Label
+                    {
+                        Text = "Descrição:",
+                        Font = new Font("Calibri", 10F),
+                        AutoSize = true,
+                        Location = new Point(10, 20)
+                    };
+                    contentPanel.Controls.Add(lblDescricao);
+
+                    TextBox txtDescricao = new TextBox
+                    {
+                        Location = new Point(110, 18),
+                        Width = 380,
+                        Font = new Font("Calibri", 10F)
+                    };
+                    contentPanel.Controls.Add(txtDescricao);
+
+                    Label lblValidade = new Label
+                    {
+                        Text = "Validade:",
+                        Font = new Font("Calibri", 10F),
+                        AutoSize = true,
+                        Location = new Point(10, 60)
+                    };
+                    contentPanel.Controls.Add(lblValidade);
+
+                    DateTimePicker dtpValidade = new DateTimePicker
+                    {
+                        Location = new Point(110, 58),
+                        Width = 180,
+                        Format = DateTimePickerFormat.Short,
+                        Font = new Font("Calibri", 10F),
+                        ShowCheckBox = true,
+                        Checked = true,
+                        Value = DateTime.Now.AddYears(1)
+                    };
+                    contentPanel.Controls.Add(dtpValidade);
+
+                    Label lblArquivo = new Label
+                    {
+                        Text = "Arquivo:",
+                        Font = new Font("Calibri", 10F),
+                        AutoSize = true,
+                        Location = new Point(10, 100)
+                    };
+                    contentPanel.Controls.Add(lblArquivo);
+
+                    TextBox txtArquivo = new TextBox
+                    {
+                        Location = new Point(110, 98),
+                        Width = 300,
+                        Font = new Font("Calibri", 10F),
+                        ReadOnly = true,
+                        BackColor = Color.WhiteSmoke
+                    };
+                    contentPanel.Controls.Add(txtArquivo);
+
+                    Button btnSelecionarArquivo = new Button
+                    {
+                        Text = "...",
+                        Location = new Point(420, 97),
+                        Width = 70,
+                        Font = new Font("Calibri", 10F),
+                        UseVisualStyleBackColor = true,
+                        FlatStyle = FlatStyle.Flat
+                    };
+                    btnSelecionarArquivo.FlatAppearance.BorderColor = Color.LightGray;
+                    contentPanel.Controls.Add(btnSelecionarArquivo);
+
+                    // Área de observações
+                    Label lblObservacoes = new Label
+                    {
+                        Text = "Observações:",
+                        Font = new Font("Calibri", 10F),
+                        AutoSize = true,
+                        Location = new Point(10, 140)
+                    };
+                    contentPanel.Controls.Add(lblObservacoes);
+
+                    TextBox txtObservacoes = new TextBox
+                    {
+                        Location = new Point(110, 138),
+                        Width = 380,
+                        Height = 80,
+                        Font = new Font("Calibri", 10F),
+                        Multiline = true,
+                        ScrollBars = ScrollBars.Vertical
+                    };
+                    contentPanel.Controls.Add(txtObservacoes);
+
+                    // Painel de botões
+                    Panel buttonPanel = new Panel
+                    {
+                        Dock = DockStyle.Bottom,
+                        Height = 60,
+                        BackColor = Color.WhiteSmoke
+                    };
+                    modalAnexos.Controls.Add(buttonPanel);
+
+                    Button btnSalvar = new Button
+                    {
+                        Text = "Salvar",
+                        DialogResult = DialogResult.OK,
+                        Location = new Point(350, 15),
+                        Width = 80,
+                        Font = new Font("Calibri", 10F, FontStyle.Bold),
+                        BackColor = Color.FromArgb(76, 175, 80),
+                        ForeColor = Color.White,
+                        FlatStyle = FlatStyle.Flat
+                    };
+                    btnSalvar.FlatAppearance.BorderColor = Color.FromArgb(56, 142, 60);
+                    buttonPanel.Controls.Add(btnSalvar);
+
+                    Button btnCancelar = new Button
+                    {
+                        Text = "Cancelar",
+                        DialogResult = DialogResult.Cancel,
+                        Location = new Point(440, 15),
+                        Width = 80,
+                        Font = new Font("Calibri", 10F),
+                        UseVisualStyleBackColor = true,
+                        FlatStyle = FlatStyle.Flat
+                    };
+                    btnCancelar.FlatAppearance.BorderColor = Color.LightGray;
+                    buttonPanel.Controls.Add(btnCancelar);
+
+                    // Evento para selecionar arquivo
+                    btnSelecionarArquivo.Click += (s, e) =>
+                    {
+                        using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                        {
+                            openFileDialog.Filter = "Todos os arquivos|*.*|Documentos PDF|*.pdf|Imagens|*.jpg;*.jpeg;*.png";
+                            openFileDialog.FilterIndex = 1;
+                            openFileDialog.Multiselect = false;
+                            openFileDialog.Title = $"Selecionar {tipoDocumento}";
+
+                            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                            {
+                                txtArquivo.Text = openFileDialog.FileName;
+                            }
+                        }
+                    };
+
+                    // Exibir modal e processar resultado
+                    if (modalAnexos.ShowDialog() == DialogResult.OK)
+                    {
+                        string caminhoArquivo = txtArquivo.Text;
+                        string descricao = txtDescricao.Text;
+                        DateTime? validade = dtpValidade.Checked ? dtpValidade.Value : (DateTime?)null;
+                        string observacoes = txtObservacoes.Text;
+
+                        if (string.IsNullOrEmpty(caminhoArquivo))
+                        {
+                            MessageBox.Show("Nenhum arquivo selecionado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        // Chamar o método apropriado no TrabalhadorManager
+                        switch (tipoAnexo)
+                        {
+                            case "fichaAptidao":
+                                _trabalhadorManager.AnexarFichaAptidao(caminhoArquivo, descricao, validade, observacoes);
+                                break;
+                            case "credenciacao":
+                                _trabalhadorManager.AnexarCredenciacao(caminhoArquivo, descricao, validade, observacoes);
+                                break;
+                            case "fichaEPI":
+                                _trabalhadorManager.AnexarFichaEPI(caminhoArquivo, descricao, validade, observacoes);
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao anexar documento: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void lblFichaAptidaoAnexo_Click(object sender, EventArgs e)

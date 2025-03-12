@@ -172,8 +172,6 @@ namespace ADExtensibilidadeJPA
             this.TXT_Sede = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
-            this.groupBoxSituacaoFiscal = new System.Windows.Forms.GroupBox();
-            this.btnAbrirPastaAnexos = new System.Windows.Forms.Button();
             this.panelModalDocumentos = new System.Windows.Forms.Panel();
             this.lblTipoDocumento = new System.Windows.Forms.Label();
             this.cmbTipoDocumento = new System.Windows.Forms.ComboBox();
@@ -181,6 +179,8 @@ namespace ADExtensibilidadeJPA
             this.dtpValidade = new System.Windows.Forms.DateTimePicker();
             this.btnConfirmarAnexo = new System.Windows.Forms.Button();
             this.btnCancelarAnexo = new System.Windows.Forms.Button();
+            this.groupBoxSituacaoFiscal = new System.Windows.Forms.GroupBox();
+            this.btnAbrirPastaAnexos = new System.Windows.Forms.Button();
             this.lblFolhaPagSS = new System.Windows.Forms.Label();
             this.btnAnexoFolhaPag = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -279,21 +279,21 @@ namespace ADExtensibilidadeJPA
             this.chkCredenciacao = new System.Windows.Forms.CheckBox();
             this.txtCredenciacao = new System.Windows.Forms.TextBox();
             this.chkFichaEPI = new System.Windows.Forms.CheckBox();
+            this.lblFichaAptidaoAnexo = new System.Windows.Forms.Label();
+            this.btnAnexarFichaAptidao = new System.Windows.Forms.Button();
+            this.lblCredenciacaoAnexo = new System.Windows.Forms.Label();
+            this.btnAnexarCredenciacao = new System.Windows.Forms.Button();
+            this.lblFichaEPIAnexo = new System.Windows.Forms.Label();
+            this.btnAnexarFichaEPI = new System.Windows.Forms.Button();
+            this.groupBoxListaTrabalhadores = new System.Windows.Forms.GroupBox();
             this.gridTrabalhadores = new System.Windows.Forms.DataGridView();
             this.cmbObrasTrabalhador = new System.Windows.Forms.ComboBox();
-            this.lblFichaAptidaoAnexo = new System.Windows.Forms.Label();
-            this.lblCredenciacaoAnexo = new System.Windows.Forms.Label();
-            this.lblFichaEPIAnexo = new System.Windows.Forms.Label();
+            this.panelBotoesTrabalhador = new System.Windows.Forms.Panel();
             this.btnAdicionarTrabalhador = new System.Windows.Forms.Button();
             this.btnEditarTrabalhador = new System.Windows.Forms.Button();
             this.btnExcluirTrabalhador = new System.Windows.Forms.Button();
             this.btnSalvarTrabalhador = new System.Windows.Forms.Button();
             this.btnAutorizarTrabalhador = new System.Windows.Forms.Button();
-            this.btnAnexarFichaAptidao = new System.Windows.Forms.Button();
-            this.btnAnexarCredenciacao = new System.Windows.Forms.Button();
-            this.btnAnexarFichaEPI = new System.Windows.Forms.Button();
-            this.groupBoxListaTrabalhadores = new System.Windows.Forms.GroupBox();
-            this.panelBotoesTrabalhador = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.BT_Salvar_Click = new System.Windows.Forms.ToolStripButton();
             this.lblSelecionar = new System.Windows.Forms.Label();
@@ -304,9 +304,10 @@ namespace ADExtensibilidadeJPA
             this.tabPage1.SuspendLayout();
             this.panelDadosEmpresa.SuspendLayout();
             this.groupBoxInfoBasica.SuspendLayout();
-            this.groupBoxSituacaoFiscal.SuspendLayout();
             this.panelModalDocumentos.SuspendLayout();
+            this.groupBoxSituacaoFiscal.SuspendLayout();
             this.groupBoxApolices.SuspendLayout();
+            this.label4.SuspendLayout();
             this.groupBoxDeclaracoes.SuspendLayout();
             this.panelObras.SuspendLayout();
             this.groupBoxObras.SuspendLayout();
@@ -315,8 +316,8 @@ namespace ADExtensibilidadeJPA
             this.tabPage2.SuspendLayout();
             this.panelTrabalhadores.SuspendLayout();
             this.groupBoxInfoTrabalhador.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).BeginInit();
             this.groupBoxListaTrabalhadores.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).BeginInit();
             this.panelBotoesTrabalhador.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -461,68 +462,6 @@ namespace ADExtensibilidadeJPA
             this.TXT_Contribuinte.Size = new System.Drawing.Size(611, 22);
             this.TXT_Contribuinte.TabIndex = 72;
             // 
-            // groupBoxSituacaoFiscal
-            // 
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAbrirPastaAnexos);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblFolhaPagSS);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoFolhaPag);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.label5);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_NaoDivFinancas);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoFinancas);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoFinancas);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.label6);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_NaoDivSegSocial);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoSegSocial);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoSegSocial);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.label7);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_FolhaPagSegSocial);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.label8);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.cb_ReciboPagSegSocial);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.labelCaminho);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.txtCaminhoPasta);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnSelecionarPasta);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoHorarioTrabalho);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoHorarioTrabalho);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoApoliceAT);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoApoliceAT);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoApoliceRC);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoApoliceRC);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoD);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoD);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblDecTrabEmigr);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnDecTrabEmigr);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblInscricaoSS);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnInscricaoSS);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblHorarioTrabalhoTitle);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblApoliceATTitle);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblApoliceRCTitle);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoDTitle);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblDecTrabEmigrTitle);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.lblInscricaoSSTitle);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexarDocumentoGeral);
-            this.groupBoxSituacaoFiscal.Controls.Add(this.btnVerificarDocumentosFaltantes);
-            this.groupBoxSituacaoFiscal.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.groupBoxSituacaoFiscal.Location = new System.Drawing.Point(8, 143);
-            this.groupBoxSituacaoFiscal.Name = "groupBoxSituacaoFiscal";
-            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(352, 208);
-            this.groupBoxSituacaoFiscal.TabIndex = 1;
-            this.groupBoxSituacaoFiscal.TabStop = false;
-            this.groupBoxSituacaoFiscal.Text = "Situação Fiscal";
-            // 
-            // btnAbrirPastaAnexos
-            // 
-            this.btnAbrirPastaAnexos.BackColor = System.Drawing.Color.LightSalmon;
-            this.btnAbrirPastaAnexos.DialogResult = System.Windows.Forms.DialogResult.Retry;
-            this.btnAbrirPastaAnexos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAbrirPastaAnexos.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
-            this.btnAbrirPastaAnexos.Location = new System.Drawing.Point(12, 48);
-            this.btnAbrirPastaAnexos.Name = "btnAbrirPastaAnexos";
-            this.btnAbrirPastaAnexos.Size = new System.Drawing.Size(130, 24);
-            this.btnAbrirPastaAnexos.TabIndex = 126;
-            this.btnAbrirPastaAnexos.Text = " Abrir Pasta Anexos";
-            this.btnAbrirPastaAnexos.UseVisualStyleBackColor = false;
-            this.btnAbrirPastaAnexos.Click += new System.EventHandler(this.btnAbrirPastaAnexos_Click_1);
-            // 
             // panelModalDocumentos
             // 
             this.panelModalDocumentos.BackColor = System.Drawing.Color.White;
@@ -616,6 +555,68 @@ namespace ADExtensibilidadeJPA
             this.btnCancelarAnexo.Text = "Cancelar";
             this.btnCancelarAnexo.UseVisualStyleBackColor = false;
             this.btnCancelarAnexo.Click += new System.EventHandler(this.btnCancelarAnexo_Click);
+            // 
+            // groupBoxSituacaoFiscal
+            // 
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAbrirPastaAnexos);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblFolhaPagSS);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoFolhaPag);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label5);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_NaoDivFinancas);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoFinancas);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoFinancas);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label6);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_NaoDivSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label7);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.TXT_FolhaPagSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.label8);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.cb_ReciboPagSegSocial);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.labelCaminho);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.txtCaminhoPasta);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnSelecionarPasta);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoHorarioTrabalho);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoHorarioTrabalho);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoApoliceAT);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoApoliceAT);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoApoliceRC);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoApoliceRC);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoD);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexoD);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblDecTrabEmigr);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnDecTrabEmigr);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblInscricaoSS);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnInscricaoSS);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblHorarioTrabalhoTitle);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblApoliceATTitle);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblApoliceRCTitle);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblAnexoDTitle);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblDecTrabEmigrTitle);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.lblInscricaoSSTitle);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnAnexarDocumentoGeral);
+            this.groupBoxSituacaoFiscal.Controls.Add(this.btnVerificarDocumentosFaltantes);
+            this.groupBoxSituacaoFiscal.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.groupBoxSituacaoFiscal.Location = new System.Drawing.Point(8, 143);
+            this.groupBoxSituacaoFiscal.Name = "groupBoxSituacaoFiscal";
+            this.groupBoxSituacaoFiscal.Size = new System.Drawing.Size(352, 208);
+            this.groupBoxSituacaoFiscal.TabIndex = 1;
+            this.groupBoxSituacaoFiscal.TabStop = false;
+            this.groupBoxSituacaoFiscal.Text = "Situação Fiscal";
+            // 
+            // btnAbrirPastaAnexos
+            // 
+            this.btnAbrirPastaAnexos.BackColor = System.Drawing.Color.LightSalmon;
+            this.btnAbrirPastaAnexos.DialogResult = System.Windows.Forms.DialogResult.Retry;
+            this.btnAbrirPastaAnexos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAbrirPastaAnexos.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAbrirPastaAnexos.Location = new System.Drawing.Point(12, 48);
+            this.btnAbrirPastaAnexos.Name = "btnAbrirPastaAnexos";
+            this.btnAbrirPastaAnexos.Size = new System.Drawing.Size(130, 24);
+            this.btnAbrirPastaAnexos.TabIndex = 126;
+            this.btnAbrirPastaAnexos.Text = " Abrir Pasta Anexos";
+            this.btnAbrirPastaAnexos.UseVisualStyleBackColor = false;
+            this.btnAbrirPastaAnexos.Click += new System.EventHandler(this.btnAbrirPastaAnexos_Click_1);
             // 
             // lblFolhaPagSS
             // 
@@ -1056,7 +1057,6 @@ namespace ADExtensibilidadeJPA
             this.groupBoxApolices.Controls.Add(this.label10);
             this.groupBoxApolices.Controls.Add(this.TXT_ReciboApoliceAT);
             this.groupBoxApolices.Controls.Add(this.label4);
-            this.label4.Controls.Add(this.TXT_Alvara);
             this.groupBoxApolices.Controls.Add(this.label11);
             this.groupBoxApolices.Controls.Add(this.cb_ApoliceRC);
             this.groupBoxApolices.Controls.Add(this.label22);
@@ -1114,6 +1114,7 @@ namespace ADExtensibilidadeJPA
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Controls.Add(this.TXT_Alvara);
             this.label4.Font = new System.Drawing.Font("Calibri", 9F);
             this.label4.Location = new System.Drawing.Point(68, 74);
             this.label4.Name = "label4";
@@ -1610,7 +1611,7 @@ namespace ADExtensibilidadeJPA
             this.groupBoxInfoTrabalhador.Controls.Add(this.btnAnexarFichaEPI);
             this.groupBoxInfoTrabalhador.Location = new System.Drawing.Point(8, 5);
             this.groupBoxInfoTrabalhador.Name = "groupBoxInfoTrabalhador";
-            this.groupBoxInfoTrabalhador.Size = new System.Drawing.Size(697, 200);
+            this.groupBoxInfoTrabalhador.Size = new System.Drawing.Size(697, 207);
             this.groupBoxInfoTrabalhador.TabIndex = 0;
             this.groupBoxInfoTrabalhador.TabStop = false;
             this.groupBoxInfoTrabalhador.Text = "Informações do Trabalhador";
@@ -1628,16 +1629,16 @@ namespace ADExtensibilidadeJPA
             this.cmbTipoDocumentoTrabalhador.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTipoDocumentoTrabalhador.Font = new System.Drawing.Font("Calibri", 9F);
             this.cmbTipoDocumentoTrabalhador.FormattingEnabled = true;
-            this.cmbTipoDocumentoTrabalhador.Location = new System.Drawing.Point(120, 57);
-            this.cmbTipoDocumentoTrabalhador.Name = "cmbTipoDocumentoTrabalhador";
-            this.cmbTipoDocumentoTrabalhador.Size = new System.Drawing.Size(150, 22);
-            this.cmbTipoDocumentoTrabalhador.TabIndex = 1;
             this.cmbTipoDocumentoTrabalhador.Items.AddRange(new object[] {
             "Cartão Cidadão",
             "Bilhete de Identidade",
             "Passaporte",
             "Título de Residência",
             "Outro"});
+            this.cmbTipoDocumentoTrabalhador.Location = new System.Drawing.Point(120, 57);
+            this.cmbTipoDocumentoTrabalhador.Name = "cmbTipoDocumentoTrabalhador";
+            this.cmbTipoDocumentoTrabalhador.Size = new System.Drawing.Size(150, 22);
+            this.cmbTipoDocumentoTrabalhador.TabIndex = 1;
             // 
             // txtNumDocumento
             // 
@@ -1653,9 +1654,9 @@ namespace ADExtensibilidadeJPA
             this.dtpValidadeDocumento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpValidadeDocumento.Location = new System.Drawing.Point(560, 57);
             this.dtpValidadeDocumento.Name = "dtpValidadeDocumento";
+            this.dtpValidadeDocumento.ShowCheckBox = true;
             this.dtpValidadeDocumento.Size = new System.Drawing.Size(120, 22);
             this.dtpValidadeDocumento.TabIndex = 3;
-            this.dtpValidadeDocumento.ShowCheckBox = true;
             // 
             // txtNIF
             // 
@@ -1690,19 +1691,19 @@ namespace ADExtensibilidadeJPA
             this.chkCredenciacao.Font = new System.Drawing.Font("Calibri", 9F);
             this.chkCredenciacao.Location = new System.Drawing.Point(20, 150);
             this.chkCredenciacao.Name = "chkCredenciacao";
-            this.chkCredenciacao.Size = new System.Drawing.Size(98, 18);
+            this.chkCredenciacao.Size = new System.Drawing.Size(99, 18);
             this.chkCredenciacao.TabIndex = 7;
             this.chkCredenciacao.Text = "Credenciação";
             this.chkCredenciacao.UseVisualStyleBackColor = true;
             // 
             // txtCredenciacao
             // 
+            this.txtCredenciacao.Enabled = false;
             this.txtCredenciacao.Font = new System.Drawing.Font("Calibri", 9F);
             this.txtCredenciacao.Location = new System.Drawing.Point(120, 148);
             this.txtCredenciacao.Name = "txtCredenciacao";
             this.txtCredenciacao.Size = new System.Drawing.Size(180, 22);
             this.txtCredenciacao.TabIndex = 8;
-            this.txtCredenciacao.Enabled = false;
             // 
             // chkFichaEPI
             // 
@@ -1710,45 +1711,22 @@ namespace ADExtensibilidadeJPA
             this.chkFichaEPI.Font = new System.Drawing.Font("Calibri", 9F);
             this.chkFichaEPI.Location = new System.Drawing.Point(20, 180);
             this.chkFichaEPI.Name = "chkFichaEPI";
-            this.chkFichaEPI.Size = new System.Drawing.Size(167, 18);
+            this.chkFichaEPI.Size = new System.Drawing.Size(178, 18);
             this.chkFichaEPI.TabIndex = 9;
             this.chkFichaEPI.Text = "Ficha de Distribuição de EPI";
             this.chkFichaEPI.UseVisualStyleBackColor = true;
             // 
-            // gridTrabalhadores
-            // 
-            this.gridTrabalhadores.AllowUserToAddRows = false;
-            this.gridTrabalhadores.AllowUserToDeleteRows = false;
-            this.gridTrabalhadores.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.gridTrabalhadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridTrabalhadores.Location = new System.Drawing.Point(10, 25);
-            this.gridTrabalhadores.Name = "gridTrabalhadores";
-            this.gridTrabalhadores.ReadOnly = true;
-            this.gridTrabalhadores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridTrabalhadores.Size = new System.Drawing.Size(677, 180);
-            this.gridTrabalhadores.TabIndex = 0;
-            // 
-            // cmbObrasTrabalhador
-            // 
-            this.cmbObrasTrabalhador.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbObrasTrabalhador.Font = new System.Drawing.Font("Calibri", 9F);
-            this.cmbObrasTrabalhador.FormattingEnabled = true;
-            this.cmbObrasTrabalhador.Location = new System.Drawing.Point(120, 212);
-            this.cmbObrasTrabalhador.Name = "cmbObrasTrabalhador";
-            this.cmbObrasTrabalhador.Size = new System.Drawing.Size(400, 22);
-            this.cmbObrasTrabalhador.TabIndex = 10;
-            // 
             // lblFichaAptidaoAnexo
             // 
             this.lblFichaAptidaoAnexo.AutoSize = true;
+            this.lblFichaAptidaoAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblFichaAptidaoAnexo.Font = new System.Drawing.Font("Calibri", 8F);
+            this.lblFichaAptidaoAnexo.ForeColor = System.Drawing.Color.Blue;
             this.lblFichaAptidaoAnexo.Location = new System.Drawing.Point(370, 121);
             this.lblFichaAptidaoAnexo.Name = "lblFichaAptidaoAnexo";
-            this.lblFichaAptidaoAnexo.Size = new System.Drawing.Size(200, 13);
+            this.lblFichaAptidaoAnexo.Size = new System.Drawing.Size(124, 13);
             this.lblFichaAptidaoAnexo.TabIndex = 11;
             this.lblFichaAptidaoAnexo.Text = "Ficha de Aptidão Médica:";
-            this.lblFichaAptidaoAnexo.ForeColor = System.Drawing.Color.Blue;
-            this.lblFichaAptidaoAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
             // 
             // btnAnexarFichaAptidao
             // 
@@ -1765,14 +1743,14 @@ namespace ADExtensibilidadeJPA
             // lblCredenciacaoAnexo
             // 
             this.lblCredenciacaoAnexo.AutoSize = true;
+            this.lblCredenciacaoAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCredenciacaoAnexo.Font = new System.Drawing.Font("Calibri", 8F);
+            this.lblCredenciacaoAnexo.ForeColor = System.Drawing.Color.Blue;
             this.lblCredenciacaoAnexo.Location = new System.Drawing.Point(370, 151);
             this.lblCredenciacaoAnexo.Name = "lblCredenciacaoAnexo";
-            this.lblCredenciacaoAnexo.Size = new System.Drawing.Size(100, 13);
+            this.lblCredenciacaoAnexo.Size = new System.Drawing.Size(75, 13);
             this.lblCredenciacaoAnexo.TabIndex = 13;
             this.lblCredenciacaoAnexo.Text = "Credenciação:";
-            this.lblCredenciacaoAnexo.ForeColor = System.Drawing.Color.Blue;
-            this.lblCredenciacaoAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
             // 
             // btnAnexarCredenciacao
             // 
@@ -1789,14 +1767,14 @@ namespace ADExtensibilidadeJPA
             // lblFichaEPIAnexo
             // 
             this.lblFichaEPIAnexo.AutoSize = true;
+            this.lblFichaEPIAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblFichaEPIAnexo.Font = new System.Drawing.Font("Calibri", 8F);
+            this.lblFichaEPIAnexo.ForeColor = System.Drawing.Color.Blue;
             this.lblFichaEPIAnexo.Location = new System.Drawing.Point(370, 181);
             this.lblFichaEPIAnexo.Name = "lblFichaEPIAnexo";
-            this.lblFichaEPIAnexo.Size = new System.Drawing.Size(160, 13);
+            this.lblFichaEPIAnexo.Size = new System.Drawing.Size(139, 13);
             this.lblFichaEPIAnexo.TabIndex = 15;
             this.lblFichaEPIAnexo.Text = "Ficha de Distribuição de EPI:";
-            this.lblFichaEPIAnexo.ForeColor = System.Drawing.Color.Blue;
-            this.lblFichaEPIAnexo.Cursor = System.Windows.Forms.Cursors.Hand;
             // 
             // btnAnexarFichaEPI
             // 
@@ -1820,6 +1798,29 @@ namespace ADExtensibilidadeJPA
             this.groupBoxListaTrabalhadores.TabIndex = 1;
             this.groupBoxListaTrabalhadores.TabStop = false;
             this.groupBoxListaTrabalhadores.Text = "Lista de Trabalhadores";
+            // 
+            // gridTrabalhadores
+            // 
+            this.gridTrabalhadores.AllowUserToAddRows = false;
+            this.gridTrabalhadores.AllowUserToDeleteRows = false;
+            this.gridTrabalhadores.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.gridTrabalhadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridTrabalhadores.Location = new System.Drawing.Point(10, 25);
+            this.gridTrabalhadores.Name = "gridTrabalhadores";
+            this.gridTrabalhadores.ReadOnly = true;
+            this.gridTrabalhadores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridTrabalhadores.Size = new System.Drawing.Size(677, 180);
+            this.gridTrabalhadores.TabIndex = 0;
+            // 
+            // cmbObrasTrabalhador
+            // 
+            this.cmbObrasTrabalhador.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbObrasTrabalhador.Font = new System.Drawing.Font("Calibri", 9F);
+            this.cmbObrasTrabalhador.FormattingEnabled = true;
+            this.cmbObrasTrabalhador.Location = new System.Drawing.Point(120, 212);
+            this.cmbObrasTrabalhador.Name = "cmbObrasTrabalhador";
+            this.cmbObrasTrabalhador.Size = new System.Drawing.Size(400, 22);
+            this.cmbObrasTrabalhador.TabIndex = 10;
             // 
             // panelBotoesTrabalhador
             // 
@@ -1966,7 +1967,7 @@ namespace ADExtensibilidadeJPA
             this.Controls.Add(this.BTF4);
             this.Controls.Add(this.TXT_Nome);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-    
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestão de Subempreiteiros";
@@ -1975,12 +1976,14 @@ namespace ADExtensibilidadeJPA
             this.panelDadosEmpresa.ResumeLayout(false);
             this.groupBoxInfoBasica.ResumeLayout(false);
             this.groupBoxInfoBasica.PerformLayout();
-            this.groupBoxSituacaoFiscal.ResumeLayout(false);
-            this.groupBoxSituacaoFiscal.PerformLayout();
             this.panelModalDocumentos.ResumeLayout(false);
             this.panelModalDocumentos.PerformLayout();
+            this.groupBoxSituacaoFiscal.ResumeLayout(false);
+            this.groupBoxSituacaoFiscal.PerformLayout();
             this.groupBoxApolices.ResumeLayout(false);
             this.groupBoxApolices.PerformLayout();
+            this.label4.ResumeLayout(false);
+            this.label4.PerformLayout();
             this.groupBoxDeclaracoes.ResumeLayout(false);
             this.groupBoxDeclaracoes.PerformLayout();
             this.panelObras.ResumeLayout(false);
@@ -1993,9 +1996,8 @@ namespace ADExtensibilidadeJPA
             this.panelTrabalhadores.ResumeLayout(false);
             this.groupBoxInfoTrabalhador.ResumeLayout(false);
             this.groupBoxInfoTrabalhador.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).EndInit();
             this.groupBoxListaTrabalhadores.ResumeLayout(false);
-            this.groupBoxListaTrabalhadores.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridTrabalhadores)).EndInit();
             this.panelBotoesTrabalhador.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

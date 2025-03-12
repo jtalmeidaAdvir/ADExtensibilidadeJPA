@@ -453,27 +453,52 @@ namespace ADExtensibilidadeJPA
                     return false;
                 }
 
-                // Verificar se tabela existe, se não, criá-la - This is already done in CarregarTrabalhadores()
-                //string queryCheckTable = @"..."; // Removed - Redundant table creation
-
+                // Verificar se tabela existe, se não, criá-la
+                string queryCheckTable = @"
+                    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES 
+                               WHERE TABLE_NAME = 'TDU_AD_Trabalhadores')
+                    BEGIN
+                        CREATE TABLE [dbo].[TDU_AD_Trabalhadores](
+                            [CDU_Id] [uniqueidentifier] NOT NULL,
+                            [CDU_IdEmpresa] [uniqueidentifier] NOT NULL,
+                            [CDU_Nome] [nvarchar](255) NOT NULL,
+                            [CDU_TipoDocumento] [nvarchar](50) NOT NULL,
+                            [CDU_NumDocumento] [nvarchar](50) NOT NULL,
+                            [CDU_ValidadeDocumento] [date] NULL,
+                            [CDU_NIF] [nvarchar](50) NULL,
+                            [CDU_NumSS] [nvarchar](50) NULL,
+                            [CDU_FichaAptidao] [bit] NOT NULL DEFAULT(0),
+                            [CDU_CaminhoFichaAptidao] [nvarchar](500) NULL,
+                            [CDU_Credenciacao] [bit] NOT NULL DEFAULT(0),
+                            [CDU_DescCredenciacao] [nvarchar](255) NULL,
+                            [CDU_CaminhoCredenciacao] [nvarchar](500) NULL,
+                            [CDU_FichaEPI] [bit] NOT NULL DEFAULT(0),
+                            [CDU_CaminhoFichaEPI] [nvarchar](500) NULL,
+                            [CDU_Status] [nvarchar](50) NULL DEFAULT('Pendente'),
+                            [CDU_Observacoes] [nvarchar](500) NULL,
+                            CONSTRAINT [PK_TDU_AD_Trabalhadores] PRIMARY KEY CLUSTERED ([CDU_Id] ASC)
+                        );
+                    END
+                ";
+                _bso.DSO.ExecuteSQL(queryCheckTable);
 
                 // Preparar dados para salvar
                 string id = string.IsNullOrEmpty(_idTrabalhadorSelecionado) ? Guid.NewGuid().ToString() : _idTrabalhadorSelecionado;
-                string nome = _txtNomeTrabalhador.Text;
-                string tipoDoc = _cmbTipoDocumento.Text;
-                string numDoc = _txtNumDocumento.Text;
+                string nome = _txtNomeTrabalhador.Text.Replace("'", "''");
+                string tipoDoc = _cmbTipoDocumento.Text.Replace("'", "''");
+                string numDoc = _txtNumDocumento.Text.Replace("'", "''");
                 string validadeDoc = _dtpValidadeDocumento.Checked ? _dtpValidadeDocumento.Value.ToString("yyyy-MM-dd") : "NULL";
-                string nif = _txtNIF.Text;
-                string numSS = _txtNumSS.Text;
+                string nif = _txtNIF.Text.Replace("'", "''");
+                string numSS = _txtNumSS.Text.Replace("'", "''");
                 bool fichaAptidao = _chkFichaAptidaoMedica.Checked;
                 bool credenciacao = _chkCredenciacao.Checked;
-                string descCredenciacao = _txtCredenciacao.Text;
+                string descCredenciacao = _txtCredenciacao.Text.Replace("'", "''");
                 bool fichaEPI = _chkFichaEPI.Checked;
 
                 // Verificar se é novo registro ou atualização
                 if (string.IsNullOrEmpty(_idTrabalhadorSelecionado))
                 {
-                    // Inserir novo trabalhador
+                    // Inserir novo trabalhador - Corrigindo inserção
                     string queryInsert = $@"
                         INSERT INTO TDU_AD_Trabalhadores (
                             CDU_Id, CDU_IdEmpresa, CDU_Nome, CDU_TipoDocumento, CDU_NumDocumento, 
@@ -483,10 +508,12 @@ namespace ADExtensibilidadeJPA
                         ) VALUES (
                             '{id}', '{_idEmpresa}', '{nome}', '{tipoDoc}', '{numDoc}', 
                             {(validadeDoc == "NULL" ? validadeDoc : $"'{validadeDoc}'")}, '{nif}', '{numSS}', {(fichaAptidao ? 1 : 0)}, 
-                            '{_caminhoAnexoFichaAptidao}', {(credenciacao ? 1 : 0)}, '{descCredenciacao}', 
-                            '{_caminhoAnexoCredenciacao}', {(fichaEPI ? 1 : 0)}, '{_caminhoAnexoFichaEPI}', 'Pendente'
+                            '{_caminhoAnexoFichaAptidao?.Replace("'", "''")}', {(credenciacao ? 1 : 0)}, '{descCredenciacao}', 
+                            '{_caminhoAnexoCredenciacao?.Replace("'", "''")}', {(fichaEPI ? 1 : 0)}, '{_caminhoAnexoFichaEPI?.Replace("'", "''")}', 'Pendente'
                         )";
+
                     _bso.DSO.ExecuteSQL(queryInsert);
+                    _idTrabalhadorSelecionado = id; // Atualizar ID do trabalhador selecionado
                 }
                 else
                 {
@@ -500,12 +527,12 @@ namespace ADExtensibilidadeJPA
                             CDU_NIF = '{nif}', 
                             CDU_NumSS = '{numSS}', 
                             CDU_FichaAptidao = {(fichaAptidao ? 1 : 0)}, 
-                            CDU_CaminhoFichaAptidao = '{_caminhoAnexoFichaAptidao}', 
+                            CDU_CaminhoFichaAptidao = '{_caminhoAnexoFichaAptidao?.Replace("'", "''")}', 
                             CDU_Credenciacao = {(credenciacao ? 1 : 0)}, 
                             CDU_DescCredenciacao = '{descCredenciacao}', 
-                            CDU_CaminhoCredenciacao = '{_caminhoAnexoCredenciacao}', 
+                            CDU_CaminhoCredenciacao = '{_caminhoAnexoCredenciacao?.Replace("'", "''")}', 
                             CDU_FichaEPI = {(fichaEPI ? 1 : 0)}, 
-                            CDU_CaminhoFichaEPI = '{_caminhoAnexoFichaEPI}'
+                            CDU_CaminhoFichaEPI = '{_caminhoAnexoFichaEPI?.Replace("'", "''")}'
                         WHERE CDU_Id = '{id}'";
                     _bso.DSO.ExecuteSQL(queryUpdate);
                 }
@@ -701,6 +728,22 @@ namespace ADExtensibilidadeJPA
 
         #region Anexos
 
+        public void AnexarFichaAptidao(string caminhoArquivo, string descricao, DateTime? validade, string observacoes)
+        {
+            AnexarDocumentoAvancado("Ficha de Aptidão Médica", ref _caminhoAnexoFichaAptidao, caminhoArquivo, descricao, validade, observacoes);
+        }
+
+        public void AnexarCredenciacao(string caminhoArquivo, string descricao, DateTime? validade, string observacoes)
+        {
+            AnexarDocumentoAvancado("Credenciação", ref _caminhoAnexoCredenciacao, caminhoArquivo, descricao, validade, observacoes);
+        }
+
+        public void AnexarFichaEPI(string caminhoArquivo, string descricao, DateTime? validade, string observacoes)
+        {
+            AnexarDocumentoAvancado("Ficha de Distribuição de EPI", ref _caminhoAnexoFichaEPI, caminhoArquivo, descricao, validade, observacoes);
+        }
+
+        // Manter método antigo para retrocompatibilidade
         public void AnexarFichaAptidao()
         {
             AnexarDocumento("Ficha de Aptidão Médica", ref _caminhoAnexoFichaAptidao);
@@ -776,6 +819,135 @@ namespace ADExtensibilidadeJPA
                             "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
+        }
+
+        private void AnexarDocumentoAvancado(string tipoDocumento, ref string caminhoPasta, string arquivoOrigem, string descricao, DateTime? validade, string observacoes)
+        {
+            // Verificar se a pasta de documentos foi definida
+            if (string.IsNullOrEmpty(_pastaDocumentos))
+            {
+                MessageBox.Show("A pasta de documentos não foi definida. Configure a pasta na aba Empresa.",
+                    "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                string sourceFile = arquivoOrigem;
+                string nomeArquivo = string.IsNullOrEmpty(_txtNomeTrabalhador.Text)
+                    ? "Sem_Nome"
+                    : _txtNomeTrabalhador.Text.Replace(" ", "_");
+
+                string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{Path.GetExtension(sourceFile)}";
+                string destFile = Path.Combine(_pastaDocumentos, fileName);
+
+                // Verificar se o arquivo já existe
+                if (File.Exists(destFile))
+                {
+                    DialogResult result = MessageBox.Show(
+                        $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                        "Arquivo já existe",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                        return;
+                }
+
+                // Copia o arquivo para a pasta de destino
+                File.Copy(sourceFile, destFile, true);
+
+                // Atualiza o caminho do anexo
+                caminhoPasta = destFile;
+
+                // Atualiza os labels
+                AtualizarLabelsAnexos();
+
+                // Salvar informações adicionais na tabela TDU_AD_Trabalhadores_Anexos
+                SalvarInformacoesAnexo(tipoDocumento, caminhoPasta, descricao, validade, observacoes);
+
+                MessageBox.Show("Documento anexado com sucesso!",
+                    "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao anexar documento: {ex.Message}",
+                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SalvarInformacoesAnexo(string tipoDocumento, string caminhoPasta, string descricao, DateTime? validade, string observacoes)
+        {
+            // Verificar se tabela existe, se não, criá-la
+            string queryCheckTable = @"
+                IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES 
+                           WHERE TABLE_NAME = 'TDU_AD_Trabalhadores_Anexos')
+                BEGIN
+                    CREATE TABLE [dbo].[TDU_AD_Trabalhadores_Anexos](
+                        [CDU_Id] [uniqueidentifier] NOT NULL,
+                        [CDU_IdTrabalhador] [uniqueidentifier] NOT NULL,
+                        [CDU_TipoDocumento] [nvarchar](100) NOT NULL,
+                        [CDU_Descricao] [nvarchar](255) NULL,
+                        [CDU_CaminhoAnexo] [nvarchar](500) NOT NULL,
+                        [CDU_DataInclusao] [datetime] NOT NULL,
+                        [CDU_Validade] [date] NULL,
+                        [CDU_Observacoes] [nvarchar](500) NULL,
+                        CONSTRAINT [PK_TDU_AD_Trabalhadores_Anexos] PRIMARY KEY CLUSTERED ([CDU_Id] ASC)
+                    );
+                END
+            ";
+            _bso.DSO.ExecuteSQL(queryCheckTable);
+
+            try
+            {
+                // Verificar se já existe um anexo deste tipo para este trabalhador
+                string queryCheck = $@"
+                    SELECT CDU_Id FROM TDU_AD_Trabalhadores_Anexos 
+                    WHERE CDU_IdTrabalhador = '{_idTrabalhadorSelecionado}' 
+                    AND CDU_TipoDocumento = '{tipoDocumento}'";
+
+                var resultado = _bso.Consulta(queryCheck);
+                string idAnexo;
+
+                if (resultado != null && resultado.NumLinhas() > 0)
+                {
+                    // Atualizar registro existente
+                    resultado.Inicio();
+                    idAnexo = resultado.DaValor<string>("CDU_Id");
+
+                    string queryUpdate = $@"
+                        UPDATE TDU_AD_Trabalhadores_Anexos SET
+                            CDU_Descricao = '{descricao?.Replace("'", "''")}',
+                            CDU_CaminhoAnexo = '{caminhoPasta?.Replace("'", "''")}',
+                            CDU_DataInclusao = '{DateTime.Now:yyyy-MM-dd HH:mm:ss}',
+                            CDU_Validade = {(validade.HasValue ? $"'{validade.Value:yyyy-MM-dd}'" : "NULL")},
+                            CDU_Observacoes = '{observacoes?.Replace("'", "''")}'
+                        WHERE CDU_Id = '{idAnexo}'";
+
+                    _bso.DSO.ExecuteSQL(queryUpdate);
+                }
+                else if (!string.IsNullOrEmpty(_idTrabalhadorSelecionado))
+                {
+                    // Inserir novo registro
+                    idAnexo = Guid.NewGuid().ToString();
+
+                    string queryInsert = $@"
+                        INSERT INTO TDU_AD_Trabalhadores_Anexos (
+                            CDU_Id, CDU_IdTrabalhador, CDU_TipoDocumento, CDU_Descricao, 
+                            CDU_CaminhoAnexo, CDU_DataInclusao, CDU_Validade, CDU_Observacoes
+                        ) VALUES (
+                            '{idAnexo}', '{_idTrabalhadorSelecionado}', '{tipoDocumento}', '{descricao?.Replace("'", "''")}',
+                            '{caminhoPasta?.Replace("'", "''")}', '{DateTime.Now:yyyy-MM-dd HH:mm:ss}', 
+                            {(validade.HasValue ? $"'{validade.Value:yyyy-MM-dd}'" : "NULL")}, '{observacoes?.Replace("'", "''")}'
+                        )";
+
+                    _bso.DSO.ExecuteSQL(queryInsert);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao salvar informações do anexo: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
