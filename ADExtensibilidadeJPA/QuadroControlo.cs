@@ -298,7 +298,7 @@ namespace ADExtensibilidadeJPA
                 if (dataGridView1.SelectedRows.Count > 0)
                 {
                     string idSelecionado = dataGridView1.SelectedRows[0].Cells["ID"].Value?.ToString();
-                    Menu menuForm = new Menu(BSO, PSO, idSelecionado);
+                    GestaoSubempreitada menuForm = new GestaoSubempreitada(BSO, PSO, idSelecionado);
                     menuForm.ShowDialog();
                 }
                 else

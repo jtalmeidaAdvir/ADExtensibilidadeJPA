@@ -37,6 +37,8 @@ namespace ADExtensibilidadeJPA
             ConfigurarEventosTrabalhadores();
         }
 
+        private Panel panelListaDocumentos;
+
         private void ConfigurarInterface()
         {
             // Configuração da interface do usuário, especialmente para os DateTimePickers
@@ -56,6 +58,9 @@ namespace ADExtensibilidadeJPA
             TXT_NaoDivFinancas.Format = DateTimePickerFormat.Short;
             TXT_NaoDivSegSocial.Format = DateTimePickerFormat.Short;
             TXT_FolhaPagSegSocial.Format = DateTimePickerFormat.Short;
+
+            // Inicializar a lista de documentos quando o formulário for carregado
+            CriarListaDocumentos();
         }
 
         private void ConfigurarEventosTrabalhadores()
@@ -68,7 +73,8 @@ namespace ADExtensibilidadeJPA
 
             if (chkCredenciacao != null && txtCredenciacao != null)
             {
-                chkCredenciacao.CheckedChanged += (sender, e) => {
+                chkCredenciacao.CheckedChanged += (sender, e) =>
+                {
                     txtCredenciacao.Enabled = chkCredenciacao.Checked;
                 };
             }
@@ -336,33 +342,114 @@ namespace ADExtensibilidadeJPA
 
         private void btnAnexarDocumentoGeral_Click(object sender, EventArgs e)
         {
-            // Atualizar os itens do combobox para mostrar quais documentos já estão anexados
-            UpdateDocumentComboBox();
-            panelModalDocumentos.Visible = true;
+            // Criar ou atualizar a lista vertical de documentos
+            CriarListaDocumentos();
         }
 
-        private void UpdateDocumentComboBox()
+        private void CriarListaDocumentos()
         {
-            // Limpar os itens existentes
-            cmbTipoDocumento.Items.Clear();
+            // Limpar o painel antes de adicionar os novos controles
+            panelListaDocumentos.Controls.Clear();
 
             // Verificar quais documentos já estão anexados
             bool[] documentosAnexados = _empresaManager.GetDocumentosAnexados();
 
-            // Adicionar os itens com prefixo indicando status
-            cmbTipoDocumento.Items.Add(documentosAnexados[0] ? "✓ Certidão de não divida às Finanças" : "□ Certidão de não divida às Finanças");
-            cmbTipoDocumento.Items.Add(documentosAnexados[1] ? "✓ Certidão de não divida à Segurança Social" : "□ Certidão de não divida à Segurança Social");
-            cmbTipoDocumento.Items.Add(documentosAnexados[2] ? "✓ Folha de remuneração à segurança social do mês corrente com o nome dos funcionários a colocar em obra + comprovativo de pagamento" : "□ Folha de remuneração à segurança social do mês corrente com o nome dos funcionários a colocar em obra + comprovativo de pagamento");
-            cmbTipoDocumento.Items.Add(documentosAnexados[3] ? "✓ Recibo do seguro de acidentes de trabalho" : "□ Recibo do seguro de acidentes de trabalho");
-            cmbTipoDocumento.Items.Add(documentosAnexados[4] ? "✓ Seguro de responsabilidade civil" : "□ Seguro de responsabilidade civil");
-            cmbTipoDocumento.Items.Add(documentosAnexados[5] ? "✓ Horário trabalho para a empreitada acima designada" : "□ Horário trabalho para a empreitada acima designada");
-            cmbTipoDocumento.Items.Add(documentosAnexados[6] ? "✓ Condições particulares do seguro de acidentes de trabalho" : "□ Condições particulares do seguro de acidentes de trabalho");
-            cmbTipoDocumento.Items.Add(documentosAnexados[7] ? "✓ Alvará/Certificado de construção ou alvará específico para a atividade (ex. trabalho temporário)" : "□ Alvará/Certificado de construção ou alvará específico para a atividade (ex. trabalho temporário)");
-            cmbTipoDocumento.Items.Add(documentosAnexados[8] ? "✓ Certidão permanente" : "□ Certidão permanente");
-            cmbTipoDocumento.Items.Add("Contrato de subcontratação/subempreitada/nota de encomenda");
-            cmbTipoDocumento.Items.Add("Declaração de adesão ao PSS (segue em anexo modelo de declaração a preencher)");
-            cmbTipoDocumento.Items.Add("Declaração do responsável no estaleiro (segue em anexo modelo de declaração a preencher)");
-            cmbTipoDocumento.Items.Add("Outro documento");
+            // Lista de documentos a exibir
+            List<(string Nome, bool Anexado, Action AnexarAction)> documentos = new List<(string, bool, Action)>
+            {
+                ("Certidão de não divida às Finanças", documentosAnexados[0], () => _empresaManager.AnexarDocumentoFinancas()),
+                ("Certidão de não divida à Segurança Social", documentosAnexados[1], () => _empresaManager.AnexarDocumentoSegSocial()),
+                ("Folha de remuneração mensal à Segurança Social", documentosAnexados[2], () => _empresaManager.AnexarFolhaPag()),
+                ("Comprovativo de pagamento.", documentosAnexados[2], () => _empresaManager.AnexarFolhaPag()),
+                ("Recibo do seguro de acidentes de trabalho", documentosAnexados[3], () => _empresaManager.AnexarDocumentoApoliceAT()),
+                ("Seguro de responsabilidade civil", documentosAnexados[4], () => _empresaManager.AnexarDocumentoApoliceRC()),
+                ("Horário de trabalho da empreitada.", documentosAnexados[5], () => _empresaManager.AnexarHorarioTrabalho()),
+                ("Condições do seguro de acidentes de trabalho.", documentosAnexados[6], () => _empresaManager.AnexarAnexoD()),
+                ("Alvará/Certificado de construção ou atividade.", documentosAnexados[7], () => _empresaManager.AnexarDocumento("AlvaraConstrucao", null)),
+                ("Certidão permanente", documentosAnexados[8], () => _empresaManager.AnexarDocumento("CertidaoPermanente", null)),
+                ("Contrato ou nota de encomenda.", false, () => _empresaManager.AnexarDocumento("ContratoSubcontratacao", null)),
+                ("Declaração de adesão ao PSS", false, () => _empresaManager.AnexarDocumento("DeclaracaoPSS", null)),
+                ("Declaração do responsável no estaleiro.", false, () => _empresaManager.AnexarDocumento("DeclaracaoResponsavel", null))
+            };
+
+            // Altura de cada item na lista
+            int itemHeight = 36;
+            int yPos = 10;
+
+            // Criar controles para cada documento
+            foreach (var doc in documentos)
+            {
+                // Painel para cada linha de documento
+                Panel itemPanel = new Panel
+                {
+                    Width = panelListaDocumentos.Width - 30,
+                    Height = itemHeight,
+                    Location = new Point(10, yPos)
+                };
+                panelListaDocumentos.Controls.Add(itemPanel);
+
+                // Label para o nome do documento
+                Label lblDocumento = new Label
+                {
+                    Text = doc.Nome,
+                    AutoSize = false,
+                    Width = 380,
+                    Height = itemHeight,
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Location = new Point(0, 0),
+                    Font = new Font("Calibri", 10F)
+                };
+                itemPanel.Controls.Add(lblDocumento);
+
+                // Botão para anexar o documento
+                Button btnAnexar = new Button
+                {
+                    Text = "...",
+                    Width = 30,
+                    Height = 24,
+                    Location = new Point(385, 6),
+                    FlatStyle = FlatStyle.Flat
+                };
+                btnAnexar.Tag = doc.AnexarAction;
+                btnAnexar.Click += (s, e) =>
+                {
+                    if (btnAnexar.Tag is Action action)
+                        action.Invoke();
+
+                    // Atualizar a lista após anexar
+                    CriarListaDocumentos();
+                };
+                itemPanel.Controls.Add(btnAnexar);
+
+                // Label para status do anexo
+                Label lblStatus = new Label
+                {
+                    Text = doc.Anexado ? "Anexado" : "Sem Anexo",
+                    AutoSize = false,
+                    Width = 200,
+                    Height = itemHeight,
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Location = new Point(425, 0),
+                    Font = new Font("Calibri", 9F),
+                    ForeColor = doc.Anexado ? Color.Green : Color.DarkGray
+                };
+                itemPanel.Controls.Add(lblStatus);
+
+                // Adicionar uma linha separadora se não for o último item
+                if (documentos.IndexOf(doc) < documentos.Count - 1)
+                {
+                    Panel linePanel = new Panel
+                    {
+                        Width = itemPanel.Width,
+                        Height = 1,
+                        Location = new Point(10, yPos + itemHeight),
+                        BackColor = Color.LightGray
+                    };
+                    panelListaDocumentos.Controls.Add(linePanel);
+                }
+
+                yPos += itemHeight + 5; // Espaçamento entre itens
+            }
         }
 
         private void btnAbrirPastaAnexos_Click(object sender, EventArgs e)
@@ -1052,7 +1139,8 @@ namespace ADExtensibilidadeJPA
 
             // Colorir o status de acordo com a seleção
             cmbStatusEntrada.BackColor = Color.LightGreen;
-            cmbStatusEntrada.SelectedIndexChanged += (s, ev) => {
+            cmbStatusEntrada.SelectedIndexChanged += (s, ev) =>
+            {
                 ComboBox cmb = s as ComboBox;
                 switch (cmb.SelectedIndex)
                 {
@@ -1118,7 +1206,8 @@ namespace ADExtensibilidadeJPA
                     Location = new Point(580, baseY + spacing * 2 - 5)
                 };
                 btnCancelar.FlatAppearance.BorderColor = Color.LightGray;
-                btnCancelar.Click += (s, ev) => {
+                btnCancelar.Click += (s, ev) =>
+                {
                     pnlNovaAutorizacao.Visible = false;
                     dataGridView1.Visible = true;
                     btnGravarObra.Visible = true;
