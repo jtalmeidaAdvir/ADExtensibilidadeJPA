@@ -64,9 +64,8 @@ namespace ADExtensibilidadeJPA
                     CDU_AnexoDeclaracaoPSS, CDU_ValidadeDeclaracaoPSS,
                     CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro
                     FROM Geral_Entidade WHERE id = '{_idSelecionado}'";
-
+    
                 var dados = _BSO.Consulta(query);
-
                 if (dados.NumLinhas() > 0)
                 {
                     dados.Inicio();
@@ -125,6 +124,11 @@ namespace ADExtensibilidadeJPA
                 {
                     // Tentar acessar a coluna para verificar se existe
                     var testeColuna = dados.Valor(colunaNome);
+                    if(colunaNome == "CDU_AnexoFolhaPag")
+                    {
+                        MessageBox.Show("1");
+                    }
+                    
                 }
                 catch
                 {
@@ -145,6 +149,10 @@ namespace ADExtensibilidadeJPA
                 try
                 {
                     var testeColuna = dados.Valor(colunaValidade);
+                    if (colunaNome == "CDU_AnexoFolhaPag")
+                    {
+                        MessageBox.Show("2");
+                    }
                 }
                 catch
                 {
@@ -163,27 +171,42 @@ namespace ADExtensibilidadeJPA
                 int anexado = 0;
                 try
                 {
-                    // Tenta obter o valor como string
-                    string valorString = dados.Valor(colunaNome) as string;
+                    // Tenta obter o valor como objeto (pode ser bool ou int)
+                    var valor = dados.Valor(colunaNome);
 
-                    // Verifica se é nulo ou vazio
-                    if (!string.IsNullOrEmpty(valorString))
+                    // Verifica se o valor é do tipo 'bit' (normalmente um tipo booleano ou 1/0)
+                    if (valor is bool valorBool)
                     {
-                        // Tenta converter para int usando TryParse
-                        int valorInt;
-                        if (int.TryParse(valorString, out valorInt))
-                        {
-                            anexado = valorInt;
-                        }
+                        // Converte booleano para int (1 para true e 0 para false)
+                        anexado = valorBool ? 1 : 0;
                     }
+                    else if (valor is int valorInt)
+                    {
+                        // Caso o valor já seja inteiro, usa ele diretamente
+                        anexado = valorInt;
+                    }
+                    else if (valor is byte valorByte)
+                    {
+                        // Caso o valor seja byte (também poderia ser 1 ou 0), converte
+                        anexado = valorByte;
+                    }
+
                 }
-                catch
+                catch (Exception ex)
                 {
+                    // Captura a exceção e exibe a mensagem de erro
+                    MessageBox.Show($"Erro: {ex.Message}");
                     anexado = 0;
                 }
 
+
+
                 if (anexado == 1)
                 {
+                    if (colunaNome == "CDU_AnexoFolhaPag")
+                    {
+                        MessageBox.Show("4");
+                    }
                     checkBox.Checked = true;
                     checkBox.Enabled = true;
 
@@ -342,7 +365,7 @@ namespace ADExtensibilidadeJPA
             TXT_Nome.Text = entidade["Nome"];
             TXT_nome2.Text = entidade["Nome"];
             TXT_Contribuinte.Text = entidade["NIPC"];
-
+            txtCaminhoPasta.Text = entidade["CDU_Caminho"];
             var moradaCompleta = $"{entidade["Morada"]}, {entidade["Localidade"]}, {entidade["CodPostal"]}, {entidade["CodPostalLocal"]}";
 
             if (moradaCompleta == ", , , ")
@@ -405,6 +428,12 @@ namespace ADExtensibilidadeJPA
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
                     txtCaminhoPasta.Text = folderDialog.SelectedPath;
+
+                    var update = $@"UPDATE Geral_Entidade
+                                set CDU_Caminho = '{txtCaminhoPasta.Text}'
+                                WHERE ID = '{_idSelecionado}'";
+                    _BSO.DSO.ExecuteSQL(update);
+
                 }
             }
         }
@@ -431,8 +460,6 @@ namespace ADExtensibilidadeJPA
         {
             try
             {
-                // Limpar as mensagens de console anteriores
-                Console.WriteLine($"==== Anexando documento {tipoDocumento} ====");
 
                 // Verifica se o caminho da pasta foi definido
                 if (string.IsNullOrEmpty(txtCaminhoPasta.Text) || !System.IO.Directory.Exists(txtCaminhoPasta.Text))
@@ -527,7 +554,7 @@ namespace ADExtensibilidadeJPA
                         AtualizarCheckbox(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
 
                         // Recarregar os dados para garantir exibição correta
-                        CarregarStatusDocumentos();
+                       // CarregarStatusDocumentos();
 
                         MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
                             "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -546,7 +573,6 @@ namespace ADExtensibilidadeJPA
         {
             CheckBox checkBox = null;
             string nomeDocumento = "";
-
             // Identificar qual checkbox deve ser atualizado com base no tipo de documento
             switch (tipoDocumento)
             {
@@ -607,12 +633,13 @@ namespace ADExtensibilidadeJPA
             // Se encontrou o checkbox, atualiza seu estado e texto
             if (checkBox != null)
             {
-                checkBox.Checked = true;
                 checkBox.Enabled = true;
+                checkBox.Checked = true;
+                
                 checkBox.Text = $"{nomeDocumento} (Válido até: {dataValidade.ToShortDateString()})";
 
                 // Ajustar a largura do checkbox para mostrar o texto completo
-                checkBox.AutoSize = true;
+                //checkBox.AutoSize = true;
             }
         }
 
@@ -622,14 +649,68 @@ namespace ADExtensibilidadeJPA
             {
                 // Atualizar a tabela Geral_Entidade com o caminho do documento e sua validade
                 string colunaCaminho = "CDU_Caminho";
-                string colunaAnexo = $"CDU_Anexo{tipoDocumento}";
-                string colunaValidade = $"CDU_Validade{tipoDocumento}";
-
-                // Caso especial para FolhaPagamento -> FolhaPag
-                if (tipoDocumento == "FolhaPagamento")
+                string colunaAnexo;
+                string colunaValidade;
+                // Mapear nomes de documentos para nomes de colunas
+                switch (tipoDocumento)
                 {
-                    colunaAnexo = "CDU_AnexoFolhaPag";
-                    colunaValidade = "CDU_ValidadeFolhaPag";
+                    case "Financas":
+                        colunaAnexo = "CDU_AnexoFinancas";
+                        colunaValidade = "CDU_ValidadeFinancas";
+                        break;
+                    case "SegSocial":
+                        colunaAnexo = "CDU_AnexoSegSocial";
+                        colunaValidade = "CDU_ValidadeSegSocial";
+                        break;
+                    case "FolhaPagamento":
+                        colunaAnexo = "CDU_AnexoFolhaPag";
+                        colunaValidade = "CDU_ValidadeFolhaPag";
+                        break;
+                    case "ComprovativoPagamento":
+                        colunaAnexo = "CDU_AnexoComprovativoPagamento";
+                        colunaValidade = "CDU_ValidadeComprovativoPagamento";
+                        break;
+                    case "ReciboSeguroAT":
+                        colunaAnexo = "CDU_AnexoReciboSeguroAT";
+                        colunaValidade = "CDU_ValidadeReciboSeguroAT";
+                        break;
+                    case "SeguroRC":
+                        colunaAnexo = "CDU_AnexoSeguroRC";
+                        colunaValidade = "CDU_ValidadeSeguroRC";
+                        break;
+                    case "HorarioTrabalho":
+                        colunaAnexo = "CDU_AnexoHorarioTrabalho";
+                        colunaValidade = "CDU_ValidadeHorarioTrabalho";
+                        break;
+                    case "SeguroAT":
+                        colunaAnexo = "CDU_AnexoSeguroAT";
+                        colunaValidade = "CDU_ValidadeSeguroAT";
+                        break;
+                    case "Alvara":
+                        colunaAnexo = "CDU_AnexoAlvara";
+                        colunaValidade = "CDU_ValidadeAlvara";
+                        break;
+                    case "CertidaoPermanente":
+                        colunaAnexo = "CDU_AnexoCertidaoPermanente";
+                        colunaValidade = "CDU_ValidadeCertidaoPermanente";
+                        break;
+                    case "Contrato":
+                        colunaAnexo = "CDU_AnexoContrato";
+                        colunaValidade = "CDU_ValidadeContrato";
+                        break;
+                    case "DeclaracaoPSS":
+                        colunaAnexo = "CDU_AnexoDeclaracaoPSS";
+                        colunaValidade = "CDU_ValidadeDeclaracaoPSS";
+                        break;
+                    case "ResponsavelEstaleiro":
+                        colunaAnexo = "CDU_AnexoResponsavelEstaleiro";
+                        colunaValidade = "CDU_ValidadeResponsavelEstaleiro";
+                        break;
+                    default:
+                        // Caso não mapeado, usar o nome do tipo como parte do nome da coluna
+                        colunaAnexo = $"CDU_Anexo{tipoDocumento}";
+                        colunaValidade = $"CDU_Validade{tipoDocumento}";
+                        break;
                 }
 
                 // Primeiro verificar se as colunas existem, e se não, criá-las
@@ -771,8 +852,7 @@ namespace ADExtensibilidadeJPA
                 }
                 else
                 {
-                    MessageBox.Show("Não foi possível encontrar informações do documento.",
-                        "Informação não encontrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+     
                 }
             }
             catch (Exception ex)
