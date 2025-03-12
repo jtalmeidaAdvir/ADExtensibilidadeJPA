@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -124,10 +126,7 @@ namespace ADExtensibilidadeJPA
                 {
                     // Tentar acessar a coluna para verificar se existe
                     var testeColuna = dados.Valor(colunaNome);
-                    if(colunaNome == "CDU_AnexoFolhaPag")
-                    {
-                        MessageBox.Show("1");
-                    }
+
                     
                 }
                 catch
@@ -149,10 +148,7 @@ namespace ADExtensibilidadeJPA
                 try
                 {
                     var testeColuna = dados.Valor(colunaValidade);
-                    if (colunaNome == "CDU_AnexoFolhaPag")
-                    {
-                        MessageBox.Show("2");
-                    }
+     
                 }
                 catch
                 {
@@ -203,10 +199,6 @@ namespace ADExtensibilidadeJPA
 
                 if (anexado == 1)
                 {
-                    if (colunaNome == "CDU_AnexoFolhaPag")
-                    {
-                        MessageBox.Show("4");
-                    }
                     checkBox.Checked = true;
                     checkBox.Enabled = true;
 
@@ -225,7 +217,6 @@ namespace ADExtensibilidadeJPA
                             if (DateTime.TryParse(valorString, out dataValidade))
                             {
                                 validade = dataValidade;
-                                Console.WriteLine($"Data válida encontrada para {colunaNome}: {validade}");
                             }
                         }
 
@@ -248,12 +239,10 @@ namespace ADExtensibilidadeJPA
                                     if (valorObj is DateTime dataValor)
                                     {
                                         validade = dataValor;
-                                        Console.WriteLine($"Data encontrada como DateTime para {colunaNome}: {validade}");
                                     }
                                     else if (DateTime.TryParse(valorObj.ToString(), out DateTime dataParsed))
                                     {
                                         validade = dataParsed;
-                                        Console.WriteLine($"Data convertida de string para {colunaNome}: {validade}");
                                     }
                                 }
                             }
@@ -271,7 +260,6 @@ namespace ADExtensibilidadeJPA
                                         if (DateTime.TryParse(valorString2, out dataConvertida))
                                         {
                                             validade = dataConvertida;
-                                            Console.WriteLine($"Data recuperada com método alternativo para {colunaNome}: {validade}");
                                         }
                                     }
                                 }
@@ -284,7 +272,6 @@ namespace ADExtensibilidadeJPA
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Erro ao obter validade: {ex.Message}");
                         validade = null;
                     }
 
@@ -292,7 +279,6 @@ namespace ADExtensibilidadeJPA
                     if (validade.HasValue)
                     {
                         checkBox.Text = $"{tipoDoc} (Válido até: {validade.Value.ToShortDateString()})";
-                        Console.WriteLine($"Checkbox {tipoDoc} atualizado com data: {validade.Value.ToShortDateString()}");
                     }
                     else
                     {
@@ -313,35 +299,29 @@ namespace ADExtensibilidadeJPA
                                     if (dataDB is DateTime dt)
                                     {
                                         checkBox.Text = $"{tipoDoc} (Válido até: {dt.ToShortDateString()})";
-                                        Console.WriteLine($"Checkbox {tipoDoc} atualizado com data direta: {dt.ToShortDateString()}");
                                     }
                                     else if (DateTime.TryParse(dataDB.ToString(), out dataParsed))
                                     {
                                         checkBox.Text = $"{tipoDoc} (Válido até: {dataParsed.ToShortDateString()})";
-                                        Console.WriteLine($"Checkbox {tipoDoc} atualizado com data convertida: {dataParsed.ToShortDateString()}");
                                     }
                                     else
                                     {
                                         checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
-                                        Console.WriteLine($"Checkbox {tipoDoc} sem data de validade definida - não foi possível converter");
                                     }
                                 }
                                 else
                                 {
                                     checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
-                                    Console.WriteLine($"Checkbox {tipoDoc} sem data de validade definida - valor nulo no banco");
                                 }
                             }
                             else
                             {
                                 checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
-                                Console.WriteLine($"Checkbox {tipoDoc} sem data de validade definida - sem dados no banco");
                             }
                         }
                         catch (Exception ex)
                         {
                             checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
-                            Console.WriteLine($"Erro ao tentar obter data para {tipoDoc}: {ex.Message}");
                         }
                     }
                     checkBox.AutoSize = true;
@@ -424,11 +404,11 @@ namespace ADExtensibilidadeJPA
             {
                 folderDialog.Description = "Selecione a pasta para os documentos";
                 folderDialog.ShowNewFolderButton = true;
-
+               
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
                     txtCaminhoPasta.Text = folderDialog.SelectedPath;
-
+                    MessageBox.Show("trs");
                     var update = $@"UPDATE Geral_Entidade
                                 set CDU_Caminho = '{txtCaminhoPasta.Text}'
                                 WHERE ID = '{_idSelecionado}'";
@@ -749,7 +729,6 @@ namespace ADExtensibilidadeJPA
 
                 // Agora, atualizar os dados
                 string query = $@"UPDATE Geral_Entidade SET 
-                                {colunaCaminho} = '{caminhoSanitizado}',
                                 {colunaAnexo} = 1,
                                 {colunaValidade} = '{dataValidade.ToString("yyyy-MM-dd")}'
                                 WHERE Id = '{_idSelecionado}'";
@@ -944,5 +923,22 @@ namespace ADExtensibilidadeJPA
                     "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void bt_AbrirPasta_Click(object sender, EventArgs e)
+        {
+            string caminhoPasta = txtCaminhoPasta.Text;
+
+            // Verificar se o caminho da pasta existe
+            if (Directory.Exists(caminhoPasta))
+            {
+                // Abrir a pasta no explorador de arquivos
+                Process.Start("explorer.exe", caminhoPasta);
+            }
+            else
+            {
+                MessageBox.Show("O caminho da pasta não é válido.");
+            }
+        }
+
     }
 }
