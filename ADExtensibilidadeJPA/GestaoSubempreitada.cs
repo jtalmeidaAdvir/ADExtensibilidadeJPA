@@ -66,7 +66,7 @@ namespace ADExtensibilidadeJPA
                     CDU_AnexoDeclaracaoPSS, CDU_ValidadeDeclaracaoPSS,
                     CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro
                     FROM Geral_Entidade WHERE id = '{_idSelecionado}'";
-    
+
                 var dados = _BSO.Consulta(query);
                 if (dados.NumLinhas() > 0)
                 {
@@ -121,13 +121,10 @@ namespace ADExtensibilidadeJPA
             try
             {
                 // Verifica se a coluna existe
-                // Verifica se a coluna existe de outra forma
                 try
                 {
                     // Tentar acessar a coluna para verificar se existe
                     var testeColuna = dados.Valor(colunaNome);
-
-                    
                 }
                 catch
                 {
@@ -148,7 +145,6 @@ namespace ADExtensibilidadeJPA
                 try
                 {
                     var testeColuna = dados.Valor(colunaValidade);
-     
                 }
                 catch
                 {
@@ -186,7 +182,6 @@ namespace ADExtensibilidadeJPA
                         // Caso o valor seja byte (também poderia ser 1 ou 0), converte
                         anexado = valorByte;
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -195,13 +190,10 @@ namespace ADExtensibilidadeJPA
                     anexado = 0;
                 }
 
-
-
                 if (anexado == 1)
                 {
                     checkBox.Checked = true;
                     checkBox.Enabled = true;
-
                     // Tenta obter a data de validade com segurança
                     DateTime? validade = null;
                     try
@@ -275,10 +267,25 @@ namespace ADExtensibilidadeJPA
                         validade = null;
                     }
 
+                    bool dataExpirada = false;
+
                     // SEMPRE mostrar com formato completo, mesmo que não tenha validade
                     if (validade.HasValue)
                     {
+                        // Verificar se a data está expirada
+                        dataExpirada = validade.Value < DateTime.Today;
+
                         checkBox.Text = $"{tipoDoc} (Válido até: {validade.Value.ToShortDateString()})";
+
+                        // Atualiza a cor do texto baseado na validade
+                        if (dataExpirada)
+                        {
+                            checkBox.ForeColor = Color.Red;
+                        }
+                        else
+                        {
+                            checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
+                        }
                     }
                     else
                     {
@@ -298,30 +305,45 @@ namespace ADExtensibilidadeJPA
                                     DateTime dataParsed;
                                     if (dataDB is DateTime dt)
                                     {
+                                        dataExpirada = dt < DateTime.Today;
                                         checkBox.Text = $"{tipoDoc} (Válido até: {dt.ToShortDateString()})";
                                     }
                                     else if (DateTime.TryParse(dataDB.ToString(), out dataParsed))
                                     {
+                                        dataExpirada = dataParsed < DateTime.Today;
                                         checkBox.Text = $"{tipoDoc} (Válido até: {dataParsed.ToShortDateString()})";
                                     }
                                     else
                                     {
                                         checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
                                     }
+
+                                    // Atualiza a cor do texto baseado na validade
+                                    if (dataExpirada)
+                                    {
+                                        checkBox.ForeColor = Color.Red;
+                                    }
+                                    else
+                                    {
+                                        checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
+                                    }
                                 }
                                 else
                                 {
                                     checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
+                                    checkBox.ForeColor = SystemColors.ControlText;
                                 }
                             }
                             else
                             {
                                 checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
+                                checkBox.ForeColor = SystemColors.ControlText;
                             }
                         }
                         catch (Exception ex)
                         {
                             checkBox.Text = $"{tipoDoc} (Válido até: não definida)";
+                            checkBox.ForeColor = SystemColors.ControlText;
                         }
                     }
                     checkBox.AutoSize = true;
@@ -330,6 +352,7 @@ namespace ADExtensibilidadeJPA
                 {
                     checkBox.Text = tipoDoc;
                     checkBox.Checked = false;
+                    checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
                 }
             }
             catch (Exception ex)
@@ -404,7 +427,7 @@ namespace ADExtensibilidadeJPA
             {
                 folderDialog.Description = "Selecione a pasta para os documentos";
                 folderDialog.ShowNewFolderButton = true;
-               
+
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
                     txtCaminhoPasta.Text = folderDialog.SelectedPath;
@@ -534,7 +557,7 @@ namespace ADExtensibilidadeJPA
                         AtualizarCheckbox(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
 
                         // Recarregar os dados para garantir exibição correta
-                       // CarregarStatusDocumentos();
+                        // CarregarStatusDocumentos();
 
                         MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
                             "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -615,11 +638,23 @@ namespace ADExtensibilidadeJPA
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
-                
                 checkBox.Text = $"{nomeDocumento} (Válido até: {dataValidade.ToShortDateString()})";
 
+                // Verificar se a data está expirada
+                bool dataExpirada = dataValidade < DateTime.Today;
+
+                // Atualizar a cor do texto baseado na validade
+                if (dataExpirada)
+                {
+                    checkBox.ForeColor = Color.Red;
+                }
+                else
+                {
+                    checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
+                }
+
                 // Ajustar a largura do checkbox para mostrar o texto completo
-                //checkBox.AutoSize = true;
+                checkBox.AutoSize = true;
             }
         }
 
@@ -831,7 +866,7 @@ namespace ADExtensibilidadeJPA
                 }
                 else
                 {
-     
+
                 }
             }
             catch (Exception ex)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestaoSubempreitada));
             this.lblSelecionar = new System.Windows.Forms.Label();
             this.TXT_Codigo = new System.Windows.Forms.TextBox();
             this.BTF4 = new System.Windows.Forms.Button();
@@ -35,6 +36,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bt_AbrirPasta = new System.Windows.Forms.Button();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
@@ -86,11 +88,39 @@
             this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.bt_AbrirPasta = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.label4 = new System.Windows.Forms.Label();
+            this.vt_adcionar = new System.Windows.Forms.Button();
+            this.bt_remover = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.checkBox14 = new System.Windows.Forms.CheckBox();
+            this.button14 = new System.Windows.Forms.Button();
+            this.checkBox15 = new System.Windows.Forms.CheckBox();
+            this.button15 = new System.Windows.Forms.Button();
+            this.checkBox16 = new System.Windows.Forms.CheckBox();
+            this.button16 = new System.Windows.Forms.Button();
+            this.checkBox17 = new System.Windows.Forms.CheckBox();
+            this.button17 = new System.Windows.Forms.Button();
+            this.checkBox18 = new System.Windows.Forms.CheckBox();
+            this.button18 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBoxInfoBasica.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblSelecionar
@@ -210,6 +240,17 @@
             this.groupBox1.TabIndex = 75;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Documentos";
+            // 
+            // bt_AbrirPasta
+            // 
+            this.bt_AbrirPasta.Font = new System.Drawing.Font("Calibri", 9F);
+            this.bt_AbrirPasta.Location = new System.Drawing.Point(588, 21);
+            this.bt_AbrirPasta.Name = "bt_AbrirPasta";
+            this.bt_AbrirPasta.Size = new System.Drawing.Size(92, 22);
+            this.bt_AbrirPasta.TabIndex = 189;
+            this.bt_AbrirPasta.Text = "Abrir Pasta";
+            this.bt_AbrirPasta.UseVisualStyleBackColor = true;
+            this.bt_AbrirPasta.Click += new System.EventHandler(this.bt_AbrirPasta_Click);
             // 
             // checkBox13
             // 
@@ -690,12 +731,39 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.checkBox18);
+            this.tabPage2.Controls.Add(this.button18);
+            this.tabPage2.Controls.Add(this.checkBox17);
+            this.tabPage2.Controls.Add(this.button17);
+            this.tabPage2.Controls.Add(this.checkBox16);
+            this.tabPage2.Controls.Add(this.button16);
+            this.tabPage2.Controls.Add(this.checkBox15);
+            this.tabPage2.Controls.Add(this.button15);
+            this.tabPage2.Controls.Add(this.checkBox14);
+            this.tabPage2.Controls.Add(this.button14);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.label12);
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.label10);
+            this.tabPage2.Controls.Add(this.label9);
+            this.tabPage2.Controls.Add(this.textBox4);
+            this.tabPage2.Controls.Add(this.textBox3);
+            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Controls.Add(this.bt_remover);
+            this.tabPage2.Controls.Add(this.vt_adcionar);
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Controls.Add(this.dataGridView1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(710, 591);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // toolStrip1
@@ -706,16 +774,250 @@
             this.toolStrip1.TabIndex = 11;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // bt_AbrirPasta
+            // dataGridView1
             // 
-            this.bt_AbrirPasta.Font = new System.Drawing.Font("Calibri", 9F);
-            this.bt_AbrirPasta.Location = new System.Drawing.Point(588, 21);
-            this.bt_AbrirPasta.Name = "bt_AbrirPasta";
-            this.bt_AbrirPasta.Size = new System.Drawing.Size(92, 22);
-            this.bt_AbrirPasta.TabIndex = 189;
-            this.bt_AbrirPasta.Text = "Abrir Pasta";
-            this.bt_AbrirPasta.UseVisualStyleBackColor = true;
-            this.bt_AbrirPasta.Click += new System.EventHandler(this.bt_AbrirPasta_Click);
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(9, 29);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(698, 150);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(266, 8);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(190, 18);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "Lista dos Trabalhadores";
+            // 
+            // vt_adcionar
+            // 
+            this.vt_adcionar.Location = new System.Drawing.Point(505, 463);
+            this.vt_adcionar.Name = "vt_adcionar";
+            this.vt_adcionar.Size = new System.Drawing.Size(75, 23);
+            this.vt_adcionar.TabIndex = 2;
+            this.vt_adcionar.Text = "Adcionar";
+            this.vt_adcionar.UseVisualStyleBackColor = true;
+            // 
+            // bt_remover
+            // 
+            this.bt_remover.Location = new System.Drawing.Point(586, 463);
+            this.bt_remover.Name = "bt_remover";
+            this.bt_remover.Size = new System.Drawing.Size(75, 23);
+            this.bt_remover.TabIndex = 3;
+            this.bt_remover.Text = "Remover";
+            this.bt_remover.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 214);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(85, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Nome Completo:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(114, 211);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(559, 20);
+            this.textBox1.TabIndex = 5;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 240);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(102, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Categoria / Função:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(114, 237);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(559, 20);
+            this.textBox2.TabIndex = 7;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 266);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(66, 13);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Contribuinte:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 292);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(94, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Segurança Social:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(114, 263);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(559, 20);
+            this.textBox3.TabIndex = 10;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(114, 289);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(559, 20);
+            this.textBox4.TabIndex = 11;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 354);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(160, 13);
+            this.label9.TabIndex = 12;
+            this.label9.Text = "Cartão de cidadão ou residência";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 380);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(123, 13);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "Ficha médica de aptidão";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 407);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(144, 13);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "Credenciação do trabalhador";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 435);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(126, 13);
+            this.label12.TabIndex = 15;
+            this.label12.Text = "Trabalhos especializados";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 463);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(147, 13);
+            this.label13.TabIndex = 16;
+            this.label13.Text = "Ficha de distribuição de EPI’s";
+            // 
+            // checkBox14
+            // 
+            this.checkBox14.AutoSize = true;
+            this.checkBox14.Enabled = false;
+            this.checkBox14.Location = new System.Drawing.Point(240, 357);
+            this.checkBox14.Name = "checkBox14";
+            this.checkBox14.Size = new System.Drawing.Size(15, 14);
+            this.checkBox14.TabIndex = 177;
+            this.checkBox14.UseVisualStyleBackColor = true;
+            // 
+            // button14
+            // 
+            this.button14.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button14.Location = new System.Drawing.Point(200, 354);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(34, 22);
+            this.button14.TabIndex = 176;
+            this.button14.Text = "...";
+            this.button14.UseVisualStyleBackColor = true;
+            // 
+            // checkBox15
+            // 
+            this.checkBox15.AutoSize = true;
+            this.checkBox15.Enabled = false;
+            this.checkBox15.Location = new System.Drawing.Point(240, 383);
+            this.checkBox15.Name = "checkBox15";
+            this.checkBox15.Size = new System.Drawing.Size(15, 14);
+            this.checkBox15.TabIndex = 179;
+            this.checkBox15.UseVisualStyleBackColor = true;
+            // 
+            // button15
+            // 
+            this.button15.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button15.Location = new System.Drawing.Point(200, 380);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(34, 22);
+            this.button15.TabIndex = 178;
+            this.button15.Text = "...";
+            this.button15.UseVisualStyleBackColor = true;
+            // 
+            // checkBox16
+            // 
+            this.checkBox16.AutoSize = true;
+            this.checkBox16.Enabled = false;
+            this.checkBox16.Location = new System.Drawing.Point(240, 410);
+            this.checkBox16.Name = "checkBox16";
+            this.checkBox16.Size = new System.Drawing.Size(15, 14);
+            this.checkBox16.TabIndex = 181;
+            this.checkBox16.UseVisualStyleBackColor = true;
+            // 
+            // button16
+            // 
+            this.button16.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button16.Location = new System.Drawing.Point(200, 407);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(34, 22);
+            this.button16.TabIndex = 180;
+            this.button16.Text = "...";
+            this.button16.UseVisualStyleBackColor = true;
+            // 
+            // checkBox17
+            // 
+            this.checkBox17.AutoSize = true;
+            this.checkBox17.Enabled = false;
+            this.checkBox17.Location = new System.Drawing.Point(240, 438);
+            this.checkBox17.Name = "checkBox17";
+            this.checkBox17.Size = new System.Drawing.Size(15, 14);
+            this.checkBox17.TabIndex = 183;
+            this.checkBox17.UseVisualStyleBackColor = true;
+            // 
+            // button17
+            // 
+            this.button17.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button17.Location = new System.Drawing.Point(200, 435);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(34, 22);
+            this.button17.TabIndex = 182;
+            this.button17.Text = "...";
+            this.button17.UseVisualStyleBackColor = true;
+            // 
+            // checkBox18
+            // 
+            this.checkBox18.AutoSize = true;
+            this.checkBox18.Enabled = false;
+            this.checkBox18.Location = new System.Drawing.Point(240, 463);
+            this.checkBox18.Name = "checkBox18";
+            this.checkBox18.Size = new System.Drawing.Size(15, 14);
+            this.checkBox18.TabIndex = 185;
+            this.checkBox18.UseVisualStyleBackColor = true;
+            // 
+            // button18
+            // 
+            this.button18.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button18.Location = new System.Drawing.Point(200, 460);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(34, 22);
+            this.button18.TabIndex = 184;
+            this.button18.Text = "...";
+            this.button18.UseVisualStyleBackColor = true;
             // 
             // GestaoSubempreitada
             // 
@@ -728,6 +1030,7 @@
             this.Controls.Add(this.TXT_Codigo);
             this.Controls.Add(this.BTF4);
             this.Controls.Add(this.TXT_Nome);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GestaoSubempreitada";
             this.Text = "GestaoSubempreitada";
             this.tabControl1.ResumeLayout(false);
@@ -736,6 +1039,9 @@
             this.groupBox1.PerformLayout();
             this.groupBoxInfoBasica.ResumeLayout(false);
             this.groupBoxInfoBasica.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -802,5 +1108,32 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button bt_AbrirPasta;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button bt_remover;
+        private System.Windows.Forms.Button vt_adcionar;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox checkBox18;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.CheckBox checkBox17;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.CheckBox checkBox16;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.CheckBox checkBox15;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.CheckBox checkBox14;
+        private System.Windows.Forms.Button button14;
     }
 }
