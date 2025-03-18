@@ -78,7 +78,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "QuadroControlo";
             this.Size = new System.Drawing.Size(800, 450);
-            this.Text = "QuadroControlo";
+            this.Text = "Quadro de Controlo";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

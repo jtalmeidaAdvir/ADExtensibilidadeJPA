@@ -481,8 +481,12 @@ END;
 
                     string id = dt.Valor("id")?.ToString() ?? string.Empty;
                     string nome = dt.Valor("Nome")?.ToString() ?? string.Empty;
-                  
-                   bool emailEnviado = bool.TryParse(dt.Valor("CDU_EmailEnviado")?.ToString(), out bool result) ? result : false;
+
+                    //bool emailEnviado = bool.TryParse(dt.Valor("CDU_EmailEnviado")?.ToString(), out bool result) ? result : false;
+                    var emailEnviadostring = dt.DaValor<string>("CDU_EmailEnviado");
+                    bool emailEnviado = emailEnviadostring == "1";
+
+                    //MessageBox.Show(emailEnviadostring);
                     DateTime dataEnvio = DateTime.TryParse(dt.Valor("CDU_DataEnvio")?.ToString(), out DateTime envio) ? envio : DateTime.MinValue;
 
                     //Verifica
@@ -494,7 +498,7 @@ END;
                         auto = true;
                     }
 
-                    bool caducado =  VerificaDocumentos(id);
+                    bool caducado = VerificaDocumentos(id);
 
 
                     dataTable.Rows.Add(id, nome, emailEnviado, dataEnvio, auto, caducado);
@@ -565,21 +569,16 @@ END;
         WHEN EXISTS (
             SELECT 1 
             FROM Geral_Entidade 
-            WHERE ID = '{id}' 
+            WHERE ID = '{id}'
             AND (
                 (CDU_ValidadeFinancas < GETDATE() AND CDU_ValidadeFinancas IS NOT NULL) OR
                 (CDU_ValidadeSegSocial < GETDATE() AND CDU_ValidadeSegSocial IS NOT NULL) OR
                 (CDU_ValidadeFolhaPag < GETDATE() AND CDU_ValidadeFolhaPag IS NOT NULL) OR
                 (CDU_ValidadeComprovativoPagamento < GETDATE() AND CDU_ValidadeComprovativoPagamento IS NOT NULL) OR
-                (CDU_ValidadeReciboSeguroAT < GETDATE() AND CDU_ValidadeReciboSeguroAT IS NOT NULL) OR
                 (CDU_ValidadeSeguroRC < GETDATE() AND CDU_ValidadeSeguroRC IS NOT NULL) OR
-                (CDU_ValidadeHorarioTrabalho < GETDATE() AND CDU_ValidadeHorarioTrabalho IS NOT NULL) OR
                 (CDU_ValidadeSeguroAT < GETDATE() AND CDU_ValidadeSeguroAT IS NOT NULL) OR
                 (CDU_ValidadeAlvara < GETDATE() AND CDU_ValidadeAlvara IS NOT NULL) OR
-                (CDU_ValidadeCertidaoPermanente < GETDATE() AND CDU_ValidadeCertidaoPermanente IS NOT NULL) OR
-                (CDU_ValidadeContrato < GETDATE() AND CDU_ValidadeContrato IS NOT NULL) OR
-                (CDU_ValidadeDeclaracaoPSS < GETDATE() AND CDU_ValidadeDeclaracaoPSS IS NOT NULL) OR
-                (CDU_ValidadeResponsavelEstaleiro < GETDATE() AND CDU_ValidadeResponsavelEstaleiro IS NOT NULL)
+                (CDU_ValidadeCertidaoPermanente < GETDATE() AND CDU_ValidadeCertidaoPermanente IS NOT NULL)     
             )
         ) 
         THEN 'Sim' 
@@ -632,19 +631,11 @@ FROM DataExtraida
             var queryEqui = $@"WITH DataExtraida AS (
     SELECT 
         -- Extraindo e convertendo a data no formato DD/MM/YYYY para o formato YYYY-MM-DD
-        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho1, CHARINDEX('Válido até&#58; ', caminho1) + 16, 10))), 103) AS DATE) AS Data_Caminho1,
-        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho2, CHARINDEX('Válido até&#58; ', caminho2) + 16, 10))), 103) AS DATE) AS Data_Caminho2,
-        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho3, CHARINDEX('Válido até&#58; ', caminho3) + 16, 10))), 103) AS DATE) AS Data_Caminho3,
-        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho4, CHARINDEX('Válido até&#58; ', caminho4) + 16, 10))), 103) AS DATE) AS Data_Caminho4,
         TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho5, CHARINDEX('Válido até&#58; ', caminho5) + 16, 10))), 103) AS DATE) AS Data_Caminho5
     FROM TDU_AD_Equipamentos
 	WHERE id_empresa = '{id}'
 )
 SELECT
-    Data_Caminho1,
-    Data_Caminho2,
-    Data_Caminho3,
-    Data_Caminho4,
     Data_Caminho5,
 
     -- Verificação Final para qualquer data expirada, excluindo NULL e 1900-01-01
@@ -652,11 +643,7 @@ SELECT
         WHEN 
             (
                 -- Verificando se qualquer data é expirada e tratando NULL e 1900-01-01
-                (Data_Caminho1 <= CAST(GETDATE() AS DATE) AND Data_Caminho1 <> '1900-01-01' AND Data_Caminho1 IS NOT NULL)
-                OR (Data_Caminho2 <= CAST(GETDATE() AS DATE) AND Data_Caminho2 <> '1900-01-01' AND Data_Caminho2 IS NOT NULL)
-                OR (Data_Caminho3 <= CAST(GETDATE() AS DATE) AND Data_Caminho3 <> '1900-01-01' AND Data_Caminho3 IS NOT NULL)
-                OR (Data_Caminho4 <= CAST(GETDATE() AS DATE) AND Data_Caminho4 <> '1900-01-01' AND Data_Caminho4 IS NOT NULL)
-                OR (Data_Caminho5 <= CAST(GETDATE() AS DATE) AND Data_Caminho5 <> '1900-01-01' AND Data_Caminho5 IS NOT NULL)
+                (Data_Caminho5 <= CAST(GETDATE() AS DATE) AND Data_Caminho5 <> '1900-01-01' AND Data_Caminho5 IS NOT NULL)
             )
         THEN 'Sim'
         ELSE 'Não'
@@ -667,11 +654,62 @@ FROM DataExtraida
 
             var equiexit = BSO.Consulta(queryEqui);
 
+
+            var queryauto = $@"WITH DataExtraida AS (
+    SELECT 
+        -- Extraindo e convertendo a data no formato DD/MM/YYYY para o formato YYYY-MM-DD
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho1, CHARINDEX('Válido até&#58; ', caminho1) + 16, 10))), 103) AS DATE) AS Data_Caminho1,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho2, CHARINDEX('Válido até&#58; ', caminho2) + 16, 10))), 103) AS DATE) AS Data_Caminho2,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho3, CHARINDEX('Válido até&#58; ', caminho3) + 16, 10))), 103) AS DATE) AS Data_Caminho3,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho4, CHARINDEX('Válido até&#58; ', caminho4) + 16, 10))), 103) AS DATE) AS Data_Caminho4
+    FROM TDU_AD_Autorizacoes
+	WHERE ID_Entidade = '{id}'
+)
+SELECT
+    Data_Caminho1,
+    Data_Caminho2,
+    Data_Caminho3,
+    Data_Caminho4,
+
+    -- Verificação Final para qualquer data expirada, excluindo NULL e 1900-01-01
+    CASE
+        WHEN 
+            (
+                -- Verificando se qualquer data é expirada e tratando NULL e 1900-01-01
+                (Data_Caminho1 <= CAST(GETDATE() AS DATE) AND Data_Caminho1 <> '1900-01-01' AND Data_Caminho1 IS NOT NULL)
+                OR (Data_Caminho2 <= CAST(GETDATE() AS DATE) AND Data_Caminho2 <> '1900-01-01' AND Data_Caminho2 IS NOT NULL)
+                OR (Data_Caminho3 <= CAST(GETDATE() AS DATE) AND Data_Caminho3 <> '1900-01-01' AND Data_Caminho3 IS NOT NULL)
+                OR (Data_Caminho4 <= CAST(GETDATE() AS DATE) AND Data_Caminho4 <> '1900-01-01' AND Data_Caminho4 IS NOT NULL)
+            )
+        THEN 'Sim'
+        ELSE 'Não'
+    END AS Verificacao_Final
+FROM DataExtraida
+
+
+";
+
+            var autoexit = BSO.Consulta(queryauto);
+
+
             var resultenti = entiexist.DaValor<string>("TemDataVencida");
 
 
             var num = trabexit.NumLinhas();
             var num2 = equiexit.NumLinhas();
+            var num3 = autoexit.NumLinhas();
+
+            autoexit.Inicio();
+            for (int i = 0; i < num3; i++)
+            {
+                var resultauto = autoexit.DaValor<string>("Verificacao_Final");
+                if (resultauto == "Sim")
+                {
+                    return true;
+                }
+
+                autoexit.Seguinte();
+            }
 
             equiexit.Inicio();
             for (int i = 0; i < num2; i++)
@@ -684,8 +722,6 @@ FROM DataExtraida
 
                 equiexit.Seguinte();
             }
-
-
 
 
             trabexit.Inicio();

@@ -622,16 +622,23 @@ namespace ADExtensibilidadeJPA
 
 
 
-                    // Verifica se o caminho da pasta foi definido
-                    if (string.IsNullOrEmpty(txt_caminhoequi.Text) || !System.IO.Directory.Exists(txt_caminhoequi.Text))
-                    {
-                        MessageBox.Show("Por favor, selecione uma pasta válida para os anexos primeiro.",
-                            "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                // Verifica se o caminho da pasta foi definido
+                if (string.IsNullOrEmpty(txt_caminhoequi.Text) || !System.IO.Directory.Exists(txt_caminhoequi.Text))
+                {
+                    MessageBox.Show("Por favor, selecione uma pasta válida para os anexos primeiro.",
+                        "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                    // Solicitar data de validade
-                    DateTime dataValidade;
+                // Solicitar data de validade
+                DateTime dataValidade;
+
+                if (tipoDocumento == "CertificadoCE" || tipoDocumento == "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
+                {
+                    dataValidade = DateTime.Today;
+                }
+                else
+                {
                     using (Form formValidade = new Form())
                     {
                         formValidade.Text = "Data de Validade";
@@ -673,56 +680,67 @@ namespace ADExtensibilidadeJPA
 
                         dataValidade = dtpValidade.Value;
                     }
+                }
 
-                    // Abre o diálogo para selecionar o arquivo
-                    using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                
+
+                // Abre o diálogo para selecionar o arquivo
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Title = $"Selecionar {tipoDocumento}";
+                    openFileDialog.Filter = "Todos os arquivos (*.*)|*.*|Documentos PDF (*.pdf)|*.pdf|Documentos Word (*.doc;*.docx)|*.doc;*.docx|Imagens (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+                    openFileDialog.FilterIndex = 1;
+                    openFileDialog.RestoreDirectory = true;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        openFileDialog.Title = $"Selecionar {tipoDocumento}";
-                        openFileDialog.Filter = "Todos os arquivos (*.*)|*.*|Documentos PDF (*.pdf)|*.pdf|Documentos Word (*.doc;*.docx)|*.doc;*.docx|Imagens (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
-                        openFileDialog.FilterIndex = 1;
-                        openFileDialog.RestoreDirectory = true;
+                        string sourceFile = openFileDialog.FileName;
+                        string nomeArquivo = string.IsNullOrEmpty(TXT_Nome.Text)
+                            ? "Sem_Nome"
+                            : txt_serie.Text.Replace(" ", "_");
 
-                        if (openFileDialog.ShowDialog() == DialogResult.OK)
+                        string nometrab = txt_marca.Text.Replace(" ", "_");
+
+                        string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nometrab}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
+                        string destFile = System.IO.Path.Combine(txt_caminhoequi.Text, fileName);
+                        Caminhoequi = System.IO.Path.Combine(txt_caminhoequi.Text, fileName);
+                        // Verificar se o arquivo já existe
+                        if (System.IO.File.Exists(destFile))
                         {
-                            string sourceFile = openFileDialog.FileName;
-                            string nomeArquivo = string.IsNullOrEmpty(TXT_Nome.Text)
-                                ? "Sem_Nome"
-                                : txt_serie.Text.Replace(" ", "_");
+                            DialogResult result = MessageBox.Show(
+                                $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
+                                "Arquivo já existe",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
 
-                            string nometrab = txt_marca.Text.Replace(" ", "_");
-
-                            string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nometrab}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
-                            string destFile = System.IO.Path.Combine(txt_caminhoequi.Text, fileName);
-                            Caminhoequi = System.IO.Path.Combine(txt_caminhoequi.Text, fileName);
-                            // Verificar se o arquivo já existe
-                            if (System.IO.File.Exists(destFile))
-                            {
-                                DialogResult result = MessageBox.Show(
-                                    $"O arquivo {fileName} já existe na pasta de destino. Deseja substituí-lo?",
-                                    "Arquivo já existe",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Question);
-
-                                if (result == DialogResult.No)
-                                    return;
-                            }
-
-                            // Copia o arquivo para a pasta de destino
-                            System.IO.File.Copy(sourceFile, destFile, true);
-
-                            // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
-                            // AtualizarStatusDocumentotrabalhdor(tipoDocumento, destFile, dataValidade);
-
-                            // Atualizar o checkbox correspondente
-                            AtualizarCheckboxequipamento(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
-
-                            // Recarregar os dados para garantir exibição correta
-                            // CarregarStatusDocumentos();
-
-                            MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
-                                "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (result == DialogResult.No)
+                                return;
                         }
+
+                        // Copia o arquivo para a pasta de destino
+                        System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
+                        // AtualizarStatusDocumentotrabalhdor(tipoDocumento, destFile, dataValidade);
+
+                        // Atualizar o checkbox correspondente
+                        AtualizarCheckboxequipamento(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
+
+                        // Recarregar os dados para garantir exibição correta
+                        // CarregarStatusDocumentos();
+                        if (tipoDocumento == "CertificadoCE" || tipoDocumento ==  "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
+                        {
+                            MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!",
+                   "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
+                   "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+               
                     }
+                }
     
             }
             catch (Exception ex)
@@ -933,29 +951,41 @@ namespace ADExtensibilidadeJPA
                     break;
             }
 
-            // Se encontrou o checkbox, atualiza seu estado e texto
-            if (checkBox != null)
+
+            if (tipoDocumento == "CertificadoCE" || tipoDocumento == "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
-                checkBox.Text = $"{nomeDocumento} (Válido até: {dataValidade.ToShortDateString()})";
-
-                // Verificar se a data está expirada
-                bool dataExpirada = dataValidade < DateTime.Today;
-
-                // Atualizar a cor do texto baseado na validade
-                if (dataExpirada)
-                {
-                    checkBox.ForeColor = Color.Red;
-                }
-                else
-                {
-                    checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
-                }
-
-                // Ajustar a largura do checkbox para mostrar o texto completo
-                checkBox.AutoSize = true;
+                checkBox.Text = $"{nomeDocumento}";
             }
+            else
+            {
+                if (checkBox != null)
+                {
+                    checkBox.Enabled = true;
+                    checkBox.Checked = true;
+                    checkBox.Text = $"{nomeDocumento} (Válido até: {dataValidade.ToShortDateString()})";
+
+                    // Verificar se a data está expirada
+                    bool dataExpirada = dataValidade < DateTime.Today;
+
+                    // Atualizar a cor do texto baseado na validade
+                    if (dataExpirada)
+                    {
+                        checkBox.ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
+                    }
+
+                    // Ajustar a largura do checkbox para mostrar o texto completo
+                    checkBox.AutoSize = true;
+                }
+            }
+
+            // Se encontrou o checkbox, atualiza seu estado e texto
+            
         }
         private void AtualizarCheckboxtrabalhador(string tipoDocumento, string nomeArquivo, DateTime dataValidade)
         {
@@ -2292,10 +2322,10 @@ END";
                 var anexo3 = equipamentos.DaValor<bool>("anexo3");
                 var anexo4 = equipamentos.DaValor<bool>("anexo4");
                 var anexo5 = equipamentos.DaValor<bool>("anexo5");
-                var caminho1 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho1"));
-                var caminho2 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho2"));
-                var caminho3 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho3"));
-                var caminho4 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho4"));
+                var caminho1 = equipamentos.DaValor<string>("caminho1");
+                var caminho2 = equipamentos.DaValor<string>("caminho2");
+                var caminho3 = equipamentos.DaValor<string>("caminho3");
+                var caminho4 = equipamentos.DaValor<string>("caminho4");
                 var caminho5 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho5"));
                 var cBSeguro = equipamentos.DaValor<string>("cBSeguro");
 
