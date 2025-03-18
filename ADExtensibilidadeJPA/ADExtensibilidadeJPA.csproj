@@ -45,6 +45,9 @@
     <Reference Include="ErpDS100">
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\ErpDS100.dll</HintPath>
     </Reference>
+    <Reference Include="IBasBS100">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\Apl\IBasBS100.dll</HintPath>
+    </Reference>
     <Reference Include="ICmpBS100">
       <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG100\APL\ICmpBS100.dll</HintPath>
       <Private>False</Private>
@@ -107,18 +110,23 @@
   <ItemGroup>
     <Compile Include="Compras\ComrpasEditor.cs" />
     <Compile Include="Construction\UiEditorOrcamentos.cs" />
-    <Compile Include="EmpresaManager.cs" />
+    <Compile Include="CriarEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CriarEmail.Designer.cs">
+      <DependentUpon>CriarEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entidades.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Entidades.Designer.cs">
+      <DependentUpon>Entidades.cs</DependentUpon>
+    </Compile>
     <Compile Include="GestaoSubempreitada.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GestaoSubempreitada.Designer.cs">
       <DependentUpon>GestaoSubempreitada.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Menu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Menu.Designer.cs">
-      <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -132,14 +140,17 @@
     <Compile Include="QuadroControlo.Designer.cs">
       <DependentUpon>QuadroControlo.cs</DependentUpon>
     </Compile>
-    <Compile Include="TrabalhadorManager.cs" />
+    <Compile Include="TrabalhadorEmpreitadaManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CriarEmail.resx">
+      <DependentUpon>CriarEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Entidades.resx">
+      <DependentUpon>Entidades.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GestaoSubempreitada.resx">
       <DependentUpon>GestaoSubempreitada.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Menu.resx">
-      <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

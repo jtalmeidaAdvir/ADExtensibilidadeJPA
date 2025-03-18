@@ -12,19 +12,254 @@ namespace ADExtensibilidadeJPA
         public QuadroControlo()
         {
             InitializeComponent();
+
             this.Load += new EventHandler(QuadroControlo_Load);
+        }
+
+        private void CriaCampos()
+        {
+            var validacampos = $@"IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_TrataSGS')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_TrataSGS BIT;
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_EmailEnviado')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_EmailEnviado BIT;
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_DataEnvio')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_DataEnvio NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_NaoDivFinancas')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_NaoDivFinancas NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_NaoDivSegSocial')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_NaoDivSegSocial NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_FolhaPagSegSocial')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_FolhaPagSegSocial NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_ReciboPagSegSocial')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_ReciboPagSegSocial NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_ReciboApoliceAT')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_ReciboApoliceAT NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_ReciboRC')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_ReciboRC NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_Caminho')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_Caminho NVARCHAR(1000);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_ApoliceAT')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_ApoliceAT NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_ApoliceRC')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_ApoliceRC NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_HorarioTrabalho')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_HorarioTrabalho NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_DecTrabIlegais')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_DecTrabIlegais NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_DecRespEstaleiro')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_DecRespEstaleiro NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_DecConhecimPSS')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_DecConhecimPSS NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_AnexoFinancas')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_AnexoFinancas NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_AnexoSegSocial')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_AnexoSegSocial NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_FolhaPag')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_FolhaPag NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_AnexoApoliceAT')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_AnexoApoliceAT NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_AnexoApoliceRC')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_AnexoApoliceRC NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_AnexoHorarioTrabalho')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_AnexoHorarioTrabalho NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_AnexoD')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_AnexoD NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_DecTrabEmigr')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_DecTrabEmigr NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_InscricaoSS')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_InscricaoSS NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_AnexoDStatus')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_AnexoDStatus NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_DecTrabEmigrStatus')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_DecTrabEmigrStatus NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_InscricaoSSStatus')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_InscricaoSSStatus NVARCHAR(255);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_CaminhoTRab')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_CaminhoTRab NVARCHAR(1000);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_CaminhoEqui')
+BEGIN
+    ALTER TABLE Geral_Entidade ADD CDU_CaminhoEqui NVARCHAR(1000);
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TDU_AD_Trabalhadores')
+BEGIN
+    CREATE TABLE TDU_AD_Trabalhadores (
+        CDU_ValidadeDocumento DATE NULL,
+        CDU_NIF NVARCHAR(50) NULL,
+        CDU_NumSS NVARCHAR(50) NULL,
+        CDU_FichaAptidao BIT  NULL,
+        CDU_CaminhoFichaAptidao NVARCHAR(500) NULL,
+        CDU_Credenciacao BIT  NULL,
+        CDU_DescCredenciacao NVARCHAR(255) NULL,
+        CDU_CaminhoCredenciacao NVARCHAR(500) NULL,
+        CDU_FichaEPI BIT  NULL,
+        CDU_CaminhoFichaEPI NVARCHAR(500) NULL,
+        CDU_Status NVARCHAR(50) NULL,
+        CDU_Observacoes NVARCHAR(500) NULL,
+        CDU_Caminho NVARCHAR(500) NULL,
+        CDU_AnexoCartaoCidadao INT NULL,
+        CDU_ValidadeCartaoCidadao DATE NULL,
+        nome NVARCHAR(255) NULL,
+        categoria NVARCHAR(255) NULL,
+        contribuinte NVARCHAR(255) NULL,
+        seguranca_social NVARCHAR(255) NULL,
+        anexo1 BIT NULL,
+        anexo2 BIT NULL,
+        anexo3 BIT NULL,
+        anexo4 BIT NULL,
+        anexo5 BIT NULL,
+        id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+        id_empresa NVARCHAR(255) NULL,
+        caminho1 NVARCHAR(255) NULL,
+        caminho2 NVARCHAR(255) NULL,
+        caminho3 NVARCHAR(255) NULL,
+        caminho4 NVARCHAR(255) NULL,
+        caminho5 NVARCHAR(255) NULL
+    );
+END
+
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_Link')
+BEGIN
+    -- Caso a coluna não exista, cria a coluna CDU_Link com o tipo nvarchar(max)
+    ALTER TABLE Geral_Entidade
+    ADD CDU_Link nvarchar(max);
+END;
+";
+            BSO.DSO.ExecuteSQL(validacampos);
         }
 
         private void QuadroControlo_Load(object sender, EventArgs e)
         {
+            CriaCampos();
             ConfigurarInterface();
             DadosLista();
+            
         }
 
         private TextBox txtFiltro;
         private Button btnFiltrar;
         private Button btnLimparFiltro;
         private Button btnFiltrarEnviados;
+        private Button btnAtualizar;
         private DataTable dataOriginal;
 
         private void ConfigurarInterface()
@@ -134,6 +369,21 @@ namespace ADExtensibilidadeJPA
             btnFiltrarEnviados.Click += BtnFiltrarEnviados_Click;
             panelFiltro.Controls.Add(btnFiltrarEnviados);
 
+            // 
+            btnAtualizar = new Button
+            {
+                Text = "Atualizar",
+                Location = new System.Drawing.Point(720, 11),
+                Size = new System.Drawing.Size(70, 25),
+                Font = new System.Drawing.Font("Calibri", 9.5F, System.Drawing.FontStyle.Bold),
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = System.Drawing.Color.FromArgb(59, 89, 152),
+                BackColor = System.Drawing.Color.White
+            };
+            btnAtualizar.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(59, 89, 152);
+            btnAtualizar.Click += BtnAtualizar_Click;
+            panelFiltro.Controls.Add(btnAtualizar);
+
             // Ajustar posição do DataGridView
             dataGridView1.Location = new System.Drawing.Point(10, 100);
             dataGridView1.Size = new System.Drawing.Size(780, 340);
@@ -213,7 +463,7 @@ namespace ADExtensibilidadeJPA
         {
             try
             {
-                string query = "SELECT id, Nome, CDU_EmailEnviado, CDU_DataEnvio FROM Geral_Entidade WHERE CDU_TrataSGS = 0";
+                string query = "SELECT id, Nome, CDU_EmailEnviado, CDU_DataEnvio FROM Geral_Entidade WHERE CDU_TrataSGS = 1";
                 StdBELista dt = BSO.Consulta(query);
 
                 DataTable dataTable = new DataTable();
@@ -221,16 +471,32 @@ namespace ADExtensibilidadeJPA
                 dataTable.Columns.Add("Nome", typeof(string));
                 dataTable.Columns.Add("EmailEnviadoColumn", typeof(bool));
                 dataTable.Columns.Add("DataEnvioColumn", typeof(DateTime));
+                dataTable.Columns.Add("Autorizado Em Obra", typeof(bool));
+                dataTable.Columns.Add("Documentos Expirados", typeof(bool));
+
 
                 dt.Inicio();
                 while (!dt.NoFim())
                 {
+
                     string id = dt.Valor("id")?.ToString() ?? string.Empty;
                     string nome = dt.Valor("Nome")?.ToString() ?? string.Empty;
                     bool emailEnviado = bool.TryParse(dt.Valor("CDU_EmailEnviado")?.ToString(), out bool result) ? result : false;
                     DateTime dataEnvio = DateTime.TryParse(dt.Valor("CDU_DataEnvio")?.ToString(), out DateTime envio) ? envio : DateTime.MinValue;
 
-                    dataTable.Rows.Add(id, nome, emailEnviado, dataEnvio);
+                    //Verifica
+                    var queryauto = $@"SELECT * FROM TDU_AD_Autorizacoes WHERE ID_Entidade = '{id}';";
+                    var autorizado = BSO.Consulta(queryauto);
+                    bool auto = false;
+                    if (autorizado.NumLinhas() > 0)
+                    {
+                        auto = true;
+                    }
+
+                    bool caducado =  VerificaDocumentos(id);
+
+
+                    dataTable.Rows.Add(id, nome, emailEnviado, dataEnvio, auto, caducado);
 
                     dt.Seguinte();
                 }
@@ -291,6 +557,160 @@ namespace ADExtensibilidadeJPA
             }
         }
 
+        private bool VerificaDocumentos(string id)
+        {
+            var queryentidade = $@"SELECT 
+    CASE 
+        WHEN EXISTS (
+            SELECT 1 
+            FROM Geral_Entidade 
+            WHERE ID = '{id}' 
+            AND (
+                (CDU_ValidadeFinancas < GETDATE() AND CDU_ValidadeFinancas IS NOT NULL) OR
+                (CDU_ValidadeSegSocial < GETDATE() AND CDU_ValidadeSegSocial IS NOT NULL) OR
+                (CDU_ValidadeFolhaPag < GETDATE() AND CDU_ValidadeFolhaPag IS NOT NULL) OR
+                (CDU_ValidadeComprovativoPagamento < GETDATE() AND CDU_ValidadeComprovativoPagamento IS NOT NULL) OR
+                (CDU_ValidadeReciboSeguroAT < GETDATE() AND CDU_ValidadeReciboSeguroAT IS NOT NULL) OR
+                (CDU_ValidadeSeguroRC < GETDATE() AND CDU_ValidadeSeguroRC IS NOT NULL) OR
+                (CDU_ValidadeHorarioTrabalho < GETDATE() AND CDU_ValidadeHorarioTrabalho IS NOT NULL) OR
+                (CDU_ValidadeSeguroAT < GETDATE() AND CDU_ValidadeSeguroAT IS NOT NULL) OR
+                (CDU_ValidadeAlvara < GETDATE() AND CDU_ValidadeAlvara IS NOT NULL) OR
+                (CDU_ValidadeCertidaoPermanente < GETDATE() AND CDU_ValidadeCertidaoPermanente IS NOT NULL) OR
+                (CDU_ValidadeContrato < GETDATE() AND CDU_ValidadeContrato IS NOT NULL) OR
+                (CDU_ValidadeDeclaracaoPSS < GETDATE() AND CDU_ValidadeDeclaracaoPSS IS NOT NULL) OR
+                (CDU_ValidadeResponsavelEstaleiro < GETDATE() AND CDU_ValidadeResponsavelEstaleiro IS NOT NULL)
+            )
+        ) 
+        THEN 'Sim' 
+        ELSE 'Não' 
+    END AS TemDataVencida;
+";
+
+            var entiexist = BSO.Consulta(queryentidade);
+
+
+            var querytrab = $@"WITH DataExtraida AS (
+    SELECT 
+        -- Extraindo e convertendo a data no formato DD/MM/YYYY para o formato YYYY-MM-DD
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho1, CHARINDEX('Válido até&#58; ', caminho1) + 16, 10))), 103) AS DATE) AS Data_Caminho1,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho2, CHARINDEX('Válido até&#58; ', caminho2) + 16, 10))), 103) AS DATE) AS Data_Caminho2,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho3, CHARINDEX('Válido até&#58; ', caminho3) + 16, 10))), 103) AS DATE) AS Data_Caminho3,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho4, CHARINDEX('Válido até&#58; ', caminho4) + 16, 10))), 103) AS DATE) AS Data_Caminho4,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho5, CHARINDEX('Válido até&#58; ', caminho5) + 16, 10))), 103) AS DATE) AS Data_Caminho5
+    FROM TDU_AD_Trabalhadores
+	WHERE id_empresa = '{id}'
+)
+SELECT
+    Data_Caminho1,
+    Data_Caminho2,
+    Data_Caminho3,
+    Data_Caminho4,
+    Data_Caminho5,
+
+    -- Verificação Final para qualquer data expirada, excluindo NULL e 1900-01-01
+    CASE
+        WHEN 
+            (
+                -- Verificando se qualquer data é expirada e tratando NULL e 1900-01-01
+                (Data_Caminho1 <= CAST(GETDATE() AS DATE) AND Data_Caminho1 <> '1900-01-01' AND Data_Caminho1 IS NOT NULL)
+                OR (Data_Caminho2 <= CAST(GETDATE() AS DATE) AND Data_Caminho2 <> '1900-01-01' AND Data_Caminho2 IS NOT NULL)
+                OR (Data_Caminho3 <= CAST(GETDATE() AS DATE) AND Data_Caminho3 <> '1900-01-01' AND Data_Caminho3 IS NOT NULL)
+                OR (Data_Caminho4 <= CAST(GETDATE() AS DATE) AND Data_Caminho4 <> '1900-01-01' AND Data_Caminho4 IS NOT NULL)
+                OR (Data_Caminho5 <= CAST(GETDATE() AS DATE) AND Data_Caminho5 <> '1900-01-01' AND Data_Caminho5 IS NOT NULL)
+            )
+        THEN 'Sim'
+        ELSE 'Não'
+    END AS Verificacao_Final
+FROM DataExtraida
+
+";
+
+            var trabexit = BSO.Consulta(querytrab);
+
+
+            var queryEqui = $@"WITH DataExtraida AS (
+    SELECT 
+        -- Extraindo e convertendo a data no formato DD/MM/YYYY para o formato YYYY-MM-DD
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho1, CHARINDEX('Válido até&#58; ', caminho1) + 16, 10))), 103) AS DATE) AS Data_Caminho1,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho2, CHARINDEX('Válido até&#58; ', caminho2) + 16, 10))), 103) AS DATE) AS Data_Caminho2,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho3, CHARINDEX('Válido até&#58; ', caminho3) + 16, 10))), 103) AS DATE) AS Data_Caminho3,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho4, CHARINDEX('Válido até&#58; ', caminho4) + 16, 10))), 103) AS DATE) AS Data_Caminho4,
+        TRY_CAST(CONVERT(DATE, LTRIM(RTRIM(SUBSTRING(caminho5, CHARINDEX('Válido até&#58; ', caminho5) + 16, 10))), 103) AS DATE) AS Data_Caminho5
+    FROM TDU_AD_Equipamentos
+	WHERE id_empresa = '{id}'
+)
+SELECT
+    Data_Caminho1,
+    Data_Caminho2,
+    Data_Caminho3,
+    Data_Caminho4,
+    Data_Caminho5,
+
+    -- Verificação Final para qualquer data expirada, excluindo NULL e 1900-01-01
+    CASE
+        WHEN 
+            (
+                -- Verificando se qualquer data é expirada e tratando NULL e 1900-01-01
+                (Data_Caminho1 <= CAST(GETDATE() AS DATE) AND Data_Caminho1 <> '1900-01-01' AND Data_Caminho1 IS NOT NULL)
+                OR (Data_Caminho2 <= CAST(GETDATE() AS DATE) AND Data_Caminho2 <> '1900-01-01' AND Data_Caminho2 IS NOT NULL)
+                OR (Data_Caminho3 <= CAST(GETDATE() AS DATE) AND Data_Caminho3 <> '1900-01-01' AND Data_Caminho3 IS NOT NULL)
+                OR (Data_Caminho4 <= CAST(GETDATE() AS DATE) AND Data_Caminho4 <> '1900-01-01' AND Data_Caminho4 IS NOT NULL)
+                OR (Data_Caminho5 <= CAST(GETDATE() AS DATE) AND Data_Caminho5 <> '1900-01-01' AND Data_Caminho5 IS NOT NULL)
+            )
+        THEN 'Sim'
+        ELSE 'Não'
+    END AS Verificacao_Final
+FROM DataExtraida
+
+";
+
+            var equiexit = BSO.Consulta(queryEqui);
+
+            var resultenti = entiexist.DaValor<string>("TemDataVencida");
+
+
+            var num = trabexit.NumLinhas();
+            var num2 = equiexit.NumLinhas();
+
+            equiexit.Inicio();
+            for (int i = 0; i < num2; i++)
+            {
+                var resultequi = equiexit.DaValor<string>("Verificacao_Final");
+                if (resultequi == "Sim")
+                {
+                    return true;
+                }
+
+                equiexit.Seguinte();
+            }
+
+
+
+
+            trabexit.Inicio();
+            for (int i = 0; i < num; i++)
+            {
+                var resulttrab = trabexit.DaValor<string>("Verificacao_Final");
+                if (resulttrab == "Sim")
+                {
+                    return true;
+                }
+
+                trabexit.Seguinte();
+            }
+
+
+            if (resultenti == "Sim")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
         private void BT_Editar_Click(object sender, EventArgs e)
         {
             try
@@ -323,10 +743,10 @@ namespace ADExtensibilidadeJPA
 
                     // Consulta para buscar o e-mail da entidade
                     string query = $@"
-                SELECT ec.Email 
+                SELECT ec.Email, ge.CDU_Link
               FROM Geral_Entidade ge
-LEFT JOIN Geral_Entidade_Contactos ec ON CAST(ge.id AS uniqueidentifier) = ec.EntidadeID
-                WHERE ge.id = '{idSelecionado}'";
+            LEFT JOIN Geral_Entidade_Contactos ec ON CAST(ge.id AS uniqueidentifier) = ec.EntidadeID
+            WHERE ge.id = '{idSelecionado}'";
 
                     // Consultando a base de dados para obter o e-mail
                     StdBELista dt = BSO.Consulta(query);
@@ -338,39 +758,139 @@ LEFT JOIN Geral_Entidade_Contactos ec ON CAST(ge.id AS uniqueidentifier) = ec.En
                     {
                         email = dt.Valor("Email")?.ToString(); // Obtendo o e-mail da consulta
                     }
-
+                    var link = dt.DaValor<string>("CDU_Link");
                     // Se não houver e-mail, exibir mensagem e retornar
                     if (string.IsNullOrEmpty(email))
                     {
-                        MessageBox.Show("Não há e-mail registrado para esta entidade.");
-                        return;
-                    }
+                        var resultado = MessageBox.Show(
+                            "Esta entidade não tem um e-mail registado. Deseja criar um agora?",
+                            "E-mail não encontrado",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question
+                        );
+                        var enviado = false;
+                        if (resultado == DialogResult.Yes)
+                        {
 
-                    // Iniciando o Outlook
-                    Microsoft.Office.Interop.Outlook.Application outlookApp = new Microsoft.Office.Interop.Outlook.Application();
-                    MailItem emailItem = (MailItem)outlookApp.CreateItem(OlItemType.olMailItem);
 
-                    // Definindo o assunto e o corpo do e-mail
-                    emailItem.Subject = "Assunto do E-mail";
-                    emailItem.Body = $"Prezado(a) {nome},\n\nEste é um e-mail de teste.\n\nAtenciosamente,\nSua Empresa";
+                            CriarEmail criarEmail = new CriarEmail(BSO,idSelecionado);
+                            if (criarEmail.ShowDialog() == DialogResult.OK)
+                            {
+                                string emailInserido = criarEmail.Email;
+                                email = emailInserido;
+                            }
 
-                    // Definindo o e-mail do destinatário
-                    emailItem.To = email;
 
-                    // Enviando o e-mail
-                    emailItem.Send();
 
-                    // Atualizando os campos na tabela após o envio do e-mail
-                    string updateQuery = $@"
+                            // Iniciando o Outlook
+                            Microsoft.Office.Interop.Outlook.Application outlookApp = new Microsoft.Office.Interop.Outlook.Application();
+                            MailItem emailItem = (MailItem)outlookApp.CreateItem(OlItemType.olMailItem);
+
+                            // Definindo o assunto e o corpo do e-mail
+                            emailItem.Subject = "Documentação para entrada obra";
+                            emailItem.Body = $@"Exmos. Senhores,
+
+No seguimento da indicação que será subempreiteiro da JPA CONSTRUTORA na empreitada supracitada, solicitamos o envio da documentação referente à Vossa empresa, aos Vossos colaboradores e aos Equipamentos previstos para a empreitada de acordo com a listagem abaixo:
+
+INFORMAÇÃO DA DOCUMENTAÇÃO PARA ENTRADA EM OBRA
+
+EMPRESA
+
+- Alvará/Certificado de construção ou alvará específico para a atividade (ex. trabalho temporário)
+- Certidão permanente
+- Contrato de subcontratação/subempreitada/nota de encomenda
+- Horário de trabalho para a empreitada acima designada
+- Recibo do seguro de acidentes de trabalho
+- Condições particulares do seguro de acidentes de trabalho
+- Seguro de responsabilidade civil
+- Folha de remuneração à segurança social do mês corrente com o nome dos funcionários a colocar em obra + comprovativo de pagamento
+- Certidão de não dívida à Segurança Social
+- Certidão de não dívida às Finanças
+- Declaração de adesão ao PSS (segue em anexo modelo de declaração a preencher)
+- Declaração do responsável no estaleiro (segue em anexo modelo de declaração a preencher)
+
+TRABALHADORES
+
+- Elementos/dados de identificação do trabalhador:
+  - N.º B.I./Cartão de cidadão ou título de residência (caso o trabalhador seja estrangeiro) e validade
+  - N.º contribuinte
+  - N.º segurança social
+- Ficha de aptidão médica
+- Credenciação a habilitar o trabalhador (manobrador, alpinista, montadores de andaime, etc…) para manobrar equipamentos ou executar trabalhos específicos (quando aplicável)
+- Ficha de registo de distribuição de “EPI’s” - equipamento de proteção individual (EPI’s obrigatórios no estaleiro obra + os inerentes a cada atividade/profissão/posto de trabalho)
+
+Nota: Todos os trabalhadores devem estar garantidos com a cobertura do seguro de acidentes de trabalho. O nome dos funcionários terá de constar na listagem da segurança social, exceto novas admissões à Segurança Social, para as quais deverá ser remetida cópia da inscrição S.S.
+
+EQUIPAMENTOS
+
+- Certificado CE em português (Ano de fabrico ≧ 1995)
+- Certificado/Declaração de “Bom Funcionamento” e respetiva lista de verificação de acordo com o Decreto-Lei nº 50/2005 de 25 de fevereiro
+- Registos de Manutenção (terá que indicar data/horas de quando foi efetuada a revisão e da próxima)
+- Manual de utilizador em português (índice, instruções referentes às medidas de segurança)
+- Seguro (quando aplicável)
+
+MENSALMENTE
+
+- Folha de Remunerações à S. Social (onde conste o nome dos trabalhadores em obra) atualizada
+- Comprovativo de pagamento de Taxa Social Única (TSU)
+
+Nota: A documentação terá obrigatoriamente de ser enviada 48 horas antes da entrada em obra.
+
+Equipa de Subempreiteiro  
+Deve cumprir as obrigações previstas no artigo 22º do mesmo decreto-lei. Deve também garantir que as empresas por si subcontratadas cumpram este mesmo artigo 22º, bem como o artigo 23º, no caso da existência de Trabalhadores independentes.
+
+Recomendações básicas de HST que devem ser seguidas durante a execução dos trabalhos:
+
+- Apenas poderão estar em obra técnicos abrangidos pela apólice do seguro de Acidentes de Trabalho e APTOS para a realização dos trabalhos na Ficha de aptidão médica, que constem do registo de intervenientes aprovado no PSS.
+- Recorrer ao uso dos EPCs e EPIs de acordo com a recomendação deste documento.
+- Devem ser divulgados, a todos os colaboradores em obra, os riscos associados à sua atividade/tarefa e respetivas medidas preventivas.
+- Não é permitida a execução de trabalhos com riscos especiais por parte de trabalhadores isolados.
+- Todas as equipas devem possuir pelo menos um técnico com formação de primeiros socorros.
+- Todos os colaboradores devem conhecer e respeitar as regras de uso de máquinas e equipamentos de acordo com o DL 50/2005.
+- As escadas utilizadas devem ser certificadas e estar em bom estado de conservação (degraus, antiderrapantes).
+- Todos os colaboradores devem conhecer procedimentos de emergência.
+- É proibido o consumo de bebidas alcoólicas durante o período e local de trabalho, não sendo permitida a permanência no local de trabalho com uma taxa de álcool igual ou superior a 0,5g/L.
+- Todos os subempreiteiros devem procurar manter o estaleiro em boa ordem e estado de salubridade.
+- Todos os subempreiteiros devem eliminar, reciclar ou evacuar resíduos e escombros.
+
+Para enviar a documentação solicitada, por favor, aceda ao seguinte link: {link}.
+Com os melhores cumprimentos,
+
+";
+
+                            // Definindo o e-mail do destinatário
+                            emailItem.To = email;
+
+                            // Abre o Outlook para o usuário revisar o e-mail antes de enviar
+                            emailItem.Display();
+
+                            // Atualizando os campos na tabela após o envio do e-mail (pode ser modificado dependendo da necessidade)
+            
+
+                            MessageBox.Show("E-mail foi aberto no Outlook. Por favor, revise e envie.");
+
+                            // Recarregar os dados para mostrar as alterações
+                            DadosLista();
+                        
+                            enviado = true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Operação cancelada. Nenhum e-mail foi criado.");
+                            enviado = false;
+                        }
+                        if (enviado) {
+                            string updateQuery = $@"
                 UPDATE Geral_Entidade 
                 SET CDU_EmailEnviado = 1, CDU_DataEnvio = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}'
                 WHERE id = '{idSelecionado}'";
-                    BSO.DSO.ExecuteSQL(updateQuery);
+                            BSO.DSO.ExecuteSQL(updateQuery);
+                        }
+                        return;
+                    }
 
-                    MessageBox.Show("E-mail enviado com sucesso!");
 
-                    // Recarregar os dados para mostrar as alterações
-                    DadosLista();
+
                 }
                 else
                 {
@@ -382,6 +902,7 @@ LEFT JOIN Geral_Entidade_Contactos ec ON CAST(ge.id AS uniqueidentifier) = ec.En
                 MessageBox.Show("Erro ao enviar o e-mail: " + ex.Message);
             }
         }
+
 
         private void BtnFiltrar_Click(object sender, EventArgs e)
         {
@@ -431,7 +952,10 @@ LEFT JOIN Geral_Entidade_Contactos ec ON CAST(ge.id AS uniqueidentifier) = ec.En
             dataGridView1.DataSource = dataOriginal;
             // Limpar a mensagem de filtro ativo, se houver
         }
-
+        private void BtnAtualizar_Click(object sender, EventArgs e)
+        {
+            DadosLista();
+        }
         private void BtnFiltrarEnviados_Click(object sender, EventArgs e)
         {
             try
