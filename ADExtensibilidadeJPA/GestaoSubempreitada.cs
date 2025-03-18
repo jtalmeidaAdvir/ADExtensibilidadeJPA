@@ -736,13 +736,13 @@ namespace ADExtensibilidadeJPA
         {
             try
             {
-                if (!string.IsNullOrEmpty(txt_contribuintetrab.Text))
+                if (!string.IsNullOrEmpty(txt_contribuintetrab.Text) )
                 {
 
          
 
                         // Verifica se o caminho da pasta foi definido
-                        if (string.IsNullOrEmpty(txt_caminhotrab.Text) || !System.IO.Directory.Exists(txt_caminhotrab.Text))
+                    if (string.IsNullOrEmpty(txt_caminhotrab.Text) || !System.IO.Directory.Exists(txt_caminhotrab.Text))
                     {
                         MessageBox.Show("Por favor, selecione uma pasta válida para os anexos primeiro.",
                             "Pasta não definida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -2035,14 +2035,14 @@ namespace ADExtensibilidadeJPA
             }
 
             if (EditEqui == "0")
-                {
+            {
 
-                    InsereEquipamento();
-                }
-                else
-                {
-                    AtualizaEquipamento();
-                }
+                InsereEquipamento();
+            }
+            else
+            {
+                AtualizaEquipamento();
+            }
             
         }
 
@@ -2057,7 +2057,7 @@ namespace ADExtensibilidadeJPA
             int anexo3 = checkBox21.Checked ? 1 : 0;
             int anexo4 = checkBox22.Checked ? 1 : 0;
             int anexo5 = checkBox23.Checked ? 1 : 0;
-
+            var cBSeguro = cb_seguro.Text;
             // Encontre a linha selecionada no DataGridView para atualização, usando o 'contribuinte' como filtro
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
@@ -2081,6 +2081,7 @@ namespace ADExtensibilidadeJPA
                     row.Cells["caminho8"].Value = checkBox21.Text;
                     row.Cells["caminho9"].Value = checkBox22.Text;
                     row.Cells["caminho10"].Value = checkBox23.Text;
+                    row.Cells["CBSeguro"].Value = cBSeguro;
 
                     break; // Encontre e atualize a primeira linha correspondente
                 }
@@ -2104,7 +2105,8 @@ namespace ADExtensibilidadeJPA
             caminho2 = '{caminho2}',
             caminho3 = '{caminho3}',
             caminho4 = '{caminho4}',
-            caminho5 = '{caminho5}'
+            caminho5 = '{caminho5}',
+            cBSeguro = '{cBSeguro}'
         WHERE id_empresa = '{_idSelecionado}' AND serie = '{serie}';
     ";
 
@@ -2131,7 +2133,7 @@ namespace ADExtensibilidadeJPA
             int anexo3 = checkBox21.Checked ? 1 : 0;
             int anexo4 = checkBox22.Checked ? 1 : 0;
             int anexo5 = checkBox23.Checked ? 1 : 0;
-
+            
             // Verifica se a tabela existe e a cria se necessário
             string createTableQuery = @"
     IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TDU_AD_Equipamentos')
@@ -2166,10 +2168,10 @@ namespace ADExtensibilidadeJPA
                 MessageBox.Show("A serie já está registrado. A inserção não será realizada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
+            var cBSeguro = cb_seguro.Text;
             // Adiciona os dados ao DataGridView
             dataGridView2.Rows.Add(marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5,
-                                    checkBox19.Text, checkBox20.Text, checkBox21.Text, checkBox22.Text, checkBox23.Text);
+                                    checkBox19.Text, checkBox20.Text, checkBox21.Text, checkBox22.Text, checkBox23.Text, cBSeguro);
           
             // Oculta a última coluna (se necessário)
             int lastColumnIndex = dataGridView2.Columns.Count - 1;
@@ -2181,12 +2183,21 @@ namespace ADExtensibilidadeJPA
             string caminho3 = SanitizeString(checkBox21.Text);
             string caminho4 = SanitizeString(checkBox22.Text);
             string caminho5 = SanitizeString(checkBox23.Text);
+            
 
+            string checkColumnQuery = @"
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
+               WHERE TABLE_NAME = 'TDU_AD_Equipamentos' 
+               AND COLUMN_NAME = 'cBSeguro')
+BEGIN
+    ALTER TABLE TDU_AD_Equipamentos ADD cBSeguro NVARCHAR(255);
+END";
+            _BSO.DSO.ExecuteSQL(checkColumnQuery);
             // Insere os dados na tabela
             string insertQuery = $@"
     INSERT INTO TDU_AD_Equipamentos 
-    (id_empresa, marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5) 
-    VALUES ('{_idSelecionado}', '{marca}', '{tipo}', '{serie}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}')";
+    (id_empresa, marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro) 
+    VALUES ('{_idSelecionado}', '{marca}', '{tipo}', '{serie}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}', '{cBSeguro}')";
 
             _BSO.DSO.ExecuteSQL(insertQuery);
 
@@ -2217,6 +2228,7 @@ namespace ADExtensibilidadeJPA
             button27.Visible = false;
             button26.Visible = false;
             txt_serie.Enabled = true;
+            cb_seguro.SelectedIndex = 0;
             EditEqui = "0";
         }
 
@@ -2243,6 +2255,7 @@ namespace ADExtensibilidadeJPA
                 VerificarEColorirCheckBox(checkBox21, row.Cells["caminho8"].Value);
                 VerificarEColorirCheckBox(checkBox22, row.Cells["caminho9"].Value);
                 VerificarEColorirCheckBox(checkBox23, row.Cells["caminho10"].Value);
+                cb_seguro.Text = row.Cells["CBSeguro"].Value.ToString();
 
                 txt_serie.Enabled = false;
                 button27.Visible = true;
@@ -2256,7 +2269,7 @@ namespace ADExtensibilidadeJPA
         {
             // Consulta para buscar os trabalhadores na base de dados
             string query = $@"
-        SELECT marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5
+        SELECT marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro
         FROM TDU_AD_Equipamentos
         WHERE id_empresa = '{_idSelecionado}';
         ";
@@ -2284,11 +2297,13 @@ namespace ADExtensibilidadeJPA
                 var caminho3 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho3"));
                 var caminho4 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho4"));
                 var caminho5 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho5"));
+                var cBSeguro = equipamentos.DaValor<string>("cBSeguro");
 
 
-                dataGridView2.Rows.Add(nome, categoriatrab, contribuintetrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5);
+                dataGridView2.Rows.Add(nome, categoriatrab, contribuintetrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro);
                 equipamentos.Seguinte();
             }
+            cb_seguro.SelectedIndex = 0;
         }
 
         private void button26_Click(object sender, EventArgs e)

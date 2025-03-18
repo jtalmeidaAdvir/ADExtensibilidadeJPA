@@ -122,6 +122,7 @@
             this.caminho4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.caminho5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cb_seguro = new System.Windows.Forms.ComboBox();
             this.button26 = new System.Windows.Forms.Button();
             this.button27 = new System.Windows.Forms.Button();
             this.bt_adcionarequi = new System.Windows.Forms.Button();
@@ -151,19 +152,6 @@
             this.txt_marca = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.marca = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Serieeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Anexo1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.caminho6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label15 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.checkBox27 = new System.Windows.Forms.CheckBox();
@@ -212,7 +200,20 @@
             this.txt_link = new System.Windows.Forms.TextBox();
             this.label43 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.marca = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Serieeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Anexo1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.caminho6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBSeguro = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1156,7 +1157,7 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.comboBox1);
+            this.tabPage3.Controls.Add(this.cb_seguro);
             this.tabPage3.Controls.Add(this.button26);
             this.tabPage3.Controls.Add(this.button27);
             this.tabPage3.Controls.Add(this.bt_adcionarequi);
@@ -1194,6 +1195,17 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Equipamentos";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cb_seguro
+            // 
+            this.cb_seguro.FormattingEnabled = true;
+            this.cb_seguro.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_seguro.Location = new System.Drawing.Point(108, 436);
+            this.cb_seguro.Name = "cb_seguro";
+            this.cb_seguro.Size = new System.Drawing.Size(43, 21);
+            this.cb_seguro.TabIndex = 203;
             // 
             // button26
             // 
@@ -1475,96 +1487,14 @@
             this.caminho7,
             this.caminho8,
             this.caminho9,
-            this.caminho10});
+            this.caminho10,
+            this.CBSeguro});
             this.dataGridView2.Location = new System.Drawing.Point(6, 33);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.Size = new System.Drawing.Size(698, 150);
             this.dataGridView2.TabIndex = 3;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
-            // 
-            // marca
-            // 
-            this.marca.HeaderText = "Marca / Modelo";
-            this.marca.Name = "marca";
-            this.marca.ReadOnly = true;
-            // 
-            // Tipo
-            // 
-            this.Tipo.HeaderText = "Tipo de Máquina";
-            this.Tipo.Name = "Tipo";
-            this.Tipo.ReadOnly = true;
-            // 
-            // Serieeq
-            // 
-            this.Serieeq.HeaderText = "Número de Série";
-            this.Serieeq.Name = "Serieeq";
-            this.Serieeq.ReadOnly = true;
-            // 
-            // Anexo1
-            // 
-            this.Anexo1.HeaderText = "Anexo C.E.";
-            this.Anexo1.Name = "Anexo1";
-            this.Anexo1.ReadOnly = true;
-            // 
-            // Anexo2
-            // 
-            this.Anexo2.HeaderText = "Anexo C/D";
-            this.Anexo2.Name = "Anexo2";
-            this.Anexo2.ReadOnly = true;
-            // 
-            // Anexo3
-            // 
-            this.Anexo3.HeaderText = "Anexo R.M.";
-            this.Anexo3.Name = "Anexo3";
-            this.Anexo3.ReadOnly = true;
-            // 
-            // Anexo4
-            // 
-            this.Anexo4.HeaderText = "Anexo M.U.";
-            this.Anexo4.Name = "Anexo4";
-            this.Anexo4.ReadOnly = true;
-            // 
-            // Anexo5
-            // 
-            this.Anexo5.HeaderText = "Anexo S.";
-            this.Anexo5.Name = "Anexo5";
-            this.Anexo5.ReadOnly = true;
-            // 
-            // caminho6
-            // 
-            this.caminho6.HeaderText = "caminho6";
-            this.caminho6.Name = "caminho6";
-            this.caminho6.ReadOnly = true;
-            this.caminho6.Visible = false;
-            // 
-            // caminho7
-            // 
-            this.caminho7.HeaderText = "caminho7";
-            this.caminho7.Name = "caminho7";
-            this.caminho7.ReadOnly = true;
-            this.caminho7.Visible = false;
-            // 
-            // caminho8
-            // 
-            this.caminho8.HeaderText = "caminho8";
-            this.caminho8.Name = "caminho8";
-            this.caminho8.ReadOnly = true;
-            this.caminho8.Visible = false;
-            // 
-            // caminho9
-            // 
-            this.caminho9.HeaderText = "caminho9";
-            this.caminho9.Name = "caminho9";
-            this.caminho9.ReadOnly = true;
-            this.caminho9.Visible = false;
-            // 
-            // caminho10
-            // 
-            this.caminho10.HeaderText = "caminho10";
-            this.caminho10.Name = "caminho10";
-            this.caminho10.ReadOnly = true;
-            this.caminho10.Visible = false;
             // 
             // label15
             // 
@@ -2024,16 +1954,95 @@
             this.toolStrip1.TabIndex = 11;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // comboBox1
+            // marca
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "A",
-            "NA"});
-            this.comboBox1.Location = new System.Drawing.Point(108, 436);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(43, 21);
-            this.comboBox1.TabIndex = 203;
+            this.marca.HeaderText = "Marca / Modelo";
+            this.marca.Name = "marca";
+            this.marca.ReadOnly = true;
+            // 
+            // Tipo
+            // 
+            this.Tipo.HeaderText = "Tipo de Máquina";
+            this.Tipo.Name = "Tipo";
+            this.Tipo.ReadOnly = true;
+            // 
+            // Serieeq
+            // 
+            this.Serieeq.HeaderText = "Número de Série";
+            this.Serieeq.Name = "Serieeq";
+            this.Serieeq.ReadOnly = true;
+            // 
+            // Anexo1
+            // 
+            this.Anexo1.HeaderText = "Anexo C.E.";
+            this.Anexo1.Name = "Anexo1";
+            this.Anexo1.ReadOnly = true;
+            // 
+            // Anexo2
+            // 
+            this.Anexo2.HeaderText = "Anexo C/D";
+            this.Anexo2.Name = "Anexo2";
+            this.Anexo2.ReadOnly = true;
+            // 
+            // Anexo3
+            // 
+            this.Anexo3.HeaderText = "Anexo R.M.";
+            this.Anexo3.Name = "Anexo3";
+            this.Anexo3.ReadOnly = true;
+            // 
+            // Anexo4
+            // 
+            this.Anexo4.HeaderText = "Anexo M.U.";
+            this.Anexo4.Name = "Anexo4";
+            this.Anexo4.ReadOnly = true;
+            // 
+            // Anexo5
+            // 
+            this.Anexo5.HeaderText = "Anexo S.";
+            this.Anexo5.Name = "Anexo5";
+            this.Anexo5.ReadOnly = true;
+            // 
+            // caminho6
+            // 
+            this.caminho6.HeaderText = "caminho6";
+            this.caminho6.Name = "caminho6";
+            this.caminho6.ReadOnly = true;
+            this.caminho6.Visible = false;
+            // 
+            // caminho7
+            // 
+            this.caminho7.HeaderText = "caminho7";
+            this.caminho7.Name = "caminho7";
+            this.caminho7.ReadOnly = true;
+            this.caminho7.Visible = false;
+            // 
+            // caminho8
+            // 
+            this.caminho8.HeaderText = "caminho8";
+            this.caminho8.Name = "caminho8";
+            this.caminho8.ReadOnly = true;
+            this.caminho8.Visible = false;
+            // 
+            // caminho9
+            // 
+            this.caminho9.HeaderText = "caminho9";
+            this.caminho9.Name = "caminho9";
+            this.caminho9.ReadOnly = true;
+            this.caminho9.Visible = false;
+            // 
+            // caminho10
+            // 
+            this.caminho10.HeaderText = "caminho10";
+            this.caminho10.Name = "caminho10";
+            this.caminho10.ReadOnly = true;
+            this.caminho10.Visible = false;
+            // 
+            // CBSeguro
+            // 
+            this.CBSeguro.HeaderText = "CBSeguro";
+            this.CBSeguro.Name = "CBSeguro";
+            this.CBSeguro.ReadOnly = true;
+            this.CBSeguro.Visible = false;
             // 
             // GestaoSubempreitada
             // 
@@ -2197,19 +2206,6 @@
         private System.Windows.Forms.Button btnSelecionarPastaEqui;
         private System.Windows.Forms.Button button27;
         private System.Windows.Forms.Button bt_adcionarequi;
-        private System.Windows.Forms.DataGridViewTextBoxColumn marca;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tipo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Serieeq;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo2;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo3;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo4;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho10;
         private System.Windows.Forms.Button button26;
         private System.Windows.Forms.Button button28;
         private System.Windows.Forms.TabPage tabPage4;
@@ -2258,6 +2254,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn caminho13;
         private System.Windows.Forms.DataGridViewTextBoxColumn caminho14;
         private System.Windows.Forms.DataGridViewTextBoxColumn codigoobra;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cb_seguro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn marca;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tipo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Serieeq;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo1;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo2;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo3;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo4;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Anexo5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CBSeguro;
     }
 }

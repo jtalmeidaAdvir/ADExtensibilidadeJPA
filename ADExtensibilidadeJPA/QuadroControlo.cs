@@ -481,7 +481,8 @@ END;
 
                     string id = dt.Valor("id")?.ToString() ?? string.Empty;
                     string nome = dt.Valor("Nome")?.ToString() ?? string.Empty;
-                    bool emailEnviado = bool.TryParse(dt.Valor("CDU_EmailEnviado")?.ToString(), out bool result) ? result : false;
+                  
+                   bool emailEnviado = bool.TryParse(dt.Valor("CDU_EmailEnviado")?.ToString(), out bool result) ? result : false;
                     DateTime dataEnvio = DateTime.TryParse(dt.Valor("CDU_DataEnvio")?.ToString(), out DateTime envio) ? envio : DateTime.MinValue;
 
                     //Verifica
@@ -786,77 +787,88 @@ FROM DataExtraida
                             Microsoft.Office.Interop.Outlook.Application outlookApp = new Microsoft.Office.Interop.Outlook.Application();
                             MailItem emailItem = (MailItem)outlookApp.CreateItem(OlItemType.olMailItem);
 
+
                             // Definindo o assunto e o corpo do e-mail
                             emailItem.Subject = "Documentação para entrada obra";
                             emailItem.Body = $@"Exmos. Senhores,
 
-No seguimento da indicação que será subempreiteiro da JPA CONSTRUTORA na empreitada supracitada, solicitamos o envio da documentação referente à Vossa empresa, aos Vossos colaboradores e aos Equipamentos previstos para a empreitada de acordo com a listagem abaixo:
 
-INFORMAÇÃO DA DOCUMENTAÇÃO PARA ENTRADA EM OBRA
+No seguimento da indicação de que será subempreiteiro da JPA CONSTRUTORA na empreitada supracitada, solicitamos o envio/anexação da documentação referente à Vossa empresa, aos Vossos colaboradores e aos Equipamentos previstos para a empreitada, conforme a listagem abaixo.
 
-EMPRESA
+Para colocar a documentação solicitada, por favor, aceda ao seguinte link:
+{link}
 
-- Alvará/Certificado de construção ou alvará específico para a atividade (ex. trabalho temporário)
-- Certidão permanente
-- Contrato de subcontratação/subempreitada/nota de encomenda
-- Horário de trabalho para a empreitada acima designada
-- Recibo do seguro de acidentes de trabalho
-- Condições particulares do seguro de acidentes de trabalho
-- Seguro de responsabilidade civil
-- Folha de remuneração à segurança social do mês corrente com o nome dos funcionários a colocar em obra + comprovativo de pagamento
-- Certidão de não dívida à Segurança Social
-- Certidão de não dívida às Finanças
-- Declaração de adesão ao PSS (segue em anexo modelo de declaração a preencher)
-- Declaração do responsável no estaleiro (segue em anexo modelo de declaração a preencher)
+ 
 
-TRABALHADORES
+DOCUMENTAÇÃO RELATIVA À EMPRESA:
 
-- Elementos/dados de identificação do trabalhador:
+IMPIC (Alvará de funcionamento)
+Apólice de Seguro de Acidentes de Trabalho
+Apólice de Seguro de Responsabilidade Civil
+Último recibo pago de Seguro de Acidentes de Trabalho (Deve ser atualizado, pois é mensal)
+Último recibo pago de Seguro de Responsabilidade Civil
+Horário de Trabalho, onde conste o nome e local da empreitada
+Folha de Remunerações da Segurança Social atualizada, onde conste o nome dos trabalhadores e o comprovativo de pagamento da TSU
+Inscrição na Segurança Social de trabalhadores novos, caso não estejam descritos na última folha de remunerações da Segurança Social
+Declaração de não dívida às Finanças
+Declaração de não dívida à Segurança Social
+Declaração de trabalhadores emigrantes
+Declaração de aceitação do PSS ou PTRE (Para subempreitadas)
+ 
+
+DOCUMENTAÇÃO RELATIVA A TRABALHADORES
+
+Elementos/dados de identificação do trabalhador:
   - N.º B.I./Cartão de cidadão ou título de residência (caso o trabalhador seja estrangeiro) e validade
   - N.º contribuinte
   - N.º segurança social
-- Ficha de aptidão médica
-- Credenciação a habilitar o trabalhador (manobrador, alpinista, montadores de andaime, etc…) para manobrar equipamentos ou executar trabalhos específicos (quando aplicável)
-- Ficha de registo de distribuição de “EPI’s” - equipamento de proteção individual (EPI’s obrigatórios no estaleiro obra + os inerentes a cada atividade/profissão/posto de trabalho)
 
-Nota: Todos os trabalhadores devem estar garantidos com a cobertura do seguro de acidentes de trabalho. O nome dos funcionários terá de constar na listagem da segurança social, exceto novas admissões à Segurança Social, para as quais deverá ser remetida cópia da inscrição S.S.
+Registo de posse de Equipamento de Proteção Individual (EPI´s) com validade inferior a 2 anos
+Ficha de Aptidão Médica
+Contrato de trabalho (com carimbo da ACT) – trabalhadores estrangeiros (nacionalidades referidas pela ACT)
+Passaporte e Visto de Permanência ou manifestação de interesse atualizados - trabalhadores estrangeiros
+Declaração de aptidão de manobrador (trabalhadores que manobram equipamentos)
+DOCUMENTAÇÃO RELATIVA A EQUIPAMENTOS:
 
-EQUIPAMENTOS
+Declaração CE de conformidade e manual do equipamento
+Seguro do equipamento
+Seguro de responsabilidade civil atualizado
+Ficha da última revisão
+Declaração da empresa a garantir que o equipamento realizou as revisões/manutenções, conforme o plano de revisões/manutenções
+Último relatório de Bom Funcionamento do equipamento de acordo com o Decreto-lei 50/2005
+ 
 
-- Certificado CE em português (Ano de fabrico ≧ 1995)
-- Certificado/Declaração de “Bom Funcionamento” e respetiva lista de verificação de acordo com o Decreto-Lei nº 50/2005 de 25 de fevereiro
-- Registos de Manutenção (terá que indicar data/horas de quando foi efetuada a revisão e da próxima)
-- Manual de utilizador em português (índice, instruções referentes às medidas de segurança)
-- Seguro (quando aplicável)
+VIATURAS (Será solicitado se necessário):
 
-MENSALMENTE
+Inspeção
+Seguro
+Documento Único
+Nota: A documentação deverá obrigatoriamente ser enviada 48 horas antes da entrada em obra.
 
-- Folha de Remunerações à S. Social (onde conste o nome dos trabalhadores em obra) atualizada
-- Comprovativo de pagamento de Taxa Social Única (TSU)
+ 
 
-Nota: A documentação terá obrigatoriamente de ser enviada 48 horas antes da entrada em obra.
+Equipa de Subempreiteiro
 
-Equipa de Subempreiteiro  
-Deve cumprir as obrigações previstas no artigo 22º do mesmo decreto-lei. Deve também garantir que as empresas por si subcontratadas cumpram este mesmo artigo 22º, bem como o artigo 23º, no caso da existência de Trabalhadores independentes.
+Deve cumprir as obrigações previstas no artigo 22.º do mesmo Decreto-Lei. Deve também garantir que as empresas por si subcontratadas cumpram este mesmo artigo 22.º, bem como o artigo 23.º, no caso da existência de trabalhadores independentes.
 
-Recomendações básicas de HST que devem ser seguidas durante a execução dos trabalhos:
+É proibido o consumo de bebidas alcoólicas durante o período e no local de trabalho, não sendo permitida a permanência no local de trabalho com uma taxa de álcool igual ou superior a 0,5g/L, nem a presença de estupefacientes.
 
-- Apenas poderão estar em obra técnicos abrangidos pela apólice do seguro de Acidentes de Trabalho e APTOS para a realização dos trabalhos na Ficha de aptidão médica, que constem do registo de intervenientes aprovado no PSS.
-- Recorrer ao uso dos EPCs e EPIs de acordo com a recomendação deste documento.
-- Devem ser divulgados, a todos os colaboradores em obra, os riscos associados à sua atividade/tarefa e respetivas medidas preventivas.
-- Não é permitida a execução de trabalhos com riscos especiais por parte de trabalhadores isolados.
-- Todas as equipas devem possuir pelo menos um técnico com formação de primeiros socorros.
-- Todos os colaboradores devem conhecer e respeitar as regras de uso de máquinas e equipamentos de acordo com o DL 50/2005.
-- As escadas utilizadas devem ser certificadas e estar em bom estado de conservação (degraus, antiderrapantes).
-- Todos os colaboradores devem conhecer procedimentos de emergência.
-- É proibido o consumo de bebidas alcoólicas durante o período e local de trabalho, não sendo permitida a permanência no local de trabalho com uma taxa de álcool igual ou superior a 0,5g/L.
-- Todos os subempreiteiros devem procurar manter o estaleiro em boa ordem e estado de salubridade.
-- Todos os subempreiteiros devem eliminar, reciclar ou evacuar resíduos e escombros.
+Recomendações básicas de HST a serem seguidas durante a execução dos trabalhos:
 
-Para enviar a documentação solicitada, por favor, aceda ao seguinte link: {link}.
+Apenas poderão estar em obra técnicos abrangidos pela apólice do seguro de Acidentes de Trabalho e aptos para a realização dos trabalhos, conforme a Ficha de Aptidão Médica e registo de intervenientes aprovado no PSS.
+Recorrer ao uso dos EPCs (Equipamentos de Proteção Coletiva) e EPIs (Equipamentos de Proteção Individual) de acordo com a recomendação deste documento.
+Devem ser divulgados a todos os colaboradores em obra os riscos associados à sua atividade/tarefa e respetivas medidas preventivas.
+Não é permitida a execução de trabalhos com riscos especiais por parte de trabalhadores isolados.
+Todos os colaboradores devem conhecer e respeitar as regras de uso de máquinas e equipamentos, de acordo com o DL 50/2005.
+As escadas utilizadas devem ser certificadas e estar em bom estado de conservação (degraus antiderrapantes).
+Todos os colaboradores devem conhecer os procedimentos de emergência.
+Todos os subempreiteiros devem procurar manter o estaleiro em boa ordem e estado de salubridade.
+Todos os subempreiteiros devem eliminar, reciclar ou evacuar resíduos e escombros.
+
 Com os melhores cumprimentos,
 
 ";
+
 
                             // Definindo o e-mail do destinatário
                             emailItem.To = email;
