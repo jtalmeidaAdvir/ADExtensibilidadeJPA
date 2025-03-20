@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GestaoSubempreitada));
             this.lblSelecionar = new System.Windows.Forms.Label();
             this.TXT_Codigo = new System.Windows.Forms.TextBox();
-            this.BTF4 = new System.Windows.Forms.Button();
             this.TXT_Nome = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -75,6 +74,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.dtpnascimento = new System.Windows.Forms.DateTimePicker();
+            this.label28 = new System.Windows.Forms.Label();
             this.button28 = new System.Windows.Forms.Button();
             this.button19 = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
@@ -121,6 +123,7 @@
             this.caminho3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.caminho4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.caminho5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DataNasc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cb_seguro = new System.Windows.Forms.ComboBox();
             this.button26 = new System.Windows.Forms.Button();
@@ -152,6 +155,20 @@
             this.txt_marca = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.marca = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Serieeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Anexo1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.caminho6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBSeguro = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label15 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.checkBox27 = new System.Windows.Forms.CheckBox();
@@ -200,20 +217,7 @@
             this.txt_link = new System.Windows.Forms.TextBox();
             this.label43 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.marca = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Serieeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Anexo1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.caminho6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBSeguro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Bt_Nuvem = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -248,18 +252,6 @@
             this.TXT_Codigo.Size = new System.Drawing.Size(100, 24);
             this.TXT_Codigo.TabIndex = 8;
             // 
-            // BTF4
-            // 
-            this.BTF4.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.BTF4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTF4.Location = new System.Drawing.Point(644, 28);
-            this.BTF4.Name = "BTF4";
-            this.BTF4.Size = new System.Drawing.Size(55, 24);
-            this.BTF4.TabIndex = 7;
-            this.BTF4.Text = "F4";
-            this.BTF4.UseVisualStyleBackColor = false;
-            this.BTF4.Visible = false;
-            // 
             // TXT_Nome
             // 
             this.TXT_Nome.BackColor = System.Drawing.Color.White;
@@ -268,7 +260,7 @@
             this.TXT_Nome.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             this.TXT_Nome.Location = new System.Drawing.Point(172, 28);
             this.TXT_Nome.Name = "TXT_Nome";
-            this.TXT_Nome.Size = new System.Drawing.Size(466, 24);
+            this.TXT_Nome.Size = new System.Drawing.Size(502, 24);
             this.TXT_Nome.TabIndex = 6;
             // 
             // tabControl1
@@ -352,7 +344,7 @@
             // 
             this.checkBox10.AutoSize = true;
             this.checkBox10.Enabled = false;
-            this.checkBox10.Location = new System.Drawing.Point(325, 297);
+            this.checkBox10.Location = new System.Drawing.Point(325, 313);
             this.checkBox10.Name = "checkBox10";
             this.checkBox10.Size = new System.Drawing.Size(15, 14);
             this.checkBox10.TabIndex = 184;
@@ -362,7 +354,7 @@
             // 
             this.checkBox9.AutoSize = true;
             this.checkBox9.Enabled = false;
-            this.checkBox9.Location = new System.Drawing.Point(325, 269);
+            this.checkBox9.Location = new System.Drawing.Point(325, 285);
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.Size = new System.Drawing.Size(15, 14);
             this.checkBox9.TabIndex = 183;
@@ -372,7 +364,7 @@
             // 
             this.checkBox8.AutoSize = true;
             this.checkBox8.Enabled = false;
-            this.checkBox8.Location = new System.Drawing.Point(325, 241);
+            this.checkBox8.Location = new System.Drawing.Point(325, 257);
             this.checkBox8.Name = "checkBox8";
             this.checkBox8.Size = new System.Drawing.Size(15, 14);
             this.checkBox8.TabIndex = 182;
@@ -382,7 +374,7 @@
             // 
             this.checkBox6.AutoSize = true;
             this.checkBox6.Enabled = false;
-            this.checkBox6.Location = new System.Drawing.Point(325, 215);
+            this.checkBox6.Location = new System.Drawing.Point(325, 231);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(15, 14);
             this.checkBox6.TabIndex = 180;
@@ -392,7 +384,7 @@
             // 
             this.checkBox5.AutoSize = true;
             this.checkBox5.Enabled = false;
-            this.checkBox5.Location = new System.Drawing.Point(325, 187);
+            this.checkBox5.Location = new System.Drawing.Point(325, 203);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(15, 14);
             this.checkBox5.TabIndex = 179;
@@ -402,7 +394,7 @@
             // 
             this.checkBox4.AutoSize = true;
             this.checkBox4.Enabled = false;
-            this.checkBox4.Location = new System.Drawing.Point(325, 159);
+            this.checkBox4.Location = new System.Drawing.Point(325, 175);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(15, 14);
             this.checkBox4.TabIndex = 178;
@@ -412,7 +404,7 @@
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.Enabled = false;
-            this.checkBox3.Location = new System.Drawing.Point(325, 134);
+            this.checkBox3.Location = new System.Drawing.Point(325, 150);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(15, 14);
             this.checkBox3.TabIndex = 177;
@@ -422,7 +414,7 @@
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(325, 107);
+            this.checkBox2.Location = new System.Drawing.Point(325, 123);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(15, 14);
             this.checkBox2.TabIndex = 176;
@@ -432,7 +424,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(325, 78);
+            this.checkBox1.Location = new System.Drawing.Point(325, 94);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(15, 14);
             this.checkBox1.TabIndex = 175;
@@ -441,7 +433,7 @@
             // button10
             // 
             this.button10.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button10.Location = new System.Drawing.Point(285, 297);
+            this.button10.Location = new System.Drawing.Point(285, 313);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(34, 22);
             this.button10.TabIndex = 168;
@@ -451,7 +443,7 @@
             // button9
             // 
             this.button9.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button9.Location = new System.Drawing.Point(285, 269);
+            this.button9.Location = new System.Drawing.Point(285, 285);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(34, 22);
             this.button9.TabIndex = 166;
@@ -461,7 +453,7 @@
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button8.Location = new System.Drawing.Point(285, 241);
+            this.button8.Location = new System.Drawing.Point(285, 257);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(34, 22);
             this.button8.TabIndex = 164;
@@ -471,7 +463,7 @@
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button6.Location = new System.Drawing.Point(285, 215);
+            this.button6.Location = new System.Drawing.Point(285, 231);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(34, 22);
             this.button6.TabIndex = 160;
@@ -481,7 +473,7 @@
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button5.Location = new System.Drawing.Point(285, 187);
+            this.button5.Location = new System.Drawing.Point(285, 203);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(34, 22);
             this.button5.TabIndex = 158;
@@ -491,7 +483,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button4.Location = new System.Drawing.Point(285, 159);
+            this.button4.Location = new System.Drawing.Point(285, 175);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(34, 22);
             this.button4.TabIndex = 156;
@@ -501,7 +493,7 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button3.Location = new System.Drawing.Point(285, 131);
+            this.button3.Location = new System.Drawing.Point(285, 147);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(34, 22);
             this.button3.TabIndex = 154;
@@ -511,7 +503,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button2.Location = new System.Drawing.Point(285, 103);
+            this.button2.Location = new System.Drawing.Point(285, 119);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(34, 22);
             this.button2.TabIndex = 152;
@@ -521,7 +513,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(13, 159);
+            this.label31.Location = new System.Drawing.Point(13, 175);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(153, 14);
             this.label31.TabIndex = 151;
@@ -530,7 +522,7 @@
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(13, 297);
+            this.label27.Location = new System.Drawing.Point(13, 313);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(111, 14);
             this.label27.TabIndex = 147;
@@ -539,7 +531,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(13, 269);
+            this.label26.Location = new System.Drawing.Point(13, 285);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(235, 14);
             this.label26.TabIndex = 146;
@@ -548,7 +540,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(13, 241);
+            this.label25.Location = new System.Drawing.Point(13, 257);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(234, 14);
             this.label25.TabIndex = 145;
@@ -557,7 +549,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(13, 215);
+            this.label23.Location = new System.Drawing.Point(13, 231);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(165, 14);
             this.label23.TabIndex = 143;
@@ -566,7 +558,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(13, 187);
+            this.label21.Location = new System.Drawing.Point(13, 203);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(215, 14);
             this.label21.TabIndex = 142;
@@ -575,7 +567,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 131);
+            this.label20.Location = new System.Drawing.Point(13, 147);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(251, 14);
             this.label20.TabIndex = 141;
@@ -584,7 +576,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(13, 103);
+            this.label19.Location = new System.Drawing.Point(13, 119);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(212, 14);
             this.label19.TabIndex = 140;
@@ -623,7 +615,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button1.Location = new System.Drawing.Point(285, 75);
+            this.button1.Location = new System.Drawing.Point(285, 91);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(34, 22);
             this.button1.TabIndex = 128;
@@ -633,7 +625,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(13, 75);
+            this.label18.Location = new System.Drawing.Point(13, 91);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(177, 14);
             this.label18.TabIndex = 129;
@@ -711,6 +703,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.checkBox11);
+            this.tabPage2.Controls.Add(this.dtpnascimento);
+            this.tabPage2.Controls.Add(this.label28);
             this.tabPage2.Controls.Add(this.button28);
             this.tabPage2.Controls.Add(this.button19);
             this.tabPage2.Controls.Add(this.label14);
@@ -751,9 +746,37 @@
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Checked = true;
+            this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox11.Location = new System.Drawing.Point(658, 299);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(15, 14);
+            this.checkBox11.TabIndex = 206;
+            this.checkBox11.UseVisualStyleBackColor = true;
+            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
+            // 
+            // dtpnascimento
+            // 
+            this.dtpnascimento.Location = new System.Drawing.Point(114, 297);
+            this.dtpnascimento.Name = "dtpnascimento";
+            this.dtpnascimento.Size = new System.Drawing.Size(541, 20);
+            this.dtpnascimento.TabIndex = 205;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 300);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(107, 13);
+            this.label28.TabIndex = 204;
+            this.label28.Text = "Data de Nascimento:";
+            // 
             // button28
             // 
-            this.button28.Location = new System.Drawing.Point(195, 508);
+            this.button28.Location = new System.Drawing.Point(195, 520);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(75, 38);
             this.button28.TabIndex = 203;
@@ -765,7 +788,7 @@
             // button19
             // 
             this.button19.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button19.Location = new System.Drawing.Point(586, 326);
+            this.button19.Location = new System.Drawing.Point(586, 338);
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(92, 22);
             this.button19.TabIndex = 193;
@@ -777,7 +800,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label14.Location = new System.Drawing.Point(11, 329);
+            this.label14.Location = new System.Drawing.Point(11, 341);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(58, 14);
             this.label14.TabIndex = 190;
@@ -786,7 +809,7 @@
             // txt_caminhotrab
             // 
             this.txt_caminhotrab.Font = new System.Drawing.Font("Calibri", 9F);
-            this.txt_caminhotrab.Location = new System.Drawing.Point(75, 326);
+            this.txt_caminhotrab.Location = new System.Drawing.Point(75, 338);
             this.txt_caminhotrab.Name = "txt_caminhotrab";
             this.txt_caminhotrab.ReadOnly = true;
             this.txt_caminhotrab.Size = new System.Drawing.Size(343, 22);
@@ -795,7 +818,7 @@
             // btnSelecionarPastaTrab
             // 
             this.btnSelecionarPastaTrab.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnSelecionarPastaTrab.Location = new System.Drawing.Point(424, 326);
+            this.btnSelecionarPastaTrab.Location = new System.Drawing.Point(424, 338);
             this.btnSelecionarPastaTrab.Name = "btnSelecionarPastaTrab";
             this.btnSelecionarPastaTrab.Size = new System.Drawing.Size(34, 22);
             this.btnSelecionarPastaTrab.TabIndex = 192;
@@ -806,7 +829,7 @@
             // checkBox18
             // 
             this.checkBox18.AutoSize = true;
-            this.checkBox18.Location = new System.Drawing.Point(240, 463);
+            this.checkBox18.Location = new System.Drawing.Point(240, 475);
             this.checkBox18.Name = "checkBox18";
             this.checkBox18.Size = new System.Drawing.Size(15, 14);
             this.checkBox18.TabIndex = 185;
@@ -815,7 +838,7 @@
             // button18
             // 
             this.button18.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button18.Location = new System.Drawing.Point(200, 460);
+            this.button18.Location = new System.Drawing.Point(200, 472);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(34, 22);
             this.button18.TabIndex = 184;
@@ -825,7 +848,7 @@
             // checkBox17
             // 
             this.checkBox17.AutoSize = true;
-            this.checkBox17.Location = new System.Drawing.Point(240, 438);
+            this.checkBox17.Location = new System.Drawing.Point(240, 450);
             this.checkBox17.Name = "checkBox17";
             this.checkBox17.Size = new System.Drawing.Size(15, 14);
             this.checkBox17.TabIndex = 183;
@@ -834,7 +857,7 @@
             // button17
             // 
             this.button17.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button17.Location = new System.Drawing.Point(200, 435);
+            this.button17.Location = new System.Drawing.Point(200, 447);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(34, 22);
             this.button17.TabIndex = 182;
@@ -844,7 +867,7 @@
             // checkBox16
             // 
             this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(240, 410);
+            this.checkBox16.Location = new System.Drawing.Point(240, 422);
             this.checkBox16.Name = "checkBox16";
             this.checkBox16.Size = new System.Drawing.Size(15, 14);
             this.checkBox16.TabIndex = 181;
@@ -853,7 +876,7 @@
             // button16
             // 
             this.button16.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button16.Location = new System.Drawing.Point(200, 407);
+            this.button16.Location = new System.Drawing.Point(200, 419);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(34, 22);
             this.button16.TabIndex = 180;
@@ -863,7 +886,7 @@
             // checkBox15
             // 
             this.checkBox15.AutoSize = true;
-            this.checkBox15.Location = new System.Drawing.Point(240, 383);
+            this.checkBox15.Location = new System.Drawing.Point(240, 395);
             this.checkBox15.Name = "checkBox15";
             this.checkBox15.Size = new System.Drawing.Size(15, 14);
             this.checkBox15.TabIndex = 179;
@@ -872,7 +895,7 @@
             // button15
             // 
             this.button15.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button15.Location = new System.Drawing.Point(200, 380);
+            this.button15.Location = new System.Drawing.Point(200, 392);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(34, 22);
             this.button15.TabIndex = 178;
@@ -882,7 +905,7 @@
             // checkBox14
             // 
             this.checkBox14.AutoSize = true;
-            this.checkBox14.Location = new System.Drawing.Point(240, 357);
+            this.checkBox14.Location = new System.Drawing.Point(240, 369);
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(15, 14);
             this.checkBox14.TabIndex = 177;
@@ -891,7 +914,7 @@
             // button14
             // 
             this.button14.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button14.Location = new System.Drawing.Point(200, 354);
+            this.button14.Location = new System.Drawing.Point(200, 366);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(34, 22);
             this.button14.TabIndex = 176;
@@ -901,7 +924,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 463);
+            this.label13.Location = new System.Drawing.Point(6, 475);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(147, 13);
             this.label13.TabIndex = 16;
@@ -910,7 +933,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 435);
+            this.label12.Location = new System.Drawing.Point(6, 447);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(126, 13);
             this.label12.TabIndex = 15;
@@ -919,7 +942,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 407);
+            this.label11.Location = new System.Drawing.Point(6, 419);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(144, 13);
             this.label11.TabIndex = 14;
@@ -928,7 +951,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 380);
+            this.label10.Location = new System.Drawing.Point(6, 392);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(123, 13);
             this.label10.TabIndex = 13;
@@ -937,7 +960,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 354);
+            this.label9.Location = new System.Drawing.Point(6, 366);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(160, 13);
             this.label9.TabIndex = 12;
@@ -945,14 +968,14 @@
             // 
             // txt_segurancasocialtrab
             // 
-            this.txt_segurancasocialtrab.Location = new System.Drawing.Point(114, 289);
+            this.txt_segurancasocialtrab.Location = new System.Drawing.Point(114, 268);
             this.txt_segurancasocialtrab.Name = "txt_segurancasocialtrab";
             this.txt_segurancasocialtrab.Size = new System.Drawing.Size(559, 20);
             this.txt_segurancasocialtrab.TabIndex = 11;
             // 
             // txt_contribuintetrab
             // 
-            this.txt_contribuintetrab.Location = new System.Drawing.Point(114, 263);
+            this.txt_contribuintetrab.Location = new System.Drawing.Point(114, 242);
             this.txt_contribuintetrab.Name = "txt_contribuintetrab";
             this.txt_contribuintetrab.Size = new System.Drawing.Size(559, 20);
             this.txt_contribuintetrab.TabIndex = 10;
@@ -960,7 +983,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 292);
+            this.label8.Location = new System.Drawing.Point(6, 271);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(94, 13);
             this.label8.TabIndex = 9;
@@ -969,7 +992,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 266);
+            this.label7.Location = new System.Drawing.Point(6, 245);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(66, 13);
             this.label7.TabIndex = 8;
@@ -977,7 +1000,7 @@
             // 
             // txt_categoriatrab
             // 
-            this.txt_categoriatrab.Location = new System.Drawing.Point(114, 237);
+            this.txt_categoriatrab.Location = new System.Drawing.Point(114, 216);
             this.txt_categoriatrab.Name = "txt_categoriatrab";
             this.txt_categoriatrab.Size = new System.Drawing.Size(559, 20);
             this.txt_categoriatrab.TabIndex = 7;
@@ -985,7 +1008,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 240);
+            this.label6.Location = new System.Drawing.Point(6, 219);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(102, 13);
             this.label6.TabIndex = 6;
@@ -993,7 +1016,7 @@
             // 
             // txt_nometrab
             // 
-            this.txt_nometrab.Location = new System.Drawing.Point(114, 211);
+            this.txt_nometrab.Location = new System.Drawing.Point(114, 190);
             this.txt_nometrab.Name = "txt_nometrab";
             this.txt_nometrab.Size = new System.Drawing.Size(559, 20);
             this.txt_nometrab.TabIndex = 5;
@@ -1001,7 +1024,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 214);
+            this.label5.Location = new System.Drawing.Point(6, 193);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 13);
             this.label5.TabIndex = 4;
@@ -1009,7 +1032,7 @@
             // 
             // bt_remover
             // 
-            this.bt_remover.Location = new System.Drawing.Point(114, 508);
+            this.bt_remover.Location = new System.Drawing.Point(114, 520);
             this.bt_remover.Name = "bt_remover";
             this.bt_remover.Size = new System.Drawing.Size(75, 38);
             this.bt_remover.TabIndex = 3;
@@ -1020,7 +1043,7 @@
             // 
             // vt_adcionar
             // 
-            this.vt_adcionar.Location = new System.Drawing.Point(16, 508);
+            this.vt_adcionar.Location = new System.Drawing.Point(16, 520);
             this.vt_adcionar.Name = "vt_adcionar";
             this.vt_adcionar.Size = new System.Drawing.Size(92, 38);
             this.vt_adcionar.TabIndex = 2;
@@ -1058,7 +1081,8 @@
             this.caminho2,
             this.caminho3,
             this.caminho4,
-            this.caminho5});
+            this.caminho5,
+            this.DataNasc});
             this.dataGridView1.Location = new System.Drawing.Point(9, 29);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -1154,6 +1178,13 @@
             this.caminho5.Name = "caminho5";
             this.caminho5.ReadOnly = true;
             this.caminho5.Visible = false;
+            // 
+            // DataNasc
+            // 
+            this.DataNasc.HeaderText = "DataNasc";
+            this.DataNasc.Name = "DataNasc";
+            this.DataNasc.ReadOnly = true;
+            this.DataNasc.Visible = false;
             // 
             // tabPage3
             // 
@@ -1495,6 +1526,96 @@
             this.dataGridView2.Size = new System.Drawing.Size(698, 150);
             this.dataGridView2.TabIndex = 3;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
+            // 
+            // marca
+            // 
+            this.marca.HeaderText = "Marca / Modelo";
+            this.marca.Name = "marca";
+            this.marca.ReadOnly = true;
+            // 
+            // Tipo
+            // 
+            this.Tipo.HeaderText = "Tipo de Máquina";
+            this.Tipo.Name = "Tipo";
+            this.Tipo.ReadOnly = true;
+            // 
+            // Serieeq
+            // 
+            this.Serieeq.HeaderText = "Número de Série";
+            this.Serieeq.Name = "Serieeq";
+            this.Serieeq.ReadOnly = true;
+            // 
+            // Anexo1
+            // 
+            this.Anexo1.HeaderText = "Anexo C.E.";
+            this.Anexo1.Name = "Anexo1";
+            this.Anexo1.ReadOnly = true;
+            // 
+            // Anexo2
+            // 
+            this.Anexo2.HeaderText = "Anexo C/D";
+            this.Anexo2.Name = "Anexo2";
+            this.Anexo2.ReadOnly = true;
+            // 
+            // Anexo3
+            // 
+            this.Anexo3.HeaderText = "Anexo R.M.";
+            this.Anexo3.Name = "Anexo3";
+            this.Anexo3.ReadOnly = true;
+            // 
+            // Anexo4
+            // 
+            this.Anexo4.HeaderText = "Anexo M.U.";
+            this.Anexo4.Name = "Anexo4";
+            this.Anexo4.ReadOnly = true;
+            // 
+            // Anexo5
+            // 
+            this.Anexo5.HeaderText = "Anexo S.";
+            this.Anexo5.Name = "Anexo5";
+            this.Anexo5.ReadOnly = true;
+            // 
+            // caminho6
+            // 
+            this.caminho6.HeaderText = "caminho6";
+            this.caminho6.Name = "caminho6";
+            this.caminho6.ReadOnly = true;
+            this.caminho6.Visible = false;
+            // 
+            // caminho7
+            // 
+            this.caminho7.HeaderText = "caminho7";
+            this.caminho7.Name = "caminho7";
+            this.caminho7.ReadOnly = true;
+            this.caminho7.Visible = false;
+            // 
+            // caminho8
+            // 
+            this.caminho8.HeaderText = "caminho8";
+            this.caminho8.Name = "caminho8";
+            this.caminho8.ReadOnly = true;
+            this.caminho8.Visible = false;
+            // 
+            // caminho9
+            // 
+            this.caminho9.HeaderText = "caminho9";
+            this.caminho9.Name = "caminho9";
+            this.caminho9.ReadOnly = true;
+            this.caminho9.Visible = false;
+            // 
+            // caminho10
+            // 
+            this.caminho10.HeaderText = "caminho10";
+            this.caminho10.Name = "caminho10";
+            this.caminho10.ReadOnly = true;
+            this.caminho10.Visible = false;
+            // 
+            // CBSeguro
+            // 
+            this.CBSeguro.HeaderText = "CBSeguro";
+            this.CBSeguro.Name = "CBSeguro";
+            this.CBSeguro.ReadOnly = true;
+            this.CBSeguro.Visible = false;
             // 
             // label15
             // 
@@ -1954,95 +2075,19 @@
             this.toolStrip1.TabIndex = 11;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // marca
+            // Bt_Nuvem
             // 
-            this.marca.HeaderText = "Marca / Modelo";
-            this.marca.Name = "marca";
-            this.marca.ReadOnly = true;
-            // 
-            // Tipo
-            // 
-            this.Tipo.HeaderText = "Tipo de Máquina";
-            this.Tipo.Name = "Tipo";
-            this.Tipo.ReadOnly = true;
-            // 
-            // Serieeq
-            // 
-            this.Serieeq.HeaderText = "Número de Série";
-            this.Serieeq.Name = "Serieeq";
-            this.Serieeq.ReadOnly = true;
-            // 
-            // Anexo1
-            // 
-            this.Anexo1.HeaderText = "Anexo C.E.";
-            this.Anexo1.Name = "Anexo1";
-            this.Anexo1.ReadOnly = true;
-            // 
-            // Anexo2
-            // 
-            this.Anexo2.HeaderText = "Anexo C/D";
-            this.Anexo2.Name = "Anexo2";
-            this.Anexo2.ReadOnly = true;
-            // 
-            // Anexo3
-            // 
-            this.Anexo3.HeaderText = "Anexo R.M.";
-            this.Anexo3.Name = "Anexo3";
-            this.Anexo3.ReadOnly = true;
-            // 
-            // Anexo4
-            // 
-            this.Anexo4.HeaderText = "Anexo M.U.";
-            this.Anexo4.Name = "Anexo4";
-            this.Anexo4.ReadOnly = true;
-            // 
-            // Anexo5
-            // 
-            this.Anexo5.HeaderText = "Anexo S.";
-            this.Anexo5.Name = "Anexo5";
-            this.Anexo5.ReadOnly = true;
-            // 
-            // caminho6
-            // 
-            this.caminho6.HeaderText = "caminho6";
-            this.caminho6.Name = "caminho6";
-            this.caminho6.ReadOnly = true;
-            this.caminho6.Visible = false;
-            // 
-            // caminho7
-            // 
-            this.caminho7.HeaderText = "caminho7";
-            this.caminho7.Name = "caminho7";
-            this.caminho7.ReadOnly = true;
-            this.caminho7.Visible = false;
-            // 
-            // caminho8
-            // 
-            this.caminho8.HeaderText = "caminho8";
-            this.caminho8.Name = "caminho8";
-            this.caminho8.ReadOnly = true;
-            this.caminho8.Visible = false;
-            // 
-            // caminho9
-            // 
-            this.caminho9.HeaderText = "caminho9";
-            this.caminho9.Name = "caminho9";
-            this.caminho9.ReadOnly = true;
-            this.caminho9.Visible = false;
-            // 
-            // caminho10
-            // 
-            this.caminho10.HeaderText = "caminho10";
-            this.caminho10.Name = "caminho10";
-            this.caminho10.ReadOnly = true;
-            this.caminho10.Visible = false;
-            // 
-            // CBSeguro
-            // 
-            this.CBSeguro.HeaderText = "CBSeguro";
-            this.CBSeguro.Name = "CBSeguro";
-            this.CBSeguro.ReadOnly = true;
-            this.CBSeguro.Visible = false;
+            this.Bt_Nuvem.BackColor = System.Drawing.Color.White;
+            this.Bt_Nuvem.BackgroundImage = global::ADExtensibilidadeJPA.Properties.Resources.cloud_computing;
+            this.Bt_Nuvem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Bt_Nuvem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Bt_Nuvem.Location = new System.Drawing.Point(680, 28);
+            this.Bt_Nuvem.Name = "Bt_Nuvem";
+            this.Bt_Nuvem.Size = new System.Drawing.Size(46, 24);
+            this.Bt_Nuvem.TabIndex = 7;
+            this.Bt_Nuvem.UseVisualStyleBackColor = false;
+            this.Bt_Nuvem.Visible = false;
+            this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
             // GestaoSubempreitada
             // 
@@ -2053,7 +2098,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.TXT_Codigo);
-            this.Controls.Add(this.BTF4);
+            this.Controls.Add(this.Bt_Nuvem);
             this.Controls.Add(this.TXT_Nome);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -2086,7 +2131,7 @@
 
         private System.Windows.Forms.Label lblSelecionar;
         private System.Windows.Forms.TextBox TXT_Codigo;
-        private System.Windows.Forms.Button BTF4;
+        private System.Windows.Forms.Button Bt_Nuvem;
         private System.Windows.Forms.TextBox TXT_Nome;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -2158,20 +2203,6 @@
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.CheckBox checkBox14;
         private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nome;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Categoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Contribuinte;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SSocial;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoCC;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoFM;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoCT;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoTE;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoEPI;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn caminho5;
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txt_caminhotrab;
@@ -2269,5 +2300,23 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn caminho9;
         private System.Windows.Forms.DataGridViewTextBoxColumn caminho10;
         private System.Windows.Forms.DataGridViewTextBoxColumn CBSeguro;
+        private System.Windows.Forms.DateTimePicker dtpnascimento;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nome;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Categoria;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Contribuinte;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SSocial;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoCC;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoFM;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoCT;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoTE;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoEPI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminho5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DataNasc;
     }
 }

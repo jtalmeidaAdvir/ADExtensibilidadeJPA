@@ -290,8 +290,10 @@ END;
             // Mover os botões para o painel de topo e reestilizar
             topPanel.Controls.Add(BT_Editar);
             topPanel.Controls.Add(Bt_Email);
+            topPanel.Controls.Add(Bt_Validades);
             BT_Editar.Location = new System.Drawing.Point(10, 9);
             Bt_Email.Location = new System.Drawing.Point(110, 9);
+            Bt_Validades.Location = new System.Drawing.Point(600, 9);
 
             // Adicionar controles de filtro
             System.Windows.Forms.Panel panelFiltro = new System.Windows.Forms.Panel
@@ -414,6 +416,7 @@ END;
             // Estilização dos botões
             EstilizarBotao(BT_Editar, "Editar");
             EstilizarBotao(Bt_Email, "Enviar Email");
+            EstilizarBotao(Bt_Validades, "Validades");
 
             // Adicionar painel inferior com informações ou estatísticas
             System.Windows.Forms.Panel bottomPanel = new System.Windows.Forms.Panel
@@ -1034,6 +1037,27 @@ Com os melhores cumprimentos,
             catch 
             {
                 MessageBox.Show("Erro ao filtrar emails enviados: ");
+            }
+        }
+
+        private void Bt_Validades_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    string idSelecionado = dataGridView1.SelectedRows[0].Cells["ID"].Value?.ToString();
+                    Validades menuForm = new Validades(BSO, PSO, idSelecionado);
+                    menuForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, selecione uma linha para editar.");
+                }
+            }
+            catch (System.Exception ex) // Usando explicitamente System.Exception
+            {
+                MessageBox.Show("Erro ao editar: " + ex.Message);
             }
         }
     }

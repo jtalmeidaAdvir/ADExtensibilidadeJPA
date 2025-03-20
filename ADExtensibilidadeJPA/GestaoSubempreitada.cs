@@ -2,6 +2,7 @@
 using StdBE100;
 using StdPlatBS100;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -376,6 +377,41 @@ namespace ADExtensibilidadeJPA
                 System.Diagnostics.Debug.WriteLine($"Erro ao atualizar checkbox {colunaNome}: {ex.Message}");
             }
         }
+        private void CaminhoEmpresa(Dictionary<string, string> entidade)
+        {
+            // Verificar se a chave "CDU_Caminho" existe no dicionário, e se for nula, atribuir uma string vazia
+            string caminhoBase = entidade.ContainsKey("CDU_Caminho") && entidade["CDU_Caminho"] != null
+                                 ? entidade["CDU_Caminho"]
+                                 : "";
+
+            // Obter o nome do usuário logado no computador atual
+            string usuarioAtual = Environment.UserName;
+
+            // Verificar se o caminho contém "C:\Users\<nome do usuário>" e substituí-lo
+            string caminhoBaseUsuario = @"C:\Users\";
+
+            // Verificar se o caminho já contém a pasta de usuário, como "C:\Users\<nome>"
+            if (!string.IsNullOrEmpty(caminhoBase) && caminhoBase.Contains(caminhoBaseUsuario))
+            {
+                // Encontrar a parte do caminho onde começa o nome do usuário
+                int inicioUsuario = caminhoBase.IndexOf(caminhoBaseUsuario) + caminhoBaseUsuario.Length;
+                int fimUsuario = caminhoBase.IndexOf('\\', inicioUsuario);
+
+                // Extrair o nome do usuário do caminho
+                string nomeUsuarioOriginal = caminhoBase.Substring(inicioUsuario, fimUsuario - inicioUsuario);
+
+                // Substituir o nome do usuário antigo pelo nome do usuário atual
+                string caminhoAjustado = caminhoBase.Replace($@"C:\Users\{nomeUsuarioOriginal}", $@"C:\Users\{usuarioAtual}");
+
+                // Definir o caminho ajustado no campo de texto
+                txtCaminhoPasta.Text = caminhoAjustado;
+            }
+            else
+            {
+                // Se o caminho não contém "C:\Users\<nome do usuário>", mantemos o caminho original ou uma string vazia
+                txtCaminhoPasta.Text = caminhoBase;
+            }
+        }
 
         private void SetInfoEntidades(Dictionary<string, string> entidade)
         {
@@ -383,8 +419,18 @@ namespace ADExtensibilidadeJPA
             TXT_Nome.Text = entidade["Nome"];
             TXT_nome2.Text = entidade["Nome"];
             TXT_Contribuinte.Text = entidade["NIPC"];
-            txtCaminhoPasta.Text = entidade["CDU_Caminho"];
+
+             CaminhoEmpresa(entidade);
+
+            // CaminhoTrabalhadores(entidade); 
+
+            //txtCaminhoPasta.Text = entidade["CDU_Caminho"];
+
             txt_caminhoequi.Text = entidade["CDU_CaminhoEqui"];
+
+
+
+
             txt_link.Text = entidade["CDU_Link"];
             if (entidade.ContainsKey("CDU_CaminhoTRab"))
             {
@@ -394,7 +440,7 @@ namespace ADExtensibilidadeJPA
             {
                 txt_caminhotrab.Text = ""; // Define como string vazia se a chave não existir
             }
-
+            
             //txt_caminhotrab.Text = entidade["CDU_CaminhoTRab"]?.ToString() ?? "";
 
             var moradaCompleta = $"{entidade["Morada"]}, {entidade["Localidade"]}, {entidade["CodPostal"]}, {entidade["CodPostalLocal"]}";
@@ -406,6 +452,40 @@ namespace ADExtensibilidadeJPA
             else
             {
                 TXT_Sede.Text = moradaCompleta;
+            }
+        }
+
+        private void CaminhoTrabalhadores(Dictionary<string, string> entidade)
+        {
+            // Carregar o caminho da base de dados
+            string caminhoBase = entidade["CDU_CaminhoTRab"].ToString();
+
+            // Obter o nome do usuário logado no computador atual
+            string usuarioAtual = Environment.UserName;
+
+            // Verificar se o caminho contém "C:\Users\<nome do usuário>" e substituí-lo
+            string caminhoBaseUsuario = @"C:\Users\";
+
+            // Verificar se o caminho já contém a pasta de usuário, como "C:\Users\<nome>"
+            if (caminhoBase.Contains(caminhoBaseUsuario))
+            {
+                // Encontrar a parte do caminho onde começa o nome do usuário
+                int inicioUsuario = caminhoBase.IndexOf(caminhoBaseUsuario) + caminhoBaseUsuario.Length;
+                int fimUsuario = caminhoBase.IndexOf('\\', inicioUsuario);
+
+                // Extrair o nome do usuário do caminho
+                string nomeUsuarioOriginal = caminhoBase.Substring(inicioUsuario, fimUsuario - inicioUsuario);
+
+                // Substituir o nome do usuário antigo pelo nome do usuário atual
+                string caminhoAjustado = caminhoBase.Replace($@"C:\Users\{nomeUsuarioOriginal}", $@"C:\Users\{usuarioAtual}");
+
+                // Definir o caminho ajustado no campo de texto
+                txt_caminhotrab.Text = caminhoAjustado;
+            }
+            else
+            {
+                // Se o caminho não contém "C:\Users\<nome do usuário>", mantemos o caminho original
+                txt_caminhotrab.Text = caminhoBase;
             }
         }
 
@@ -1587,6 +1667,7 @@ namespace ADExtensibilidadeJPA
                 {
                     AtualizaTrabalhador();
                 }
+                LimpaCampos();
             }
 
 
@@ -1603,7 +1684,17 @@ namespace ADExtensibilidadeJPA
             int anexo3 = checkBox16.Checked ? 1 : 0;
             int anexo4 = checkBox17.Checked ? 1 : 0;
             int anexo5 = checkBox18.Checked ? 1 : 0;
+            string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
+            var datanasci = $"";
 
+            if (dtpnascimento2 == "'1753-01-01 00:00:00'")
+            {
+                datanasci = $"";
+            }
+            else
+            {
+                datanasci = $"{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}";
+            }
             // Encontre a linha selecionada no DataGridView para atualização, usando o 'contribuinte' como filtro
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -1625,6 +1716,8 @@ namespace ADExtensibilidadeJPA
                     row.Cells["caminho3"].Value = checkBox16.Text;
                     row.Cells["caminho4"].Value = checkBox17.Text;
                     row.Cells["caminho5"].Value = checkBox18.Text;
+
+                    row.Cells["DataNasc"].Value = datanasci;
 
                     break; // Encontre e atualize a primeira linha correspondente
                 }
@@ -1650,7 +1743,8 @@ namespace ADExtensibilidadeJPA
             caminho2 = '{caminho2}',
             caminho3 = '{caminho3}',
             caminho4 = '{caminho4}',
-            caminho5 = '{caminho5}'
+            caminho5 = '{caminho5}',
+            data_nascimento = '{datanasci}'
         WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuintetrab}';
     ";
 
@@ -1686,6 +1780,11 @@ namespace ADExtensibilidadeJPA
             checkBox17.Text = "";
             checkBox18.Text = "";
             txt_contribuintetrab.Enabled = true;
+            dtpnascimento.Value = DateTime.Now;
+            bt_remover.Visible = false;
+            button28.Visible = false;
+            Edit = "0";
+
         }
 
         private void InsereTrabalhador()
@@ -1699,7 +1798,18 @@ namespace ADExtensibilidadeJPA
             int anexo3 = checkBox16.Checked ? 1 : 0;
             int anexo4 = checkBox17.Checked ? 1 : 0;
             int anexo5 = checkBox18.Checked ? 1 : 0;
-                string checkContribuinteQuery = $@"
+            string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
+            var datanasci = $"";
+
+            if (dtpnascimento2 == "'1753-01-01 00:00:00'")
+            {
+                datanasci = $"";
+            }
+            else
+            {
+                datanasci = $"{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}";
+            }
+            string checkContribuinteQuery = $@"
             SELECT * FROM TDU_AD_Trabalhadores 
             WHERE contribuinte = '{contribuintetrab}' AND id_empresa = '{_idSelecionado}'
         ";
@@ -1712,7 +1822,7 @@ namespace ADExtensibilidadeJPA
                 return; // Se já existe, não prossegue com a inserção
             }
 
-            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text);
+            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, datanasci);
 
             // Aqui, você pode ocultar a coluna do checkBox Text (opcionalmente)
             int lastColumnIndex = dataGridView1.Columns.Count - 1; // Última coluna (onde você adicionou checkBox14.Text)
@@ -1727,6 +1837,9 @@ namespace ADExtensibilidadeJPA
             -- Verificar e criar a coluna 'nome'
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'nome')
                 ALTER TABLE TDU_AD_Trabalhadores ADD nome NVARCHAR(255);
+            -- Verificar e criar a coluna 'nome'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'data_nascimento')
+                ALTER TABLE TDU_AD_Trabalhadores ADD data_nascimento NVARCHAR(255);
 
             -- Verificar e criar a coluna 'categoria'
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'categoria')
@@ -1783,9 +1896,9 @@ namespace ADExtensibilidadeJPA
             string caminho5 = SanitizeString(checkBox18.Text);
             string query = $@"
                 INSERT INTO TDU_AD_Trabalhadores 
-            (id_empresa, nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5) 
+            (id_empresa, nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5,data_nascimento) 
             VALUES 
-            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}')
+            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{datanasci}')
             ";
 
             _BSO.DSO.ExecuteSQL(query);
@@ -1828,6 +1941,27 @@ namespace ADExtensibilidadeJPA
                 VerificarEColorirCheckBox(checkBox16, row.Cells["caminho3"].Value);
                 VerificarEColorirCheckBox(checkBox17, row.Cells["caminho4"].Value);
                 VerificarEColorirCheckBox(checkBox18, row.Cells["caminho5"].Value);
+
+                var datanascimento = row.Cells["DataNasc"].Value.ToString();
+                DateTime dataNasc;
+                if (DateTime.TryParse(row.Cells["DataNasc"].Value.ToString(), out dataNasc))
+                {
+                    dtpnascimento.Enabled = true;
+                    dtpnascimento.Visible = true;
+                    dtpnascimento.CustomFormat = "dd/MM/yyyy";
+                    dtpnascimento.Value = dataNasc;
+                    checkBox11.Checked = true;
+                }
+                else
+                {
+                    checkBox11.Checked = false;
+                    dtpnascimento.Enabled = false;
+                    dtpnascimento.Visible = false;
+                    dtpnascimento.CustomFormat = " "; // Deixa a data em branco
+                    dtpnascimento.Value = new DateTime(1753, 1, 1);// ou qualquer 
+                }
+
+
                 Match match = Regex.Match(checkBox14.Text, @"\d{2}/\d{2}/\d{4}");
 
 
@@ -1894,7 +2028,7 @@ namespace ADExtensibilidadeJPA
         {
             // Consulta para buscar os trabalhadores na base de dados
             string query = $@"
-            SELECT nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5
+            SELECT nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, data_nascimento
             FROM TDU_AD_Trabalhadores
             WHERE id_empresa = '{_idSelecionado}';
         ";
@@ -1923,9 +2057,20 @@ namespace ADExtensibilidadeJPA
                 var caminho3 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho3"));
                 var caminho4 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho4"));
                 var caminho5 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho5"));
-       
+                var datanascimento = trabalhadores.DaValor<string>("data_nascimento");
+                if (trabalhadores.DaValor<string>("data_nascimento").ToString() == "01/01/1753 00:00:00")
+                {
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, "");
+                }
+                else
+                {
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, datanascimento);
 
-                dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5);
+                }
+
+
+
+                //dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5);
                 trabalhadores.Seguinte();
             }
 
@@ -3019,6 +3164,31 @@ END;";
                 var selectedPair = (KeyValuePair<string, string>)cb_obras.SelectedItem;
                 NovoCodigoSelecionado = selectedPair.Key;
             }
+        }
+
+        private void checkBox11_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox11.Checked)
+            {
+                // Se o CheckBox estiver marcado, ativa o DateTimePicker para seleção de data
+                dtpnascimento.Enabled = true;
+                dtpnascimento.Visible = true;
+                dtpnascimento.CustomFormat = "dd/MM/yyyy"; // Ou o formato que preferir
+                dtpnascimento.Value = DateTime.Today;
+            }
+            else
+            {
+                // Se o CheckBox não estiver marcado, desabilita o DateTimePicker e limpa a data
+                dtpnascimento.Enabled = false;
+                dtpnascimento.Visible = false;
+                dtpnascimento.CustomFormat = " "; // Deixa a data em branco
+                dtpnascimento.Value = new DateTime(1753, 1, 1);
+            }
+        }
+
+        private void Bt_Nuvem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

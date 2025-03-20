@@ -31,6 +31,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.BT_Editar = new System.Windows.Forms.Button();
             this.Bt_Email = new System.Windows.Forms.Button();
+            this.Bt_Validades = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,10 +70,22 @@
             this.Bt_Email.UseVisualStyleBackColor = true;
             this.Bt_Email.Click += new System.EventHandler(this.Bt_Email_Click);
             // 
+            // Bt_Validades
+            // 
+            this.Bt_Validades.Location = new System.Drawing.Point(508, 4);
+            this.Bt_Validades.Name = "Bt_Validades";
+            this.Bt_Validades.Size = new System.Drawing.Size(75, 23);
+            this.Bt_Validades.TabIndex = 3;
+            this.Bt_Validades.Text = "Validades";
+            this.Bt_Validades.UseVisualStyleBackColor = true;
+            this.Bt_Validades.Visible = false;
+            this.Bt_Validades.Click += new System.EventHandler(this.Bt_Validades_Click);
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Bt_Validades);
             this.Controls.Add(this.Bt_Email);
             this.Controls.Add(this.BT_Editar);
             this.Controls.Add(this.dataGridView1);
@@ -89,5 +102,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button BT_Editar;
         private System.Windows.Forms.Button Bt_Email;
+        private System.Windows.Forms.Button Bt_Validades;
     }
 }

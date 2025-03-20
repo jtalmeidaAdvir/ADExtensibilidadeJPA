@@ -141,6 +141,12 @@
       <DependentUpon>QuadroControlo.cs</DependentUpon>
     </Compile>
     <Compile Include="TrabalhadorEmpreitadaManager.cs" />
+    <Compile Include="Validades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Validades.Designer.cs">
+      <DependentUpon>Validades.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CriarEmail.resx">
@@ -162,6 +168,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cloud-computing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
