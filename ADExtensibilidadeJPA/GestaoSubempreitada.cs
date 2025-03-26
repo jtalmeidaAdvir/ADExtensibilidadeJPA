@@ -30,6 +30,7 @@ namespace ADExtensibilidadeJPA
 
         public string Obratexto { get; private set; }
         public string NovoCodigoSelecionado { get; private set; }
+        public string LinkNuvem { get; set; }
 
         public GestaoSubempreitada(ErpBS BSO, StdBSInterfPub PSO, string idSelecionado)
         {
@@ -38,8 +39,10 @@ namespace ADExtensibilidadeJPA
             _PSO = PSO;
             _idSelecionado = idSelecionado;
             CarregarDados();
+          
             InitializeButtonEvents();
             ObterObras();
+   
             GetValoresAutorizarObras();
             _ = InicializarAsync();
         }
@@ -419,8 +422,24 @@ namespace ADExtensibilidadeJPA
             TXT_Nome.Text = entidade["Nome"];
             TXT_nome2.Text = entidade["Nome"];
             TXT_Contribuinte.Text = entidade["NIPC"];
+            LinkNuvem = entidade["CDU_LinkNuvem"];
+            TXTOP_linknuvem.Text = LinkNuvem;
+            CBOP_Enviado.Checked = entidade["CDU_EmailEnviado"]?.ToString().Trim().ToLower() == "true"
+                       || entidade["CDU_EmailEnviado"]?.ToString().Trim() == "1";
 
-             CaminhoEmpresa(entidade);
+            CBOP_SGS.Checked = entidade["CDU_TrataSGS"].ToString() == "True";
+            if (DateTime.TryParse(entidade["CDU_DataEnvio"]?.ToString(), out DateTime dataEnvio))
+            {
+                DTPOP_DataEnvio.Value = dataEnvio;
+            }
+            else
+            {
+                DTPOP_DataEnvio.Visible = false;
+                datavalor.Visible = true;
+            }
+
+
+            CaminhoEmpresa(entidade);
 
             // CaminhoTrabalhadores(entidade); 
 
@@ -511,7 +530,8 @@ namespace ADExtensibilidadeJPA
                                       "CDU_AnexoSegSocial", "CDU_FolhaPag", "CDU_AnexoApoliceAT",
                                       "CDU_AnexoApoliceRC", "CDU_AnexoHorarioTrabalho",
                                       "CDU_AnexoD", "CDU_DecTrabEmigr", "CDU_InscricaoSS",
-                                      "CDU_AnexoDStatus", "CDU_DecTrabEmigrStatus", "CDU_InscricaoSSStatus","CDU_CaminhoTRab","CDU_CaminhoEqui","CDU_Link" };
+                                      "CDU_AnexoDStatus", "CDU_DecTrabEmigrStatus", "CDU_InscricaoSSStatus","CDU_CaminhoTRab",
+                                      "CDU_CaminhoEqui","CDU_Link", "CDU_LinkNuvem", "CDU_EmailEnviado", "CDU_TrataSGS", "CDU_DataEnvio" };
 
                 // Iterando sobre as linhas dos dados
                 for (int i = 0; i < dados.NumLinhas(); i++)
@@ -2566,19 +2586,23 @@ END";
         private void ObterObras()
         {
             var query = $@"SELECT 
-                    o.EntidadeIDA,
-                    o.TipoEmp,
-                    o.Codigo,  -- Add the Codigo field here
-                    o.*, 
-                    e.*
-                FROM 
-                    COP_Obras o
-                JOIN 
-                    Geral_Entidade e
-                ON 
-                    o.EntidadeIDA = e.EntidadeId
-                WHERE 
-                    e.id = '{_idSelecionado}';";
+    o.EntidadeIDA,
+    o.TipoEmp,
+    o.Codigo,
+    o.Estado, 
+    o.DataCriacao,
+	o.*,
+    e.*
+FROM 
+    COP_Obras o
+JOIN 
+    Geral_Entidade e
+ON 
+    o.EntidadeIDA = e.EntidadeId
+WHERE 
+    o.Estado IN ('CONS', 'ADJU') AND e.id = '{_idSelecionado}'
+ORDER BY 
+    o.DataCriacao DESC;";
 
             var lista = _BSO.Consulta(query);
 
@@ -2896,10 +2920,16 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                 var anexo2 = lista.DaValor<bool>("anexo2");
                 var anexo3 = lista.DaValor<bool>("anexo3");
                 var anexo4 = lista.DaValor<bool>("anexo4");
-                var caminho1 = lista.DaValor<string>("caminho1");
-                var caminho2 = lista.DaValor<string>("caminho2");
-                var caminho3 = lista.DaValor<string>("caminho3");
-                var caminho4 = lista.DaValor<string>("caminho4");
+
+                var caminho1 = RestoreSanitizedString(lista.DaValor<string>("caminho1"));
+                var caminho2 = RestoreSanitizedString(lista.DaValor<string>("caminho2"));
+                var caminho3 = RestoreSanitizedString(lista.DaValor<string>("caminho3"));
+                var caminho4 = RestoreSanitizedString(lista.DaValor<string>("caminho4"));
+
+                //var caminho1 = lista.DaValor<string>("caminho1");
+                //var caminho2 = lista.DaValor<string>("caminho2");
+                //var caminho3 = lista.DaValor<string>("caminho3");
+                //var caminho4 = lista.DaValor<string>("caminho4");
                 var codigoobra = lista.DaValor<string>("Codigo_Obra");
 
                 if (lista.DaValor<DateTime>("Data_Saida").ToString() == "01/01/1753 00:00:00")
@@ -3188,6 +3218,104 @@ END;";
 
         private void Bt_Nuvem_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(LinkNuvem))
+            {
+                // Show the custom form where the user can enter the link
+                using (AddLinkForm form = new AddLinkForm())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        LinkNuvem = form.Link; // Assuming Link is a public property of AddLinkForm
+                        var updatelink = $@"UPDATE Geral_Entidade
+				                        set CDU_LinkNuvem = '{LinkNuvem}'
+				                        Where ID='{_idSelecionado}'";
+                        _BSO.DSO.ExecuteSQL(updatelink);
+                        TXTOP_linknuvem.Text = LinkNuvem;
+                        // Try to open the link if it's not empty
+                        if (!string.IsNullOrEmpty(LinkNuvem))
+                        {
+                            try
+                            {
+                                System.Diagnostics.Process.Start(LinkNuvem);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error opening the link: " + ex.Message);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(LinkNuvem);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error opening the link: " + ex.Message);
+                }
+            }
+        }
+
+        private void bt_gOpcoes_Click(object sender, EventArgs e)
+        {
+            DialogResult resultado = MessageBox.Show(
+                "Tem a certeza de que deseja guardar estas opções?",
+                "Confirmação",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resultado == DialogResult.Yes)
+            {
+                var envidoop = CBOP_Enviado.Checked ? 1 : 0;
+                var trataop = CBOP_SGS.Checked ? 1 : 0;
+                string dataenvioStr = DTPOP_DataEnvio.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                LinkNuvem = TXTOP_linknuvem.Text;
+                string empty = "";
+                if(DTPOP_DataEnvio.Visible == false)
+                {
+                    var updateopcoes = $@"UPDATE Geral_Entidade
+				                set CDU_DataEnvio = '{empty}',
+					                CDU_TrataSGS = '{trataop}',
+					                CDU_EmailEnviado = '{envidoop}',
+					                CDU_LinkNuvem = '{TXTOP_linknuvem.Text}'
+				                Where ID='{_idSelecionado}'";
+                    _BSO.DSO.ExecuteSQL(updateopcoes);
+
+
+                }
+                else
+                {
+                    var updateopcoes = $@"UPDATE Geral_Entidade
+				                set CDU_DataEnvio = '{dataenvioStr}',
+					                CDU_TrataSGS = '{trataop}',
+					                CDU_EmailEnviado = '{envidoop}',
+					                CDU_LinkNuvem = '{TXTOP_linknuvem.Text}'
+				                Where ID='{_idSelecionado}'";
+                    _BSO.DSO.ExecuteSQL(updateopcoes);
+                }
+
+    
+                // Código para guardar as opções
+                MessageBox.Show("As opções foram guardadas com sucesso.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void CBOP_Enviado_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CBOP_Enviado.Checked == true)
+            {
+                DTPOP_DataEnvio.Visible = true;
+                datavalor.Visible = false;
+            }
+            else
+            {
+                DTPOP_DataEnvio.Visible = false;
+                datavalor.Visible = true;
+            }
 
         }
     }

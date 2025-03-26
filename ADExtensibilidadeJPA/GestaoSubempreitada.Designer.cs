@@ -216,6 +216,17 @@
             this.btsaveLink = new System.Windows.Forms.Button();
             this.txt_link = new System.Windows.Forms.TextBox();
             this.label43 = new System.Windows.Forms.Label();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.datavalor = new System.Windows.Forms.Label();
+            this.bt_gOpcoes = new System.Windows.Forms.Button();
+            this.DTPOP_DataEnvio = new System.Windows.Forms.DateTimePicker();
+            this.CBOP_SGS = new System.Windows.Forms.CheckBox();
+            this.CBOP_Enviado = new System.Windows.Forms.CheckBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.TXTOP_linknuvem = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
@@ -229,6 +240,7 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblSelecionar
@@ -270,6 +282,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(12, 58);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -2067,6 +2080,127 @@
             this.label43.TabIndex = 0;
             this.label43.Text = "Inserir Aqui o Link";
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.datavalor);
+            this.tabPage6.Controls.Add(this.bt_gOpcoes);
+            this.tabPage6.Controls.Add(this.DTPOP_DataEnvio);
+            this.tabPage6.Controls.Add(this.CBOP_SGS);
+            this.tabPage6.Controls.Add(this.CBOP_Enviado);
+            this.tabPage6.Controls.Add(this.label48);
+            this.tabPage6.Controls.Add(this.label42);
+            this.tabPage6.Controls.Add(this.label30);
+            this.tabPage6.Controls.Add(this.TXTOP_linknuvem);
+            this.tabPage6.Controls.Add(this.label29);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(710, 591);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Opções";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // datavalor
+            // 
+            this.datavalor.AutoSize = true;
+            this.datavalor.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.datavalor.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.datavalor.Location = new System.Drawing.Point(129, 156);
+            this.datavalor.Name = "datavalor";
+            this.datavalor.Size = new System.Drawing.Size(70, 18);
+            this.datavalor.TabIndex = 10;
+            this.datavalor.Text = "Sem Valor";
+            this.datavalor.Visible = false;
+            // 
+            // bt_gOpcoes
+            // 
+            this.bt_gOpcoes.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_gOpcoes.Location = new System.Drawing.Point(531, 168);
+            this.bt_gOpcoes.Name = "bt_gOpcoes";
+            this.bt_gOpcoes.Size = new System.Drawing.Size(105, 48);
+            this.bt_gOpcoes.TabIndex = 9;
+            this.bt_gOpcoes.Text = "Gravar";
+            this.bt_gOpcoes.UseVisualStyleBackColor = true;
+            this.bt_gOpcoes.Click += new System.EventHandler(this.bt_gOpcoes_Click);
+            // 
+            // DTPOP_DataEnvio
+            // 
+            this.DTPOP_DataEnvio.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DTPOP_DataEnvio.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.DTPOP_DataEnvio.Location = new System.Drawing.Point(132, 150);
+            this.DTPOP_DataEnvio.Name = "DTPOP_DataEnvio";
+            this.DTPOP_DataEnvio.Size = new System.Drawing.Size(156, 26);
+            this.DTPOP_DataEnvio.TabIndex = 8;
+            // 
+            // CBOP_SGS
+            // 
+            this.CBOP_SGS.AutoSize = true;
+            this.CBOP_SGS.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CBOP_SGS.Location = new System.Drawing.Point(132, 201);
+            this.CBOP_SGS.Name = "CBOP_SGS";
+            this.CBOP_SGS.Size = new System.Drawing.Size(15, 14);
+            this.CBOP_SGS.TabIndex = 7;
+            this.CBOP_SGS.UseVisualStyleBackColor = true;
+            // 
+            // CBOP_Enviado
+            // 
+            this.CBOP_Enviado.AutoSize = true;
+            this.CBOP_Enviado.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CBOP_Enviado.Location = new System.Drawing.Point(132, 114);
+            this.CBOP_Enviado.Name = "CBOP_Enviado";
+            this.CBOP_Enviado.Size = new System.Drawing.Size(15, 14);
+            this.CBOP_Enviado.TabIndex = 5;
+            this.CBOP_Enviado.UseVisualStyleBackColor = true;
+            this.CBOP_Enviado.CheckedChanged += new System.EventHandler(this.CBOP_Enviado_CheckedChanged);
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label48.Location = new System.Drawing.Point(48, 198);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(68, 18);
+            this.label48.TabIndex = 4;
+            this.label48.Text = "Trata SGS:";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label42.Location = new System.Drawing.Point(26, 156);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(96, 18);
+            this.label42.TabIndex = 3;
+            this.label42.Text = "Data de Envio:";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(27, 111);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(98, 18);
+            this.label30.TabIndex = 2;
+            this.label30.Text = "Email Enviado:";
+            // 
+            // TXTOP_linknuvem
+            // 
+            this.TXTOP_linknuvem.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXTOP_linknuvem.Location = new System.Drawing.Point(132, 51);
+            this.TXTOP_linknuvem.Name = "TXTOP_linknuvem";
+            this.TXTOP_linknuvem.Size = new System.Drawing.Size(504, 26);
+            this.TXTOP_linknuvem.TabIndex = 1;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(21, 54);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(105, 18);
+            this.label29.TabIndex = 0;
+            this.label29.Text = "Link da Partilha:";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -2086,7 +2220,6 @@
             this.Bt_Nuvem.Size = new System.Drawing.Size(46, 24);
             this.Bt_Nuvem.TabIndex = 7;
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
-            this.Bt_Nuvem.Visible = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
             // GestaoSubempreitada
@@ -2122,6 +2255,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2318,5 +2453,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn caminho4;
         private System.Windows.Forms.DataGridViewTextBoxColumn caminho5;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataNasc;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.CheckBox CBOP_SGS;
+        private System.Windows.Forms.CheckBox CBOP_Enviado;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TextBox TXTOP_linknuvem;
+        private System.Windows.Forms.DateTimePicker DTPOP_DataEnvio;
+        private System.Windows.Forms.Button bt_gOpcoes;
+        private System.Windows.Forms.Label datavalor;
     }
 }

@@ -15,3 +15,4 @@ C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\
 C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\ADExtensibilidadeJPA.CriarEmail.resources
 C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\bin\Debug\IBasBS100.dll
 C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\ADExtensibilidadeJPA.Entidades.resources
+C:\Users\jtalm\source\repos\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\ADExtensibilidadeJPA.AddLinkForm.resources
