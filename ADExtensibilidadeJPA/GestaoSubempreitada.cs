@@ -2602,7 +2602,7 @@ ON
 WHERE 
     o.Estado IN ('CONS', 'ADJU') AND e.id = '{_idSelecionado}'
 ORDER BY 
-    o.DataCriacao DESC;";
+    o.Codigo DESC;";
 
             var lista = _BSO.Consulta(query);
 
