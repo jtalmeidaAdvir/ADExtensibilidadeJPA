@@ -78,7 +78,6 @@
             this.Bt_Validades.TabIndex = 3;
             this.Bt_Validades.Text = "Validades";
             this.Bt_Validades.UseVisualStyleBackColor = true;
-            this.Bt_Validades.Visible = false;
             this.Bt_Validades.Click += new System.EventHandler(this.Bt_Validades_Click);
             // 
             // QuadroControlo

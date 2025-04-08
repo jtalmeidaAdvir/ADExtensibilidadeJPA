@@ -39,10 +39,10 @@ namespace ADExtensibilidadeJPA
             _PSO = PSO;
             _idSelecionado = idSelecionado;
             CarregarDados();
-          
+
             InitializeButtonEvents();
             ObterObras();
-   
+
             GetValoresAutorizarObras();
             _ = InicializarAsync();
         }
@@ -459,7 +459,7 @@ namespace ADExtensibilidadeJPA
             {
                 txt_caminhotrab.Text = ""; // Define como string vazia se a chave não existir
             }
-            
+
             //txt_caminhotrab.Text = entidade["CDU_CaminhoTRab"]?.ToString() ?? "";
 
             var moradaCompleta = $"{entidade["Morada"]}, {entidade["Localidade"]}, {entidade["CodPostal"]}, {entidade["CodPostalLocal"]}";
@@ -598,7 +598,7 @@ namespace ADExtensibilidadeJPA
         }
         private void AnexarDocumentoAutorizar(string tipoDocumento)
         {
-           
+
 
             try
             {
@@ -675,9 +675,33 @@ namespace ADExtensibilidadeJPA
 
                         string nometrab = txt_marca.Text.Replace(" ", "_");
 
-                        string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nometrab}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
-                        string destFile = System.IO.Path.Combine(txtcaminhoAuto.Text, fileName);
-                        Caminhoauto = System.IO.Path.Combine(txtcaminhoAuto.Text, fileName);
+                        string nomeEmpresa = string.IsNullOrEmpty(TXT_Nome.Text) ? "Sem_Nome" : TXT_Nome.Text.Replace(" ", "_");
+                        string nomeObra = cb_obras.Text.Replace(" ", "_");
+
+                        // Create company folder if it doesn't exist
+                        string companyFolder = System.IO.Path.Combine(txtcaminhoAuto.Text, nomeEmpresa);
+                        if (!System.IO.Directory.Exists(companyFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(companyFolder);
+                        }
+
+                        // Create Autorizacoes subfolder
+                        string autorizacoesFolder = System.IO.Path.Combine(companyFolder, "Autorizacoes");
+                        if (!System.IO.Directory.Exists(autorizacoesFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(autorizacoesFolder);
+                        }
+
+                        // Create work specific folder
+                        string workFolder = System.IO.Path.Combine(autorizacoesFolder, nomeObra);
+                        if (!System.IO.Directory.Exists(workFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(workFolder);
+                        }
+
+                        string fileName = $"{tipoDocumento.Replace(" ", "_")}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
+                        string destFile = System.IO.Path.Combine(workFolder, fileName);
+                        Caminhoauto = destFile;
                         // Verificar se o arquivo já existe
                         if (System.IO.File.Exists(destFile))
                         {
@@ -782,7 +806,7 @@ namespace ADExtensibilidadeJPA
                     }
                 }
 
-                
+
 
                 // Abre o diálogo para selecionar o arquivo
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -801,9 +825,33 @@ namespace ADExtensibilidadeJPA
 
                         string nometrab = txt_marca.Text.Replace(" ", "_");
 
-                        string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nometrab}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
-                        string destFile = System.IO.Path.Combine(txt_caminhoequi.Text, fileName);
-                        Caminhoequi = System.IO.Path.Combine(txt_caminhoequi.Text, fileName);
+                        string nomeEmpresa = string.IsNullOrEmpty(TXT_Nome.Text) ? "Sem_Nome" : TXT_Nome.Text.Replace(" ", "_");
+                        string nomeEquipamento = txt_marca.Text.Replace(" ", "_");
+
+                        // Create company folder if it doesn't exist
+                        string companyFolder = System.IO.Path.Combine(txt_caminhoequi.Text, nomeEmpresa);
+                        if (!System.IO.Directory.Exists(companyFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(companyFolder);
+                        }
+
+                        // Create Equipamentos subfolder
+                        string equipamentosFolder = System.IO.Path.Combine(companyFolder, "Equipamentos");
+                        if (!System.IO.Directory.Exists(equipamentosFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(equipamentosFolder);
+                        }
+
+                        // Create equipment specific folder
+                        string equipmentFolder = System.IO.Path.Combine(equipamentosFolder, nomeEquipamento);
+                        if (!System.IO.Directory.Exists(equipmentFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(equipmentFolder);
+                        }
+
+                        string fileName = $"{tipoDocumento.Replace(" ", "_")}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
+                        string destFile = System.IO.Path.Combine(equipmentFolder, fileName);
+                        Caminhoequi = destFile;
                         // Verificar se o arquivo já existe
                         if (System.IO.File.Exists(destFile))
                         {
@@ -828,7 +876,7 @@ namespace ADExtensibilidadeJPA
 
                         // Recarregar os dados para garantir exibição correta
                         // CarregarStatusDocumentos();
-                        if (tipoDocumento == "CertificadoCE" || tipoDocumento ==  "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
+                        if (tipoDocumento == "CertificadoCE" || tipoDocumento == "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
                         {
                             MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!",
                    "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -838,10 +886,10 @@ namespace ADExtensibilidadeJPA
                             MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
                    "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-               
+
                     }
                 }
-    
+
             }
             catch (Exception ex)
             {
@@ -854,12 +902,12 @@ namespace ADExtensibilidadeJPA
         {
             try
             {
-                if (!string.IsNullOrEmpty(txt_contribuintetrab.Text) )
+                if (!string.IsNullOrEmpty(txt_contribuintetrab.Text))
                 {
 
-         
 
-                        // Verifica se o caminho da pasta foi definido
+
+                    // Verifica se o caminho da pasta foi definido
                     if (string.IsNullOrEmpty(txt_caminhotrab.Text) || !System.IO.Directory.Exists(txt_caminhotrab.Text))
                     {
                         MessageBox.Show("Por favor, selecione uma pasta válida para os anexos primeiro.",
@@ -922,15 +970,33 @@ namespace ADExtensibilidadeJPA
                         if (openFileDialog.ShowDialog() == DialogResult.OK)
                         {
                             string sourceFile = openFileDialog.FileName;
-                            string nomeArquivo = string.IsNullOrEmpty(TXT_Nome.Text)
-                                ? "Sem_Nome"
-                                : txt_contribuintetrab.Text.Replace(" ", "_");
+                            string nomeEmpresa = string.IsNullOrEmpty(TXT_Nome.Text) ? "Sem_Nome" : TXT_Nome.Text.Replace(" ", "_");
+                            string nomeTrabalhador = txt_nometrab.Text.Replace(" ", "_");
 
-                            string nometrab = txt_nometrab.Text.Replace(" ", "_");
+                            // Create company folder if it doesn't exist
+                            string companyFolder = System.IO.Path.Combine(txt_caminhotrab.Text, nomeEmpresa);
+                            if (!System.IO.Directory.Exists(companyFolder))
+                            {
+                                System.IO.Directory.CreateDirectory(companyFolder);
+                            }
 
-                            string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nometrab}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
-                            string destFile = System.IO.Path.Combine(txt_caminhotrab.Text, fileName);
-                            Caminhotrab = System.IO.Path.Combine(txt_caminhoequi.Text, fileName);
+                            // Create Trabalhadores subfolder
+                            string trabalhadoresFolder = System.IO.Path.Combine(companyFolder, "Trabalhadores");
+                            if (!System.IO.Directory.Exists(trabalhadoresFolder))
+                            {
+                                System.IO.Directory.CreateDirectory(trabalhadoresFolder);
+                            }
+
+                            // Create worker specific folder
+                            string workerFolder = System.IO.Path.Combine(trabalhadoresFolder, nomeTrabalhador);
+                            if (!System.IO.Directory.Exists(workerFolder))
+                            {
+                                System.IO.Directory.CreateDirectory(workerFolder);
+                            }
+
+                            string fileName = $"{tipoDocumento.Replace(" ", "_")}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
+                            string destFile = System.IO.Path.Combine(workerFolder, fileName);
+                            Caminhotrab = destFile;
                             // Verificar se o arquivo já existe
                             if (System.IO.File.Exists(destFile))
                             {
@@ -948,7 +1014,7 @@ namespace ADExtensibilidadeJPA
                             System.IO.File.Copy(sourceFile, destFile, true);
 
                             // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
-                           // AtualizarStatusDocumentotrabalhdor(tipoDocumento, destFile, dataValidade);
+                            // AtualizarStatusDocumentotrabalhdor(tipoDocumento, destFile, dataValidade);
 
                             // Atualizar o checkbox correspondente
                             AtualizarCheckboxtrabalhador(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
@@ -1085,7 +1151,7 @@ namespace ADExtensibilidadeJPA
             }
 
             // Se encontrou o checkbox, atualiza seu estado e texto
-            
+
         }
         private void AtualizarCheckboxtrabalhador(string tipoDocumento, string nomeArquivo, DateTime dataValidade)
         {
@@ -1161,7 +1227,7 @@ namespace ADExtensibilidadeJPA
                 }
                 else
                 {
-                    
+
                     using (Form formValidade = new Form())
                     {
                         formValidade.Text = "Data de Validade";
@@ -1222,8 +1288,22 @@ namespace ADExtensibilidadeJPA
                             ? "Sem_Nome"
                             : TXT_Nome.Text.Replace(" ", "_");
 
+                        // Create main company folder
+                        string companyFolder = System.IO.Path.Combine(txtCaminhoPasta.Text, nomeArquivo);
+                        if (!System.IO.Directory.Exists(companyFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(companyFolder);
+                        }
+
+                        // Create EMPRESA subfolder
+                        string empresaFolder = System.IO.Path.Combine(companyFolder, "EMPRESA");
+                        if (!System.IO.Directory.Exists(empresaFolder))
+                        {
+                            System.IO.Directory.CreateDirectory(empresaFolder);
+                        }
+
                         string fileName = $"{tipoDocumento.Replace(" ", "_")}_{nomeArquivo}_{DateTime.Now.ToString("yyyyMMdd")}{System.IO.Path.GetExtension(sourceFile)}";
-                        string destFile = System.IO.Path.Combine(txtCaminhoPasta.Text, fileName);
+                        string destFile = System.IO.Path.Combine(empresaFolder, fileName);
 
                         // Verificar se o arquivo já existe
                         if (System.IO.File.Exists(destFile))
@@ -1307,7 +1387,7 @@ namespace ADExtensibilidadeJPA
                     nomeDocumento = "Certidão Permanente";
                     break;
             }
-            if(tipoDocumento == "SeguroAT")
+            if (tipoDocumento == "SeguroAT")
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
@@ -1445,7 +1525,7 @@ namespace ADExtensibilidadeJPA
 
                 // Sanitizar o caminho do arquivo para evitar problemas com aspas
                 string caminhoSanitizado = caminho.Replace("'", "''");
-                if(tipoDocumento == "SeguroAT")
+                if (tipoDocumento == "SeguroAT")
                 {
                     string query2 = $@"UPDATE Geral_Entidade SET 
                                 {colunaAnexo} = 1
@@ -1947,7 +2027,7 @@ namespace ADExtensibilidadeJPA
                 txt_nometrab.Text = row.Cells["Nome"].Value.ToString();
                 txt_categoriatrab.Text = row.Cells["Categoria"].Value.ToString();
                 txt_contribuintetrab.Text = row.Cells["Contribuinte"].Value.ToString();
- 
+
                 txt_contribuintetrab.Enabled = false;
                 txt_segurancasocialtrab.Text = row.Cells["SSocial"].Value.ToString();
                 checkBox14.Checked = ConvertToBool(row.Cells["AnexoCC"].Value);
@@ -2095,7 +2175,7 @@ namespace ADExtensibilidadeJPA
             }
 
 
-            
+
         }
 
         private string RestoreSanitizedString(string input)
@@ -2122,7 +2202,8 @@ namespace ADExtensibilidadeJPA
                 var columnExists = _BSO.Consulta(checkColumnQuery);
 
 
-                if (columnExists.NumLinhas() > 0) {
+                if (columnExists.NumLinhas() > 0)
+                {
                     if (folderDialog.ShowDialog() == DialogResult.OK)
                     {
                         txt_caminhotrab.Text = folderDialog.SelectedPath;
@@ -2238,7 +2319,7 @@ namespace ADExtensibilidadeJPA
             {
                 AtualizaEquipamento();
             }
-            
+
         }
 
         private void AtualizaEquipamento()
@@ -2257,7 +2338,7 @@ namespace ADExtensibilidadeJPA
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
                 var sss = row.Cells["Serieeq"].Value.ToString();
-               
+
                 if (sss == serie) // Verifica o contribuinte
                 {
 
@@ -2328,7 +2409,7 @@ namespace ADExtensibilidadeJPA
             int anexo3 = checkBox21.Checked ? 1 : 0;
             int anexo4 = checkBox22.Checked ? 1 : 0;
             int anexo5 = checkBox23.Checked ? 1 : 0;
-            
+
             // Verifica se a tabela existe e a cria se necessário
             string createTableQuery = @"
     IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'TDU_AD_Equipamentos')
@@ -2367,7 +2448,7 @@ namespace ADExtensibilidadeJPA
             // Adiciona os dados ao DataGridView
             dataGridView2.Rows.Add(marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5,
                                     checkBox19.Text, checkBox20.Text, checkBox21.Text, checkBox22.Text, checkBox23.Text, cBSeguro);
-          
+
             // Oculta a última coluna (se necessário)
             int lastColumnIndex = dataGridView2.Columns.Count - 1;
             dataGridView2.Columns[lastColumnIndex].Visible = false;
@@ -2378,7 +2459,7 @@ namespace ADExtensibilidadeJPA
             string caminho3 = SanitizeString(checkBox21.Text);
             string caminho4 = SanitizeString(checkBox22.Text);
             string caminho5 = SanitizeString(checkBox23.Text);
-            
+
 
             string checkColumnQuery = @"
 IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
@@ -2524,8 +2605,33 @@ END";
 
             if (resultado == DialogResult.Yes)
             {
-
                 var contri = txt_contribuintetrab.Text;
+                var nomeEmpresa = TXT_Nome.Text.Replace(" ", "_");
+                var nomeTrabalhador = txt_nometrab.Text.Replace(" ", "_");
+                string pastaTrabalhador = Path.Combine(txt_caminhotrab.Text, nomeEmpresa, "Trabalhadores", nomeTrabalhador);
+
+                // Verifica se a pasta existe antes de perguntar
+                if (Directory.Exists(pastaTrabalhador))
+                {
+                    DialogResult resultadoPasta = MessageBox.Show(
+                        "Deseja também remover a pasta com os documentos do trabalhador?",
+                        "Remover Documentos",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (resultadoPasta == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            Directory.Delete(pastaTrabalhador, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Erro ao remover a pasta: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+
                 var removequery = $@"DELETE FROM TDU_AD_Trabalhadores 
                                     WHERE contribuinte = '{contri}' AND id_empresa = '{_idSelecionado}';";
                 _BSO.DSO.ExecuteSQL(removequery);
@@ -2560,6 +2666,32 @@ END";
             {
 
                 var serie = txt_serie.Text;
+                var nomeEmpresa = TXT_Nome.Text.Replace(" ", "_");
+                var nomeEquipamento = txt_marca.Text.Replace(" ", "_");
+                string pastaEquipamento = Path.Combine(txt_caminhoequi.Text, nomeEmpresa, "Equipamentos", nomeEquipamento);
+
+                // Verifica se a pasta existe antes de perguntar
+                if (Directory.Exists(pastaEquipamento))
+                {
+                    DialogResult resultadoPasta = MessageBox.Show(
+                        "Deseja também remover a pasta com os documentos do equipamento?",
+                        "Remover Documentos",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (resultadoPasta == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            Directory.Delete(pastaEquipamento, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Erro ao remover a pasta: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+
                 var removequery = $@"DELETE FROM TDU_AD_Equipamentos 
                                     WHERE serie = '{serie}' AND id_empresa = '{_idSelecionado}';";
                 _BSO.DSO.ExecuteSQL(removequery);
@@ -2568,7 +2700,6 @@ END";
                 MessageBox.Show("Equipamento removido com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 button27.Visible = false;
                 button26.Visible = false;
-                LimpaCamposEqui();
             }
         }
         private void RemoverDoDataGridequi(string serie)
@@ -2631,7 +2762,7 @@ ORDER BY
             }
 
 
-            if(EditAut == "1")
+            if (EditAut == "1")
             {
                 AtualizaAutorizacao();
             }
@@ -2677,13 +2808,13 @@ ORDER BY
                                 caminho3 = '{caminho3}',
                                 caminho4 = '{caminho4}'
                                 WHERE ID_Entidade = '{_idSelecionado}' AND Nome_Obra = '{cb_obras.Text}'";
-           
+
             foreach (DataGridViewRow row in dataGridView3.Rows)
             {
                 if (row.Cells["Obra"].Value.ToString() == cb_obras.Text)
                 {
                     row.Cells["DataEntrada"].Value = dtpEntrada.Value.ToString("yyyy-MM-dd HH:mm:ss");
-                    if(nulo == false)
+                    if (nulo == false)
                     {
                         row.Cells["DataSaida"].Value = dtpSaida.Value.ToString("yyyy-MM-dd HH:mm:ss");
                     }
@@ -2821,11 +2952,11 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
 
                     if (dataSaida == "'1753-01-01 00:00:00'")
                     {
-                         datasai = $"";
+                        datasai = $"";
                     }
                     else
                     {
-                         datasai = $"{dtpSaida.Value:yyyy-MM-dd HH:mm:ss}";
+                        datasai = $"{dtpSaida.Value:yyyy-MM-dd HH:mm:ss}";
                     }
 
                     // 2. Inserir uma nova autorização~~
@@ -2939,13 +3070,13 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                 else
                 {
                     dataGridView3.Rows.Add(nomeObra, dataentrada, datasaida, anexo1, anexo2, anexo3, anexo4, true, caminho1, caminho2, caminho3, caminho4, codigoobra);
-          
+
                 }
 
-                
-                
 
-                
+
+
+
 
                 lista.Seguinte();
             }
@@ -2963,7 +3094,7 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                 string valor2 = row.Cells[1].Value?.ToString(); // Coluna 2 (Data Entrada)
                 string valor3 = row.Cells[2].Value?.ToString(); // Coluna 3 (Data Saída)
                 string valor1 = row.Cells[0].Value?.ToString(); // Coluna 1
-                                     // Atribui valores ao ComboBox, DateTimePickers e TextBox
+                                                                // Atribui valores ao ComboBox, DateTimePickers e TextBox
                 Obratexto = valor1;
                 cb_obras.SelectedText = valor1;
                 cb_obras.Text = valor1;
@@ -2977,10 +3108,10 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                     {
                         txtcaminhoAuto.Text = caminhocompleto;
                     }
-                   // 
+                    // 
                 }
-                
-                
+
+
                 // Tentativa de conversão das datas, com valor padrão se falhar
                 if (DateTime.TryParse(valor2, out DateTime dataEntrada))
                 {
@@ -3043,6 +3174,31 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
             if (result == DialogResult.Yes)
             {
                 // DELETE no banco de dados
+                var nomeEmpresa = TXT_Nome.Text.Replace(" ", "_");
+                string pastaAutorizacao = Path.Combine(txtcaminhoAuto.Text, nomeEmpresa, "Autorizacoes", cb_obras.Text.Replace(" ", "_"));
+
+                // Verifica se a pasta existe antes de perguntar
+                if (Directory.Exists(pastaAutorizacao))
+                {
+                    DialogResult resultadoPasta = MessageBox.Show(
+                        "Deseja também remover a pasta com os documentos da autorização?",
+                        "Remover Documentos",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (resultadoPasta == DialogResult.Yes)
+                    {
+                        try
+                        {
+                            Directory.Delete(pastaAutorizacao, true);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Erro ao remover a pasta: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+
                 var delete = $@"DELETE TDU_AD_Autorizacoes 
                         WHERE Nome_Obra = '{Obratexto}' 
                         AND ID_Entidade = '{_idSelecionado}'";
@@ -3275,7 +3431,7 @@ END;";
                 string dataenvioStr = DTPOP_DataEnvio.Value.ToString("yyyy-MM-dd HH:mm:ss");
                 LinkNuvem = TXTOP_linknuvem.Text;
                 string empty = "";
-                if(DTPOP_DataEnvio.Visible == false)
+                if (DTPOP_DataEnvio.Visible == false)
                 {
                     var updateopcoes = $@"UPDATE Geral_Entidade
 				                set CDU_DataEnvio = '{empty}',
@@ -3298,7 +3454,7 @@ END;";
                     _BSO.DSO.ExecuteSQL(updateopcoes);
                 }
 
-    
+
                 // Código para guardar as opções
                 MessageBox.Show("As opções foram guardadas com sucesso.", "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
