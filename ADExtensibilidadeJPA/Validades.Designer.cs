@@ -29,9 +29,20 @@ namespace ADExtensibilidadeJPA
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        private System.Windows.Forms.TextBox txtCaminhoPasta;
+        private System.Windows.Forms.TextBox txt_caminhotrab;
+        private System.Windows.Forms.TextBox txt_caminhoequi;
+        private System.Windows.Forms.TextBox txtcaminhoAuto;
+
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Validades));
+
+            this.txtCaminhoPasta = new System.Windows.Forms.TextBox();
+            this.txt_caminhotrab = new System.Windows.Forms.TextBox();
+            this.txt_caminhoequi = new System.Windows.Forms.TextBox();
+            this.txtcaminhoAuto = new System.Windows.Forms.TextBox();
+
             this.SuspendLayout();
             // 
             // Validades

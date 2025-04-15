@@ -9,9 +9,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace ADExtensibilidadeJPA
 {
@@ -87,7 +90,7 @@ namespace ADExtensibilidadeJPA
                     CDU_AnexoCertidaoPermanente, CDU_ValidadeCertidaoPermanente,
                     CDU_AnexoContrato, CDU_ValidadeContrato,
                     CDU_AnexoDeclaracaoPSS, CDU_ValidadeDeclaracaoPSS,
-                    CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro
+                    CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro,ID
                     FROM Geral_Entidade WHERE id = '{_idSelecionado}'";
 
                 var dados = _BSO.Consulta(query);
@@ -98,7 +101,7 @@ namespace ADExtensibilidadeJPA
                     try
                     {
                         // Atualizar checkboxes com base nos valores do banco de dados
-                        SeguroUpdateCheckboxFromDB(checkBox1, dados, "CDU_AnexoFinancas", "Finanças", "CDU_ValidadeFinancas");
+                        SeguroUpdateCheckboxFromDB(checkBox1, dados, "CDU_AnexoFinancas", "Financas", "CDU_ValidadeFinancas");
                         SeguroUpdateCheckboxFromDB(checkBox2, dados, "CDU_AnexoSegSocial", "Segurança Social", "CDU_ValidadeSegSocial");
                         SeguroUpdateCheckboxFromDB(checkBox3, dados, "CDU_AnexoFolhaPag", "Folha Pagamento", "CDU_ValidadeFolhaPag");
                         SeguroUpdateCheckboxFromDB(checkBox4, dados, "CDU_AnexoComprovativoPagamento", "Comprovativo Pagamento", "CDU_ValidadeComprovativoPagamento");
@@ -185,22 +188,29 @@ namespace ADExtensibilidadeJPA
                     // Tenta obter o valor como objeto (pode ser bool ou int)
                     var valor = dados.Valor(colunaNome);
 
-                    // Verifica se o valor é do tipo 'bit' (normalmente um tipo booleano ou 1/0)
+                    var teste = dados.DaValor<string>("ID");
+                    //MessageBox.Show(teste);
+        
+                        // Verifica se o valor é do tipo 'bit' (normalmente um tipo booleano ou 1/0)
                     if (valor is bool valorBool)
                     {
                         // Converte booleano para int (1 para true e 0 para false)
                         anexado = valorBool ? 1 : 0;
+              
                     }
                     else if (valor is int valorInt)
                     {
                         // Caso o valor já seja inteiro, usa ele diretamente
                         anexado = valorInt;
+           
                     }
-                    else if (valor is byte valorByte)
+                    else if (valor is string valorByte)
                     {
                         // Caso o valor seja byte (também poderia ser 1 ou 0), converte
-                        anexado = valorByte;
+                        anexado = int.Parse("1");
+    
                     }
+          
                 }
                 catch (Exception ex)
                 {
@@ -208,6 +218,9 @@ namespace ADExtensibilidadeJPA
                     MessageBox.Show($"Erro: {ex.Message}");
                     anexado = 0;
                 }
+
+               
+
 
                 if (anexado == 1)
                 {
@@ -1352,7 +1365,7 @@ namespace ADExtensibilidadeJPA
             {
                 case "Financas":
                     checkBox = checkBox1;
-                    nomeDocumento = "Finanças";
+                    nomeDocumento = "Financas";
                     break;
                 case "SegSocial":
                     checkBox = checkBox2;
@@ -2091,6 +2104,10 @@ namespace ADExtensibilidadeJPA
             if (dataExtraida < hoje)
             {
                 checkBox.ForeColor = System.Drawing.Color.Red; // Pinta de vermelho se a data for antiga
+            }
+            else
+            {
+                checkBox.ForeColor = System.Drawing.Color.Black;
             }
         }
 
@@ -3474,5 +3491,365 @@ END;";
             }
 
         }
+
+        private List<string> VerificaDocumentosDetalhados(string id)
+        {
+            List<string> caducados = new List<string>();
+
+            // Reutilizar a lógica da tua função anterior, mas guardar os nomes dos documentos caducados
+            var campos = new Dictionary<string, string>()
+            {
+                {"CDU_ValidadeFinancas", "Finanças"},
+                {"CDU_ValidadeSegSocial", "Segurança Social"},
+                {"CDU_ValidadeFolhaPag", "Folha de Pagamento"},
+                {"CDU_ValidadeComprovativoPagamento", "Comprovativo de Pagamento"},
+                {"CDU_ValidadeReciboSeguroAT", "Seguro AT"},
+                {"CDU_ValidadeSeguroRC", "Seguro RC"},
+                {"CDU_ValidadeSeguroAT", "condições Seguro AT"},
+                {"CDU_ValidadeAlvara", "Alvará"},
+                {"CDU_ValidadeCertidaoPermanente", "Certidão Permanente"}
+            };
+
+            string query = $"SELECT {string.Join(",", campos.Keys)} FROM Geral_Entidade WHERE ID = '{id}'";
+            var res = _BSO.Consulta(query);
+
+
+
+           /* var camposTrabalhadores = new Dictionary<string, string>()
+            {
+                {"caminho1", "Cartão de cidadão ou residência"},
+                {"caminho2", "Ficha Medica"},
+                {"caminho3", "Credenciacao"},
+                {"caminho4", "Trabalhoss especializados"},
+                {"caminho5", "Ficha Destribuiçao"}
+            };
+
+            //Por trabalhador
+            string querytrab = $@"SELECT {string.Join(",", camposTrabalhadores.Keys)} FROM TDU_AD_Trabalhadores WHERE id_empresa = '{id}'";
+            var resTrab = _BSO.Consulta(querytrab);
+            resTrab.Inicio();
+            var numtrab = resTrab.NumLinhas();
+            if (numtrab == 0)
+            {
+                return caducados;
+            }
+            for (int i = 0; i < numtrab; i++)
+            {
+                
+            
+                foreach (var campo in camposTrabalhadores)
+                {
+
+                    string valorOriginal = resTrab.DaValor<string>(campo.Key);
+
+                    string valorDecodificado = WebUtility.HtmlDecode(valorOriginal);
+
+                    var match = Regex.Match(valorDecodificado, @"\d{2}[\/\-]\d{2}[\/\-]\d{4}");
+
+
+                    if (match.Success)
+                    {
+                        if (DateTime.TryParse(match.Value, out DateTime validade))
+                        {
+                            if (validade < DateTime.Now && validade != DateTime.MinValue)
+                            {
+                                caducados.Add(campo.Value);
+                            }
+                        }
+                    }
+                }
+
+                resTrab.Seguinte();
+
+            }*/
+
+
+
+
+            res.Inicio();
+
+            foreach (var campo in campos)
+            {
+                DateTime validade;
+                if (DateTime.TryParse(res.DaValor<string>(campo.Key), out validade))
+                {
+                    if (validade < DateTime.Now && validade != DateTime.MinValue)
+                    {
+                        caducados.Add(campo.Value);
+                    }
+                }
+            }
+
+            // Podes replicar esta mesma lógica para trabalhadores, equipamentos e autorizações se quiseres mais detalhe
+
+            return caducados;
+        }
+        private Dictionary<string, List<string>> VerificaDocumentosTrabalhadores(string idEmpresa)
+        {
+            var resultado = new Dictionary<string, List<string>>();
+
+            var camposTrabalhadores = new Dictionary<string, string>()
+    {
+        {"caminho1", "Cartão de cidadão ou residência"},
+        {"caminho2", "Ficha Medica"},
+        {"caminho3", "Credenciacao"},
+        {"caminho4", "Trabalhoss especializados"},
+        {"caminho5", "Ficha Destribuiçao"}
+    };
+
+            // Supondo que tens um campo com o nome ou identificador do trabalhador
+            string querytrab = $@"SELECT Nome, {string.Join(",", camposTrabalhadores.Keys)} FROM TDU_AD_Trabalhadores WHERE id_empresa = '{idEmpresa}'";
+            var resTrab = _BSO.Consulta(querytrab);
+
+            resTrab.Inicio();
+            for (int i = 0; i < resTrab.NumLinhas(); i++)
+            {
+                string nomeTrab = resTrab.DaValor<string>("nome");
+
+                var documentosCaducados = new List<string>();
+
+                foreach (var campo in camposTrabalhadores)
+                {
+                    string valorOriginal = resTrab.DaValor<string>(campo.Key);
+                    if (string.IsNullOrWhiteSpace(valorOriginal)) continue;
+
+                    string valorDecodificado = WebUtility.HtmlDecode(valorOriginal);
+
+                    var match = Regex.Match(valorDecodificado, @"\d{2}[\/\-]\d{2}[\/\-]\d{4}");
+                    if (match.Success)
+                    {
+                        if (DateTime.TryParse(match.Value, out DateTime validade))
+                        {
+                            if (validade < DateTime.Now && validade != DateTime.MinValue)
+                            {
+                                documentosCaducados.Add(campo.Value);
+                            }
+                        }
+                    }
+                }
+
+                if (documentosCaducados.Any())
+                {
+                    resultado[nomeTrab] = documentosCaducados;
+                }
+
+                resTrab.Seguinte(); // move para o próximo registo
+            }
+
+
+            return resultado;
+        }
+
+        private Dictionary<string, List<string>> VerificaDocumentosEquipamentos(string idEmpresa)
+        {
+            var resultado = new Dictionary<string, List<string>>();
+
+            var camposEquipamentos = new Dictionary<string, string>()
+    {
+        {"caminho5", "Outro Documento Relevante"}
+    };
+
+            string queryEquip = $@"SELECT marca, {string.Join(",", camposEquipamentos.Keys)} FROM TDU_AD_Equipamentos WHERE id_empresa = '{idEmpresa}'";
+            var resEquip = _BSO.Consulta(queryEquip);
+
+            resEquip.Inicio();
+            for (int i = 0; i < resEquip.NumLinhas(); i++)
+            {
+                string nomeEquip = resEquip.DaValor<string>("marca")?.Trim();
+                if (string.IsNullOrEmpty(nomeEquip)) nomeEquip = "(Sem Nome)";
+
+                var documentosCaducados = new List<string>();
+
+                foreach (var campo in camposEquipamentos)
+                {
+                    string valorOriginal = resEquip.DaValor<string>(campo.Key);
+                    if (string.IsNullOrWhiteSpace(valorOriginal)) continue;
+
+                    string valorDecodificado = WebUtility.HtmlDecode(valorOriginal);
+
+                    var match = Regex.Match(valorDecodificado, @"\d{2}[\/\-]\d{2}[\/\-]\d{4}");
+                    if (match.Success)
+                    {
+                        if (DateTime.TryParse(match.Value, out DateTime validade))
+                        {
+                            if (validade < DateTime.Now && validade != DateTime.MinValue)
+                            {
+                                documentosCaducados.Add(campo.Value);
+                            }
+                        }
+                    }
+                }
+
+                if (documentosCaducados.Any())
+                {
+                    resultado[nomeEquip] = documentosCaducados;
+                }
+
+                resEquip.Seguinte();
+            }
+
+            return resultado;
+        }
+
+        private Dictionary<string, List<string>> VerificaDocumentosAutorizacoes(string idEmpresa)
+        {
+            var resultado = new Dictionary<string, List<string>>();
+
+            var camposAutorizacoes = new Dictionary<string, string>()
+            {
+                {"caminho1", "Contrato"},
+                {"caminho2", "Horário de trabalho da empreitada"},
+                {"caminho3", "Declaração de adesão ao PSS"},
+                {"caminho4", "Declaração do resposável no estaleiro"}
+                // Adicione mais campos conforme necessário para as autorizações.
+            };
+
+            // Supondo que tens um campo com o nome ou identificador da autorização
+            string queryAutorizacoes = $@"SELECT Codigo_Obra, {string.Join(",", camposAutorizacoes.Keys)} FROM TDU_AD_Autorizacoes WHERE ID_Entidade = '{idEmpresa}'";
+            var resAutorizacoes = _BSO.Consulta(queryAutorizacoes);
+
+            resAutorizacoes.Inicio();
+            for (int i = 0; i < resAutorizacoes.NumLinhas(); i++)
+            {
+                string nomeAutorizacao = resAutorizacoes.DaValor<string>("Codigo_Obra");
+
+                var documentosCaducados = new List<string>();
+
+                foreach (var campo in camposAutorizacoes)
+                {
+                    string valorOriginal = resAutorizacoes.DaValor<string>(campo.Key);
+                    if (string.IsNullOrWhiteSpace(valorOriginal)) continue;
+
+                    string valorDecodificado = WebUtility.HtmlDecode(valorOriginal);
+
+                    var match = Regex.Match(valorDecodificado, @"\d{2}[\/\-]\d{2}[\/\-]\d{4}");
+                    if (match.Success)
+                    {
+                        if (DateTime.TryParse(match.Value, out DateTime validade))
+                        {
+                            if (validade < DateTime.Now && validade != DateTime.MinValue)
+                            {
+                                documentosCaducados.Add(campo.Value);
+                            }
+                        }
+                    }
+                }
+
+                if (documentosCaducados.Any())
+                {
+                    resultado[nomeAutorizacao] = documentosCaducados;
+                }
+
+                resAutorizacoes.Seguinte(); // move para o próximo registo
+            }
+
+            return resultado;
+        }
+
+        private void EnviarEmailOutlook(string destinatario, string assunto, string corpo)
+        {
+            Outlook.Application outlookApp = new Outlook.Application();
+            Outlook.MailItem mailItem = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
+
+            mailItem.To = destinatario;
+            mailItem.Subject = assunto;
+            mailItem.Body = corpo;
+            mailItem.Display(); // Mostra o Outlook com o email preenchido, mas não envia automaticamente
+        }
+
+        private void Bt_Caducado_Click(object sender, EventArgs e)
+        {
+            string query = $"SELECT id, Nome, CDU_EmailEnviado, CDU_DataEnvio FROM Geral_Entidade WHERE CDU_TrataSGS = 1 AND ID = '{_idSelecionado}' ";
+            StdBELista dt = _BSO.Consulta(query);
+            dt.Inicio();
+
+            for (int i = 0; i < dt.NumLinhas(); i++)
+            {
+                string id = dt.DaValor<string>("id");
+                string nomeEntidade = dt.DaValor<string>("Nome");
+
+                // Lista de documentos da empresa
+                List<string> documentosEmpresa = VerificaDocumentosDetalhados(id);
+
+                // Dicionário de trabalhador -> documentos caducados
+                Dictionary<string, List<string>> documentosTrabalhadores = VerificaDocumentosTrabalhadores(id);
+
+                // Dicionário de equipamentos -> documentos caducados
+                Dictionary<string, List<string>> documentosEquipamentos = VerificaDocumentosEquipamentos(id);
+
+                // Dicionário de autorizações -> documentos caducados
+                Dictionary<string, List<string>> documentosAutorizacoes = VerificaDocumentosAutorizacoes(id);
+
+                if (documentosEmpresa.Count > 0 || documentosTrabalhadores.Count > 0 || documentosEquipamentos.Count > 0 || documentosAutorizacoes.Count > 0)
+                {
+                    StringBuilder corpo = new StringBuilder();
+                    corpo.AppendLine("Prezado(a),");
+                    corpo.AppendLine();
+                    corpo.AppendLine($"A entidade \"{nomeEntidade}\" tem documentos caducados.");
+                    corpo.AppendLine();
+
+                    if (documentosEmpresa.Any())
+                    {
+                        corpo.AppendLine("📁 Documentos da Empresa:");
+                        foreach (var doc in documentosEmpresa)
+                        {
+                            corpo.AppendLine($"- {doc}");
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    if (documentosTrabalhadores.Any())
+                    {
+                        corpo.AppendLine("👷 Documentos por Trabalhador:");
+                        foreach (var trabalhador in documentosTrabalhadores)
+                        {
+                            corpo.AppendLine($"\n{trabalhador.Key}:");
+                            foreach (var doc in trabalhador.Value)
+                            {
+                                corpo.AppendLine($"- {doc}");
+                            }
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    if (documentosEquipamentos.Any())
+                    {
+                        corpo.AppendLine("🔧 Documentos de Equipamentos:");
+                        foreach (var equipamento in documentosEquipamentos)
+                        {
+                            corpo.AppendLine($"\n{equipamento.Key}:");
+                            foreach (var doc in equipamento.Value)
+                            {
+                                corpo.AppendLine($"- {doc}");
+                            }
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    if (documentosAutorizacoes.Any())
+                    {
+                        corpo.AppendLine("🔑 Documentos de Autorizações:");
+                        foreach (var autorizacao in documentosAutorizacoes)
+                        {
+                            corpo.AppendLine($"\n{autorizacao.Key}:");
+                            foreach (var doc in autorizacao.Value)
+                            {
+                                corpo.AppendLine($"- {doc}");
+                            }
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    corpo.AppendLine("\nPor favor, regularize esta situação com urgência.");
+                    corpo.AppendLine("\nObrigado.");
+
+                    EnviarEmailOutlook("departamento@email.pt", $"Alerta Documentos Caducados - {nomeEntidade}", corpo.ToString());
+                }
+
+                dt.Seguinte();
+            }
+        }
+
+
     }
 }

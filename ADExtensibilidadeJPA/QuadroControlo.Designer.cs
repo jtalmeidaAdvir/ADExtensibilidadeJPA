@@ -32,6 +32,7 @@
             this.BT_Editar = new System.Windows.Forms.Button();
             this.Bt_Email = new System.Windows.Forms.Button();
             this.Bt_Validades = new System.Windows.Forms.Button();
+            this.Bt_Avisos = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,9 +47,9 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(3, 33);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(794, 414);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             // 
             // BT_Editar
             // 
@@ -58,6 +59,7 @@
             this.BT_Editar.TabIndex = 1;
             this.BT_Editar.Text = "Editar";
             this.BT_Editar.UseVisualStyleBackColor = true;
+            this.BT_Editar.Visible = false;
             this.BT_Editar.Click += new System.EventHandler(this.BT_Editar_Click);
             // 
             // Bt_Email
@@ -80,6 +82,16 @@
             this.Bt_Validades.UseVisualStyleBackColor = true;
             this.Bt_Validades.Click += new System.EventHandler(this.Bt_Validades_Click);
             // 
+            // Bt_Avisos
+            // 
+            this.Bt_Avisos.Location = new System.Drawing.Point(589, 4);
+            this.Bt_Avisos.Name = "Bt_Avisos";
+            this.Bt_Avisos.Size = new System.Drawing.Size(104, 23);
+            this.Bt_Avisos.TabIndex = 4;
+            this.Bt_Avisos.Text = "Enviar Avisos";
+            this.Bt_Avisos.UseVisualStyleBackColor = true;
+            this.Bt_Avisos.Click += new System.EventHandler(this.Bt_Avisos_Click);
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,9 +100,10 @@
             this.Controls.Add(this.Bt_Email);
             this.Controls.Add(this.BT_Editar);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.Bt_Avisos);
             this.Name = "QuadroControlo";
             this.Size = new System.Drawing.Size(800, 450);
-            this.Text = "Quadro de Controlo";
+            this.Text = "Quadro de Controlo SGS de Subempreiteiros";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -102,5 +115,6 @@
         private System.Windows.Forms.Button BT_Editar;
         private System.Windows.Forms.Button Bt_Email;
         private System.Windows.Forms.Button Bt_Validades;
+        private System.Windows.Forms.Button Bt_Avisos;
     }
 }

@@ -1,11 +1,12 @@
-﻿
-using ErpBS100;
+﻿using ErpBS100;
 using StdPlatBS100;
 using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ADExtensibilidadeJPA
 {
@@ -13,312 +14,448 @@ namespace ADExtensibilidadeJPA
     {
         private readonly ErpBS _BSO;
         private readonly StdBSInterfPub _PSO;
-        private readonly string _idSelecionado;
+        private readonly List<string> _idsSelecionados;
 
-        public Validades(ErpBS bSO, StdBSInterfPub pSO, string idSelecionado)
+        public Validades(ErpBS bSO, StdBSInterfPub pSO, List<string> idsSelecionados)
         {
             InitializeComponent();
             _BSO = bSO;
             _PSO = pSO;
-            _idSelecionado = idSelecionado;
+            _idsSelecionados = idsSelecionados;
             LoadDocumentos();
         }
 
+        private TabControl _tabControl;
+
         private void LoadDocumentos()
         {
-            // Create TabControl
-            TabControl tabControl = new TabControl();
-            tabControl.Dock = DockStyle.Fill;
-            this.Controls.Add(tabControl);
+            // Criar botões
+            Button btnExpandir = new Button { Text = "Expandir Tudo", Dock = DockStyle.Bottom, Height = 30 };
+            Button btnRecolher = new Button { Text = "Recolher Tudo", Dock = DockStyle.Bottom, Height = 30 };
 
-            // Add tabs
+            btnExpandir.Click += BtnExpandir_Click;
+            btnRecolher.Click += BtnRecolher_Click;
+
+            this.Controls.Add(btnRecolher);
+            this.Controls.Add(btnExpandir);
+
+            // Criar TabControl
+            _tabControl = new TabControl();
+            _tabControl.Dock = DockStyle.Fill;
+            this.Controls.Add(_tabControl);
+
+            // Adicionar tabs
             TabPage tabEmpresa = new TabPage("Documentos Empresa");
             TabPage tabTrabalhadores = new TabPage("Documentos Trabalhadores");
             TabPage tabEquipamentos = new TabPage("Documentos Equipamentos");
             TabPage tabAutorizacoes = new TabPage("Documentos Autorizações");
 
-            tabControl.TabPages.Add(tabEmpresa);
-            tabControl.TabPages.Add(tabTrabalhadores);
-            tabControl.TabPages.Add(tabEquipamentos);
-            tabControl.TabPages.Add(tabAutorizacoes);
+            _tabControl.TabPages.Add(tabEmpresa);
+            _tabControl.TabPages.Add(tabTrabalhadores);
+            _tabControl.TabPages.Add(tabEquipamentos);
+            _tabControl.TabPages.Add(tabAutorizacoes);
 
-            // Load data for each tab
+            // Carregar conteúdo
             LoadDocumentosEmpresa(tabEmpresa);
             LoadDocumentosTrabalhadores(tabTrabalhadores);
             LoadDocumentosEquipamentos(tabEquipamentos);
             LoadDocumentosAutorizacoes(tabAutorizacoes);
         }
 
+        private void BtnExpandir_Click(object sender, EventArgs e)
+        {
+            if (_tabControl.SelectedTab?.Controls.OfType<TreeView>().FirstOrDefault() is TreeView tv)
+            {
+                tv.ExpandAll();
+            }
+        }
+
+        private void BtnRecolher_Click(object sender, EventArgs e)
+        {
+            if (_tabControl.SelectedTab?.Controls.OfType<TreeView>().FirstOrDefault() is TreeView tv)
+            {
+                tv.CollapseAll();
+            }
+        }
+
         private void LoadDocumentosEmpresa(TabPage tab)
         {
-            DataGridView grid = new DataGridView();
-            grid.Dock = DockStyle.Fill;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            grid.AllowUserToAddRows = false;
-            grid.MultiSelect = false;
-            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            TreeView treeView = new TreeView();
+            treeView.Dock = DockStyle.Fill;
+            treeView.Font = new Font("Segoe UI", 10);
+            treeView.ShowLines = true;
 
-            grid.Columns.Add("Documento", "Documento");
-            grid.Columns.Add("Validade", "Validade");
-            grid.Columns.Add("Estado", "Estado");
+            // Ajuste: Criando uma lista de IDs selecionados
+            string ids = string.Join(",", _idsSelecionados.Select(id => $"'{id}'"));
 
-            var query = $@"SELECT 
-                'Finanças' as Documento, CDU_ValidadeFinancas as Validade,
-                CASE WHEN CDU_ValidadeFinancas < GETDATE() THEN 'Expirado' ELSE 'Válido' END as Estado
-                FROM Geral_Entidade WHERE id = '{_idSelecionado}'
-                AND CDU_ValidadeFinancas IS NOT NULL
-                UNION ALL
-                SELECT 'Segurança Social', CDU_ValidadeSegSocial,
-                CASE WHEN CDU_ValidadeSegSocial < GETDATE() THEN 'Expirado' ELSE 'Válido' END
-                FROM Geral_Entidade WHERE id = '{_idSelecionado}'
-                AND CDU_ValidadeSegSocial IS NOT NULL";
+            // Consulta ajustada para garantir que os documentos de múltiplas entidades sejam carregados
+            var query = $@"
+    SELECT 
+        Nome AS Entidade,
+        'Finanças' as Documento, CDU_ValidadeFinancas as Validade,
+        CASE WHEN CDU_ValidadeFinancas < GETDATE() THEN 'Expirado' ELSE 'Válido' END as Estado
+    FROM Geral_Entidade 
+    WHERE id IN ({ids}) AND CDU_ValidadeFinancas IS NOT NULL
+
+    UNION ALL
+
+    SELECT 
+        Nome AS Entidade,
+        'Segurança Social' as Documento, CDU_ValidadeSegSocial as Validade,
+        CASE WHEN CDU_ValidadeSegSocial < GETDATE() THEN 'Expirado' ELSE 'Válido' END as Estado
+    FROM Geral_Entidade 
+    WHERE id IN ({ids}) AND CDU_ValidadeSegSocial IS NOT NULL";
 
             var dados = _BSO.Consulta(query);
             dados.Inicio();
 
+            Dictionary<string, TreeNode> entidadesProcessadas = new Dictionary<string, TreeNode>();  // Dicionário para armazenar as entidades processadas
+
             while (!dados.NoFim())
             {
-                var doc = dados.Valor("Documento").ToString();
-                var val = dados.Valor("Validade");
-                var estado = dados.Valor("Estado").ToString();
+                string entidade = dados.Valor("Entidade").ToString();
+                string documento = dados.Valor("Documento").ToString();
+                DateTime validade = Convert.ToDateTime(dados.Valor("Validade"));
+                string estado = dados.Valor("Estado").ToString();
 
-                int index = grid.Rows.Add(doc, val, estado);
-                if (estado == "Expirado")
-                    grid.Rows[index].DefaultCellStyle.BackColor = Color.LightPink;
+                // Verifica se o nó da entidade já foi criado
+                if (!entidadesProcessadas.ContainsKey(entidade))
+                {
+                    // Se a entidade não foi criada, cria o nó e adiciona ao dicionário
+                    TreeNode entidadeNode = new TreeNode(entidade);
+                    entidadeNode.NodeFont = new Font("Segoe UI", 10, FontStyle.Bold);
+                    entidadesProcessadas[entidade] = entidadeNode;  // Adiciona ao dicionário
+                    treeView.Nodes.Add(entidadeNode);  // Adiciona o nó ao TreeView
+                }
+
+                // Agora, adiciona o documento como um nó filho da entidade
+                TreeNode docNode = new TreeNode($"{documento} - {validade:dd/MM/yyyy} ({estado})");
+                docNode.ForeColor = estado == "Expirado" ? Color.Red : Color.Green;
+
+                // Adiciona o documento ao nó da entidade correspondente
+                entidadesProcessadas[entidade].Nodes.Add(docNode);
 
                 dados.Seguinte();
             }
 
-            grid.CellDoubleClick += (s, e) => {
-                if (e.RowIndex >= 0)
+            treeView.NodeMouseDoubleClick += (s, e) =>
+            {
+                if (e.Node.Level == 1) // Documento
                 {
-                    var doc = grid.Rows[e.RowIndex].Cells["Documento"].Value.ToString();
-                    UpdateDocumento(doc, "empresa");
+                    string doc = e.Node.Text.Split('-')[0].Trim();
+                    // UpdateDocumento(doc, "empresa");
                 }
             };
 
-            tab.Controls.Add(grid);
+            tab.Controls.Add(treeView);
         }
 
         private void LoadDocumentosTrabalhadores(TabPage tab)
         {
-            DataGridView grid = new DataGridView();
-            grid.Dock = DockStyle.Fill;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            grid.AllowUserToAddRows = false;
+            TreeView treeView = new TreeView();
+            treeView.Dock = DockStyle.Fill;
+            treeView.Font = new Font("Segoe UI", 10);
+            treeView.ShowLines = true;
 
-            grid.Columns.Add("Trabalhador", "Trabalhador");
-            grid.Columns.Add("Documento", "Documento");
-            grid.Columns.Add("Validade", "Validade");
-            grid.Columns.Add("Estado", "Estado");
+            string ids = string.Join(",", _idsSelecionados.Select(id => $"'{id}'"));
+            bool agruparPorEmpresa = _idsSelecionados.Count > 1;
 
-            var query = $@"SELECT 
-                nome as Trabalhador,
-                caminho1, caminho2, caminho3, caminho4, caminho5
-                FROM TDU_AD_Trabalhadores 
-                WHERE id_empresa = '{_idSelecionado}'";
+            string[] nomesDocumentos = new string[]
+            {
+        "Cartão de Cidadão",
+        "Ficha Médica de Aptidão",
+        "Credenciação do Trabalhador",
+        "Trabalhos Especializados",
+        "Ficha de Distribuição de EPI´s"
+            };
+
+            var query = $@"
+    SELECT 
+        e.Nome AS Empresa,
+        t.nome AS Trabalhador,
+        t.caminho1, t.caminho2, t.caminho3, t.caminho4, t.caminho5
+    FROM TDU_AD_Trabalhadores t
+    INNER JOIN Geral_Entidade e ON t.id_empresa = e.id
+    WHERE t.id_empresa IN ({ids})";
 
             var dados = _BSO.Consulta(query);
             dados.Inicio();
 
+            Dictionary<string, TreeNode> empresasNodes = new Dictionary<string, TreeNode>();
+
             while (!dados.NoFim())
             {
-                var trabalhador = dados.Valor("Trabalhador").ToString();
+                string empresa = dados.Valor("Empresa").ToString();
+                string trabalhador = dados.Valor("Trabalhador").ToString();
+
+                TreeNode trabalhadorNode = new TreeNode(trabalhador)
+                {
+                    NodeFont = new Font("Segoe UI", 10, FontStyle.Regular)
+                };
+
                 for (int i = 1; i <= 5; i++)
                 {
-                    var caminhoValue = dados.Valor($"caminho{i}")?.ToString();
+                    string caminhoValue = dados.Valor($"caminho{i}")?.ToString();
                     if (!string.IsNullOrEmpty(caminhoValue))
                     {
                         var dataMatch = System.Text.RegularExpressions.Regex.Match(caminhoValue, @"Válido até&#58; (\d{2}/\d{2}/\d{4})");
                         if (dataMatch.Success)
                         {
-                            DateTime validade;
-                            if (DateTime.TryParse(dataMatch.Groups[1].Value, out validade))
+                            if (DateTime.TryParse(dataMatch.Groups[1].Value, out DateTime validade))
                             {
                                 string estado = validade < DateTime.Today ? "Expirado" : "Válido";
-                                int index = grid.Rows.Add(trabalhador, $"Documento {i}", validade.ToShortDateString(), estado);
-                                if (estado == "Expirado")
-                                    grid.Rows[index].DefaultCellStyle.BackColor = Color.LightPink;
+                                string nomeDocumento = nomesDocumentos[i - 1];
+                                string textoNode = $"{nomeDocumento} - {validade:dd/MM/yyyy} ({estado})";
+
+                                TreeNode docNode = new TreeNode(textoNode)
+                                {
+                                    ForeColor = estado == "Expirado" ? Color.Red : Color.Green
+                                };
+                                trabalhadorNode.Nodes.Add(docNode);
                             }
                         }
                     }
                 }
+
+                if (trabalhadorNode.Nodes.Count > 0)
+                {
+                    if (agruparPorEmpresa)
+                    {
+                        if (!empresasNodes.TryGetValue(empresa, out TreeNode empresaNode))
+                        {
+                            empresaNode = new TreeNode(empresa)
+                            {
+                                NodeFont = new Font("Segoe UI", 10, FontStyle.Bold)
+                            };
+                            empresasNodes[empresa] = empresaNode;
+                            treeView.Nodes.Add(empresaNode);
+                        }
+                        empresaNode.Nodes.Add(trabalhadorNode);
+                    }
+                    else
+                    {
+                        treeView.Nodes.Add(trabalhadorNode);
+                    }
+                }
+
                 dados.Seguinte();
             }
 
-            grid.CellDoubleClick += (s, e) => {
-                if (e.RowIndex >= 0)
+            treeView.NodeMouseDoubleClick += (s, e) =>
+            {
+                if ((_idsSelecionados.Count > 1 && e.Node.Level == 2) || (_idsSelecionados.Count == 1 && e.Node.Level == 1))
                 {
-                    var trab = grid.Rows[e.RowIndex].Cells["Trabalhador"].Value.ToString();
-                    var doc = grid.Rows[e.RowIndex].Cells["Documento"].Value.ToString();
-                    UpdateDocumento(doc, "trabalhador", trab);
+                    string doc = e.Node.Text.Split('-')[0].Trim();
+                    string trab = (_idsSelecionados.Count > 1) ? e.Node.Parent.Text : e.Node.Parent.Text;
+                    // string empresa = (_idsSelecionados.Count > 1) ? e.Node.Parent.Parent.Text : _nomeDaEmpresa; // Se quiseres usar nome da empresa
+                    // UpdateDocumento(doc, "trabalhador", trab);
                 }
             };
 
-            tab.Controls.Add(grid);
+            tab.Controls.Add(treeView);
         }
 
         private void LoadDocumentosEquipamentos(TabPage tab)
         {
-            // Similar implementation to LoadDocumentosTrabalhadores but for equipamentos
-            DataGridView grid = new DataGridView();
-            grid.Dock = DockStyle.Fill;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            grid.AllowUserToAddRows = false;
+            TreeView treeView = new TreeView();
+            treeView.Dock = DockStyle.Fill;
+            treeView.Font = new Font("Segoe UI", 10);
+            treeView.ShowLines = true;
 
-            grid.Columns.Add("Equipamento", "Equipamento");
-            grid.Columns.Add("Documento", "Documento");
-            grid.Columns.Add("Validade", "Validade");
-            grid.Columns.Add("Estado", "Estado");
+            string ids = string.Join(",", _idsSelecionados.Select(id => $"'{id}'"));
+            bool agruparPorEmpresa = _idsSelecionados.Count > 1;
 
-            var query = $@"SELECT 
-                marca as Equipamento,
-                caminho5
-                FROM TDU_AD_Equipamentos 
-                WHERE id_empresa = '{_idSelecionado}'";
+            var query = $@"
+    SELECT 
+        e.Nome AS Empresa,
+        eq.marca AS Equipamento,
+        eq.caminho5
+    FROM TDU_AD_Equipamentos eq
+    INNER JOIN Geral_Entidade e ON eq.id_empresa = e.id
+    WHERE eq.id_empresa IN ({ids})";
 
             var dados = _BSO.Consulta(query);
             dados.Inicio();
 
+            Dictionary<string, TreeNode> empresasNodes = new Dictionary<string, TreeNode>();
+
             while (!dados.NoFim())
             {
-                var equipamento = dados.Valor("Equipamento").ToString();
-                var caminhoValue = dados.Valor("caminho5")?.ToString();
+                string empresa = dados.Valor("Empresa").ToString();
+                string equipamento = dados.Valor("Equipamento").ToString();
+
+                TreeNode equipamentoNode = new TreeNode(equipamento)
+                {
+                    NodeFont = new Font("Segoe UI", 10, FontStyle.Regular)
+                };
+
+                string caminhoValue = dados.Valor("caminho5")?.ToString();
 
                 if (!string.IsNullOrEmpty(caminhoValue))
                 {
                     var dataMatch = System.Text.RegularExpressions.Regex.Match(caminhoValue, @"Válido até&#58; (\d{2}/\d{2}/\d{4})");
                     if (dataMatch.Success)
                     {
-                        DateTime validade;
-                        if (DateTime.TryParse(dataMatch.Groups[1].Value, out validade))
+                        if (DateTime.TryParse(dataMatch.Groups[1].Value, out DateTime validade))
                         {
                             string estado = validade < DateTime.Today ? "Expirado" : "Válido";
-                            int index = grid.Rows.Add(equipamento, "Seguro", validade.ToShortDateString(), estado);
-                            if (estado == "Expirado")
-                                grid.Rows[index].DefaultCellStyle.BackColor = Color.LightPink;
+                            string textoNode = $"Seguro - {validade:dd/MM/yyyy} ({estado})";
+
+                            TreeNode docNode = new TreeNode(textoNode)
+                            {
+                                ForeColor = estado == "Expirado" ? Color.Red : Color.Green
+                            };
+                            equipamentoNode.Nodes.Add(docNode);
                         }
                     }
                 }
+
+                if (equipamentoNode.Nodes.Count > 0)
+                {
+                    if (agruparPorEmpresa)
+                    {
+                        if (!empresasNodes.TryGetValue(empresa, out TreeNode empresaNode))
+                        {
+                            empresaNode = new TreeNode(empresa)
+                            {
+                                NodeFont = new Font("Segoe UI", 10, FontStyle.Bold)
+                            };
+                            empresasNodes[empresa] = empresaNode;
+                            treeView.Nodes.Add(empresaNode);
+                        }
+                        empresaNode.Nodes.Add(equipamentoNode);
+                    }
+                    else
+                    {
+                        treeView.Nodes.Add(equipamentoNode);
+                    }
+                }
+
                 dados.Seguinte();
             }
 
-            grid.CellDoubleClick += (s, e) => {
-                if (e.RowIndex >= 0)
+            treeView.NodeMouseDoubleClick += (s, e) =>
+            {
+                if ((_idsSelecionados.Count > 1 && e.Node.Level == 2) || (_idsSelecionados.Count == 1 && e.Node.Level == 1))
                 {
-                    var equip = grid.Rows[e.RowIndex].Cells["Equipamento"].Value.ToString();
-                    UpdateDocumento("Seguro", "equipamento", equip);
+                    string doc = "Seguro";
+                    string equipamento = (_idsSelecionados.Count > 1) ? e.Node.Parent.Text : e.Node.Parent.Text;
+                    // UpdateDocumento(doc, "equipamento", equipamento);
                 }
             };
 
-            tab.Controls.Add(grid);
+            tab.Controls.Add(treeView);
         }
 
         private void LoadDocumentosAutorizacoes(TabPage tab)
         {
-            DataGridView grid = new DataGridView();
-            grid.Dock = DockStyle.Fill;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            grid.AllowUserToAddRows = false;
+            TreeView treeView = new TreeView();
+            treeView.Dock = DockStyle.Fill;
+            treeView.Font = new Font("Segoe UI", 10);
+            treeView.ShowLines = true;
 
-            grid.Columns.Add("Obra", "Obra");
-            grid.Columns.Add("Documento", "Documento");
-            grid.Columns.Add("Validade", "Validade");
-            grid.Columns.Add("Estado", "Estado");
+            string ids = string.Join(",", _idsSelecionados.Select(id => $"'{id}'"));
+            bool agruparPorEntidade = _idsSelecionados.Count > 1;
 
-            var query = $@"SELECT 
-                Nome_Obra as Obra,
-                caminho1, caminho2, caminho3, caminho4
-                FROM TDU_AD_Autorizacoes 
-                WHERE ID_Entidade = '{_idSelecionado}'";
+            string[] nomesDocumentos = new string[]
+            {
+        "Contrato ou Nota de Encomenda",
+        "Horário de Trabalho da Empreitada",
+        "Declaração de Adesão ao PSS",
+        "Declaração do Responsável no Estaleiro"
+            };
+
+            var query = $@"
+    SELECT 
+        e.Nome AS Entidade,
+        a.Nome_Obra AS Obra,
+        a.caminho1, a.caminho2, a.caminho3, a.caminho4
+    FROM TDU_AD_Autorizacoes a
+    INNER JOIN Geral_Entidade e ON a.ID_Entidade = e.ID
+    WHERE a.ID_Entidade IN ({ids})";
 
             var dados = _BSO.Consulta(query);
             dados.Inicio();
 
+            Dictionary<string, TreeNode> entidadesNodes = new Dictionary<string, TreeNode>();
+
             while (!dados.NoFim())
             {
-                var obra = dados.Valor("Obra").ToString();
+                string entidade = dados.Valor("Entidade").ToString();
+                string obra = dados.Valor("Obra").ToString();
+
+                TreeNode obraNode = new TreeNode(obra)
+                {
+                    NodeFont = new Font("Segoe UI", 10, FontStyle.Regular)
+                };
+
                 for (int i = 1; i <= 4; i++)
                 {
-                    var caminhoValue = dados.Valor($"caminho{i}")?.ToString();
+                    string caminhoValue = dados.Valor($"caminho{i}")?.ToString();
                     if (!string.IsNullOrEmpty(caminhoValue))
                     {
                         var dataMatch = System.Text.RegularExpressions.Regex.Match(caminhoValue, @"Válido até&#58; (\d{2}/\d{2}/\d{4})");
                         if (dataMatch.Success)
                         {
-                            DateTime validade;
-                            if (DateTime.TryParse(dataMatch.Groups[1].Value, out validade))
+                            if (DateTime.TryParse(dataMatch.Groups[1].Value, out DateTime validade))
                             {
                                 string estado = validade < DateTime.Today ? "Expirado" : "Válido";
-                                int index = grid.Rows.Add(obra, $"Documento {i}", validade.ToShortDateString(), estado);
-                                if (estado == "Expirado")
-                                    grid.Rows[index].DefaultCellStyle.BackColor = Color.LightPink;
+                                string nomeDocumento = nomesDocumentos[i - 1];
+                                string textoNode = $"{nomeDocumento} - {validade:dd/MM/yyyy} ({estado})";
+
+                                TreeNode docNode = new TreeNode(textoNode)
+                                {
+                                    ForeColor = estado == "Expirado" ? Color.Red : Color.Green
+                                };
+                                obraNode.Nodes.Add(docNode);
                             }
                         }
                     }
                 }
+
+                if (obraNode.Nodes.Count > 0)
+                {
+                    if (agruparPorEntidade)
+                    {
+                        if (!entidadesNodes.TryGetValue(entidade, out TreeNode entidadeNode))
+                        {
+                            entidadeNode = new TreeNode(entidade)
+                            {
+                                NodeFont = new Font("Segoe UI", 10, FontStyle.Bold)
+                            };
+                            entidadesNodes[entidade] = entidadeNode;
+                            treeView.Nodes.Add(entidadeNode);
+                        }
+                        entidadeNode.Nodes.Add(obraNode);
+                    }
+                    else
+                    {
+                        treeView.Nodes.Add(obraNode);
+                    }
+                }
+
                 dados.Seguinte();
             }
 
-            grid.CellDoubleClick += (s, e) => {
-                if (e.RowIndex >= 0)
+            treeView.NodeMouseDoubleClick += (s, e) =>
+            {
+                bool isDocumento = (_idsSelecionados.Count > 1 && e.Node.Level == 2) || (_idsSelecionados.Count == 1 && e.Node.Level == 1);
+                if (isDocumento)
                 {
-                    var obra = grid.Rows[e.RowIndex].Cells["Obra"].Value.ToString();
-                    var doc = grid.Rows[e.RowIndex].Cells["Documento"].Value.ToString();
-                    UpdateDocumento(doc, "autorizacao", obra);
+                    string doc = e.Node.Text.Split('-')[0].Trim();
+                    string obra = (_idsSelecionados.Count > 1) ? e.Node.Parent.Text : e.Node.Parent.Text;
+                    // UpdateDocumento(doc, "autorizacao", obra);
                 }
             };
 
-            tab.Controls.Add(grid);
+            tab.Controls.Add(treeView);
         }
 
-        private void UpdateDocumento(string documento, string tipo, string identificador = "")
+        private void UpdateDocumento(string doc, string tipo, string referencia)
         {
-            using (Form formValidade = new Form())
-            {
-                formValidade.Text = "Nova Data de Validade";
-                formValidade.Width = 300;
-                formValidade.Height = 150;
-                formValidade.StartPosition = FormStartPosition.CenterParent;
-                formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
-                formValidade.MaximizeBox = false;
-                formValidade.MinimizeBox = false;
-
-                DateTimePicker dtpValidade = new DateTimePicker();
-                dtpValidade.Format = DateTimePickerFormat.Short;
-                dtpValidade.Location = new Point(20, 20);
-                dtpValidade.Width = 250;
-
-                Button btnOk = new Button();
-                btnOk.Text = "Atualizar";
-                btnOk.DialogResult = DialogResult.OK;
-                btnOk.Location = new Point(100, 60);
-
-                formValidade.Controls.AddRange(new Control[] { dtpValidade, btnOk });
-
-                if (formValidade.ShowDialog() == DialogResult.OK)
-                {
-                    // Atualizar o documento dependendo do tipo
-                    switch (tipo)
-                    {
-                        case "empresa":
-                            // Atualizar documento da empresa
-                            break;
-                        case "trabalhador":
-                            // Atualizar documento do trabalhador
-                            break;
-                        case "equipamento":
-                            // Atualizar documento do equipamento
-                            break;
-                        case "autorizacao":
-                            // Atualizar documento da autorização
-                            break;
-                    }
-
-                    // Recarregar os dados
-                    LoadDocumentos();
-                }
-            }
+            // Exemplo de implementação para atualizações quando um documento é selecionado.
+            MessageBox.Show($"Documento: {doc}\nTipo: {tipo}\nReferência: {referencia}", "Atualização de Documento");
         }
     }
 }
+

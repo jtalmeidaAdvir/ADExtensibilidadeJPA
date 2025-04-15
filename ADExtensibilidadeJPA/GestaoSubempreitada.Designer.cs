@@ -227,8 +227,13 @@
             this.label30 = new System.Windows.Forms.Label();
             this.TXTOP_linknuvem = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label50 = new System.Windows.Forms.Label();
+            this.Bt_Caducado = new System.Windows.Forms.Button();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
+            this.label49 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -241,6 +246,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblSelecionar
@@ -283,6 +290,7 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Location = new System.Drawing.Point(12, 58);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -2105,7 +2113,7 @@
             this.datavalor.AutoSize = true;
             this.datavalor.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.datavalor.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.datavalor.Location = new System.Drawing.Point(129, 156);
+            this.datavalor.Location = new System.Drawing.Point(129, 151);
             this.datavalor.Name = "datavalor";
             this.datavalor.Size = new System.Drawing.Size(70, 18);
             this.datavalor.TabIndex = 10;
@@ -2115,7 +2123,7 @@
             // bt_gOpcoes
             // 
             this.bt_gOpcoes.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_gOpcoes.Location = new System.Drawing.Point(531, 168);
+            this.bt_gOpcoes.Location = new System.Drawing.Point(531, 163);
             this.bt_gOpcoes.Name = "bt_gOpcoes";
             this.bt_gOpcoes.Size = new System.Drawing.Size(105, 48);
             this.bt_gOpcoes.TabIndex = 9;
@@ -2127,7 +2135,7 @@
             // 
             this.DTPOP_DataEnvio.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DTPOP_DataEnvio.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTPOP_DataEnvio.Location = new System.Drawing.Point(132, 150);
+            this.DTPOP_DataEnvio.Location = new System.Drawing.Point(132, 145);
             this.DTPOP_DataEnvio.Name = "DTPOP_DataEnvio";
             this.DTPOP_DataEnvio.Size = new System.Drawing.Size(156, 26);
             this.DTPOP_DataEnvio.TabIndex = 8;
@@ -2136,7 +2144,7 @@
             // 
             this.CBOP_SGS.AutoSize = true;
             this.CBOP_SGS.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CBOP_SGS.Location = new System.Drawing.Point(132, 201);
+            this.CBOP_SGS.Location = new System.Drawing.Point(132, 196);
             this.CBOP_SGS.Name = "CBOP_SGS";
             this.CBOP_SGS.Size = new System.Drawing.Size(15, 14);
             this.CBOP_SGS.TabIndex = 7;
@@ -2146,7 +2154,7 @@
             // 
             this.CBOP_Enviado.AutoSize = true;
             this.CBOP_Enviado.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CBOP_Enviado.Location = new System.Drawing.Point(132, 114);
+            this.CBOP_Enviado.Location = new System.Drawing.Point(132, 109);
             this.CBOP_Enviado.Name = "CBOP_Enviado";
             this.CBOP_Enviado.Size = new System.Drawing.Size(15, 14);
             this.CBOP_Enviado.TabIndex = 5;
@@ -2157,7 +2165,7 @@
             // 
             this.label48.AutoSize = true;
             this.label48.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label48.Location = new System.Drawing.Point(48, 198);
+            this.label48.Location = new System.Drawing.Point(48, 193);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(68, 18);
             this.label48.TabIndex = 4;
@@ -2167,7 +2175,7 @@
             // 
             this.label42.AutoSize = true;
             this.label42.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label42.Location = new System.Drawing.Point(26, 156);
+            this.label42.Location = new System.Drawing.Point(26, 151);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(96, 18);
             this.label42.TabIndex = 3;
@@ -2177,7 +2185,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(27, 111);
+            this.label30.Location = new System.Drawing.Point(27, 106);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(98, 18);
             this.label30.TabIndex = 2;
@@ -2201,13 +2209,62 @@
             this.label29.TabIndex = 0;
             this.label29.Text = "Link da Partilha:";
             // 
-            // toolStrip1
+            // tabPage7
             // 
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(741, 25);
-            this.toolStrip1.TabIndex = 11;
-            this.toolStrip1.Text = "toolStrip1";
+            this.tabPage7.Controls.Add(this.label49);
+            this.tabPage7.Controls.Add(this.panel1);
+            this.tabPage7.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(710, 591);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "Alertas";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label50);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.Bt_Caducado);
+            this.panel1.Location = new System.Drawing.Point(6, 35);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(698, 83);
+            this.panel1.TabIndex = 3;
+            this.panel1.Tag = "";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(333, 3);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(350, 53);
+            this.textBox1.TabIndex = 4;
+            this.textBox1.Text = "Abre o Outlook com todos os documentos cuja validade tenha expirado, de forma a p" +
+    "oder enviar o respetivo e-mail ao subempreiteiro em questão.";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(3, 18);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(142, 15);
+            this.label50.TabIndex = 4;
+            this.label50.Text = "Documentos Caducados:";
+            // 
+            // Bt_Caducado
+            // 
+            this.Bt_Caducado.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Bt_Caducado.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Bt_Caducado.Location = new System.Drawing.Point(151, 13);
+            this.Bt_Caducado.Name = "Bt_Caducado";
+            this.Bt_Caducado.Size = new System.Drawing.Size(95, 27);
+            this.Bt_Caducado.TabIndex = 2;
+            this.Bt_Caducado.Text = "Enviar";
+            this.Bt_Caducado.UseVisualStyleBackColor = true;
+            this.Bt_Caducado.Click += new System.EventHandler(this.Bt_Caducado_Click);
             // 
             // Bt_Nuvem
             // 
@@ -2222,12 +2279,21 @@
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label49.Location = new System.Drawing.Point(469, 14);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(78, 18);
+            this.label49.TabIndex = 4;
+            this.label49.Text = "Informação";
+            // 
             // GestaoSubempreitada
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(741, 687);
-            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.TXT_Codigo);
@@ -2257,6 +2323,10 @@
             this.tabPage5.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2300,7 +2370,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.CheckBox checkBox8;
@@ -2464,5 +2533,11 @@
         private System.Windows.Forms.DateTimePicker DTPOP_DataEnvio;
         private System.Windows.Forms.Button bt_gOpcoes;
         private System.Windows.Forms.Label datavalor;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button Bt_Caducado;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label label49;
     }
 }
