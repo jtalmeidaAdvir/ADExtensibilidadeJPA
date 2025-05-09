@@ -1193,6 +1193,11 @@ Com os melhores cumprimentos,
                     string id = row.Cells["id"].Value.ToString();
                     string nomeEntidade = row.Cells["Nome"].Value.ToString();
 
+                    // Verifica se deve ignorar os alertas
+                    var ignoraAlerta = BSO.Consulta($"SELECT CDU_IgnoraAlerta FROM Geral_Entidade WHERE ID = '{id}'").DaValor<int>("CDU_IgnoraAlerta");
+                    if (ignoraAlerta == 1)
+                        continue;
+
                     List<string> documentosEmpresa = VerificaDocumentosDetalhados(id);
                     Dictionary<string, List<string>> documentosTrabalhadores = VerificaDocumentosTrabalhadores(id);
                     Dictionary<string, List<string>> documentosEquipamentos = VerificaDocumentosEquipamentos(id);
@@ -1267,31 +1272,29 @@ Com os melhores cumprimentos,
                         corpo.AppendLine("\nPor favor, regularize esta situação com urgência.");
                         corpo.AppendLine("\nObrigado.");
 
-                        // Enviar usando Outlook (com assinatura do utilizador)
                         Outlook.Application outlookApp = new Outlook.Application();
                         Outlook.MailItem mailItem = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
                         mailItem.To = "departamento@email.pt";
                         mailItem.Subject = $"Alerta Documentos Caducados - {nomeEntidade}";
 
-                        // Junta o corpo criado acima antes da assinatura do Outlook
                         mailItem.BodyFormat = Outlook.OlBodyFormat.olFormatHTML;
-                        mailItem.Display(); // Isto gera a assinatura
+                        mailItem.Display(); // Gera a assinatura
 
                         string existingBody = mailItem.HTMLBody;
                         string customBody = corpo.ToString().Replace("\n", "<br>");
 
                         mailItem.HTMLBody = customBody + "<br><br>" + existingBody;
 
-
-                        mailItem.Display(); // Mostra o email para o utilizador, com a assinatura incluída
+                        mailItem.Display(); // Mostra o email com a assinatura incluída
                     }
                     else
                     {
-                        MessageBox.Show($"Não há documentos caducados para a entidade \"{nomeEntidade}\".");
+                        //MessageBox.Show($"Não há documentos caducados para a entidade \"{nomeEntidade}\".");
                     }
                 }
             }
         }
+
 
         private List<string> VerificaDocumentosDetalhados(string id)
         {

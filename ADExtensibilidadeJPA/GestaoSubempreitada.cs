@@ -450,7 +450,8 @@ namespace ADExtensibilidadeJPA
                 DTPOP_DataEnvio.Visible = false;
                 datavalor.Visible = true;
             }
-
+            check_AlertaCaducados.Checked = entidade["CDU_IgnoraAlerta"]?.ToString().Trim().ToLower() == "true"
+                       || entidade["CDU_IgnoraAlerta"]?.ToString().Trim() == "1";
 
             CaminhoEmpresa(entidade);
 
@@ -544,7 +545,8 @@ namespace ADExtensibilidadeJPA
                                       "CDU_AnexoApoliceRC", "CDU_AnexoHorarioTrabalho",
                                       "CDU_AnexoD", "CDU_DecTrabEmigr", "CDU_InscricaoSS",
                                       "CDU_AnexoDStatus", "CDU_DecTrabEmigrStatus", "CDU_InscricaoSSStatus","CDU_CaminhoTRab",
-                                      "CDU_CaminhoEqui","CDU_Link", "CDU_LinkNuvem", "CDU_EmailEnviado", "CDU_TrataSGS", "CDU_DataEnvio" };
+                                      "CDU_CaminhoEqui","CDU_Link", "CDU_LinkNuvem", "CDU_EmailEnviado", "CDU_TrataSGS", "CDU_DataEnvio",
+                                        "CDU_IgnoraAlerta"};
 
                 // Iterando sobre as linhas dos dados
                 for (int i = 0; i < dados.NumLinhas(); i++)
@@ -3856,10 +3858,21 @@ END;";
             if (result) 
             {
                 Bt_Caducado.Enabled = false;
+                var entidadeid = _idSelecionado;
+                var update = $@"UPDATE Geral_Entidade
+                                set CDU_IgnoraAlerta = '{result}'
+                                WHERE ID = '{entidadeid}'";
+                _BSO.DSO.ExecuteSQL(update);
             }
             else
             {
                 Bt_Caducado.Enabled = true;
+                var entidadeid = _idSelecionado;
+
+                var update = $@"UPDATE Geral_Entidade
+                                set CDU_IgnoraAlerta = '{result}'
+                                WHERE ID = '{entidadeid}'";
+                _BSO.DSO.ExecuteSQL(update);
             }
 
 
