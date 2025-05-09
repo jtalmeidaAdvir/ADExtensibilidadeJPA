@@ -228,12 +228,13 @@
             this.TXTOP_linknuvem = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label49 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label50 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.Bt_Caducado = new System.Windows.Forms.Button();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
-            this.label49 = new System.Windows.Forms.Label();
+            this.check_AlertaCaducados = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -2222,20 +2223,40 @@
             this.tabPage7.Text = "Alertas";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label49.Location = new System.Drawing.Point(469, 14);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(78, 18);
+            this.label49.TabIndex = 4;
+            this.label49.Text = "Informação";
+            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.check_AlertaCaducados);
             this.panel1.Controls.Add(this.label50);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.Bt_Caducado);
             this.panel1.Location = new System.Drawing.Point(6, 35);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(698, 83);
+            this.panel1.Size = new System.Drawing.Size(698, 171);
             this.panel1.TabIndex = 3;
             this.panel1.Tag = "";
             // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(3, 50);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(142, 15);
+            this.label50.TabIndex = 4;
+            this.label50.Text = "Documentos Caducados:";
+            // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(333, 3);
+            this.textBox1.Location = new System.Drawing.Point(333, 35);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
@@ -2245,20 +2266,11 @@
     "oder enviar o respetivo e-mail ao subempreiteiro em questão.";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label50
-            // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(3, 18);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(142, 15);
-            this.label50.TabIndex = 4;
-            this.label50.Text = "Documentos Caducados:";
-            // 
             // Bt_Caducado
             // 
             this.Bt_Caducado.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.Bt_Caducado.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Bt_Caducado.Location = new System.Drawing.Point(151, 13);
+            this.Bt_Caducado.Location = new System.Drawing.Point(151, 45);
             this.Bt_Caducado.Name = "Bt_Caducado";
             this.Bt_Caducado.Size = new System.Drawing.Size(95, 27);
             this.Bt_Caducado.TabIndex = 2;
@@ -2279,15 +2291,16 @@
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
-            // label49
+            // check_AlertaCaducados
             // 
-            this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label49.Location = new System.Drawing.Point(469, 14);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(78, 18);
-            this.label49.TabIndex = 4;
-            this.label49.Text = "Informação";
+            this.check_AlertaCaducados.AutoSize = true;
+            this.check_AlertaCaducados.Location = new System.Drawing.Point(6, 3);
+            this.check_AlertaCaducados.Name = "check_AlertaCaducados";
+            this.check_AlertaCaducados.Size = new System.Drawing.Size(109, 19);
+            this.check_AlertaCaducados.TabIndex = 5;
+            this.check_AlertaCaducados.Text = "Ignorar alertas";
+            this.check_AlertaCaducados.UseVisualStyleBackColor = true;
+            this.check_AlertaCaducados.CheckedChanged += new System.EventHandler(this.check_AlertaCaducados_CheckedChanged);
             // 
             // GestaoSubempreitada
             // 
@@ -2539,5 +2552,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.CheckBox check_AlertaCaducados;
     }
 }

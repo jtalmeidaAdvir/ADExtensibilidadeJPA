@@ -11,6 +11,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using System.Drawing;
+using static System.Windows.Forms.LinkLabel;
 
 namespace ADExtensibilidadeJPA
 {
@@ -310,8 +311,6 @@ END;
                 cabecalho.Location.Y + (cabecalho.Height - cbHeader.Height) / 2
             );
         }
-
-
 
         private void AjustarFillComBaseNosHeadersECelulas()
         {
@@ -695,6 +694,7 @@ END;
                 (CDU_ValidadeFinancas < GETDATE() AND CDU_ValidadeFinancas IS NOT NULL) OR
                 (CDU_ValidadeSegSocial < GETDATE() AND CDU_ValidadeSegSocial IS NOT NULL) OR
                 (CDU_ValidadeFolhaPag < GETDATE() AND CDU_ValidadeFolhaPag IS NOT NULL) OR
+(CDU_ValidadeReciboSeguroAT < GETDATE() AND CDU_ValidadeReciboSeguroAT IS NOT NULL) OR
                 (CDU_ValidadeComprovativoPagamento < GETDATE() AND CDU_ValidadeComprovativoPagamento IS NOT NULL) OR
                 (CDU_ValidadeSeguroRC < GETDATE() AND CDU_ValidadeSeguroRC IS NOT NULL) OR
                 (CDU_ValidadeSeguroAT < GETDATE() AND CDU_ValidadeSeguroAT IS NOT NULL) OR
@@ -1188,17 +1188,16 @@ Com os melhores cumprimentos,
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                // Verifica se a linha está selecionada (coluna "Selecione" marcada)
                 if (Convert.ToBoolean(row.Cells[" "].Value) == true)
                 {
                     string id = row.Cells["id"].Value.ToString();
                     string nomeEntidade = row.Cells["Nome"].Value.ToString();
 
-                    // Verificar documentos
                     List<string> documentosEmpresa = VerificaDocumentosDetalhados(id);
                     Dictionary<string, List<string>> documentosTrabalhadores = VerificaDocumentosTrabalhadores(id);
                     Dictionary<string, List<string>> documentosEquipamentos = VerificaDocumentosEquipamentos(id);
                     Dictionary<string, List<string>> documentosAutorizacoes = VerificaDocumentosAutorizacoes(id);
+                    var link = BSO.Consulta($"SELECT CDU_Link FROM Geral_Entidade WHERE ID = '{id}'").DaValor<string>("CDU_Link");
 
                     if (documentosEmpresa.Count > 0 ||
                         documentosTrabalhadores.Count > 0 ||
@@ -1209,6 +1208,8 @@ Com os melhores cumprimentos,
                         corpo.AppendLine("Prezado(a),");
                         corpo.AppendLine();
                         corpo.AppendLine($"A entidade \"{nomeEntidade}\" tem documentos caducados.");
+                        corpo.AppendLine("Para colocar a documentação solicitada, por favor, aceda ao seguinte link:");
+                        corpo.AppendLine(link);
                         corpo.AppendLine();
 
                         if (documentosEmpresa.Any())
@@ -1266,17 +1267,30 @@ Com os melhores cumprimentos,
                         corpo.AppendLine("\nPor favor, regularize esta situação com urgência.");
                         corpo.AppendLine("\nObrigado.");
 
-                        // Enviar email
-                        EnviarEmailOutlook("departamento@email.pt", $"Alerta Documentos Caducados - {nomeEntidade}", corpo.ToString());
+                        // Enviar usando Outlook (com assinatura do utilizador)
+                        Outlook.Application outlookApp = new Outlook.Application();
+                        Outlook.MailItem mailItem = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
+                        mailItem.To = "departamento@email.pt";
+                        mailItem.Subject = $"Alerta Documentos Caducados - {nomeEntidade}";
+
+                        // Junta o corpo criado acima antes da assinatura do Outlook
+                        mailItem.BodyFormat = Outlook.OlBodyFormat.olFormatHTML;
+                        mailItem.Display(); // Isto gera a assinatura
+
+                        string existingBody = mailItem.HTMLBody;
+                        string customBody = corpo.ToString().Replace("\n", "<br>");
+
+                        mailItem.HTMLBody = customBody + "<br><br>" + existingBody;
+
+
+                        mailItem.Display(); // Mostra o email para o utilizador, com a assinatura incluída
                     }
                     else
                     {
                         MessageBox.Show($"Não há documentos caducados para a entidade \"{nomeEntidade}\".");
                     }
                 }
-
             }
-
         }
 
         private List<string> VerificaDocumentosDetalhados(string id)

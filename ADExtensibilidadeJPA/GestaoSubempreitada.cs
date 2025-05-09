@@ -3850,6 +3850,19 @@ END;";
             }
         }
 
+        private void check_AlertaCaducados_CheckedChanged(object sender, EventArgs e)
+        {
+            var result = check_AlertaCaducados.Checked;
+            if (result) 
+            {
+                Bt_Caducado.Enabled = false;
+            }
+            else
+            {
+                Bt_Caducado.Enabled = true;
+            }
 
+
+        }
     }
 }
