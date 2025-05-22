@@ -90,21 +90,96 @@ namespace ADExtensibilidadeJPA
 
             // Consulta ajustada para garantir que os documentos de múltiplas entidades sejam carregados
             var query = $@"
-    SELECT 
-        Nome AS Entidade,
-        'Finanças' as Documento, CDU_ValidadeFinancas as Validade,
-        CASE WHEN CDU_ValidadeFinancas < GETDATE() THEN 'Expirado' ELSE 'Válido' END as Estado
-    FROM Geral_Entidade 
-    WHERE id IN ({ids}) AND CDU_ValidadeFinancas IS NOT NULL
+SELECT 
+    Nome AS Entidade,
+    'Finanças' AS Documento, CDU_ValidadeFinancas AS Validade,
+    CASE WHEN CDU_ValidadeFinancas < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeFinancas IS NOT NULL
 
-    UNION ALL
+UNION ALL
 
-    SELECT 
-        Nome AS Entidade,
-        'Segurança Social' as Documento, CDU_ValidadeSegSocial as Validade,
-        CASE WHEN CDU_ValidadeSegSocial < GETDATE() THEN 'Expirado' ELSE 'Válido' END as Estado
-    FROM Geral_Entidade 
-    WHERE id IN ({ids}) AND CDU_ValidadeSegSocial IS NOT NULL";
+SELECT 
+    Nome AS Entidade,
+    'Segurança Social' AS Documento, CDU_ValidadeSegSocial AS Validade,
+    CASE WHEN CDU_ValidadeSegSocial < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeSegSocial IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Folha de Pagamento' AS Documento, CDU_ValidadeFolhaPag AS Validade,
+    CASE WHEN CDU_ValidadeFolhaPag < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeFolhaPag IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Comprovativo de Pagamento' AS Documento, CDU_ValidadeComprovativoPagamento AS Validade,
+    CASE WHEN CDU_ValidadeComprovativoPagamento < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeComprovativoPagamento IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Recibo Seguro de Acidentes de Trabalho' AS Documento, CDU_ValidadeReciboSeguroAT AS Validade,
+    CASE WHEN CDU_ValidadeReciboSeguroAT < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeReciboSeguroAT IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Seguro de Responsabilidade Civil' AS Documento, CDU_ValidadeSeguroRC AS Validade,
+    CASE WHEN CDU_ValidadeSeguroRC < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeSeguroRC IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Horário de Trabalho' AS Documento, CDU_ValidadeHorarioTrabalho AS Validade,
+    CASE WHEN CDU_ValidadeHorarioTrabalho < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeHorarioTrabalho IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Seguro de Acidentes de Trabalho' AS Documento, CDU_ValidadeSeguroAT AS Validade,
+    CASE WHEN CDU_ValidadeSeguroAT < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeSeguroAT IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Alvará' AS Documento, CDU_ValidadeAlvara AS Validade,
+    CASE WHEN CDU_ValidadeAlvara < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeAlvara IS NOT NULL
+
+UNION ALL
+
+SELECT 
+    Nome AS Entidade,
+    'Certidão Permanente' AS Documento, CDU_ValidadeCertidaoPermanente AS Validade,
+    CASE WHEN CDU_ValidadeCertidaoPermanente < GETDATE() THEN 'Expirado' ELSE 'Válido' END AS Estado
+FROM Geral_Entidade 
+WHERE id IN ({ids}) AND CDU_ValidadeCertidaoPermanente IS NOT NULL
+";
+
+
 
             var dados = _BSO.Consulta(query);
             dados.Inicio();
