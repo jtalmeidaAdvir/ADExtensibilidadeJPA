@@ -33,6 +33,7 @@
             this.Bt_Email = new System.Windows.Forms.Button();
             this.Bt_Validades = new System.Windows.Forms.Button();
             this.Bt_Avisos = new System.Windows.Forms.Button();
+            this.Bt_imprimir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,10 +93,20 @@
             this.Bt_Avisos.UseVisualStyleBackColor = true;
             this.Bt_Avisos.Click += new System.EventHandler(this.Bt_Avisos_Click);
             // 
+            // Bt_imprimir
+            // 
+            this.Bt_imprimir.Location = new System.Drawing.Point(699, 4);
+            this.Bt_imprimir.Name = "Bt_imprimir";
+            this.Bt_imprimir.Size = new System.Drawing.Size(75, 23);
+            this.Bt_imprimir.TabIndex = 5;
+            this.Bt_imprimir.Text = "Imprimir";
+            this.Bt_imprimir.UseVisualStyleBackColor = true;
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Bt_imprimir);
             this.Controls.Add(this.Bt_Validades);
             this.Controls.Add(this.Bt_Email);
             this.Controls.Add(this.BT_Editar);
@@ -116,5 +127,6 @@
         private System.Windows.Forms.Button Bt_Email;
         private System.Windows.Forms.Button Bt_Validades;
         private System.Windows.Forms.Button Bt_Avisos;
+        private System.Windows.Forms.Button Bt_imprimir;
     }
 }

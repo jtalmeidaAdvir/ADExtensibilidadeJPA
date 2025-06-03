@@ -397,10 +397,14 @@ END;
             panelFiltro.Controls.Add(Bt_Email);
             panelFiltro.Controls.Add(Bt_Validades);
             panelFiltro.Controls.Add(Bt_Avisos);
+            panelFiltro.Controls.Add(Bt_imprimir);
             BT_Editar.Location = new System.Drawing.Point(10, 9);
             Bt_Email.Location = new System.Drawing.Point(10, 9);
             Bt_Validades.Location = new System.Drawing.Point(330, 9);
             Bt_Avisos.Location = new System.Drawing.Point(170, 9);
+            Bt_imprimir.Location = new System.Drawing.Point(490, 9);
+
+
 
 
             // Label para o filtro
@@ -517,12 +521,14 @@ END;
             EstilizarBotao(Bt_Email, "Solicitar Documentação");
             EstilizarBotao(Bt_Validades, "Consulta");
             EstilizarBotao(Bt_Avisos, "Alerta de Caducidade");
+            EstilizarBotao(Bt_imprimir, "Imprimir");
 
 
             // Adicionar ToolTip nos botões
             toolTip.SetToolTip(Bt_Email, "Clique aqui para solicitar a documentação necessária para a entrada em obra das subempreitadas selecionadas, por email.");
             toolTip.SetToolTip(Bt_Validades, "Clique aqui para consultar as subempreitadas selecionadas.");
             toolTip.SetToolTip(Bt_Avisos, "Clique aqui para alertar sobre documentos caducados das subempreitadas selecionadas, por email.");
+            toolTip.SetToolTip(Bt_imprimir, "Clique aqui para Imprimir das subempreitadas selecionadas.");
 
             // Adicionar painel inferior com informações ou estatísticas
             System.Windows.Forms.Panel bottomPanel = new System.Windows.Forms.Panel
