@@ -441,6 +441,23 @@ namespace ADExtensibilidadeJPA
                        || entidade["CDU_EmailEnviado"]?.ToString().Trim() == "1";
 
             CBOP_SGS.Checked = entidade["CDU_TrataSGS"].ToString() == "True";
+            string query = $@"
+                    SELECT ec.Email, ge.CDU_Link
+                    FROM Geral_Entidade ge
+                    LEFT JOIN Geral_Entidade_Contactos ec ON CAST(ge.id AS uniqueidentifier) = ec.EntidadeID
+                    WHERE ge.id = '{_idSelecionado}'";
+            var dados = _BSO.Consulta(query);
+            if (dados.NumLinhas() > 0)
+            {
+                dados.Inicio();
+                string email = dados.DaValor<string>("Email");
+                if (!string.IsNullOrEmpty(email))
+                {
+                    txt_email.Text = email;
+                }
+            }
+
+
             if (DateTime.TryParse(entidade["CDU_DataEnvio"]?.ToString(), out DateTime dataEnvio))
             {
                 DTPOP_DataEnvio.Value = dataEnvio;
@@ -3461,6 +3478,14 @@ END;";
                     _BSO.DSO.ExecuteSQL(updateopcoes);
 
 
+                    //update txt_email
+                    var updateEmail = $@"UPDATE ec
+                                    SET ec.Email = '{txt_email.Text}'
+                                    FROM Geral_Entidade_Contactos ec
+                                    INNER JOIN Geral_Entidade ge ON CAST(ge.ID AS uniqueidentifier) = ec.EntidadeID
+                                    WHERE ge.ID = '{_idSelecionado}'
+                                    ";
+                    _BSO.DSO.ExecuteSQL(updateEmail);
                 }
                 else
                 {
@@ -3471,6 +3496,13 @@ END;";
 					                CDU_LinkNuvem = '{TXTOP_linknuvem.Text}'
 				                Where ID='{_idSelecionado}'";
                     _BSO.DSO.ExecuteSQL(updateopcoes);
+                    var updateEmail = $@"UPDATE ec
+                                    SET ec.Email = '{txt_email.Text}'
+                                    FROM Geral_Entidade_Contactos ec
+                                    INNER JOIN Geral_Entidade ge ON CAST(ge.ID AS uniqueidentifier) = ec.EntidadeID
+                                    WHERE ge.ID = '{_idSelecionado}'
+                                    ";
+                    _BSO.DSO.ExecuteSQL(updateEmail);
                 }
 
 

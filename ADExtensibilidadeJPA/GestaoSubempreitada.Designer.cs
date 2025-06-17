@@ -230,11 +230,13 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.label49 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.check_AlertaCaducados = new System.Windows.Forms.CheckBox();
             this.label50 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Bt_Caducado = new System.Windows.Forms.Button();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
-            this.check_AlertaCaducados = new System.Windows.Forms.CheckBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.txt_email = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -2091,6 +2093,8 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.txt_email);
+            this.tabPage6.Controls.Add(this.label51);
             this.tabPage6.Controls.Add(this.datavalor);
             this.tabPage6.Controls.Add(this.bt_gOpcoes);
             this.tabPage6.Controls.Add(this.DTPOP_DataEnvio);
@@ -2114,7 +2118,7 @@
             this.datavalor.AutoSize = true;
             this.datavalor.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.datavalor.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.datavalor.Location = new System.Drawing.Point(129, 151);
+            this.datavalor.Location = new System.Drawing.Point(129, 177);
             this.datavalor.Name = "datavalor";
             this.datavalor.Size = new System.Drawing.Size(70, 18);
             this.datavalor.TabIndex = 10;
@@ -2124,7 +2128,7 @@
             // bt_gOpcoes
             // 
             this.bt_gOpcoes.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bt_gOpcoes.Location = new System.Drawing.Point(531, 163);
+            this.bt_gOpcoes.Location = new System.Drawing.Point(531, 189);
             this.bt_gOpcoes.Name = "bt_gOpcoes";
             this.bt_gOpcoes.Size = new System.Drawing.Size(105, 48);
             this.bt_gOpcoes.TabIndex = 9;
@@ -2136,7 +2140,7 @@
             // 
             this.DTPOP_DataEnvio.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DTPOP_DataEnvio.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTPOP_DataEnvio.Location = new System.Drawing.Point(132, 145);
+            this.DTPOP_DataEnvio.Location = new System.Drawing.Point(132, 171);
             this.DTPOP_DataEnvio.Name = "DTPOP_DataEnvio";
             this.DTPOP_DataEnvio.Size = new System.Drawing.Size(156, 26);
             this.DTPOP_DataEnvio.TabIndex = 8;
@@ -2145,7 +2149,7 @@
             // 
             this.CBOP_SGS.AutoSize = true;
             this.CBOP_SGS.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CBOP_SGS.Location = new System.Drawing.Point(132, 196);
+            this.CBOP_SGS.Location = new System.Drawing.Point(132, 222);
             this.CBOP_SGS.Name = "CBOP_SGS";
             this.CBOP_SGS.Size = new System.Drawing.Size(15, 14);
             this.CBOP_SGS.TabIndex = 7;
@@ -2155,7 +2159,7 @@
             // 
             this.CBOP_Enviado.AutoSize = true;
             this.CBOP_Enviado.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CBOP_Enviado.Location = new System.Drawing.Point(132, 109);
+            this.CBOP_Enviado.Location = new System.Drawing.Point(132, 135);
             this.CBOP_Enviado.Name = "CBOP_Enviado";
             this.CBOP_Enviado.Size = new System.Drawing.Size(15, 14);
             this.CBOP_Enviado.TabIndex = 5;
@@ -2166,7 +2170,7 @@
             // 
             this.label48.AutoSize = true;
             this.label48.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label48.Location = new System.Drawing.Point(48, 193);
+            this.label48.Location = new System.Drawing.Point(48, 219);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(68, 18);
             this.label48.TabIndex = 4;
@@ -2176,7 +2180,7 @@
             // 
             this.label42.AutoSize = true;
             this.label42.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label42.Location = new System.Drawing.Point(26, 151);
+            this.label42.Location = new System.Drawing.Point(26, 177);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(96, 18);
             this.label42.TabIndex = 3;
@@ -2186,7 +2190,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(27, 106);
+            this.label30.Location = new System.Drawing.Point(27, 132);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(98, 18);
             this.label30.TabIndex = 2;
@@ -2245,6 +2249,17 @@
             this.panel1.TabIndex = 3;
             this.panel1.Tag = "";
             // 
+            // check_AlertaCaducados
+            // 
+            this.check_AlertaCaducados.AutoSize = true;
+            this.check_AlertaCaducados.Location = new System.Drawing.Point(6, 3);
+            this.check_AlertaCaducados.Name = "check_AlertaCaducados";
+            this.check_AlertaCaducados.Size = new System.Drawing.Size(109, 19);
+            this.check_AlertaCaducados.TabIndex = 5;
+            this.check_AlertaCaducados.Text = "Ignorar alertas";
+            this.check_AlertaCaducados.UseVisualStyleBackColor = true;
+            this.check_AlertaCaducados.CheckedChanged += new System.EventHandler(this.check_AlertaCaducados_CheckedChanged);
+            // 
             // label50
             // 
             this.label50.AutoSize = true;
@@ -2291,16 +2306,23 @@
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
-            // check_AlertaCaducados
+            // label51
             // 
-            this.check_AlertaCaducados.AutoSize = true;
-            this.check_AlertaCaducados.Location = new System.Drawing.Point(6, 3);
-            this.check_AlertaCaducados.Name = "check_AlertaCaducados";
-            this.check_AlertaCaducados.Size = new System.Drawing.Size(109, 19);
-            this.check_AlertaCaducados.TabIndex = 5;
-            this.check_AlertaCaducados.Text = "Ignorar alertas";
-            this.check_AlertaCaducados.UseVisualStyleBackColor = true;
-            this.check_AlertaCaducados.CheckedChanged += new System.EventHandler(this.check_AlertaCaducados_CheckedChanged);
+            this.label51.AutoSize = true;
+            this.label51.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label51.Location = new System.Drawing.Point(79, 86);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(46, 18);
+            this.label51.TabIndex = 11;
+            this.label51.Text = "Email:";
+            // 
+            // txt_email
+            // 
+            this.txt_email.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txt_email.Location = new System.Drawing.Point(132, 83);
+            this.txt_email.Name = "txt_email";
+            this.txt_email.Size = new System.Drawing.Size(504, 26);
+            this.txt_email.TabIndex = 12;
             // 
             // GestaoSubempreitada
             // 
@@ -2553,5 +2575,7 @@
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.Label label49;
         private System.Windows.Forms.CheckBox check_AlertaCaducados;
+        private System.Windows.Forms.TextBox txt_email;
+        private System.Windows.Forms.Label label51;
     }
 }

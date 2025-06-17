@@ -34,6 +34,8 @@
             this.Bt_Validades = new System.Windows.Forms.Button();
             this.Bt_Avisos = new System.Windows.Forms.Button();
             this.Bt_imprimir = new System.Windows.Forms.Button();
+            this.f4TabelaSQL1 = new PRISDK100.F4TabelaSQL();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,9 +48,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 33);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 134);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(794, 414);
+            this.dataGridView1.Size = new System.Drawing.Size(794, 354);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             // 
@@ -101,11 +103,50 @@
             this.Bt_imprimir.TabIndex = 5;
             this.Bt_imprimir.Text = "Imprimir";
             this.Bt_imprimir.UseVisualStyleBackColor = true;
+            this.Bt_imprimir.Click += new System.EventHandler(this.Bt_imprimir_Click);
+            // 
+            // f4TabelaSQL1
+            // 
+            this.f4TabelaSQL1.AliasCampoChave = "";
+            this.f4TabelaSQL1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.f4TabelaSQL1.CampoChave = "";
+            this.f4TabelaSQL1.CampoDescricao = "";
+            this.f4TabelaSQL1.Caption = "Obra:";
+            this.f4TabelaSQL1.F4Modal = false;
+            this.f4TabelaSQL1.Inicializado = false;
+            this.f4TabelaSQL1.Location = new System.Drawing.Point(99, 105);
+            this.f4TabelaSQL1.MaxLengthF4 = 50;
+            this.f4TabelaSQL1.Modulo = "";
+            this.f4TabelaSQL1.MostraCaption = true;
+            this.f4TabelaSQL1.Name = "f4TabelaSQL1";
+            this.f4TabelaSQL1.ResourceID = 0;
+            this.f4TabelaSQL1.ResourceIDTituloLista = 0;
+            this.f4TabelaSQL1.SelectionFormula = "";
+            this.f4TabelaSQL1.Size = new System.Drawing.Size(685, 21);
+            this.f4TabelaSQL1.TabIndex = 9;
+            this.f4TabelaSQL1.TituloLista = "Obras";
+            this.f4TabelaSQL1.WidthCaption = 1000;
+            this.f4TabelaSQL1.WidthEspacamento = 60;
+            this.f4TabelaSQL1.WidthF4 = 1590;
+            this.f4TabelaSQL1.Load += new System.EventHandler(this.f4TabelaSQL1_Load);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(14, 109);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Filtrar por Obra:";
             // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.f4TabelaSQL1);
             this.Controls.Add(this.Bt_imprimir);
             this.Controls.Add(this.Bt_Validades);
             this.Controls.Add(this.Bt_Email);
@@ -113,10 +154,13 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Bt_Avisos);
             this.Name = "QuadroControlo";
-            this.Size = new System.Drawing.Size(800, 450);
+            this.Size = new System.Drawing.Size(800, 491);
             this.Text = "Quadro de Controlo SGS de Subempreiteiros";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.QuadroControlo_FormClosed);
+            this.Load += new System.EventHandler(this.QuadroControlo_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -128,5 +172,7 @@
         private System.Windows.Forms.Button Bt_Validades;
         private System.Windows.Forms.Button Bt_Avisos;
         private System.Windows.Forms.Button Bt_imprimir;
+        private PRISDK100.F4TabelaSQL f4TabelaSQL1;
+        private System.Windows.Forms.Label label1;
     }
 }
