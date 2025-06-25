@@ -1,5 +1,6 @@
 
 
+using DocumentFormat.OpenXml.Bibliography;
 using Primavera.Extensibility.BusinessEntities;
 using Primavera.Extensibility.BusinessEntities.ExtensibilityService.EventArgs;
 using Primavera.Extensibility.Purchases.Editors;
@@ -49,6 +50,27 @@ namespace ADExtensibilidadeJPA.Compras
                 }
             }
 
+        }
+        public override void DepoisDeTransformar(ExtensibilityEventArgs e)
+        {
+            if (this.DocumentoCompra.Tipodoc == "VFA" || this.DocumentoCompra.Tipodoc == "VFAO")
+            {
+                var num = this.DocumentoCompra.Linhas.NumItens;
+                for (int i = 1; i < num + 1; i++)
+                {
+                    var linha = this.DocumentoCompra.Linhas.GetEdita(i);
+                    var query = $@"SELECT PVP1 FROM ArtigoMoeda WHERE Artigo = '{linha.Artigo}'";
+                    var data = BSO.Consulta(query);
+                    if (data != null && data.NumLinhas() > 0)
+                    {
+                        linha.CamposUtil["CDU_PVP1"].Valor = data.DaValor<string>("PVP1");
+                    }
+                    else
+                    {
+                        linha.CamposUtil["CDU_PVP1"].Valor = "0";
+                    }
+                }
+            }
         }
     }
 }
