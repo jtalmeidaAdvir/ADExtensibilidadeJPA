@@ -2106,7 +2106,7 @@ WHERE
        
                 f4TabelaSQL1.CampoChave = "Codigo";
                 f4TabelaSQL1.CampoDescricao = "Descricao";
-                f4TabelaSQL1.SelectionFormula = "SELECT Codigo, Descricao FROM COP_Obras WHERE ObraPaiID is null ";// WHERe ObraPaiID is null order by Codigo desc";
+                f4TabelaSQL1.SelectionFormula = "SELECT Codigo, Descricao,* FROM COP_Obras WHERE ObraPaiID is null AND Estado = 'CONS' ";// WHERe ObraPaiID is null order by Codigo desc";
      
                 f4TabelaSQL1.Caption = "Codigo:";
                 f4TabelaSQL1.MostraCaption = true;
