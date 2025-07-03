@@ -36,6 +36,7 @@
             this.Bt_imprimir = new System.Windows.Forms.Button();
             this.f4TabelaSQL1 = new PRISDK100.F4TabelaSQL();
             this.label1 = new System.Windows.Forms.Label();
+            this.BT_ImprimirJPA = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,8 +51,9 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(3, 134);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(794, 354);
+            this.dataGridView1.Size = new System.Drawing.Size(800, 354);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.UseWaitCursor = true;
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
             // 
             // BT_Editar
@@ -123,7 +125,7 @@
             this.f4TabelaSQL1.ResourceID = 0;
             this.f4TabelaSQL1.ResourceIDTituloLista = 0;
             this.f4TabelaSQL1.SelectionFormula = "";
-            this.f4TabelaSQL1.Size = new System.Drawing.Size(685, 21);
+            this.f4TabelaSQL1.Size = new System.Drawing.Size(691, 21);
             this.f4TabelaSQL1.TabIndex = 9;
             this.f4TabelaSQL1.TituloLista = "Obras";
             this.f4TabelaSQL1.WidthCaption = 1000;
@@ -141,10 +143,21 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Filtrar por Obra:";
             // 
+            // BT_ImprimirJPA
+            // 
+            this.BT_ImprimirJPA.Location = new System.Drawing.Point(780, 4);
+            this.BT_ImprimirJPA.Name = "BT_ImprimirJPA";
+            this.BT_ImprimirJPA.Size = new System.Drawing.Size(75, 23);
+            this.BT_ImprimirJPA.TabIndex = 11;
+            this.BT_ImprimirJPA.Text = "Imprimir JPA";
+            this.BT_ImprimirJPA.UseVisualStyleBackColor = true;
+            this.BT_ImprimirJPA.Click += new System.EventHandler(this.BT_ImprimirJPA_Click);
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BT_ImprimirJPA);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.f4TabelaSQL1);
             this.Controls.Add(this.Bt_imprimir);
@@ -154,7 +167,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Bt_Avisos);
             this.Name = "QuadroControlo";
-            this.Size = new System.Drawing.Size(800, 491);
+            this.Size = new System.Drawing.Size(806, 491);
             this.Text = "Quadro de Controlo SGS de Subempreiteiros";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.QuadroControlo_FormClosed);
             this.Load += new System.EventHandler(this.QuadroControlo_Load_1);
@@ -174,5 +187,6 @@
         private System.Windows.Forms.Button Bt_imprimir;
         private PRISDK100.F4TabelaSQL f4TabelaSQL1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button BT_ImprimirJPA;
     }
 }

@@ -405,11 +405,13 @@ END;
             panelFiltro.Controls.Add(Bt_Validades);
             panelFiltro.Controls.Add(Bt_Avisos);
             panelFiltro.Controls.Add(Bt_imprimir);
+            panelFiltro.Controls.Add(BT_ImprimirJPA);
             BT_Editar.Location = new System.Drawing.Point(10, 9);
             Bt_Email.Location = new System.Drawing.Point(10, 9);
             Bt_Validades.Location = new System.Drawing.Point(330, 9);
             Bt_Avisos.Location = new System.Drawing.Point(170, 9);
             Bt_imprimir.Location = new System.Drawing.Point(490, 9);
+            BT_ImprimirJPA.Location = new System.Drawing.Point(650, 9);
 
 
 
@@ -497,7 +499,7 @@ END;
 
             // Ajustar posição do DataGridView
             dataGridView1.Location = new System.Drawing.Point(10, 140);
-            dataGridView1.Size = new System.Drawing.Size(780, 320);
+            dataGridView1.Size = new System.Drawing.Size(780, 420);
 
             // Configuração avançada do DataGridView
             dataGridView1.BorderStyle = BorderStyle.None;
@@ -529,6 +531,7 @@ END;
             EstilizarBotao(Bt_Validades, "Consulta");
             EstilizarBotao(Bt_Avisos, "Alerta de Caducidade");
             EstilizarBotao(Bt_imprimir, "Exportar");
+            EstilizarBotao(BT_ImprimirJPA, "Exportar JPA");
 
 
             // Adicionar ToolTip nos botões
@@ -536,6 +539,7 @@ END;
             toolTip.SetToolTip(Bt_Validades, "Clique aqui para consultar as subempreitadas selecionadas.");
             toolTip.SetToolTip(Bt_Avisos, "Clique aqui para alertar sobre documentos caducados das subempreitadas selecionadas, por email.");
             toolTip.SetToolTip(Bt_imprimir, "Clique aqui para Imprimir das subempreitadas selecionadas.");
+            toolTip.SetToolTip(BT_ImprimirJPA, "Clique aqui para Imprimir das subempreitadas selecionadas.");
 
             // Adicionar painel inferior com informações ou estatísticas
             System.Windows.Forms.Panel bottomPanel = new System.Windows.Forms.Panel
@@ -1549,20 +1553,33 @@ Com os melhores cumprimentos,
                 {
 
 
-                    //verifica sem aturorizaçoes em aguma obra 1º
+                    // 1. Cria uma cópia da lista original para verificação de autorização
+                    var idsParaVerificacao = new List<string>(idsSelecionados);
+                    idsParaVerificacao.Remove("2A8C7ECD-309B-49F9-A337-203B45CED948"); // remove se estiver por algum motivo
+
+                    // 2. Verifica autorização sem o id padrão
                     Dictionary<string, List<string>> autorizacoes;
                     string obraComum;
-                    var autorizado = VerificaAutorizacao(idsSelecionados, out autorizacoes, out obraComum);
+                    var autorizado = VerificaAutorizacao(idsParaVerificacao, out autorizacoes, out obraComum);
                     if (!autorizado)
                     {
                         return;
                     }
+
+                    // 3. Adiciona o ID padrão no início da lista (se ainda não estiver)
                     string idPadrao = "2A8C7ECD-309B-49F9-A337-203B45CED948";
-                    // Garante que a lista existe e adiciona o ID padrão se ainda não estiver
                     if (!idsSelecionados.Contains(idPadrao))
                     {
-                        idsSelecionados.Add(idPadrao);
+                        idsSelecionados.Insert(0, idPadrao); // insere na primeira posição
                     }
+                    else
+                    {
+                        // opcional: move para o início se já existir em outra posição
+                        idsSelecionados.Remove(idPadrao);
+                        idsSelecionados.Insert(0, idPadrao);
+                    }
+
+                    // 4. Continua com a exportação
                     ExportarParaExcel(idsSelecionados, obraComum);
                 }
                 else
@@ -2060,7 +2077,361 @@ WHERE
                 }
             }
         }
+        private void ExportarParaExcel2(List<string> idsSelecionados, string codigoObra)
+        {
+            Excel.Application excelApp = null;
+            Excel.Workbook workbook = null;
 
+            try
+            {
+                excelApp = new Excel.Application();
+                excelApp.Visible = true;
+                workbook = excelApp.Workbooks.Add();
+                var numidsempresa = idsSelecionados.Count;
+                // Buscar dados reais da obra
+                string queryObra = $@"SELECT COP.EntidadeIDA,GE.Nome,COP.CDU_LocalObra FROM COP_Obras AS COP
+                                    INNER JOIN Geral_Entidade AS GE ON COP.EntidadeIDA = GE.EntidadeId
+                                    WHERE COP.Codigo = '{codigoObra}'";
+                var dadosObra = BSO.Consulta(queryObra);
+                string descricaoObra = "", donoObra = "", entidadeExecutante = "";
+                if (!dadosObra.Vazia())
+                {
+                    dadosObra.Inicio();
+                    descricaoObra = dadosObra.Valor("CDU_LocalObra")?.ToString() ?? "";
+                    donoObra = dadosObra.Valor("Nome")?.ToString() ?? "";
+                    //entidadeExecutante = dadosObra.Valor("EntidadeExecutante")?.ToString() ?? "";
+                }
+                // Obter dados da empresa
+                string idsFormatados = string.Join(",", idsSelecionados.Select(id => $"'{id}'"));
+
+                string queryEmpresa = $"SELECT Nome FROM Geral_Entidade WHERE id IN ({idsFormatados})";
+
+                StdBELista dtEmpresa = BSO.Consulta(queryEmpresa);
+                string nomeEmpresa = "";
+
+                dtEmpresa.Inicio();
+                if (!dtEmpresa.NoFim())
+                {
+                    nomeEmpresa = dtEmpresa.Valor("Nome")?.ToString() ?? "";
+                }
+
+                // Criar nova folha para cada empresa
+                Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Worksheets.Add();
+                // Limitar o nome da folha a 31 caracteres e remover caracteres inválidos
+                string nomeEmpresaLimpo = nomeEmpresa.Replace("/", "").Replace("\\", "").Replace("?", "").Replace("*", "").Replace("[", "").Replace("]", "").Replace(":", "");
+                string nomeFolha = $"Empresa";
+                if (nomeFolha.Length > 31)
+                {
+                    nomeFolha = nomeFolha.Substring(0, 31);
+                }
+                worksheet.Name = nomeFolha;
+
+                int linhaAtual = 1;
+
+                // Adicionar cabeçalho da obra no topo da folha
+                worksheet.Cells[linhaAtual, 1] = $"OBRA: {descricaoObra}";
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Merge();
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Size = 14;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                linhaAtual += 2;
+
+                worksheet.Cells[linhaAtual, 1] = $"DONO DE OBRA: {donoObra}";
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Merge();
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Bold = true;
+                linhaAtual += 2;
+
+                worksheet.Cells[linhaAtual, 1] = "ENTIDADE EXECUTANTE: JOAQUIM PEIXOTO AZEVEDO & FILHOS LDA";
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Merge();
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Bold = true;
+                linhaAtual += 3;
+                // Cabeçalhos principais
+                worksheet.Cells[linhaAtual, 1] = "EMPRESA";
+                worksheet.Cells[linhaAtual, 4] = "Alvará";
+                worksheet.Cells[linhaAtual, 5] = "Contribuinte";
+                worksheet.Cells[linhaAtual, 6] = "Não Div. Finanças";
+                worksheet.Cells[linhaAtual, 7] = "Não Div. Seg. Social";
+                worksheet.Cells[linhaAtual, 8] = "Folha Pag. Seg. Social";
+                worksheet.Cells[linhaAtual, 9] = "Recibo de Pag. Seg. Social";
+                worksheet.Cells[linhaAtual, 10] = "Apólice AT";
+                worksheet.Cells[linhaAtual, 11] = "Recibo Apólice AT";
+                worksheet.Cells[linhaAtual, 12] = "Apólice RC";
+                worksheet.Cells[linhaAtual, 13] = "Recibo RC";
+                worksheet.Cells[linhaAtual, 14] = "Horário de Trabalho";
+
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Interior.Color =
+                    System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
+                linhaAtual++;
+
+                // Sub-cabeçalhos
+                worksheet.Cells[linhaAtual, 1] = "N.º";
+                worksheet.Cells[linhaAtual, 2] = "Nome";
+                worksheet.Cells[linhaAtual, 3] = "Sede";
+                worksheet.Cells[linhaAtual, 4] = "N.º";
+                worksheet.Cells[linhaAtual, 5] = "N.º";
+                worksheet.Cells[linhaAtual, 6] = "Validade";
+                worksheet.Cells[linhaAtual, 7] = "Validade";
+                worksheet.Cells[linhaAtual, 8] = "Validade";
+                worksheet.Cells[linhaAtual, 9] = "C; N/C; N/A";
+                worksheet.Cells[linhaAtual, 10] = "C ; N/C ; N/A";
+                worksheet.Cells[linhaAtual, 11] = "Validade";
+                worksheet.Cells[linhaAtual, 12] = "C; N/C; N/A";
+                worksheet.Cells[linhaAtual, 13] = "Validade";
+                worksheet.Cells[linhaAtual, 14] = "C ; N/C ; N/A";
+
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Interior.Color =
+                    System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
+                linhaAtual++;
+
+                // Preencher empresas
+                int numeroEmpresa = 1;
+
+                foreach (string id in idsSelecionados)
+                {
+                    string query = $@"SELECT 
+            Nome,AlvaraNumero, NIPC, Morada, CDU_ValidadeAlvara, CDU_ValidadeFinancas, CDU_ValidadeSegSocial, CDU_ValidadeFolhaPag,
+            CDU_ValidadeComprovativoPagamento, CDU_ValidadeReciboSeguroAT, CDU_ValidadeSeguroRC,
+            CDU_ValidadeHorarioTrabalho, CDU_ValidadeSeguroAT
+            FROM Geral_Entidade WHERE id = '{id}'";
+
+                    StdBELista empresa = BSO.Consulta(query);
+                    empresa.Inicio();
+
+
+
+                    if (!empresa.NoFim())
+                    {
+                        string nome = empresa.Valor("Nome")?.ToString() ?? "";
+                        string alvara = empresa.Valor("AlvaraNumero")?.ToString() ?? "";
+                        string nif = empresa.Valor("NIPC")?.ToString() ?? "";
+                        string morada = empresa.Valor("Morada")?.ToString() ?? "";
+                        if (id == "2A8C7ECD-309B-49F9-A337-203B45CED948")
+                        {
+
+                            worksheet.Cells[linhaAtual, 1] = numeroEmpresa;
+                            worksheet.Cells[linhaAtual, 2] = nome;
+                            worksheet.Cells[linhaAtual, 3] = morada;
+                            worksheet.Cells[linhaAtual, 4] = alvara;
+                            worksheet.Cells[linhaAtual, 5] = nif;
+                            worksheet.Cells[linhaAtual, 6] = "C";
+                            worksheet.Cells[linhaAtual, 7] = "C";
+                            worksheet.Cells[linhaAtual, 8] = "C";
+                            worksheet.Cells[linhaAtual, 9] = "C";
+                            worksheet.Cells[linhaAtual, 10] = "C";
+                            worksheet.Cells[linhaAtual, 11] = "C";
+                            worksheet.Cells[linhaAtual, 12] = "C";
+                            worksheet.Cells[linhaAtual, 13] = "C";
+                            worksheet.Cells[linhaAtual, 14] = "C";
+
+
+                            linhaAtual++;
+                            numeroEmpresa++;
+                            continue; // pula para o próximo ID
+                        }
+
+
+
+
+
+
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeAlvara")?.ToString(), out DateTime validadeAlvara);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeFinancas")?.ToString(), out DateTime validadeFinancas);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeSegSocial")?.ToString(), out DateTime validadeSegSocial);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeFolhaPag")?.ToString(), out DateTime validadeFolhaPag);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeComprovativoPagamento")?.ToString(), out DateTime validadeComprovativoPagamento);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeReciboSeguroAT")?.ToString(), out DateTime validadeReciboSeguroAT);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeSeguroRC")?.ToString(), out DateTime validadeSeguroRC);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeHorarioTrabalho")?.ToString(), out DateTime validadeHorarioTrabalho);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeSeguroAT")?.ToString(), out DateTime validadeSeguroAT);
+
+                        worksheet.Cells[linhaAtual, 1] = numeroEmpresa;
+                        worksheet.Cells[linhaAtual, 2] = nome;
+                        worksheet.Cells[linhaAtual, 3] = morada;
+                        worksheet.Cells[linhaAtual, 4] = alvara;
+                        worksheet.Cells[linhaAtual, 5] = nif;
+                        worksheet.Cells[linhaAtual, 6] = validadeAlvara.Year > 1 ? validadeAlvara.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 7] = validadeFinancas.Year > 1 ? validadeFinancas.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 8] = validadeSegSocial.Year > 1 ? validadeSegSocial.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 9] = validadeFolhaPag.Year > 1 ? validadeFolhaPag.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 10] = validadeComprovativoPagamento.Year > 1 ? "C" : "NC";
+                        worksheet.Cells[linhaAtual, 11] = validadeSeguroAT.Year > 1 ? validadeSeguroAT.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 12] = validadeReciboSeguroAT.Year > 1 ? "C" : "NC";
+                        worksheet.Cells[linhaAtual, 13] = validadeSeguroRC.Year > 1 ? validadeSeguroRC.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 14] = validadeHorarioTrabalho.Year > 1 ? "C" : "NC";
+
+                        linhaAtual++;
+                        numeroEmpresa++;
+                    }
+                }
+
+                linhaAtual += 2;
+
+
+
+                // Dados dos Trabalhadores
+                worksheet.Cells[linhaAtual, 1] = "TRABALHADORES";
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 11]].Merge();
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 11]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 11]].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
+                linhaAtual++;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 11]].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
+                // Cabeçalhos dos trabalhadores
+                worksheet.Cells[linhaAtual, 1] = "N.º"; // NOVA COLUNA
+                worksheet.Cells[linhaAtual, 2] = "Nome Completo";
+                worksheet.Cells[linhaAtual, 3] = "Empresa";
+                worksheet.Cells[linhaAtual, 4] = "Categoria";
+                worksheet.Cells[linhaAtual, 5] = "Contribuinte";
+                worksheet.Cells[linhaAtual, 6] = "Nº Segurança Social";
+                worksheet.Cells[linhaAtual, 7] = "Cartão de cidadão ou residencia";
+                worksheet.Cells[linhaAtual, 8] = "Ficha Médica de aptidão";
+                worksheet.Cells[linhaAtual, 9] = "Credenciação do trabalhador";
+                worksheet.Cells[linhaAtual, 10] = "Trabalhos especializados";
+                worksheet.Cells[linhaAtual, 11] = "Ficha de distribuição de EPI's";
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 11]].Font.Bold = true;
+                linhaAtual++;
+
+
+                // Dados dos trabalhadores
+
+
+
+                int numeroTrabalhador = 1;
+
+
+
+
+                var queryTrabalhadoresJPA = $@"SELECT COP_P.Funcionario
+FROM COP_Obras AS COP
+INNER JOIN COP_Obras_Pessoal AS COP_P ON COP.ObraPaiID = COP_P.ObraID
+WHERE COP_P.ObraID = (
+    SELECT ID
+    FROM COP_Obras
+    WHERE Codigo = '{codigoObra}'
+)
+AND COP_P.Funcionario IS NOT NULL
+";
+                StdBELista dtTrabalhadoresJPA = BSO.Consulta(queryTrabalhadoresJPA);
+                dtTrabalhadoresJPA.Inicio();
+                while (!dtTrabalhadoresJPA.NoFim())
+                {
+                    string funcionario = dtTrabalhadoresJPA.Valor("Funcionario")?.ToString() ?? "";
+                    if (!string.IsNullOrEmpty(funcionario))
+                    {
+                        worksheet.Cells[linhaAtual, 1] = numeroTrabalhador; // N.º
+                        worksheet.Cells[linhaAtual, 2] = funcionario;
+                        worksheet.Cells[linhaAtual, 3] = "JPA"; // Empresa (pode preencher se quiser)
+                        worksheet.Cells[linhaAtual, 4] = "N/A";
+                        worksheet.Cells[linhaAtual, 5] = "N/A";
+                        worksheet.Cells[linhaAtual, 6] = "N/A";
+                        worksheet.Cells[linhaAtual, 7] = "C";
+                        worksheet.Cells[linhaAtual, 8] = "C";
+                        worksheet.Cells[linhaAtual, 9] = "C";
+                        worksheet.Cells[linhaAtual, 10] = "C";
+                        worksheet.Cells[linhaAtual, 11] = "C";
+
+                        linhaAtual++;
+                        numeroTrabalhador++;
+                    }
+                    dtTrabalhadoresJPA.Seguinte();
+                }
+
+
+
+
+
+                linhaAtual += 1;
+
+                // Dados dos Equipamentos
+                worksheet.Cells[linhaAtual, 1] = "EQUIPAMENTOS";
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Merge(); // Atualizado para 9 colunas
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue);
+                linhaAtual++;
+
+                // Cabeçalhos com N.º
+                worksheet.Cells[linhaAtual, 1] = "N.º";
+                worksheet.Cells[linhaAtual, 2] = "Marca";
+                worksheet.Cells[linhaAtual, 3] = "Tipo";
+                worksheet.Cells[linhaAtual, 4] = "Série";
+                worksheet.Cells[linhaAtual, 5] = "Anexo 1";
+                worksheet.Cells[linhaAtual, 6] = "Anexo 2";
+                worksheet.Cells[linhaAtual, 7] = "Anexo 3";
+                worksheet.Cells[linhaAtual, 8] = "Anexo 4";
+                worksheet.Cells[linhaAtual, 9] = "Anexo 5";
+
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue);
+                linhaAtual++;
+
+
+                // Consulta aos equipamentos
+                string queryEquipamentos = $@"
+    SELECT marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5 
+    FROM TDU_AD_Equipamentos 
+    WHERE id_empresa IN  ({idsFormatados})";
+
+                StdBELista dtEquipamentos = BSO.Consulta(queryEquipamentos);
+
+                int numeroEquipamento = 1;
+
+                dtEquipamentos.Inicio();
+                while (!dtEquipamentos.NoFim())
+                {
+                    worksheet.Cells[linhaAtual, 1] = numeroEquipamento; // N.º
+                    worksheet.Cells[linhaAtual, 2] = dtEquipamentos.Valor("marca")?.ToString() ?? "";
+                    worksheet.Cells[linhaAtual, 3] = dtEquipamentos.Valor("tipo")?.ToString() ?? "";
+                    worksheet.Cells[linhaAtual, 4] = dtEquipamentos.Valor("serie")?.ToString() ?? "";
+
+                    worksheet.Cells[linhaAtual, 5] = dtEquipamentos.Valor("anexo1")?.ToString() == "True" ? "C" : "NC";
+                    worksheet.Cells[linhaAtual, 6] = dtEquipamentos.Valor("anexo2")?.ToString() == "True" ? "C" : "NC";
+                    worksheet.Cells[linhaAtual, 7] = dtEquipamentos.Valor("anexo3")?.ToString() == "True" ? "C" : "NC";
+                    worksheet.Cells[linhaAtual, 8] = dtEquipamentos.Valor("anexo4")?.ToString() == "True" ? "C" : "NC";
+                    worksheet.Cells[linhaAtual, 9] = dtEquipamentos.Valor("anexo5")?.ToString() == "True" ? "C" : "NC";
+
+                    linhaAtual++;
+                    numeroEquipamento++;
+                    dtEquipamentos.Seguinte();
+                }
+
+
+                linhaAtual += 2;
+
+
+
+
+
+
+                // Autofit das colunas
+                worksheet.Columns.AutoFit();
+
+
+                // Remover a folha em branco inicial
+                Excel.Worksheet firstSheet = (Excel.Worksheet)workbook.Worksheets[1];
+                if (workbook.Worksheets.Count > 1)
+                {
+                    firstSheet.Delete();
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Erro ao criar ficheiro Excel: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Libertar recursos COM
+                if (workbook != null)
+                {
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+                }
+                if (excelApp != null)
+                {
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+                }
+            }
+        }
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -2106,7 +2477,7 @@ WHERE
        
                 f4TabelaSQL1.CampoChave = "Codigo";
                 f4TabelaSQL1.CampoDescricao = "Descricao";
-                f4TabelaSQL1.SelectionFormula = "SELECT Codigo, Descricao,* FROM COP_Obras WHERE ObraPaiID is null AND Estado = 'CONS' ";// WHERe ObraPaiID is null order by Codigo desc";
+                f4TabelaSQL1.SelectionFormula = "SELECT Codigo, Descricao FROM COP_Obras WHERE ObraPaiID is null AND Estado = 'CONS' ";// WHERe ObraPaiID is null order by Codigo desc";
      
                 f4TabelaSQL1.Caption = "Codigo:";
                 f4TabelaSQL1.MostraCaption = true;
@@ -2121,6 +2492,7 @@ WHERE
 
             }
         }
+        public string ObraCodigo { get; set; }
         private void F4TabelaSQL1_Change(object sender, F4TabelaSQL.ChangeEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(e.Value))
@@ -2130,6 +2502,7 @@ WHERE
 
                 if (resultado > 0)
                 {
+                    ObraCodigo = e.Value; // Armazena o código da obra selecionada
                     DadosLista();
                     FiltrarPorObra(e.Value);
                 }
@@ -2239,5 +2612,30 @@ WHERE
         {
             label1.ForeColor = System.Drawing.Color.FromArgb(59, 89, 152);
         }
+
+        private void BT_ImprimirJPA_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<string> idsSelecionados = new List<string>();
+                string obraComum = f4TabelaSQL1.Text;
+                //verifica sem aturorizaçoes em aguma obra 1º
+                /*  Dictionary<string, List<string>> autorizacoes;
+
+                  var autorizado = VerificaAutorizacao(idsSelecionados, out autorizacoes, out obraComum);
+                 */
+                string idPadrao = "2A8C7ECD-309B-49F9-A337-203B45CED948";
+
+                idsSelecionados.Add(idPadrao);
+              
+                ExportarParaExcel2(idsSelecionados, ObraCodigo);
+     
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Erro ao exportar para Excel: " + ex.Message);
+            }
+        }
+
     }
 }
