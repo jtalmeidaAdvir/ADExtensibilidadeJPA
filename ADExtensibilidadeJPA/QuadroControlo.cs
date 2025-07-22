@@ -1959,9 +1959,12 @@ WHERE
                     }
 
 
-                var queryTrabalhadoresJPA = $@"   SELECT COP_P.Funcionario FROM COP_Obras AS COP
-   INNER JOIN COP_Obras_Pessoal AS COP_P ON COP.ObraPaiID = COP_P.ObraID
-   WHERe Codigo = '{codigoObra}'";
+                var queryTrabalhadoresJPA = $@"SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario  FROM COP_Obras AS COP
+   INNER JOIN COP_Obras_Pessoal AS COP_P ON COP.id = COP_P.ObraID 
+   INNER JOIN GPR_Operadores AS O ON COP_P.ColaboradorID = O.IDOperador
+   INNER JOIN Funcionarios AS F ON O.Funcionario = F.Codigo
+   INNER JOIN Categorias AS C ON F.Categoria = C.Categoria
+   WHERe COP.Codigo = '{codigoObra}'";
                 StdBELista dtTrabalhadoresJPA = BSO.Consulta(queryTrabalhadoresJPA);
                 dtTrabalhadoresJPA.Inicio();
                 while (!dtTrabalhadoresJPA.NoFim())
@@ -1969,12 +1972,19 @@ WHERE
                     string funcionario = dtTrabalhadoresJPA.Valor("Funcionario")?.ToString() ?? "";
                     if (!string.IsNullOrEmpty(funcionario))
                     {
+                        string categoria = dtTrabalhadoresJPA.Valor("Descricao")?.ToString() ?? "N/A";
+                        string numeroContr = dtTrabalhadoresJPA.Valor("NumContr")?.ToString() ?? "N/A";
+                        string numeroBeneficiario = dtTrabalhadoresJPA.Valor("NumBeneficiario")?.ToString() ?? "N/A";
+
+
+
+
                         worksheet.Cells[linhaAtual, 1] = numeroTrabalhador; // N.º
                         worksheet.Cells[linhaAtual, 2] = funcionario;
                         worksheet.Cells[linhaAtual, 3] = "JPA"; // Empresa (pode preencher se quiser)
-                        worksheet.Cells[linhaAtual, 4] = "N/A";
-                        worksheet.Cells[linhaAtual, 5] = "N/A";
-                        worksheet.Cells[linhaAtual, 6] = "N/A";
+                        worksheet.Cells[linhaAtual, 4] = categoria;
+                        worksheet.Cells[linhaAtual, 5] = numeroContr;
+                        worksheet.Cells[linhaAtual, 6] = numeroBeneficiario;
                         worksheet.Cells[linhaAtual, 7] = "C";
                         worksheet.Cells[linhaAtual, 8] = "C";
                         worksheet.Cells[linhaAtual, 9] = "C";
@@ -2307,15 +2317,12 @@ WHERE
 
 
 
-                var queryTrabalhadoresJPA = $@"SELECT COP_P.Funcionario
-FROM COP_Obras AS COP
-INNER JOIN COP_Obras_Pessoal AS COP_P ON COP.ObraPaiID = COP_P.ObraID
-WHERE COP_P.ObraID = (
-    SELECT ID
-    FROM COP_Obras
-    WHERE Codigo = '{codigoObra}'
-)
-AND COP_P.Funcionario IS NOT NULL
+                var queryTrabalhadoresJPA = $@"SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario  FROM COP_Obras AS COP
+   INNER JOIN COP_Obras_Pessoal AS COP_P ON COP.id = COP_P.ObraID 
+   INNER JOIN GPR_Operadores AS O ON COP_P.ColaboradorID = O.IDOperador
+   INNER JOIN Funcionarios AS F ON O.Funcionario = F.Codigo
+   INNER JOIN Categorias AS C ON F.Categoria = C.Categoria
+   WHERe COP.Codigo = '{codigoObra}'
 ";
                 StdBELista dtTrabalhadoresJPA = BSO.Consulta(queryTrabalhadoresJPA);
                 dtTrabalhadoresJPA.Inicio();
@@ -2324,12 +2331,16 @@ AND COP_P.Funcionario IS NOT NULL
                     string funcionario = dtTrabalhadoresJPA.Valor("Funcionario")?.ToString() ?? "";
                     if (!string.IsNullOrEmpty(funcionario))
                     {
+                        string categoria = dtTrabalhadoresJPA.Valor("Descricao")?.ToString() ?? "N/A";
+                        string numeroContr = dtTrabalhadoresJPA.Valor("NumContr")?.ToString() ?? "N/A";
+
+                        string numeroBeneficiario = dtTrabalhadoresJPA.Valor("NumBeneficiario")?.ToString() ?? "N/A";
                         worksheet.Cells[linhaAtual, 1] = numeroTrabalhador; // N.º
                         worksheet.Cells[linhaAtual, 2] = funcionario;
                         worksheet.Cells[linhaAtual, 3] = "JPA"; // Empresa (pode preencher se quiser)
-                        worksheet.Cells[linhaAtual, 4] = "N/A";
-                        worksheet.Cells[linhaAtual, 5] = "N/A";
-                        worksheet.Cells[linhaAtual, 6] = "N/A";
+                        worksheet.Cells[linhaAtual, 4] = categoria;
+                        worksheet.Cells[linhaAtual, 5] = numeroContr;
+                        worksheet.Cells[linhaAtual, 6] = numeroBeneficiario;
                         worksheet.Cells[linhaAtual, 7] = "C";
                         worksheet.Cells[linhaAtual, 8] = "C";
                         worksheet.Cells[linhaAtual, 9] = "C";
