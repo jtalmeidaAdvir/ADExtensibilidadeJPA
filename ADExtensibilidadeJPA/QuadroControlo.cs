@@ -499,7 +499,7 @@ END;
 
             // Ajustar posição do DataGridView
             dataGridView1.Location = new System.Drawing.Point(10, 140);
-            dataGridView1.Size = new System.Drawing.Size(780, 420);
+            dataGridView1.Size = new System.Drawing.Size(780, 320);
 
             // Configuração avançada do DataGridView
             dataGridView1.BorderStyle = BorderStyle.None;
@@ -560,6 +560,12 @@ END;
                 Location = new System.Drawing.Point(10, 8)
             };
             bottomPanel.Controls.Add(lblInfo);
+
+
+
+
+            dataGridView1.UseWaitCursor = false;
+            dataGridView1.Cursor = Cursors.Default;
         }
 
         private void EstilizarBotao(Button botao, string texto)
@@ -693,7 +699,8 @@ END;
                     }
                 }
 
-
+                this.Cursor = Cursors.Default;
+                dataGridView1.Cursor = Cursors.Default;
             }
             catch (System.Exception ex)
             {
@@ -1761,9 +1768,11 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                 worksheet.Cells[linhaAtual, 12] = "Apólice RC";
                 worksheet.Cells[linhaAtual, 13] = "Recibo RC";
                 worksheet.Cells[linhaAtual, 14] = "Horário de Trabalho";
+                worksheet.Cells[linhaAtual, 15] = "Condições do seguro de responsabilidade civil";
 
-                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Bold = true;
-                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Interior.Color =
+
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 15]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 15]].Interior.Color =
                     System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
                 linhaAtual++;
 
@@ -1782,9 +1791,10 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                 worksheet.Cells[linhaAtual, 12] = "C; N/C; N/A";
                 worksheet.Cells[linhaAtual, 13] = "Validade";
                 worksheet.Cells[linhaAtual, 14] = "C ; N/C ; N/A";
+                worksheet.Cells[linhaAtual, 15] = "C ; N/C ; N/A";
 
-                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Font.Bold = true;
-                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 14]].Interior.Color =
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 15]].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 15]].Interior.Color =
                     System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
                 linhaAtual++;
 
@@ -1796,7 +1806,7 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                     string query = $@"SELECT 
             Nome,AlvaraNumero, NIPC, Morada, CDU_ValidadeAlvara, CDU_ValidadeFinancas, CDU_ValidadeSegSocial, CDU_ValidadeFolhaPag,
             CDU_ValidadeComprovativoPagamento, CDU_ValidadeReciboSeguroAT, CDU_ValidadeSeguroRC,
-            CDU_ValidadeHorarioTrabalho, CDU_ValidadeSeguroAT
+            CDU_ValidadeHorarioTrabalho, CDU_ValidadeSeguroAT, CDU_ValidadeSeguroResposabilidadeCivil
             FROM Geral_Entidade WHERE id = '{id}'";
 
                     StdBELista empresa = BSO.Consulta(query);
@@ -1832,6 +1842,7 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                             worksheet.Cells[linhaAtual, 12] = "C";
                             worksheet.Cells[linhaAtual, 13] = "C";
                             worksheet.Cells[linhaAtual, 14] = "C";
+                            worksheet.Cells[linhaAtual, 15] = "C";
 
 
                             linhaAtual++;
@@ -1853,6 +1864,7 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                         DateTime.TryParse(empresa.Valor("CDU_ValidadeSeguroRC")?.ToString(), out DateTime validadeSeguroRC);
                         DateTime.TryParse(empresa.Valor("CDU_ValidadeHorarioTrabalho")?.ToString(), out DateTime validadeHorarioTrabalho);
                         DateTime.TryParse(empresa.Valor("CDU_ValidadeSeguroAT")?.ToString(), out DateTime validadeSeguroAT);
+                        DateTime.TryParse(empresa.Valor("CDU_ValidadeSeguroResposabilidadeCivil")?.ToString(), out DateTime ValidadeSeguroResposabilidadeCivil);
 
                         worksheet.Cells[linhaAtual, 1] = numeroEmpresa;
                         worksheet.Cells[linhaAtual, 2] = nome;
@@ -1868,6 +1880,7 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                         worksheet.Cells[linhaAtual, 12] = validadeReciboSeguroAT.Year > 1 ? "C" : "NC";
                         worksheet.Cells[linhaAtual, 13] = validadeSeguroRC.Year > 1 ? validadeSeguroRC.ToString("dd/MM/yyyy") : "NC";
                         worksheet.Cells[linhaAtual, 14] = validadeHorarioTrabalho.Year > 1 ? "C" : "NC";
+                        worksheet.Cells[linhaAtual, 15] = ValidadeSeguroResposabilidadeCivil.Year > 1 ? "C" : "NC";
 
                         linhaAtual++;
                         numeroEmpresa++;
@@ -1893,8 +1906,8 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                     worksheet.Cells[linhaAtual, 5] = "Contribuinte";
                     worksheet.Cells[linhaAtual, 6] = "Nº Segurança Social";
                     worksheet.Cells[linhaAtual, 7] = "Cartão de cidadão ou residencia";
-                    worksheet.Cells[linhaAtual, 8] = "Ficha Médica de aptidão";
-                    worksheet.Cells[linhaAtual, 9] = "Credenciação do trabalhador";
+                    worksheet.Cells[linhaAtual, 8] = "Ficha de Aptidão para o Trabalho (FAT)";
+                    worksheet.Cells[linhaAtual, 9] = "Formação Profissional";
                     worksheet.Cells[linhaAtual, 10] = "Trabalhos especializados";
                     worksheet.Cells[linhaAtual, 11] = "Ficha de distribuição de EPI's";
                     worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 11]].Font.Bold = true;
@@ -1903,7 +1916,8 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
 
                     // Dados dos trabalhadores
 
-                    var queryTrabalhadoresExel = $@"SELECT 
+                    var queryTrabalhadoresExel = $@"
+SELECT 
     t.nome,
     t.categoria,
     t.contribuinte,
@@ -1913,6 +1927,8 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
     t.anexo3,
     t.anexo4,
     t.anexo5,
+	t.cBFormacaoProfissional,
+	t.cBEspecializados,
     g.Nome AS nome_empresa
 FROM 
     TDU_AD_Trabalhadores t
@@ -1944,13 +1960,54 @@ WHERE
                         var valorAnexo2 = dtTrabalhadores.Valor("anexo2")?.ToString();
                         worksheet.Cells[linhaAtual, 8] = valorAnexo2 == "True" ? "C" : "NC";
 
-                        var valorAnexo3 = dtTrabalhadores.Valor("anexo3")?.ToString();
-                        worksheet.Cells[linhaAtual, 9] = valorAnexo3 == "True" ? "C" : "NC";
+                    // if o cBFormacaoProfissional for igual a NA coloca como NA se for igual a '' coloca NC se for igual a A coloca C
+                    var valorcBFormacaoProfissional = dtTrabalhadores.Valor("cBFormacaoProfissional")?.ToString();
+                    string valorFinal;
 
-                        var valorAnexo4 = dtTrabalhadores.Valor("anexo4")?.ToString();
-                        worksheet.Cells[linhaAtual, 10] = valorAnexo4 == "True" ? "C" : "NC";
+                    if (valorcBFormacaoProfissional == "NA")
+                    {
+                        valorFinal = "NA";
+                    }
+                    else if (string.IsNullOrEmpty(valorcBFormacaoProfissional))
+                    {
+                        valorFinal = "NC";
+                    }
+                    else if (valorcBFormacaoProfissional == "A")
+                    {
+                        valorFinal = "C";
+                    }
+                    else
+                    {
+                        // Caso queira tratar outros valores com "NC" por padrão
+                        valorFinal = "NC";
+                    }
+                    worksheet.Cells[linhaAtual, 9] = valorFinal;
 
-                        var valorAnexo5 = dtTrabalhadores.Valor("anexo5")?.ToString();
+
+                    var valorcBEspecializados = dtTrabalhadores.Valor("cBEspecializados")?.ToString();
+                    string valorFinalEspecializados;
+
+                    if (valorcBEspecializados == "NA")
+                    {
+                        valorFinalEspecializados = "NA";
+                    }
+                    else if (string.IsNullOrEmpty(valorcBEspecializados))
+                    {
+                        valorFinalEspecializados = "NC";
+                    }
+                    else if (valorcBEspecializados == "A")
+                    {
+                        valorFinalEspecializados = "C";
+                    }
+                    else
+                    {
+                        // Caso queira tratar outros valores com "NC" por padrão
+                        valorFinalEspecializados = "NC";
+                    }
+
+                    worksheet.Cells[linhaAtual, 10] = valorFinalEspecializados;
+
+                    var valorAnexo5 = dtTrabalhadores.Valor("anexo5")?.ToString();
                         worksheet.Cells[linhaAtual, 11] = valorAnexo5 == "True" ? "C" : "NC";
 
                         linhaAtual++;
@@ -1958,13 +2015,15 @@ WHERE
                         dtTrabalhadores.Seguinte();
                     }
 
-
                 var queryTrabalhadoresJPA = $@"SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario  FROM COP_Obras AS COP
    INNER JOIN COP_Obras_Pessoal AS COP_P ON COP.id = COP_P.ObraID 
    INNER JOIN GPR_Operadores AS O ON COP_P.ColaboradorID = O.IDOperador
    INNER JOIN Funcionarios AS F ON O.Funcionario = F.Codigo
    INNER JOIN Categorias AS C ON F.Categoria = C.Categoria
-   WHERe COP.Codigo = '{codigoObra}'";
+   WHERe COP.Codigo = '{ObraCodigo}'";
+
+                
+
                 StdBELista dtTrabalhadoresJPA = BSO.Consulta(queryTrabalhadoresJPA);
                 dtTrabalhadoresJPA.Inicio();
                 while (!dtTrabalhadoresJPA.NoFim())
@@ -1976,12 +2035,9 @@ WHERE
                         string numeroContr = dtTrabalhadoresJPA.Valor("NumContr")?.ToString() ?? "N/A";
                         string numeroBeneficiario = dtTrabalhadoresJPA.Valor("NumBeneficiario")?.ToString() ?? "N/A";
 
-
-
-
-                        worksheet.Cells[linhaAtual, 1] = numeroTrabalhador; // N.º
+                        worksheet.Cells[linhaAtual, 1] = numeroTrabalhador;
                         worksheet.Cells[linhaAtual, 2] = funcionario;
-                        worksheet.Cells[linhaAtual, 3] = "JPA"; // Empresa (pode preencher se quiser)
+                        worksheet.Cells[linhaAtual, 3] = "JPA";
                         worksheet.Cells[linhaAtual, 4] = categoria;
                         worksheet.Cells[linhaAtual, 5] = numeroContr;
                         worksheet.Cells[linhaAtual, 6] = numeroBeneficiario;
@@ -2015,11 +2071,11 @@ WHERE
                     worksheet.Cells[linhaAtual, 2] = "Marca";
                     worksheet.Cells[linhaAtual, 3] = "Tipo";
                     worksheet.Cells[linhaAtual, 4] = "Série";
-                    worksheet.Cells[linhaAtual, 5] = "Anexo 1";
-                    worksheet.Cells[linhaAtual, 6] = "Anexo 2";
-                    worksheet.Cells[linhaAtual, 7] = "Anexo 3";
-                    worksheet.Cells[linhaAtual, 8] = "Anexo 4";
-                    worksheet.Cells[linhaAtual, 9] = "Anexo 5";
+                    worksheet.Cells[linhaAtual, 5] = "Declaração de conformidade CE";
+                    worksheet.Cells[linhaAtual, 6] = "Lista de verificação conforme o Decreto-Lei n.º 50/2005";
+                    worksheet.Cells[linhaAtual, 7] = "Registos de Manutenção";
+                    worksheet.Cells[linhaAtual, 8] = "Manual de Instruções";
+                    worksheet.Cells[linhaAtual, 9] = "Seguro";
 
                     worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Font.Bold = true;
                     worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue);
@@ -2028,9 +2084,9 @@ WHERE
 
                     // Consulta aos equipamentos
                     string queryEquipamentos = $@"
-    SELECT marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5 
-    FROM TDU_AD_Equipamentos 
-    WHERE id_empresa IN  ({idsFormatados})";
+                    SELECT marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5 , cBConformidadeCE,cBDecreto_Lei,cBManutencao,cBManualInstrucoes,cBSeguro
+                    FROM TDU_AD_Equipamentos 
+                    WHERE id_empresa IN  ({idsFormatados})";
 
                     StdBELista dtEquipamentos = BSO.Consulta(queryEquipamentos);
 
@@ -2044,13 +2100,118 @@ WHERE
                         worksheet.Cells[linhaAtual, 3] = dtEquipamentos.Valor("tipo")?.ToString() ?? "";
                         worksheet.Cells[linhaAtual, 4] = dtEquipamentos.Valor("serie")?.ToString() ?? "";
 
-                        worksheet.Cells[linhaAtual, 5] = dtEquipamentos.Valor("anexo1")?.ToString() == "True" ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 6] = dtEquipamentos.Valor("anexo2")?.ToString() == "True" ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 7] = dtEquipamentos.Valor("anexo3")?.ToString() == "True" ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 8] = dtEquipamentos.Valor("anexo4")?.ToString() == "True" ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 9] = dtEquipamentos.Valor("anexo5")?.ToString() == "True" ? "C" : "NC";
+                    var valorcBConformidadeCE = dtEquipamentos.Valor("cBConformidadeCE")?.ToString();
+                    string valorFinalConformidadeCE;
 
-                        linhaAtual++;
+                    if (valorcBConformidadeCE == "NA")
+                    {
+                        valorFinalConformidadeCE = "NA";
+                    }
+                    else if (string.IsNullOrEmpty(valorcBConformidadeCE))
+                    {
+                        valorFinalConformidadeCE = "NC";
+                    }
+                    else if (valorcBConformidadeCE == "A")
+                    {
+                        valorFinalConformidadeCE = "C";
+                    }
+                    else
+                    {
+                        valorFinalConformidadeCE = "NC"; // padrão para outros valores
+                    }
+
+                    worksheet.Cells[linhaAtual, 5] = valorFinalConformidadeCE;
+
+
+                    var valorcBDecreto_Lei = dtEquipamentos.Valor("cBDecreto_Lei")?.ToString();
+                    string valorFinalDecretoLei;
+
+                    if (valorcBDecreto_Lei == "NA")
+                    {
+                        valorFinalDecretoLei = "NA";
+                    }
+                    else if (string.IsNullOrEmpty(valorcBDecreto_Lei))
+                    {
+                        valorFinalDecretoLei = "NC";
+                    }
+                    else if (valorcBDecreto_Lei == "A")
+                    {
+                        valorFinalDecretoLei = "C";
+                    }
+                    else
+                    {
+                        valorFinalDecretoLei = "NC";
+                    }
+
+                    worksheet.Cells[linhaAtual, 6] = valorFinalDecretoLei;
+
+                    var valorcBManutencao = dtEquipamentos.Valor("cBManutencao")?.ToString();
+                    string valorFinalManutencao;
+
+                    if (valorcBManutencao == "NA")
+                    {
+                        valorFinalManutencao = "NA";
+                    }
+                    else if (string.IsNullOrEmpty(valorcBManutencao))
+                    {
+                        valorFinalManutencao = "NC";
+                    }
+                    else if (valorcBManutencao == "A")
+                    {
+                        valorFinalManutencao = "C";
+                    }
+                    else
+                    {
+                        valorFinalManutencao = "NC";
+                    }
+
+                    worksheet.Cells[linhaAtual, 7] = valorFinalManutencao;
+
+                    var valorcBManualInstrucoes = dtEquipamentos.Valor("cBManualInstrucoes")?.ToString();
+                    string valorFinalManualInstrucoes;
+
+                    if (valorcBManualInstrucoes == "NA")
+                    {
+                        valorFinalManualInstrucoes = "NA";
+                    }
+                    else if (string.IsNullOrEmpty(valorcBManualInstrucoes))
+                    {
+                        valorFinalManualInstrucoes = "NC";
+                    }
+                    else if (valorcBManualInstrucoes == "A")
+                    {
+                        valorFinalManualInstrucoes = "C";
+                    }
+                    else
+                    {
+                        valorFinalManualInstrucoes = "NC";
+                    }
+
+                    worksheet.Cells[linhaAtual, 8] = valorFinalManualInstrucoes;
+
+                    var valorcBSeguro = dtEquipamentos.Valor("cBSeguro")?.ToString();
+                    string valorFinalSeguro;
+
+                    if (valorcBSeguro == "NA")
+                    {
+                        valorFinalSeguro = "NA";
+                    }
+                    else if (string.IsNullOrEmpty(valorcBSeguro))
+                    {
+                        valorFinalSeguro = "NC";
+                    }
+                    else if (valorcBSeguro == "A")
+                    {
+                        valorFinalSeguro = "C";
+                    }
+                    else
+                    {
+                        valorFinalSeguro = "NC";
+                    }
+
+                    worksheet.Cells[linhaAtual, 9] = valorFinalSeguro;
+
+                    linhaAtual++;
                         numeroEquipamento++;
                         dtEquipamentos.Seguinte();
                     }
@@ -2365,6 +2526,7 @@ WHERE
                 worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Font.Bold = true;
                 worksheet.Range[worksheet.Cells[linhaAtual, 1], worksheet.Cells[linhaAtual, 9]].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightBlue);
                 linhaAtual++;
+
 
                 // Cabeçalhos com N.º
                 worksheet.Cells[linhaAtual, 1] = "N.º";

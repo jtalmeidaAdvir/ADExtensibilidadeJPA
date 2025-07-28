@@ -20,6 +20,7 @@ namespace ADExtensibilidadeJPA
 {
     public partial class GestaoSubempreitada : Form
     {
+
         private string Edit = "0";
         private string EditEqui = "0";
         private string EditAut = "0";
@@ -90,7 +91,8 @@ namespace ADExtensibilidadeJPA
                     CDU_AnexoCertidaoPermanente, CDU_ValidadeCertidaoPermanente,
                     CDU_AnexoContrato, CDU_ValidadeContrato,
                     CDU_AnexoDeclaracaoPSS, CDU_ValidadeDeclaracaoPSS,
-                    CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro,ID
+                    CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro,CDU_AnexoSeguroResposabilidadeCivil,
+                    CDU_ValidadeSeguroResposabilidadeCivil,ID
                     FROM Geral_Entidade WHERE id = '{_idSelecionado}'";
 
                 var dados = _BSO.Consulta(query);
@@ -110,6 +112,7 @@ namespace ADExtensibilidadeJPA
                         SeguroUpdateCheckboxFromDB(checkBox8, dados, "CDU_AnexoSeguroAT", "Condições Seguro AT", "CDU_ValidadeSeguroAT");
                         SeguroUpdateCheckboxFromDB(checkBox9, dados, "CDU_AnexoAlvara", "Alvará", "CDU_ValidadeAlvara");
                         SeguroUpdateCheckboxFromDB(checkBox10, dados, "CDU_AnexoCertidaoPermanente", "Certidão Permanente", "CDU_ValidadeCertidaoPermanente");
+                        SeguroUpdateCheckboxFromDB(checkBox13, dados, "CDU_AnexoSeguroResposabilidadeCivil", "Seguro Resposabilidade Civil", "CDU_ValidadeSeguroResposabilidadeCivil");
                     }
                     catch (FormatException fex)
                     {
@@ -190,27 +193,27 @@ namespace ADExtensibilidadeJPA
 
                     var teste = dados.DaValor<string>("ID");
                     //MessageBox.Show(teste);
-        
-                        // Verifica se o valor é do tipo 'bit' (normalmente um tipo booleano ou 1/0)
+
+                    // Verifica se o valor é do tipo 'bit' (normalmente um tipo booleano ou 1/0)
                     if (valor is bool valorBool)
                     {
                         // Converte booleano para int (1 para true e 0 para false)
                         anexado = valorBool ? 1 : 0;
-              
+
                     }
                     else if (valor is int valorInt)
                     {
                         // Caso o valor já seja inteiro, usa ele diretamente
                         anexado = valorInt;
-           
+
                     }
                     else if (valor is string valorByte)
                     {
                         // Caso o valor seja byte (também poderia ser 1 ou 0), converte
                         anexado = int.Parse("1");
-    
+
                     }
-          
+
                 }
                 catch (Exception ex)
                 {
@@ -219,7 +222,7 @@ namespace ADExtensibilidadeJPA
                     anexado = 0;
                 }
 
-               
+
 
 
                 if (anexado == 1)
@@ -613,20 +616,25 @@ namespace ADExtensibilidadeJPA
             button8.Click += (sender, e) => AnexarDocumento("SeguroAT");
             button9.Click += (sender, e) => AnexarDocumento("Alvara");
             button10.Click += (sender, e) => AnexarDocumento("CertidaoPermanente");
+
+            button12.Click += (sender, e) => AnexarDocumento("SeguroResposabilidadeCivil"); // NOVO
+            button11.Click += (sender, e) => AnexarDocumentoAutorizar("Trabalhadores_Imigrantes"); // NOVO
+
             button14.Click += (sender, e) => AnexarDocumentoTrabalhador("CartaoCidadao");
-            button15.Click += (sender, e) => AnexarDocumentoTrabalhador("FichaMedica");
-            button16.Click += (sender, e) => AnexarDocumentoTrabalhador("Credenciacao");
+            button15.Click += (sender, e) => AnexarDocumentoTrabalhador("FichaAptidao");
+            button16.Click += (sender, e) => AnexarDocumentoTrabalhador("FormacaoProfissional");
             button17.Click += (sender, e) => AnexarDocumentoTrabalhador("Trabalhosespecializados");
             button18.Click += (sender, e) => AnexarDocumentoTrabalhador("FichaDistribuicao");
-            button20.Click += (sender, e) => AnexarDocumentoEquipamento("CertificadoCE");
-            button21.Click += (sender, e) => AnexarDocumentoEquipamento("Certificado_Declaracao");
+            button20.Click += (sender, e) => AnexarDocumentoEquipamento("ConformidadeCE");
+            button21.Click += (sender, e) => AnexarDocumentoEquipamento("Decreto-Lei");
             button22.Click += (sender, e) => AnexarDocumentoEquipamento("RegistoManutencao");
-            button23.Click += (sender, e) => AnexarDocumentoEquipamento("ManualUtilizador");
+            button23.Click += (sender, e) => AnexarDocumentoEquipamento("ManualInstrucoes");
             button24.Click += (sender, e) => AnexarDocumentoEquipamento("seguro");
             button35.Click += (sender, e) => AnexarDocumentoAutorizar("contrato");
             button31.Click += (sender, e) => AnexarDocumentoAutorizar("Horario");
             button32.Click += (sender, e) => AnexarDocumentoAutorizar("Declaracao_PSS");
             button7.Click += (sender, e) => AnexarDocumentoAutorizar("Declaracao_Estaleiro");
+
         }
         private void AnexarDocumentoAutorizar(string tipoDocumento)
         {
@@ -789,7 +797,7 @@ namespace ADExtensibilidadeJPA
                 // Solicitar data de validade
                 DateTime dataValidade;
 
-                if (tipoDocumento == "CertificadoCE" || tipoDocumento == "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
+                if (tipoDocumento == "ConformidadeCE" || tipoDocumento == "Decreto-Lei" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualInstrucoes")
                 {
                     dataValidade = DateTime.Today;
                 }
@@ -908,7 +916,7 @@ namespace ADExtensibilidadeJPA
 
                         // Recarregar os dados para garantir exibição correta
                         // CarregarStatusDocumentos();
-                        if (tipoDocumento == "CertificadoCE" || tipoDocumento == "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
+                        if (tipoDocumento == "ConformidadeCE" || tipoDocumento == "Decreto-Lei" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualInstrucoes")
                         {
                             MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!",
                    "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1094,6 +1102,11 @@ namespace ADExtensibilidadeJPA
                     checkBox = checkBox7;
                     nomeDocumento = "Declaracao_Estaleiro";
                     break;
+
+                case "Trabalhadores_Imigrantes":
+                    checkBox = checkBox12;
+                    nomeDocumento = "Trabalhadores_Imigrantes";
+                    break;
             }
 
             // Se encontrou o checkbox, atualiza seu estado e texto
@@ -1127,21 +1140,21 @@ namespace ADExtensibilidadeJPA
             // Identificar qual checkbox deve ser atualizado com base no tipo de documento
             switch (tipoDocumento)
             {
-                case "CertificadoCE":
+                case "ConformidadeCE":
                     checkBox = checkBox19;
-                    nomeDocumento = "CertificadoCE";
+                    nomeDocumento = "ConformidadeCE";
                     break;
-                case "Certificado_Declaracao":
+                case "Decreto-Lei":
                     checkBox = checkBox20;
-                    nomeDocumento = "Certificado_Declaracao";
+                    nomeDocumento = "Decreto-Lei";
                     break;
                 case "RegistoManutencao":
                     checkBox = checkBox21;
                     nomeDocumento = "RegistoManutencao";
                     break;
-                case "ManualUtilizador":
+                case "ManualInstrucoes":
                     checkBox = checkBox22;
-                    nomeDocumento = "ManualUtilizador";
+                    nomeDocumento = "ManualInstrucoes";
                     break;
                 case "seguro":
                     checkBox = checkBox23;
@@ -1150,7 +1163,7 @@ namespace ADExtensibilidadeJPA
             }
 
 
-            if (tipoDocumento == "CertificadoCE" || tipoDocumento == "Certificado_Declaracao" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualUtilizador")
+            if (tipoDocumento == "ConformidadeCE" || tipoDocumento == "Decreto-Lei" || tipoDocumento == "RegistoManutencao" || tipoDocumento == "ManualInstrucoes")
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
@@ -1196,13 +1209,13 @@ namespace ADExtensibilidadeJPA
                     checkBox = checkBox14;
                     nomeDocumento = "CartaoCidadao";
                     break;
-                case "FichaMedica":
+                case "FichaAptidao":
                     checkBox = checkBox15;
-                    nomeDocumento = "FichaMedica";
+                    nomeDocumento = "FichaAptidao";
                     break;
-                case "Credenciacao":
+                case "FormacaoProfissional":
                     checkBox = checkBox16;
-                    nomeDocumento = "Credenciacao";
+                    nomeDocumento = "FormacaoProfissional";
                     break;
                 case "Trabalhosespecializados":
                     checkBox = checkBox17;
@@ -1418,6 +1431,10 @@ namespace ADExtensibilidadeJPA
                     checkBox = checkBox10;
                     nomeDocumento = "Certidão Permanente";
                     break;
+                case "SeguroResposabilidadeCivil":
+                    checkBox = checkBox13;
+                    nomeDocumento = "Seguro Resposabilidade Civil";
+                    break;
             }
             if (tipoDocumento == "SeguroAT")
             {
@@ -1516,6 +1533,10 @@ namespace ADExtensibilidadeJPA
                     case "ResponsavelEstaleiro":
                         colunaAnexo = "CDU_AnexoResponsavelEstaleiro";
                         colunaValidade = "CDU_ValidadeResponsavelEstaleiro";
+                        break;
+                    case "SeguroResposabilidadeCivil":
+                        colunaAnexo = "CDU_AnexoSeguroResposabilidadeCivil";
+                        colunaValidade = "CDU_ValidadeSeguroResposabilidadeCivil";
                         break;
                     default:
                         // Caso não mapeado, usar o nome do tipo como parte do nome da coluna
@@ -1804,94 +1825,7 @@ namespace ADExtensibilidadeJPA
 
 
         }
-        private void AtualizaTrabalhador()
-        {
-            // Obtém os dados a serem atualizados
-            string nome = txt_nometrab.Text;
-            string categoriatrab = txt_categoriatrab.Text;
-            string contribuintetrab = txt_contribuintetrab.Text;
-            string segurancasocialtrab = txt_segurancasocialtrab.Text;
-            int anexo1 = checkBox14.Checked ? 1 : 0;
-            int anexo2 = checkBox15.Checked ? 1 : 0;
-            int anexo3 = checkBox16.Checked ? 1 : 0;
-            int anexo4 = checkBox17.Checked ? 1 : 0;
-            int anexo5 = checkBox18.Checked ? 1 : 0;
-            string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
-            var datanasci = $"";
 
-            if (dtpnascimento2 == "'1753-01-01 00:00:00'")
-            {
-                datanasci = $"";
-            }
-            else
-            {
-                datanasci = $"{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}";
-            }
-            // Encontre a linha selecionada no DataGridView para atualização, usando o 'contribuinte' como filtro
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                if (row.Cells["contribuinte"].Value != null && row.Cells["contribuinte"].Value.ToString() == contribuintetrab) // Verifica o contribuinte
-                {
-                    // Atualiza os valores na linha
-                    row.Cells["nome"].Value = nome;
-                    row.Cells["categoria"].Value = categoriatrab;
-                    row.Cells["SSocial"].Value = segurancasocialtrab;
-                    row.Cells["AnexoCC"].Value = anexo1;
-                    row.Cells["AnexoFM"].Value = anexo2;
-                    row.Cells["AnexoCT"].Value = anexo3;
-                    row.Cells["AnexoTE"].Value = anexo4;
-                    row.Cells["AnexoEPI"].Value = anexo5;
-
-                    // Atualiza as labels de texto no DataGridView
-                    row.Cells["caminho1"].Value = checkBox14.Text;
-                    row.Cells["caminho2"].Value = checkBox15.Text;
-                    row.Cells["caminho3"].Value = checkBox16.Text;
-                    row.Cells["caminho4"].Value = checkBox17.Text;
-                    row.Cells["caminho5"].Value = checkBox18.Text;
-
-                    row.Cells["DataNasc"].Value = datanasci;
-
-                    break; // Encontre e atualize a primeira linha correspondente
-                }
-            }
-            string caminho1 = SanitizeString(checkBox14.Text);
-            string caminho2 = SanitizeString(checkBox15.Text);
-            string caminho3 = SanitizeString(checkBox16.Text);
-            string caminho4 = SanitizeString(checkBox17.Text);
-            string caminho5 = SanitizeString(checkBox18.Text);
-            // Atualiza os dados na base de dados com o filtro no "contribuinte"
-            string queryUpdate = $@"
-        UPDATE TDU_AD_Trabalhadores
-        SET nome = '{nome}',
-            categoria = '{categoriatrab}', 
-            contribuinte = '{contribuintetrab}', 
-            seguranca_social = '{segurancasocialtrab}', 
-            anexo1 = {anexo1}, 
-            anexo2 = {anexo2}, 
-            anexo3 = {anexo3}, 
-            anexo4 = {anexo4}, 
-            anexo5 = {anexo5},
-            caminho1 = '{caminho1}',
-            caminho2 = '{caminho2}',
-            caminho3 = '{caminho3}',
-            caminho4 = '{caminho4}',
-            caminho5 = '{caminho5}',
-            data_nascimento = '{datanasci}'
-        WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuintetrab}';
-    ";
-
-            // Executa a query de atualização no banco de dados
-            _BSO.DSO.ExecuteSQL(queryUpdate);
-
-            // Mostra uma mensagem de confirmação
-            MessageBox.Show("Trabalhador atualizado com sucesso.");
-
-            // Limpa os campos de entrada após a atualização
-            LimpaCampos();
-
-            // Opcional: Retorna o foco para o primeiro campo
-            txt_nometrab.Focus();
-        }
 
         private void LimpaCampos()
         {
@@ -1911,6 +1845,9 @@ namespace ADExtensibilidadeJPA
             checkBox16.Text = "";
             checkBox17.Text = "";
             checkBox18.Text = "";
+
+            cb_FormacaoProfissional.SelectedIndex = 0;
+            cb_especializados.SelectedIndex = 0;
             txt_contribuintetrab.Enabled = true;
             dtpnascimento.Value = DateTime.Now;
             bt_remover.Visible = false;
@@ -1919,126 +1856,7 @@ namespace ADExtensibilidadeJPA
 
         }
 
-        private void InsereTrabalhador()
-        {
-            string nome = txt_nometrab.Text;  // Supondo que tenha um TextBox chamado txtNome
-            string categoriatrab = txt_categoriatrab.Text;
-            string contribuintetrab = txt_contribuintetrab.Text;
-            string segurancasocialtrab = txt_segurancasocialtrab.Text;
-            int anexo1 = checkBox14.Checked ? 1 : 0;
-            int anexo2 = checkBox15.Checked ? 1 : 0;
-            int anexo3 = checkBox16.Checked ? 1 : 0;
-            int anexo4 = checkBox17.Checked ? 1 : 0;
-            int anexo5 = checkBox18.Checked ? 1 : 0;
-            string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
-            var datanasci = $"";
 
-            if (dtpnascimento2 == "'1753-01-01 00:00:00'")
-            {
-                datanasci = $"";
-            }
-            else
-            {
-                datanasci = $"{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}";
-            }
-            string checkContribuinteQuery = $@"
-            SELECT * FROM TDU_AD_Trabalhadores 
-            WHERE contribuinte = '{contribuintetrab}' AND id_empresa = '{_idSelecionado}'
-        ";
-
-            var contribuinteExistente = _BSO.Consulta(checkContribuinteQuery);
-
-            if (contribuinteExistente.NumLinhas() > 0)
-            {
-                MessageBox.Show("O contribuinte já está registrado. A inserção não será realizada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Se já existe, não prossegue com a inserção
-            }
-
-            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, datanasci);
-
-            // Aqui, você pode ocultar a coluna do checkBox Text (opcionalmente)
-            int lastColumnIndex = dataGridView1.Columns.Count - 1; // Última coluna (onde você adicionou checkBox14.Text)
-            dataGridView1.Columns[lastColumnIndex].Visible = false;
-            // adcionar no sql
-            string checkAndCreateColumnsQuery = $@"
-            -- Verificar e criar a coluna 'id_entidade'
-            -- Verificar e criar a coluna 'nome'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'id_empresa')
-                ALTER TABLE TDU_AD_Trabalhadores ADD id_empresa NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'nome'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'nome')
-                ALTER TABLE TDU_AD_Trabalhadores ADD nome NVARCHAR(255);
-            -- Verificar e criar a coluna 'nome'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'data_nascimento')
-                ALTER TABLE TDU_AD_Trabalhadores ADD data_nascimento NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'categoria'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'categoria')
-                ALTER TABLE TDU_AD_Trabalhadores ADD categoria NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'contribuinte'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'contribuinte')
-                ALTER TABLE TDU_AD_Trabalhadores ADD contribuinte NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'seguranca_social'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'seguranca_social')
-                ALTER TABLE TDU_AD_Trabalhadores ADD seguranca_social NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'anexo1' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo1')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo1 BIT;
-
-            -- Verificar e criar a coluna 'anexo2' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo2')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo2 BIT;
-
-            -- Verificar e criar a coluna 'anexo3' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo3')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo3 BIT;
-
-            -- Verificar e criar a coluna 'anexo4' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo4')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo4 BIT;
-
-            -- Verificar e criar a coluna 'anexo5' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo5')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo5 BIT;
-
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho1')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho1 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho2')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho2 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho3')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho3 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho4')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho4 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho5')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho5 NVARCHAR(255);
-            ";
-
-            // Executa a query de verificação e criação das colunas
-            _BSO.DSO.ExecuteSQL(checkAndCreateColumnsQuery);
-
-            // Fazendo uma substituição para caracteres especiais
-            string caminho1 = SanitizeString(checkBox14.Text);
-            string caminho2 = SanitizeString(checkBox15.Text);
-            string caminho3 = SanitizeString(checkBox16.Text);
-            string caminho4 = SanitizeString(checkBox17.Text);
-            string caminho5 = SanitizeString(checkBox18.Text);
-            string query = $@"
-                INSERT INTO TDU_AD_Trabalhadores 
-            (id_empresa, nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5,data_nascimento) 
-            VALUES 
-            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{datanasci}')
-            ";
-
-            _BSO.DSO.ExecuteSQL(query);
-            // Limpa os campos após adicionar
-            LimpaCampos();
-            // Opcional: Retorna o foco para o primeiro campo
-            txt_nometrab.Focus();
-        }
 
         // Função para tratar e "sanitizar" a string
         private string SanitizeString(string input)
@@ -2073,6 +1891,9 @@ namespace ADExtensibilidadeJPA
                 VerificarEColorirCheckBox(checkBox16, row.Cells["caminho3"].Value);
                 VerificarEColorirCheckBox(checkBox17, row.Cells["caminho4"].Value);
                 VerificarEColorirCheckBox(checkBox18, row.Cells["caminho5"].Value);
+
+                cb_FormacaoProfissional.Text = row.Cells["CBFormacaoProfissional"].Value.ToString();
+                cb_especializados.Text = row.Cells["CBespecializados"].Value.ToString();
 
                 var datanascimento = row.Cells["DataNasc"].Value.ToString();
                 DateTime dataNasc;
@@ -2160,59 +1981,7 @@ namespace ADExtensibilidadeJPA
             return false;
         }
 
-        private void CarregarTrabalhadores()
-        {
-            // Consulta para buscar os trabalhadores na base de dados
-            string query = $@"
-            SELECT nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, data_nascimento
-            FROM TDU_AD_Trabalhadores
-            WHERE id_empresa = '{_idSelecionado}';
-        ";
 
-            // Execute a consulta e recupere os dados
-            var trabalhadores = _BSO.Consulta(query);
-
-            dataGridView1.Rows.Clear();
-
-
-            var numtrabalhadores = trabalhadores.NumLinhas();
-            trabalhadores.Inicio();
-            for (int i = 0; i < numtrabalhadores; i++)
-            {
-                var nome = trabalhadores.DaValor<string>("nome");
-                var categoriatrab = trabalhadores.DaValor<string>("categoria");
-                var contribuintetrab = trabalhadores.DaValor<string>("contribuinte");
-                var segurancasocialtrab = trabalhadores.DaValor<string>("seguranca_social");
-                var anexo1 = trabalhadores.DaValor<bool>("anexo1");
-                var anexo2 = trabalhadores.DaValor<bool>("anexo2");
-                var anexo3 = trabalhadores.DaValor<bool>("anexo3");
-                var anexo4 = trabalhadores.DaValor<bool>("anexo4");
-                var anexo5 = trabalhadores.DaValor<bool>("anexo5");
-                var caminho1 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho1"));
-                var caminho2 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho2"));
-                var caminho3 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho3"));
-                var caminho4 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho4"));
-                var caminho5 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho5"));
-                var datanascimento = trabalhadores.DaValor<string>("data_nascimento");
-                if (trabalhadores.DaValor<string>("data_nascimento").ToString() == "01/01/1753 00:00:00")
-                {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, "");
-                }
-                else
-                {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, datanascimento);
-
-                }
-
-
-
-                //dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5);
-                trabalhadores.Seguinte();
-            }
-
-
-
-        }
 
         private string RestoreSanitizedString(string input)
         {
@@ -2357,6 +2126,105 @@ namespace ADExtensibilidadeJPA
             }
 
         }
+        private void AtualizaTrabalhador()
+        {
+            // Obtém os dados a serem atualizados
+            string nome = txt_nometrab.Text;
+            string categoriatrab = txt_categoriatrab.Text;
+            string contribuintetrab = txt_contribuintetrab.Text;
+            string segurancasocialtrab = txt_segurancasocialtrab.Text;
+            int anexo1 = checkBox14.Checked ? 1 : 0;
+            int anexo2 = checkBox15.Checked ? 1 : 0;
+            int anexo3 = checkBox16.Checked ? 1 : 0;
+            int anexo4 = checkBox17.Checked ? 1 : 0;
+            int anexo5 = checkBox18.Checked ? 1 : 0;
+
+            var cBFormacaoProfissional = cb_FormacaoProfissional.Text;
+            var cBespecializados = cb_especializados.Text;
+
+            string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
+            var datanasci = $"";
+
+            if (dtpnascimento2 == "'1753-01-01 00:00:00'")
+            {
+                datanasci = $"";
+            }
+            else
+            {
+                datanasci = $"{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}";
+            }
+            // Encontre a linha selecionada no DataGridView para atualização, usando o 'contribuinte' como filtro
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells["contribuinte"].Value != null && row.Cells["contribuinte"].Value.ToString() == contribuintetrab) // Verifica o contribuinte
+                {
+                    // Atualiza os valores na linha
+                    row.Cells["nome"].Value = nome;
+                    row.Cells["categoria"].Value = categoriatrab;
+                    row.Cells["SSocial"].Value = segurancasocialtrab;
+                    row.Cells["AnexoCC"].Value = anexo1;
+                    row.Cells["AnexoFM"].Value = anexo2;
+                    row.Cells["AnexoCT"].Value = anexo3;
+                    row.Cells["AnexoTE"].Value = anexo4;
+                    row.Cells["AnexoEPI"].Value = anexo5;
+
+                    // Atualiza as labels de texto no DataGridView
+                    row.Cells["caminho1"].Value = checkBox14.Text;
+                    row.Cells["caminho2"].Value = checkBox15.Text;
+                    row.Cells["caminho3"].Value = checkBox16.Text;
+                    row.Cells["caminho4"].Value = checkBox17.Text;
+                    row.Cells["caminho5"].Value = checkBox18.Text;
+
+                    row.Cells["CBFormacaoProfissional"].Value = cBFormacaoProfissional;
+                    row.Cells["CBespecializados"].Value = cBespecializados;
+
+                    row.Cells["DataNasc"].Value = datanasci;
+
+                    break; // Encontre e atualize a primeira linha correspondente
+                }
+            }
+            string caminho1 = SanitizeString(checkBox14.Text);
+            string caminho2 = SanitizeString(checkBox15.Text);
+            string caminho3 = SanitizeString(checkBox16.Text);
+            string caminho4 = SanitizeString(checkBox17.Text);
+            string caminho5 = SanitizeString(checkBox18.Text);
+            // Atualiza os dados na base de dados com o filtro no "contribuinte"
+            string queryUpdate = $@"
+        UPDATE TDU_AD_Trabalhadores
+        SET nome = '{nome}',
+            categoria = '{categoriatrab}', 
+            contribuinte = '{contribuintetrab}', 
+            seguranca_social = '{segurancasocialtrab}', 
+            anexo1 = {anexo1}, 
+            anexo2 = {anexo2}, 
+            anexo3 = {anexo3}, 
+            anexo4 = {anexo4}, 
+            anexo5 = {anexo5},
+            caminho1 = '{caminho1}',
+            caminho2 = '{caminho2}',
+            caminho3 = '{caminho3}',
+            caminho4 = '{caminho4}',
+            caminho5 = '{caminho5}',
+
+            cBFormacaoProfissional = '{cBFormacaoProfissional}', 
+            cBespecializados = '{cBespecializados}', 
+
+            data_nascimento = '{datanasci}'
+        WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuintetrab}';
+    ";
+
+            // Executa a query de atualização no banco de dados
+            _BSO.DSO.ExecuteSQL(queryUpdate);
+
+            // Mostra uma mensagem de confirmação
+            MessageBox.Show("Trabalhador atualizado com sucesso.");
+
+            // Limpa os campos de entrada após a atualização
+            LimpaCampos();
+
+            // Opcional: Retorna o foco para o primeiro campo
+            txt_nometrab.Focus();
+        }
 
         private void AtualizaEquipamento()
         {
@@ -2370,6 +2238,12 @@ namespace ADExtensibilidadeJPA
             int anexo4 = checkBox22.Checked ? 1 : 0;
             int anexo5 = checkBox23.Checked ? 1 : 0;
             var cBSeguro = cb_seguro.Text;
+            var cBManualInstrucoes = cb_ManualInstrucoes.Text;
+            var cBManutencao = cb_Manutencao.Text;
+            var cBDecreto_Lei = cb_Decreto_Lei.Text;
+            var cBConformidadeCE = cb_ConformidadeCE.Text;
+
+
             // Encontre a linha selecionada no DataGridView para atualização, usando o 'contribuinte' como filtro
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
@@ -2394,6 +2268,10 @@ namespace ADExtensibilidadeJPA
                     row.Cells["caminho9"].Value = checkBox22.Text;
                     row.Cells["caminho10"].Value = checkBox23.Text;
                     row.Cells["CBSeguro"].Value = cBSeguro;
+                    row.Cells["CBManualInstrucoes"].Value = cBManualInstrucoes;
+                    row.Cells["CBManutencao"].Value = cBManutencao;
+                    row.Cells["CBDecreto_Lei"].Value = cBDecreto_Lei;
+                    row.Cells["CBConformidadeCE"].Value = cBConformidadeCE;
 
                     break; // Encontre e atualize a primeira linha correspondente
                 }
@@ -2418,7 +2296,11 @@ namespace ADExtensibilidadeJPA
             caminho3 = '{caminho3}',
             caminho4 = '{caminho4}',
             caminho5 = '{caminho5}',
-            cBSeguro = '{cBSeguro}'
+            cBSeguro = '{cBSeguro}',
+            cBManualInstrucoes = '{cBManualInstrucoes}',
+            cBManutencao = '{cBManutencao}',
+            cBDecreto_Lei = '{cBDecreto_Lei}',
+            cBConformidadeCE = '{cBConformidadeCE}'
         WHERE id_empresa = '{_idSelecionado}' AND serie = '{serie}';
     ";
 
@@ -2433,6 +2315,131 @@ namespace ADExtensibilidadeJPA
 
             // Opcional: Retorna o foco para o primeiro campo
             txt_marca.Focus();
+        }
+
+        private void InsereTrabalhador()
+        {
+            string nome = txt_nometrab.Text;  // Supondo que tenha um TextBox chamado txtNome
+            string categoriatrab = txt_categoriatrab.Text;
+            string contribuintetrab = txt_contribuintetrab.Text;
+            string segurancasocialtrab = txt_segurancasocialtrab.Text;
+            int anexo1 = checkBox14.Checked ? 1 : 0;
+            int anexo2 = checkBox15.Checked ? 1 : 0;
+            int anexo3 = checkBox16.Checked ? 1 : 0;
+            int anexo4 = checkBox17.Checked ? 1 : 0;
+            int anexo5 = checkBox18.Checked ? 1 : 0;
+
+            var cBFormacaoProfissional = cb_FormacaoProfissional.Text;
+            var cBespecializados = cb_especializados.Text;
+
+            string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
+            var datanasci = $"";
+
+            if (dtpnascimento2 == "'1753-01-01 00:00:00'")
+            {
+                datanasci = $"";
+            }
+            else
+            {
+                datanasci = $"{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}";
+            }
+            string checkContribuinteQuery = $@"
+            SELECT * FROM TDU_AD_Trabalhadores 
+            WHERE contribuinte = '{contribuintetrab}' AND id_empresa = '{_idSelecionado}'
+        ";
+
+            var contribuinteExistente = _BSO.Consulta(checkContribuinteQuery);
+
+            if (contribuinteExistente.NumLinhas() > 0)
+            {
+                MessageBox.Show("O contribuinte já está registrado. A inserção não será realizada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Se já existe, não prossegue com a inserção
+            }
+
+            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, cBFormacaoProfissional, cBespecializados, datanasci);
+
+            // Aqui, você pode ocultar a coluna do checkBox Text (opcionalmente)
+            int lastColumnIndex = dataGridView1.Columns.Count - 1; // Última coluna (onde você adicionou checkBox14.Text)
+            dataGridView1.Columns[lastColumnIndex].Visible = false;
+            // adcionar no sql
+            string checkAndCreateColumnsQuery = $@"
+            -- Verificar e criar a coluna 'id_entidade'
+            -- Verificar e criar a coluna 'nome'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'id_empresa')
+                ALTER TABLE TDU_AD_Trabalhadores ADD id_empresa NVARCHAR(255);
+
+            -- Verificar e criar a coluna 'nome'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'nome')
+                ALTER TABLE TDU_AD_Trabalhadores ADD nome NVARCHAR(255);
+            -- Verificar e criar a coluna 'nome'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'data_nascimento')
+                ALTER TABLE TDU_AD_Trabalhadores ADD data_nascimento NVARCHAR(255);
+
+            -- Verificar e criar a coluna 'categoria'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'categoria')
+                ALTER TABLE TDU_AD_Trabalhadores ADD categoria NVARCHAR(255);
+
+            -- Verificar e criar a coluna 'contribuinte'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'contribuinte')
+                ALTER TABLE TDU_AD_Trabalhadores ADD contribuinte NVARCHAR(255);
+
+            -- Verificar e criar a coluna 'seguranca_social'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'seguranca_social')
+                ALTER TABLE TDU_AD_Trabalhadores ADD seguranca_social NVARCHAR(255);
+
+            -- Verificar e criar a coluna 'anexo1' (booleano)
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo1')
+                ALTER TABLE TDU_AD_Trabalhadores ADD anexo1 BIT;
+
+            -- Verificar e criar a coluna 'anexo2' (booleano)
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo2')
+                ALTER TABLE TDU_AD_Trabalhadores ADD anexo2 BIT;
+
+            -- Verificar e criar a coluna 'anexo3' (booleano)
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo3')
+                ALTER TABLE TDU_AD_Trabalhadores ADD anexo3 BIT;
+
+            -- Verificar e criar a coluna 'anexo4' (booleano)
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo4')
+                ALTER TABLE TDU_AD_Trabalhadores ADD anexo4 BIT;
+
+            -- Verificar e criar a coluna 'anexo5' (booleano)
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo5')
+                ALTER TABLE TDU_AD_Trabalhadores ADD anexo5 BIT;
+
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho1')
+                ALTER TABLE TDU_AD_Trabalhadores ADD caminho1 NVARCHAR(255);
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho2')
+                ALTER TABLE TDU_AD_Trabalhadores ADD caminho2 NVARCHAR(255);
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho3')
+                ALTER TABLE TDU_AD_Trabalhadores ADD caminho3 NVARCHAR(255);
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho4')
+                ALTER TABLE TDU_AD_Trabalhadores ADD caminho4 NVARCHAR(255);
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho5')
+                ALTER TABLE TDU_AD_Trabalhadores ADD caminho5 NVARCHAR(255);
+            ";
+
+            // Executa a query de verificação e criação das colunas
+            _BSO.DSO.ExecuteSQL(checkAndCreateColumnsQuery);
+
+            // Fazendo uma substituição para caracteres especiais
+            string caminho1 = SanitizeString(checkBox14.Text);
+            string caminho2 = SanitizeString(checkBox15.Text);
+            string caminho3 = SanitizeString(checkBox16.Text);
+            string caminho4 = SanitizeString(checkBox17.Text);
+            string caminho5 = SanitizeString(checkBox18.Text);
+            string query = $@"
+                INSERT INTO TDU_AD_Trabalhadores 
+            (id_empresa, nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5,cBFormacaoProfissional,cBespecializados,data_nascimento) 
+            VALUES 
+            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{cBFormacaoProfissional}','{cBespecializados}','{datanasci}')
+            ";
+
+            _BSO.DSO.ExecuteSQL(query);
+            // Limpa os campos após adicionar
+            LimpaCampos();
+            // Opcional: Retorna o foco para o primeiro campo
+            txt_nometrab.Focus();
         }
 
         private void InsereEquipamento()
@@ -2481,9 +2488,13 @@ namespace ADExtensibilidadeJPA
                 return;
             }
             var cBSeguro = cb_seguro.Text;
+            var cBManualInstrucoes = cb_ManualInstrucoes.Text;
+            var cBManutencao = cb_Manutencao.Text;
+            var cBDecreto_Lei = cb_Decreto_Lei.Text;
+            var cBConformidadeCE = cb_ConformidadeCE.Text;
             // Adiciona os dados ao DataGridView
             dataGridView2.Rows.Add(marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5,
-                                    checkBox19.Text, checkBox20.Text, checkBox21.Text, checkBox22.Text, checkBox23.Text, cBSeguro);
+                                    checkBox19.Text, checkBox20.Text, checkBox21.Text, checkBox22.Text, checkBox23.Text, cBSeguro, cBManualInstrucoes, cBManutencao, cBDecreto_Lei, cBConformidadeCE);
 
             // Oculta a última coluna (se necessário)
             int lastColumnIndex = dataGridView2.Columns.Count - 1;
@@ -2497,25 +2508,120 @@ namespace ADExtensibilidadeJPA
             string caminho5 = SanitizeString(checkBox23.Text);
 
 
-            string checkColumnQuery = @"
-IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
-               WHERE TABLE_NAME = 'TDU_AD_Equipamentos' 
-               AND COLUMN_NAME = 'cBSeguro')
+            string checkColumnsQuery = @"
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_NAME = 'TDU_AD_Equipamentos' 
+    AND COLUMN_NAME = 'cBSeguro')
 BEGIN
     ALTER TABLE TDU_AD_Equipamentos ADD cBSeguro NVARCHAR(255);
-END";
-            _BSO.DSO.ExecuteSQL(checkColumnQuery);
+END
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_NAME = 'TDU_AD_Equipamentos' 
+    AND COLUMN_NAME = 'cBManualInstrucoes')
+BEGIN
+    ALTER TABLE TDU_AD_Equipamentos ADD cBManualInstrucoes NVARCHAR(255);
+END
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_NAME = 'TDU_AD_Equipamentos' 
+    AND COLUMN_NAME = 'cBManutencao')
+BEGIN
+    ALTER TABLE TDU_AD_Equipamentos ADD cBManutencao NVARCHAR(255);
+END
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_NAME = 'TDU_AD_Equipamentos' 
+    AND COLUMN_NAME = 'cBDecreto_Lei')
+BEGIN
+    ALTER TABLE TDU_AD_Equipamentos ADD cBDecreto_Lei NVARCHAR(255);
+END
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_NAME = 'TDU_AD_Equipamentos' 
+    AND COLUMN_NAME = 'cBConformidadeCE')
+BEGIN
+    ALTER TABLE TDU_AD_Equipamentos ADD cBConformidadeCE NVARCHAR(255);
+END
+
+
+";
+
+            _BSO.DSO.ExecuteSQL(checkColumnsQuery);
             // Insere os dados na tabela
             string insertQuery = $@"
     INSERT INTO TDU_AD_Equipamentos 
-    (id_empresa, marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro) 
-    VALUES ('{_idSelecionado}', '{marca}', '{tipo}', '{serie}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}', '{cBSeguro}')";
+    (id_empresa, marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro, cBManualInstrucoes,cBManutencao,cBDecreto_Lei) 
+    VALUES ('{_idSelecionado}', '{marca}', '{tipo}', '{serie}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}', '{cBSeguro}', '{cBManualInstrucoes}', '{cBManutencao}', '{cBDecreto_Lei}')";
 
             _BSO.DSO.ExecuteSQL(insertQuery);
 
             // Limpa os campos
             LimpaCamposEqui();
             txt_marca.Focus();
+        }
+        private void CarregarTrabalhadores()
+        {
+            // Consulta para buscar os trabalhadores na base de dados
+            string query = $@"
+            SELECT nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional,cBespecializados, data_nascimento
+            FROM TDU_AD_Trabalhadores
+            WHERE id_empresa = '{_idSelecionado}';
+        ";
+
+            // Execute a consulta e recupere os dados
+            var trabalhadores = _BSO.Consulta(query);
+
+            dataGridView1.Rows.Clear();
+
+
+            var numtrabalhadores = trabalhadores.NumLinhas();
+            trabalhadores.Inicio();
+            for (int i = 0; i < numtrabalhadores; i++)
+            {
+                var nome = trabalhadores.DaValor<string>("nome");
+                var categoriatrab = trabalhadores.DaValor<string>("categoria");
+                var contribuintetrab = trabalhadores.DaValor<string>("contribuinte");
+                var segurancasocialtrab = trabalhadores.DaValor<string>("seguranca_social");
+                var anexo1 = trabalhadores.DaValor<bool>("anexo1");
+                var anexo2 = trabalhadores.DaValor<bool>("anexo2");
+                var anexo3 = trabalhadores.DaValor<bool>("anexo3");
+                var anexo4 = trabalhadores.DaValor<bool>("anexo4");
+                var anexo5 = trabalhadores.DaValor<bool>("anexo5");
+                var caminho1 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho1"));
+                var caminho2 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho2"));
+                var caminho3 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho3"));
+                var caminho4 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho4"));
+                var caminho5 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho5"));
+
+                var cBFormacaoProfissional = trabalhadores.DaValor<string>("cBFormacaoProfissional");
+                var cBespecializados = trabalhadores.DaValor<string>("cBespecializados");
+
+                var datanascimento = trabalhadores.DaValor<string>("data_nascimento");
+                if (trabalhadores.DaValor<string>("data_nascimento").ToString() == "01/01/1753 00:00:00")
+                {
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, "");
+                }
+                else
+                {
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
+
+                }
+
+
+
+                //dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5);
+                trabalhadores.Seguinte();
+            }
+            cb_FormacaoProfissional.SelectedIndex = 0;
+            cb_especializados.SelectedIndex = 0;
+
+
         }
 
         private void LimpaCamposEqui()
@@ -2541,6 +2647,10 @@ END";
             button26.Visible = false;
             txt_serie.Enabled = true;
             cb_seguro.SelectedIndex = 0;
+            cb_ManualInstrucoes.SelectedIndex = 0;
+            cb_Manutencao.SelectedIndex = 0;
+            cb_Decreto_Lei.SelectedIndex = 0;
+            cb_ConformidadeCE.SelectedIndex = 0;
             EditEqui = "0";
         }
 
@@ -2568,6 +2678,10 @@ END";
                 VerificarEColorirCheckBox(checkBox22, row.Cells["caminho9"].Value);
                 VerificarEColorirCheckBox(checkBox23, row.Cells["caminho10"].Value);
                 cb_seguro.Text = row.Cells["CBSeguro"].Value.ToString();
+                cb_ManualInstrucoes.Text = row.Cells["CBManualInstrucoes"].Value.ToString();
+                cb_Manutencao.Text = row.Cells["CBManutencao"].Value.ToString();
+                cb_Decreto_Lei.Text = row.Cells["CBDecreto_Lei"].Value.ToString();
+                cb_ConformidadeCE.Text = row.Cells["CBConformidadeCE"].Value.ToString();
 
                 txt_serie.Enabled = false;
                 button27.Visible = true;
@@ -2581,7 +2695,7 @@ END";
         {
             // Consulta para buscar os trabalhadores na base de dados
             string query = $@"
-        SELECT marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro
+        SELECT marca, tipo, serie, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro, cBManualInstrucoes, cBManutencao, cBDecreto_Lei, cBConformidadeCE
         FROM TDU_AD_Equipamentos
         WHERE id_empresa = '{_idSelecionado}';
         ";
@@ -2610,12 +2724,20 @@ END";
                 var caminho4 = equipamentos.DaValor<string>("caminho4");
                 var caminho5 = RestoreSanitizedString(equipamentos.DaValor<string>("caminho5"));
                 var cBSeguro = equipamentos.DaValor<string>("cBSeguro");
+                var cBManualInstrucoes = equipamentos.DaValor<string>("cBManualInstrucoes");
+                var cBManutencao = equipamentos.DaValor<string>("cBManutencao");
+                var cBDecreto_Lei = equipamentos.DaValor<string>("cBDecreto_Lei");
+                var cBConformidadeCE = equipamentos.DaValor<string>("cBConformidadeCE");
 
 
-                dataGridView2.Rows.Add(nome, categoriatrab, contribuintetrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro);
+                dataGridView2.Rows.Add(nome, categoriatrab, contribuintetrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro, cBManualInstrucoes, cBManutencao, cBDecreto_Lei, cBConformidadeCE);
                 equipamentos.Seguinte();
             }
             cb_seguro.SelectedIndex = 0;
+            cb_ManualInstrucoes.SelectedIndex = 0;
+            cb_Manutencao.SelectedIndex = 0;
+            cb_Decreto_Lei.SelectedIndex = 0;
+            cb_ConformidadeCE.SelectedIndex = 0;
         }
 
         private void button26_Click(object sender, EventArgs e)
@@ -2821,10 +2943,12 @@ ORDER BY
             int anexo2 = checkBox25.Checked ? 1 : 0;
             int anexo3 = checkBox26.Checked ? 1 : 0;
             int anexo4 = checkBox7.Checked ? 1 : 0;
+            int anexo5 = checkBox12.Checked ? 1 : 0;
             string caminho1 = SanitizeString(checkBox27.Text);
             string caminho2 = SanitizeString(checkBox25.Text);
             string caminho3 = SanitizeString(checkBox26.Text);
             string caminho4 = SanitizeString(checkBox7.Text);
+            string caminho5 = SanitizeString(checkBox12.Text);
             if (dataSaida == "'1753-01-01 00:00:00'")
             {
                 dataSaida = $"''";
@@ -2839,10 +2963,12 @@ ORDER BY
                                 anexo2 = {anexo2}, 
                                 anexo3 = {anexo3}, 
                                 anexo4 = {anexo4}, 
+                                anexo5 = {anexo5}, 
                                 caminho1 = '{caminho1}',
                                 caminho2 = '{caminho2}',
                                 caminho3 = '{caminho3}',
-                                caminho4 = '{caminho4}'
+                                caminho4 = '{caminho4}',
+                                caminho5 = '{caminho5}'     
                                 WHERE ID_Entidade = '{_idSelecionado}' AND Nome_Obra = '{cb_obras.Text}'";
 
             foreach (DataGridViewRow row in dataGridView3.Rows)
@@ -2864,13 +2990,14 @@ ORDER BY
                     row.Cells["AnexoHTE"].Value = anexo2;
                     row.Cells["AnexoAPSS"].Value = anexo3;
                     row.Cells["AnexoDRE"].Value = anexo4;
+                    row.Cells["AnexoDRTI"].Value = anexo5;
 
                     // Atualiza as labels de texto no DataGridView
                     row.Cells["caminho11"].Value = checkBox27.Text;
                     row.Cells["caminho12"].Value = checkBox25.Text;
                     row.Cells["caminho13"].Value = checkBox26.Text;
                     row.Cells["caminho14"].Value = checkBox7.Text;
-
+                    row.Cells["caminho15"].Value = checkBox12.Text;
 
                     break;  // Atualiza a linha e sai do loop
                 }
@@ -3001,18 +3128,20 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                     int anexo2 = checkBox25.Checked ? 1 : 0;
                     int anexo3 = checkBox26.Checked ? 1 : 0;
                     int anexo4 = checkBox7.Checked ? 1 : 0;
+                    int anexo5 = checkBox12.Checked ? 1 : 0;
                     string caminho1 = SanitizeString(checkBox27.Text);
                     string caminho2 = SanitizeString(checkBox25.Text);
                     string caminho3 = SanitizeString(checkBox26.Text);
                     string caminho4 = SanitizeString(checkBox7.Text);
+                    string caminho5 = SanitizeString(checkBox12.Text);
 
 
                     var insertAutorizacao = $@"
-        INSERT INTO TDU_AD_Autorizacoes (ID_Entidade, Nome_Obra, Data_Entrada, Data_Saida,Codigo_Obra,anexo1,anexo2,anexo3,anexo4, caminho1, caminho2, caminho3, caminho4)
-        VALUES ('{_idSelecionado}', '{cb_obras.SelectedItem.ToString()}', {dataEntrada}, {dataSaida}, '{key}','{anexo1}', '{anexo2}', '{anexo3}', '{anexo4}', '{caminho1}',
-                '{caminho2}', '{caminho3}', '{caminho4}' )";
+        INSERT INTO TDU_AD_Autorizacoes (ID_Entidade, Nome_Obra, Data_Entrada, Data_Saida,Codigo_Obra,anexo1,anexo2,anexo3,anexo4,anexo5, caminho1, caminho2, caminho3, caminho4, caminho5)
+        VALUES ('{_idSelecionado}', '{cb_obras.SelectedItem.ToString()}', {dataEntrada}, {dataSaida}, '{key}','{anexo1}', '{anexo2}', '{anexo3}', '{anexo4}', '{anexo5}', '{caminho1}',
+                '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}' )";
 
-                    dataGridView3.Rows.Add(cb_obras.SelectedItem.ToString(), dataen, datasai, anexo1, anexo2, anexo3, anexo4, true, checkBox27.Text, checkBox25.Text, checkBox26.Text, checkBox7.Text, key); // ou false
+                    dataGridView3.Rows.Add(cb_obras.SelectedItem.ToString(), dataen, datasai, anexo1, anexo2, anexo3, anexo4, anexo5, true, checkBox27.Text, checkBox25.Text, checkBox26.Text, checkBox7.Text, checkBox12.Text, key); // ou false
 
 
                     _BSO.DSO.ExecuteSQL(insertAutorizacao);
@@ -3044,11 +3173,13 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
             checkBox25.Text = "";
             checkBox26.Text = "";
             checkBox7.Text = "";
+            checkBox12.Text = "";
             checkBox24.Checked = true;
             checkBox27.Checked = false;
             checkBox25.Checked = false;
             checkBox26.Checked = false;
             checkBox7.Checked = false;
+            checkBox12.Checked = false;
             dtpSaida.Enabled = true;
             dtpSaida.Visible = true;
             dtpSaida.CustomFormat = "dd/MM/yyyy"; // Ou o formato que preferir
@@ -3087,11 +3218,13 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                 var anexo2 = lista.DaValor<bool>("anexo2");
                 var anexo3 = lista.DaValor<bool>("anexo3");
                 var anexo4 = lista.DaValor<bool>("anexo4");
+                var anexo5 = lista.DaValor<bool>("anexo5");
 
                 var caminho1 = RestoreSanitizedString(lista.DaValor<string>("caminho1"));
                 var caminho2 = RestoreSanitizedString(lista.DaValor<string>("caminho2"));
                 var caminho3 = RestoreSanitizedString(lista.DaValor<string>("caminho3"));
                 var caminho4 = RestoreSanitizedString(lista.DaValor<string>("caminho4"));
+                var caminho5 = RestoreSanitizedString(lista.DaValor<string>("caminho5"));
 
                 //var caminho1 = lista.DaValor<string>("caminho1");
                 //var caminho2 = lista.DaValor<string>("caminho2");
@@ -3101,11 +3234,11 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
 
                 if (lista.DaValor<DateTime>("Data_Saida").ToString() == "01/01/1753 00:00:00")
                 {
-                    dataGridView3.Rows.Add(nomeObra, dataentrada, "", anexo1, anexo2, anexo3, anexo4, true, caminho1, caminho2, caminho3, caminho4, codigoobra);
+                    dataGridView3.Rows.Add(nomeObra, dataentrada, "", anexo1, anexo2, anexo3, anexo4, anexo5, true, caminho1, caminho2, caminho3, caminho4, caminho5, codigoobra);
                 }
                 else
                 {
-                    dataGridView3.Rows.Add(nomeObra, dataentrada, datasaida, anexo1, anexo2, anexo3, anexo4, true, caminho1, caminho2, caminho3, caminho4, codigoobra);
+                    dataGridView3.Rows.Add(nomeObra, dataentrada, datasaida, anexo1, anexo2, anexo3, anexo4, anexo5, true, caminho1, caminho2, caminho3, caminho4, caminho5, codigoobra);
 
                 }
 
@@ -3180,11 +3313,13 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                 checkBox25.Checked = ConvertToBool(row.Cells["AnexoHTE"].Value);
                 checkBox26.Checked = ConvertToBool(row.Cells["AnexoAPSS"].Value);
                 checkBox7.Checked = ConvertToBool(row.Cells["AnexoDRE"].Value);
+                checkBox12.Checked = ConvertToBool(row.Cells["AnexoDRTI"].Value);
 
                 VerificarEColorirCheckBox(checkBox27, row.Cells["caminho11"].Value);
                 VerificarEColorirCheckBox(checkBox25, row.Cells["caminho12"].Value);
                 VerificarEColorirCheckBox(checkBox26, row.Cells["caminho13"].Value);
                 VerificarEColorirCheckBox(checkBox7, row.Cells["caminho14"].Value);
+                VerificarEColorirCheckBox(checkBox12, row.Cells["caminho15"].Value);
 
 
                 button30.Visible = true;
@@ -3549,53 +3684,53 @@ END;";
 
 
 
-           /* var camposTrabalhadores = new Dictionary<string, string>()
-            {
-                {"caminho1", "Cartão de cidadão ou residência"},
-                {"caminho2", "Ficha Medica"},
-                {"caminho3", "Credenciacao"},
-                {"caminho4", "Trabalhoss especializados"},
-                {"caminho5", "Ficha Destribuiçao"}
-            };
+            /* var camposTrabalhadores = new Dictionary<string, string>()
+             {
+                 {"caminho1", "Cartão de cidadão ou residência"},
+                 {"caminho2", "Ficha Medica"},
+                 {"caminho3", "FormacaoProfissional"},
+                 {"caminho4", "Trabalhoss especializados"},
+                 {"caminho5", "Ficha Destribuiçao"}
+             };
 
-            //Por trabalhador
-            string querytrab = $@"SELECT {string.Join(",", camposTrabalhadores.Keys)} FROM TDU_AD_Trabalhadores WHERE id_empresa = '{id}'";
-            var resTrab = _BSO.Consulta(querytrab);
-            resTrab.Inicio();
-            var numtrab = resTrab.NumLinhas();
-            if (numtrab == 0)
-            {
-                return caducados;
-            }
-            for (int i = 0; i < numtrab; i++)
-            {
-                
-            
-                foreach (var campo in camposTrabalhadores)
-                {
-
-                    string valorOriginal = resTrab.DaValor<string>(campo.Key);
-
-                    string valorDecodificado = WebUtility.HtmlDecode(valorOriginal);
-
-                    var match = Regex.Match(valorDecodificado, @"\d{2}[\/\-]\d{2}[\/\-]\d{4}");
+             //Por trabalhador
+             string querytrab = $@"SELECT {string.Join(",", camposTrabalhadores.Keys)} FROM TDU_AD_Trabalhadores WHERE id_empresa = '{id}'";
+             var resTrab = _BSO.Consulta(querytrab);
+             resTrab.Inicio();
+             var numtrab = resTrab.NumLinhas();
+             if (numtrab == 0)
+             {
+                 return caducados;
+             }
+             for (int i = 0; i < numtrab; i++)
+             {
 
 
-                    if (match.Success)
-                    {
-                        if (DateTime.TryParse(match.Value, out DateTime validade))
-                        {
-                            if (validade < DateTime.Now && validade != DateTime.MinValue)
-                            {
-                                caducados.Add(campo.Value);
-                            }
-                        }
-                    }
-                }
+                 foreach (var campo in camposTrabalhadores)
+                 {
 
-                resTrab.Seguinte();
+                     string valorOriginal = resTrab.DaValor<string>(campo.Key);
 
-            }*/
+                     string valorDecodificado = WebUtility.HtmlDecode(valorOriginal);
+
+                     var match = Regex.Match(valorDecodificado, @"\d{2}[\/\-]\d{2}[\/\-]\d{4}");
+
+
+                     if (match.Success)
+                     {
+                         if (DateTime.TryParse(match.Value, out DateTime validade))
+                         {
+                             if (validade < DateTime.Now && validade != DateTime.MinValue)
+                             {
+                                 caducados.Add(campo.Value);
+                             }
+                         }
+                     }
+                 }
+
+                 resTrab.Seguinte();
+
+             }*/
 
 
 
@@ -3626,7 +3761,7 @@ END;";
     {
         {"caminho1", "Cartão de cidadão ou residência"},
         {"caminho2", "Ficha Medica"},
-        {"caminho3", "Credenciacao"},
+        {"caminho3", "FormacaoProfissional"},
         {"caminho4", "Trabalhoss especializados"},
         {"caminho5", "Ficha Destribuiçao"}
     };
@@ -3887,7 +4022,7 @@ END;";
         private void check_AlertaCaducados_CheckedChanged(object sender, EventArgs e)
         {
             var result = check_AlertaCaducados.Checked;
-            if (result) 
+            if (result)
             {
                 Bt_Caducado.Enabled = false;
                 var entidadeid = _idSelecionado;
