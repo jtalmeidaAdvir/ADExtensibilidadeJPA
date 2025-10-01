@@ -103,16 +103,16 @@ namespace ADExtensibilidadeJPA
                     try
                     {
                         // Atualizar checkboxes com base nos valores do banco de dados
-                        SeguroUpdateCheckboxFromDB(checkBox1, dados, "CDU_AnexoFinancas", "Financas", "CDU_ValidadeFinancas");
-                        SeguroUpdateCheckboxFromDB(checkBox2, dados, "CDU_AnexoSegSocial", "Segurança Social", "CDU_ValidadeSegSocial");
-                        SeguroUpdateCheckboxFromDB(checkBox3, dados, "CDU_AnexoFolhaPag", "Folha Pagamento", "CDU_ValidadeFolhaPag");
-                        SeguroUpdateCheckboxFromDB(checkBox4, dados, "CDU_AnexoComprovativoPagamento", "Comprovativo Pagamento", "CDU_ValidadeComprovativoPagamento");
+                        SeguroUpdateCheckboxFromDB(checkBox1, dados, "CDU_AnexoFinancas", "DND-Finanças", "CDU_ValidadeFinancas");
+                        SeguroUpdateCheckboxFromDB(checkBox2, dados, "CDU_AnexoSegSocial", "DND-Segurança-Social", "CDU_ValidadeSegSocial");
+                        SeguroUpdateCheckboxFromDB(checkBox3, dados, "CDU_AnexoFolhaPag", "Mapa de Rem. – SS", "CDU_ValidadeFolhaPag");
+                        SeguroUpdateCheckboxFromDB(checkBox4, dados, "CDU_AnexoComprovativoPagamento", "TSU", "CDU_ValidadeComprovativoPagamento");
                         SeguroUpdateCheckboxFromDB(checkBox5, dados, "CDU_AnexoReciboSeguroAT", "Seguro AT", "CDU_ValidadeReciboSeguroAT");
                         SeguroUpdateCheckboxFromDB(checkBox6, dados, "CDU_AnexoSeguroRC", "Seguro RC", "CDU_ValidadeSeguroRC");
                         SeguroUpdateCheckboxFromDB(checkBox8, dados, "CDU_AnexoSeguroAT", "Condições Seguro AT", "CDU_ValidadeSeguroAT");
                         SeguroUpdateCheckboxFromDB(checkBox9, dados, "CDU_AnexoAlvara", "Alvará", "CDU_ValidadeAlvara");
                         SeguroUpdateCheckboxFromDB(checkBox10, dados, "CDU_AnexoCertidaoPermanente", "Certidão Permanente", "CDU_ValidadeCertidaoPermanente");
-                        SeguroUpdateCheckboxFromDB(checkBox13, dados, "CDU_AnexoSeguroResposabilidadeCivil", "Seguro Resposabilidade Civil", "CDU_ValidadeSeguroResposabilidadeCivil");
+                        SeguroUpdateCheckboxFromDB(checkBox13, dados, "CDU_AnexoSeguroResposabilidadeCivil", "Condições Seguro RC", "CDU_ValidadeSeguroResposabilidadeCivil");
                     }
                     catch (FormatException fex)
                     {
@@ -607,8 +607,8 @@ namespace ADExtensibilidadeJPA
         private void InitializeButtonEvents()
         {
             // Associar eventos de click aos botões
-            button1.Click += (sender, e) => AnexarDocumento("Financas");
-            button2.Click += (sender, e) => AnexarDocumento("SegSocial");
+            button1.Click += (sender, e) => AnexarDocumento("DND-Finanças");
+            button2.Click += (sender, e) => AnexarDocumento("DND-Segurança-Social");
             button3.Click += (sender, e) => AnexarDocumento("FolhaPagamento");
             button4.Click += (sender, e) => AnexarDocumento("ComprovativoPagamento");
             button5.Click += (sender, e) => AnexarDocumento("ReciboSeguroAT");
@@ -1395,21 +1395,21 @@ namespace ADExtensibilidadeJPA
             // Identificar qual checkbox deve ser atualizado com base no tipo de documento
             switch (tipoDocumento)
             {
-                case "Financas":
+                case "DND-Finanças":
                     checkBox = checkBox1;
-                    nomeDocumento = "Financas";
+                    nomeDocumento = "DND-Finanças";
                     break;
-                case "SegSocial":
+                case "DND-Segurança-Social":
                     checkBox = checkBox2;
-                    nomeDocumento = "Segurança Social";
+                    nomeDocumento = "DND-Segurança-Social";
                     break;
-                case "FolhaPagamento":
+                case "Mapa de Rem. – SS":
                     checkBox = checkBox3;
-                    nomeDocumento = "Folha Pagamento";
+                    nomeDocumento = "Mapa de Rem. – SS";
                     break;
-                case "ComprovativoPagamento":
+                case "TSU":
                     checkBox = checkBox4;
-                    nomeDocumento = "Comprovativo Pagamento";
+                    nomeDocumento = "TSU";
                     break;
                 case "ReciboSeguroAT":
                     checkBox = checkBox5;
@@ -1433,7 +1433,7 @@ namespace ADExtensibilidadeJPA
                     break;
                 case "SeguroResposabilidadeCivil":
                     checkBox = checkBox13;
-                    nomeDocumento = "Seguro Resposabilidade Civil";
+                    nomeDocumento = "Condições Seguro RC";
                     break;
             }
             if (tipoDocumento == "SeguroAT")
@@ -1482,11 +1482,11 @@ namespace ADExtensibilidadeJPA
                 // Mapear nomes de documentos para nomes de colunas
                 switch (tipoDocumento)
                 {
-                    case "Financas":
+                    case "DND-Finanças":
                         colunaAnexo = "CDU_AnexoFinancas";
                         colunaValidade = "CDU_ValidadeFinancas";
                         break;
-                    case "SegSocial":
+                    case "DND-Segurança-Social":
                         colunaAnexo = "CDU_AnexoSegSocial";
                         colunaValidade = "CDU_ValidadeSegSocial";
                         break;
@@ -3668,10 +3668,10 @@ END;";
             // Reutilizar a lógica da tua função anterior, mas guardar os nomes dos documentos caducados
             var campos = new Dictionary<string, string>()
             {
-                {"CDU_ValidadeFinancas", "Finanças"},
-                {"CDU_ValidadeSegSocial", "Segurança Social"},
-                {"CDU_ValidadeFolhaPag", "Folha de Pagamento"},
-                {"CDU_ValidadeComprovativoPagamento", "Comprovativo de Pagamento"},
+                {"CDU_ValidadeFinancas", "DND-Finanças"},
+                {"CDU_ValidadeSegSocial", "DND-Segurança-Social"},
+                {"CDU_ValidadeFolhaPag", "Mapa de Rem. – SS"},
+                {"CDU_ValidadeComprovativoPagamento", "TSU"},
                 {"CDU_ValidadeReciboSeguroAT", "Seguro AT"},
                 {"CDU_ValidadeSeguroRC", "Seguro RC"},
                 {"CDU_ValidadeSeguroAT", "condições Seguro AT"},
