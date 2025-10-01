@@ -1266,7 +1266,7 @@ namespace ADExtensibilidadeJPA
                     return;
                 }
                 DateTime dataValidade;
-                if (tipoDocumento == "SeguroAT")
+                if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil")
                 {
                     dataValidade = DateTime.Today;
                 }
@@ -1375,8 +1375,16 @@ namespace ADExtensibilidadeJPA
                         // Recarregar os dados para garantir exibição correta
                         // CarregarStatusDocumentos();
 
-                        MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
-                            "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil")
+                        {
+                            MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!",
+                                "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
+                                "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
             }
@@ -1436,7 +1444,7 @@ namespace ADExtensibilidadeJPA
                     nomeDocumento = "Condições Seguro RC";
                     break;
             }
-            if (tipoDocumento == "SeguroAT")
+            if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil")
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
@@ -1578,7 +1586,7 @@ namespace ADExtensibilidadeJPA
 
                 // Sanitizar o caminho do arquivo para evitar problemas com aspas
                 string caminhoSanitizado = caminho.Replace("'", "''");
-                if (tipoDocumento == "SeguroAT")
+                if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil")
                 {
                     string query2 = $@"UPDATE Geral_Entidade SET 
                                 {colunaAnexo} = 1
@@ -3137,7 +3145,7 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
 
 
                     var insertAutorizacao = $@"
-        INSERT INTO TDU_AD_Autorizacoes (ID_Entidade, Nome_Obra, Data_Entrada, Data_Saida,Codigo_Obra,anexo1,anexo2,anexo3,anexo4,anexo5, caminho1, caminho2, caminho3, caminho4, caminho5)
+        INSERT INTO TDU_AD_Autorizacoes (ID_Entidade, Nome_Obra, Data_Entrada, Data_Saida, Codigo_Obra,anexo1,anexo2,anexo3,anexo4,anexo5, caminho1, caminho2, caminho3, caminho4, caminho5)
         VALUES ('{_idSelecionado}', '{cb_obras.SelectedItem.ToString()}', {dataEntrada}, {dataSaida}, '{key}','{anexo1}', '{anexo2}', '{anexo3}', '{anexo4}', '{anexo5}', '{caminho1}',
                 '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}' )";
 
