@@ -1841,6 +1841,7 @@ namespace ADExtensibilidadeJPA
             txt_categoriatrab.Text = "";
             txt_contribuintetrab.Text = "";
             txt_segurancasocialtrab.Text = "";
+            rxt_emailTrabalhador.Text = "";
 
             checkBox14.Checked = false;
             checkBox15.Checked = false;
@@ -1888,6 +1889,22 @@ namespace ADExtensibilidadeJPA
 
                 txt_contribuintetrab.Enabled = false;
                 txt_segurancasocialtrab.Text = row.Cells["SSocial"].Value.ToString();
+
+                // Buscar email da base de dados
+                string contribuinte = row.Cells["Contribuinte"].Value.ToString();
+                string queryEmail = $@"SELECT email FROM TDU_AD_Trabalhadores 
+                                      WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuinte}'";
+                var dadosEmail = _BSO.Consulta(queryEmail);
+                if (dadosEmail.NumLinhas() > 0)
+                {
+                    dadosEmail.Inicio();
+                    rxt_emailTrabalhador.Text = dadosEmail.DaValor<string>("email") ?? "";
+                }
+                else
+                {
+                    rxt_emailTrabalhador.Text = "";
+                }
+
                 checkBox14.Checked = ConvertToBool(row.Cells["AnexoCC"].Value);
                 checkBox15.Checked = ConvertToBool(row.Cells["AnexoFM"].Value);
                 checkBox16.Checked = ConvertToBool(row.Cells["AnexoCT"].Value);
@@ -2141,6 +2158,7 @@ namespace ADExtensibilidadeJPA
             string categoriatrab = txt_categoriatrab.Text;
             string contribuintetrab = txt_contribuintetrab.Text;
             string segurancasocialtrab = txt_segurancasocialtrab.Text;
+            string emailTrab = rxt_emailTrabalhador.Text;
             int anexo1 = checkBox14.Checked ? 1 : 0;
             int anexo2 = checkBox15.Checked ? 1 : 0;
             int anexo3 = checkBox16.Checked ? 1 : 0;
@@ -2170,6 +2188,7 @@ namespace ADExtensibilidadeJPA
                     row.Cells["nome"].Value = nome;
                     row.Cells["categoria"].Value = categoriatrab;
                     row.Cells["SSocial"].Value = segurancasocialtrab;
+           
                     row.Cells["AnexoCC"].Value = anexo1;
                     row.Cells["AnexoFM"].Value = anexo2;
                     row.Cells["AnexoCT"].Value = anexo3;
@@ -2202,7 +2221,8 @@ namespace ADExtensibilidadeJPA
         SET nome = '{nome}',
             categoria = '{categoriatrab}', 
             contribuinte = '{contribuintetrab}', 
-            seguranca_social = '{segurancasocialtrab}', 
+            seguranca_social = '{segurancasocialtrab}',
+            email = '{emailTrab}', 
             anexo1 = {anexo1}, 
             anexo2 = {anexo2}, 
             anexo3 = {anexo3}, 
@@ -2331,6 +2351,7 @@ namespace ADExtensibilidadeJPA
             string categoriatrab = txt_categoriatrab.Text;
             string contribuintetrab = txt_contribuintetrab.Text;
             string segurancasocialtrab = txt_segurancasocialtrab.Text;
+            string emailTrab = rxt_emailTrabalhador.Text;
             int anexo1 = checkBox14.Checked ? 1 : 0;
             int anexo2 = checkBox15.Checked ? 1 : 0;
             int anexo3 = checkBox16.Checked ? 1 : 0;
@@ -2364,22 +2385,22 @@ namespace ADExtensibilidadeJPA
                 return; // Se já existe, não prossegue com a inserção
             }
 
-            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, cBFormacaoProfissional, cBespecializados, datanasci);
+            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, emailTrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, cBFormacaoProfissional, cBespecializados, datanasci);
 
             // Aqui, você pode ocultar a coluna do checkBox Text (opcionalmente)
             int lastColumnIndex = dataGridView1.Columns.Count - 1; // Última coluna (onde você adicionou checkBox14.Text)
             dataGridView1.Columns[lastColumnIndex].Visible = false;
             // adcionar no sql
             string checkAndCreateColumnsQuery = $@"
-            -- Verificar e criar a coluna 'id_entidade'
-            -- Verificar e criar a coluna 'nome'
+            -- Verificar e criar a coluna 'id_empresa'
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'id_empresa')
                 ALTER TABLE TDU_AD_Trabalhadores ADD id_empresa NVARCHAR(255);
 
             -- Verificar e criar a coluna 'nome'
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'nome')
                 ALTER TABLE TDU_AD_Trabalhadores ADD nome NVARCHAR(255);
-            -- Verificar e criar a coluna 'nome'
+
+            -- Verificar e criar a coluna 'data_nascimento'
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'data_nascimento')
                 ALTER TABLE TDU_AD_Trabalhadores ADD data_nascimento NVARCHAR(255);
 
@@ -2394,6 +2415,10 @@ namespace ADExtensibilidadeJPA
             -- Verificar e criar a coluna 'seguranca_social'
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'seguranca_social')
                 ALTER TABLE TDU_AD_Trabalhadores ADD seguranca_social NVARCHAR(255);
+
+            -- Verificar e criar a coluna 'email'
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'email')
+                ALTER TABLE TDU_AD_Trabalhadores ADD email NVARCHAR(255);
 
             -- Verificar e criar a coluna 'anexo1' (booleano)
             IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo1')
@@ -2438,9 +2463,9 @@ namespace ADExtensibilidadeJPA
             string caminho5 = SanitizeString(checkBox18.Text);
             string query = $@"
                 INSERT INTO TDU_AD_Trabalhadores 
-            (id_empresa, nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5,cBFormacaoProfissional,cBespecializados,data_nascimento) 
+            (id_empresa, nome, categoria, contribuinte, seguranca_social, email, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5,cBFormacaoProfissional,cBespecializados,data_nascimento) 
             VALUES 
-            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{cBFormacaoProfissional}','{cBespecializados}','{datanasci}')
+            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', '{emailTrab}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{cBFormacaoProfissional}','{cBespecializados}','{datanasci}')
             ";
 
             _BSO.DSO.ExecuteSQL(query);
@@ -2575,9 +2600,33 @@ END
         }
         private void CarregarTrabalhadores()
         {
+            // Verificar e criar a coluna email se não existir
+            string checkEmailColumn = @"
+            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'email')
+                ALTER TABLE TDU_AD_Trabalhadores ADD email NVARCHAR(255);";
+            _BSO.DSO.ExecuteSQL(checkEmailColumn);
+
             // Consulta para buscar os trabalhadores na base de dados
-            string query = $@"
-            SELECT nome, categoria, contribuinte, seguranca_social, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional,cBespecializados, data_nascimento
+            var query = $@"
+            SELECT 
+                nome, 
+                categoria, 
+                contribuinte, 
+                seguranca_social,
+                email,
+                anexo1, 
+                anexo2, 
+                anexo3, 
+                anexo4, 
+                anexo5,
+                caminho1,
+                caminho2,
+                caminho3,
+                caminho4,
+                caminho5,
+                cBFormacaoProfissional,
+                cBEspecializados,
+                data_nascimento
             FROM TDU_AD_Trabalhadores
             WHERE id_empresa = '{_idSelecionado}';
         ";
@@ -2596,6 +2645,7 @@ END
                 var categoriatrab = trabalhadores.DaValor<string>("categoria");
                 var contribuintetrab = trabalhadores.DaValor<string>("contribuinte");
                 var segurancasocialtrab = trabalhadores.DaValor<string>("seguranca_social");
+                var email = trabalhadores.DaValor<string>("email"); // Captura o email
                 var anexo1 = trabalhadores.DaValor<bool>("anexo1");
                 var anexo2 = trabalhadores.DaValor<bool>("anexo2");
                 var anexo3 = trabalhadores.DaValor<bool>("anexo3");
@@ -2617,7 +2667,7 @@ END
                 }
                 else
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab,  anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
 
                 }
 
@@ -2888,7 +2938,7 @@ END
     o.Codigo,
     o.Estado, 
     o.DataCriacao,
-	o.*,
+    o.*,
     e.*
 FROM 
     COP_Obras o
@@ -3562,8 +3612,8 @@ END;";
                     {
                         LinkNuvem = form.Link; // Assuming Link is a public property of AddLinkForm
                         var updatelink = $@"UPDATE Geral_Entidade
-				                        set CDU_LinkNuvem = '{LinkNuvem}'
-				                        Where ID='{_idSelecionado}'";
+                                        set CDU_LinkNuvem = '{LinkNuvem}'
+                                        Where ID='{_idSelecionado}'";
                         _BSO.DSO.ExecuteSQL(updatelink);
                         TXTOP_linknuvem.Text = LinkNuvem;
                         // Try to open the link if it's not empty
@@ -3613,11 +3663,11 @@ END;";
                 if (DTPOP_DataEnvio.Visible == false)
                 {
                     var updateopcoes = $@"UPDATE Geral_Entidade
-				                set CDU_DataEnvio = '{empty}',
-					                CDU_TrataSGS = '{trataop}',
-					                CDU_EmailEnviado = '{envidoop}',
-					                CDU_LinkNuvem = '{TXTOP_linknuvem.Text}'
-				                Where ID='{_idSelecionado}'";
+                                set CDU_DataEnvio = '{empty}',
+                                    CDU_TrataSGS = '{trataop}',
+                                    CDU_EmailEnviado = '{envidoop}',
+                                    CDU_LinkNuvem = '{TXTOP_linknuvem.Text}'
+                                Where ID='{_idSelecionado}'";
                     _BSO.DSO.ExecuteSQL(updateopcoes);
 
 
@@ -3633,11 +3683,11 @@ END;";
                 else
                 {
                     var updateopcoes = $@"UPDATE Geral_Entidade
-				                set CDU_DataEnvio = '{dataenvioStr}',
-					                CDU_TrataSGS = '{trataop}',
-					                CDU_EmailEnviado = '{envidoop}',
-					                CDU_LinkNuvem = '{TXTOP_linknuvem.Text}'
-				                Where ID='{_idSelecionado}'";
+                                set CDU_DataEnvio = '{dataenvioStr}',
+                                    CDU_TrataSGS = '{trataop}',
+                                    CDU_EmailEnviado = '{envidoop}',
+                                    CDU_LinkNuvem = '{TXTOP_linknuvem.Text}'
+                                Where ID='{_idSelecionado}'";
                     _BSO.DSO.ExecuteSQL(updateopcoes);
                     var updateEmail = $@"UPDATE ec
                                     SET ec.Email = '{txt_email.Text}'
@@ -3666,6 +3716,136 @@ END;";
                 DTPOP_DataEnvio.Visible = false;
                 datavalor.Visible = true;
             }
+
+        }
+
+        private void EnviarEmailOutlook(string destinatario, string assunto, string corpo)
+        {
+            Outlook.Application outlookApp = new Outlook.Application();
+            Outlook.MailItem mailItem = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
+
+            mailItem.To = destinatario;
+            mailItem.Subject = assunto;
+            mailItem.Body = corpo;
+            mailItem.Display(); // Mostra o Outlook com o email preenchido, mas não envia automaticamente
+        }
+
+        private void Bt_Caducado_Click(object sender, EventArgs e)
+        {
+            string query = $"SELECT id, Nome, CDU_EmailEnviado, CDU_DataEnvio FROM Geral_Entidade WHERE CDU_TrataSGS = 1 AND ID = '{_idSelecionado}' ";
+            StdBELista dt = _BSO.Consulta(query);
+            dt.Inicio();
+
+            for (int i = 0; i < dt.NumLinhas(); i++)
+            {
+                string id = dt.DaValor<string>("id");
+                string nomeEntidade = dt.DaValor<string>("Nome");
+
+                // Lista de documentos da empresa
+                List<string> documentosEmpresa = VerificaDocumentosDetalhados(id);
+
+                // Dicionário de trabalhador -> documentos caducados
+                Dictionary<string, List<string>> documentosTrabalhadores = VerificaDocumentosTrabalhadores(id);
+
+                // Dicionário de equipamentos -> documentos caducados
+                Dictionary<string, List<string>> documentosEquipamentos = VerificaDocumentosEquipamentos(id);
+
+                // Dicionário de autorizações -> documentos caducados
+                Dictionary<string, List<string>> documentosAutorizacoes = VerificaDocumentosAutorizacoes(id);
+
+                if (documentosEmpresa.Count > 0 || documentosTrabalhadores.Count > 0 || documentosEquipamentos.Count > 0 || documentosAutorizacoes.Count > 0)
+                {
+                    StringBuilder corpo = new StringBuilder();
+                    corpo.AppendLine("Prezado(a),");
+                    corpo.AppendLine();
+                    corpo.AppendLine($"A entidade \"{nomeEntidade}\" tem documentos caducados.");
+                    corpo.AppendLine();
+
+                    if (documentosEmpresa.Any())
+                    {
+                        corpo.AppendLine("📁 Documentos da Empresa:");
+                        foreach (var doc in documentosEmpresa)
+                        {
+                            corpo.AppendLine($"- {doc}");
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    if (documentosTrabalhadores.Any())
+                    {
+                        corpo.AppendLine("👷 Documentos por Trabalhador:");
+                        foreach (var trabalhador in documentosTrabalhadores)
+                        {
+                            corpo.AppendLine($"\n{trabalhador.Key}:");
+                            foreach (var doc in trabalhador.Value)
+                            {
+                                corpo.AppendLine($"- {doc}");
+                            }
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    if (documentosEquipamentos.Any())
+                    {
+                        corpo.AppendLine("🔧 Documentos de Equipamentos:");
+                        foreach (var equipamento in documentosEquipamentos)
+                        {
+                            corpo.AppendLine($"\n{equipamento.Key}:");
+                            foreach (var doc in equipamento.Value)
+                            {
+                                corpo.AppendLine($"- {doc}");
+                            }
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    if (documentosAutorizacoes.Any())
+                    {
+                        corpo.AppendLine("🔑 Documentos de Autorizações:");
+                        foreach (var autorizacao in documentosAutorizacoes)
+                        {
+                            corpo.AppendLine($"\n{autorizacao.Key}:");
+                            foreach (var doc in autorizacao.Value)
+                            {
+                                corpo.AppendLine($"- {doc}");
+                            }
+                        }
+                        corpo.AppendLine();
+                    }
+
+                    corpo.AppendLine("\nPor favor, regularize esta situação com urgência.");
+                    corpo.AppendLine("\nObrigado.");
+
+                    EnviarEmailOutlook("departamento@email.pt", $"Alerta Documentos Caducados - {nomeEntidade}", corpo.ToString());
+                }
+
+                dt.Seguinte();
+            }
+        }
+
+        private void check_AlertaCaducados_CheckedChanged(object sender, EventArgs e)
+        {
+            var result = check_AlertaCaducados.Checked;
+            if (result)
+            {
+                Bt_Caducado.Enabled = false;
+                var entidadeid = _idSelecionado;
+                var update = $@"UPDATE Geral_Entidade
+                                set CDU_IgnoraAlerta = '{result}'
+                                WHERE ID = '{entidadeid}'";
+                _BSO.DSO.ExecuteSQL(update);
+            }
+            else
+            {
+                Bt_Caducado.Enabled = true;
+                var entidadeid = _idSelecionado;
+
+                var update = $@"UPDATE Geral_Entidade
+                                set CDU_IgnoraAlerta = '{result}'
+                                WHERE ID = '{entidadeid}'";
+                _BSO.DSO.ExecuteSQL(update);
+            }
+
 
         }
 
@@ -3923,111 +4103,7 @@ END;";
             return resultado;
         }
 
-        private void EnviarEmailOutlook(string destinatario, string assunto, string corpo)
-        {
-            Outlook.Application outlookApp = new Outlook.Application();
-            Outlook.MailItem mailItem = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
-
-            mailItem.To = destinatario;
-            mailItem.Subject = assunto;
-            mailItem.Body = corpo;
-            mailItem.Display(); // Mostra o Outlook com o email preenchido, mas não envia automaticamente
-        }
-
-        private void Bt_Caducado_Click(object sender, EventArgs e)
-        {
-            string query = $"SELECT id, Nome, CDU_EmailEnviado, CDU_DataEnvio FROM Geral_Entidade WHERE CDU_TrataSGS = 1 AND ID = '{_idSelecionado}' ";
-            StdBELista dt = _BSO.Consulta(query);
-            dt.Inicio();
-
-            for (int i = 0; i < dt.NumLinhas(); i++)
-            {
-                string id = dt.DaValor<string>("id");
-                string nomeEntidade = dt.DaValor<string>("Nome");
-
-                // Lista de documentos da empresa
-                List<string> documentosEmpresa = VerificaDocumentosDetalhados(id);
-
-                // Dicionário de trabalhador -> documentos caducados
-                Dictionary<string, List<string>> documentosTrabalhadores = VerificaDocumentosTrabalhadores(id);
-
-                // Dicionário de equipamentos -> documentos caducados
-                Dictionary<string, List<string>> documentosEquipamentos = VerificaDocumentosEquipamentos(id);
-
-                // Dicionário de autorizações -> documentos caducados
-                Dictionary<string, List<string>> documentosAutorizacoes = VerificaDocumentosAutorizacoes(id);
-
-                if (documentosEmpresa.Count > 0 || documentosTrabalhadores.Count > 0 || documentosEquipamentos.Count > 0 || documentosAutorizacoes.Count > 0)
-                {
-                    StringBuilder corpo = new StringBuilder();
-                    corpo.AppendLine("Prezado(a),");
-                    corpo.AppendLine();
-                    corpo.AppendLine($"A entidade \"{nomeEntidade}\" tem documentos caducados.");
-                    corpo.AppendLine();
-
-                    if (documentosEmpresa.Any())
-                    {
-                        corpo.AppendLine("📁 Documentos da Empresa:");
-                        foreach (var doc in documentosEmpresa)
-                        {
-                            corpo.AppendLine($"- {doc}");
-                        }
-                        corpo.AppendLine();
-                    }
-
-                    if (documentosTrabalhadores.Any())
-                    {
-                        corpo.AppendLine("👷 Documentos por Trabalhador:");
-                        foreach (var trabalhador in documentosTrabalhadores)
-                        {
-                            corpo.AppendLine($"\n{trabalhador.Key}:");
-                            foreach (var doc in trabalhador.Value)
-                            {
-                                corpo.AppendLine($"- {doc}");
-                            }
-                        }
-                        corpo.AppendLine();
-                    }
-
-                    if (documentosEquipamentos.Any())
-                    {
-                        corpo.AppendLine("🔧 Documentos de Equipamentos:");
-                        foreach (var equipamento in documentosEquipamentos)
-                        {
-                            corpo.AppendLine($"\n{equipamento.Key}:");
-                            foreach (var doc in equipamento.Value)
-                            {
-                                corpo.AppendLine($"- {doc}");
-                            }
-                        }
-                        corpo.AppendLine();
-                    }
-
-                    if (documentosAutorizacoes.Any())
-                    {
-                        corpo.AppendLine("🔑 Documentos de Autorizações:");
-                        foreach (var autorizacao in documentosAutorizacoes)
-                        {
-                            corpo.AppendLine($"\n{autorizacao.Key}:");
-                            foreach (var doc in autorizacao.Value)
-                            {
-                                corpo.AppendLine($"- {doc}");
-                            }
-                        }
-                        corpo.AppendLine();
-                    }
-
-                    corpo.AppendLine("\nPor favor, regularize esta situação com urgência.");
-                    corpo.AppendLine("\nObrigado.");
-
-                    EnviarEmailOutlook("departamento@email.pt", $"Alerta Documentos Caducados - {nomeEntidade}", corpo.ToString());
-                }
-
-                dt.Seguinte();
-            }
-        }
-
-        private void check_AlertaCaducados_CheckedChanged(object sender, EventArgs e)
+        private void check_AlertaCaducados_CheckedChanged_1(object sender, EventArgs e)
         {
             var result = check_AlertaCaducados.Checked;
             if (result)
@@ -4049,8 +4125,6 @@ END;";
                                 WHERE ID = '{entidadeid}'";
                 _BSO.DSO.ExecuteSQL(update);
             }
-
-
         }
     }
 }

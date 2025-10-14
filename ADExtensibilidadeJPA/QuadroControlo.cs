@@ -1927,6 +1927,7 @@ SELECT
     t.categoria,
     t.contribuinte,
     t.seguranca_social,
+    t.email,
     t.anexo1,
     t.anexo2,
     t.anexo3,
@@ -2892,8 +2893,8 @@ WHERE
                         // Gerar QR Code único
                         string qrCode = GerarQRCode();
 
-                        // Enviar para API
-                        bool sucesso = await EnviarTrabalhadorParaAPI(nomeTrabalhador, qrCode, codigoEmpresa);
+                        // Enviar para API - agora enviando o nome da empresa
+                        bool sucesso = await EnviarTrabalhadorParaAPI(nomeTrabalhador, qrCode, nomeEmpresa);
 
                         if (sucesso)
                             totalEnviados++;

@@ -35,6 +35,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox13 = new System.Windows.Forms.CheckBox();
+            this.button12 = new System.Windows.Forms.Button();
+            this.label53 = new System.Windows.Forms.Label();
             this.bt_AbrirPasta = new System.Windows.Forms.Button();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -74,6 +77,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cb_FormacaoProfissional = new System.Windows.Forms.ComboBox();
+            this.cb_especializados = new System.Windows.Forms.ComboBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.dtpnascimento = new System.Windows.Forms.DateTimePicker();
             this.label28 = new System.Windows.Forms.Label();
@@ -109,7 +114,28 @@
             this.vt_adcionar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Contribuinte = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SSocial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnexoCC = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoFM = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoCT = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoTE = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoEPI = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.caminho1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBFormacaoProfissional = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBespecializados = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DataNasc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.cb_ConformidadeCE = new System.Windows.Forms.ComboBox();
+            this.cb_Decreto_Lei = new System.Windows.Forms.ComboBox();
+            this.cb_Manutencao = new System.Windows.Forms.ComboBox();
+            this.cb_ManualInstrucoes = new System.Windows.Forms.ComboBox();
             this.cb_seguro = new System.Windows.Forms.ComboBox();
             this.button26 = new System.Windows.Forms.Button();
             this.button27 = new System.Windows.Forms.Button();
@@ -140,8 +166,29 @@
             this.txt_marca = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.marca = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Serieeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Anexo1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Anexo5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.caminho6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBSeguro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBManualInstrucoes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBManutencao = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBDecreto_Lei = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBConformidadeCE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label15 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
+            this.button11 = new System.Windows.Forms.Button();
+            this.label52 = new System.Windows.Forms.Label();
             this.checkBox27 = new System.Windows.Forms.CheckBox();
             this.button35 = new System.Windows.Forms.Button();
             this.label47 = new System.Windows.Forms.Label();
@@ -163,6 +210,21 @@
             this.button30 = new System.Windows.Forms.Button();
             this.label41 = new System.Windows.Forms.Label();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.Obra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DataEntrada = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DataSaida = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnexoC = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoHTE = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoAPSS = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoDRE = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.AnexoDRTI = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Autorizada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.caminho11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.caminho15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codigoobra = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cb_obras = new System.Windows.Forms.ComboBox();
             this.label40 = new System.Windows.Forms.Label();
             this.bt_autorizar = new System.Windows.Forms.Button();
@@ -195,68 +257,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Bt_Caducado = new System.Windows.Forms.Button();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
-            this.button11 = new System.Windows.Forms.Button();
-            this.label52 = new System.Windows.Forms.Label();
-            this.checkBox13 = new System.Windows.Forms.CheckBox();
-            this.button12 = new System.Windows.Forms.Button();
-            this.label53 = new System.Windows.Forms.Label();
-            this.Obra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataEntrada = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataSaida = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnexoC = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoHTE = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoAPSS = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoDRE = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoDRTI = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Autorizada = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.caminho11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.codigoobra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cb_ManualInstrucoes = new System.Windows.Forms.ComboBox();
-            this.cb_Manutencao = new System.Windows.Forms.ComboBox();
-            this.cb_Decreto_Lei = new System.Windows.Forms.ComboBox();
-            this.cb_ConformidadeCE = new System.Windows.Forms.ComboBox();
-            this.marca = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Serieeq = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Anexo1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo3 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo4 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Anexo5 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.caminho6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBSeguro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBManualInstrucoes = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBManutencao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBDecreto_Lei = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBConformidadeCE = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cb_especializados = new System.Windows.Forms.ComboBox();
-            this.cb_FormacaoProfissional = new System.Windows.Forms.ComboBox();
-            this.Nome = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Contribuinte = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SSocial = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnexoCC = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoFM = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoCT = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoTE = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.AnexoEPI = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.caminho1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.caminho5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBFormacaoProfissional = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CBespecializados = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataNasc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label54 = new System.Windows.Forms.Label();
+            this.rxt_emailTrabalhador = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -375,6 +377,35 @@
             this.groupBox1.TabIndex = 75;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Documentos";
+            // 
+            // checkBox13
+            // 
+            this.checkBox13.AutoSize = true;
+            this.checkBox13.Enabled = false;
+            this.checkBox13.Location = new System.Drawing.Point(325, 341);
+            this.checkBox13.Name = "checkBox13";
+            this.checkBox13.Size = new System.Drawing.Size(15, 14);
+            this.checkBox13.TabIndex = 192;
+            this.checkBox13.UseVisualStyleBackColor = true;
+            // 
+            // button12
+            // 
+            this.button12.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button12.Location = new System.Drawing.Point(285, 341);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(34, 22);
+            this.button12.TabIndex = 191;
+            this.button12.Text = "...";
+            this.button12.UseVisualStyleBackColor = true;
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(13, 341);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(231, 14);
+            this.label53.TabIndex = 190;
+            this.label53.Text = "Condições do seguro de responsabilidade civil";
             // 
             // bt_AbrirPasta
             // 
@@ -750,6 +781,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.rxt_emailTrabalhador);
+            this.tabPage2.Controls.Add(this.label54);
             this.tabPage2.Controls.Add(this.cb_FormacaoProfissional);
             this.tabPage2.Controls.Add(this.cb_especializados);
             this.tabPage2.Controls.Add(this.checkBox11);
@@ -795,6 +828,28 @@
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // cb_FormacaoProfissional
+            // 
+            this.cb_FormacaoProfissional.FormattingEnabled = true;
+            this.cb_FormacaoProfissional.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_FormacaoProfissional.Location = new System.Drawing.Point(207, 449);
+            this.cb_FormacaoProfissional.Name = "cb_FormacaoProfissional";
+            this.cb_FormacaoProfissional.Size = new System.Drawing.Size(43, 21);
+            this.cb_FormacaoProfissional.TabIndex = 208;
+            // 
+            // cb_especializados
+            // 
+            this.cb_especializados.FormattingEnabled = true;
+            this.cb_especializados.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_especializados.Location = new System.Drawing.Point(207, 476);
+            this.cb_especializados.Name = "cb_especializados";
+            this.cb_especializados.Size = new System.Drawing.Size(43, 21);
+            this.cb_especializados.TabIndex = 207;
+            // 
             // checkBox11
             // 
             this.checkBox11.AutoSize = true;
@@ -825,7 +880,7 @@
             // 
             // button28
             // 
-            this.button28.Location = new System.Drawing.Point(195, 520);
+            this.button28.Location = new System.Drawing.Point(195, 549);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(75, 38);
             this.button28.TabIndex = 203;
@@ -837,7 +892,7 @@
             // button19
             // 
             this.button19.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button19.Location = new System.Drawing.Point(586, 338);
+            this.button19.Location = new System.Drawing.Point(586, 367);
             this.button19.Name = "button19";
             this.button19.Size = new System.Drawing.Size(92, 22);
             this.button19.TabIndex = 193;
@@ -849,7 +904,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Calibri", 9F);
-            this.label14.Location = new System.Drawing.Point(11, 341);
+            this.label14.Location = new System.Drawing.Point(11, 370);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(58, 14);
             this.label14.TabIndex = 190;
@@ -858,7 +913,7 @@
             // txt_caminhotrab
             // 
             this.txt_caminhotrab.Font = new System.Drawing.Font("Calibri", 9F);
-            this.txt_caminhotrab.Location = new System.Drawing.Point(75, 338);
+            this.txt_caminhotrab.Location = new System.Drawing.Point(75, 367);
             this.txt_caminhotrab.Name = "txt_caminhotrab";
             this.txt_caminhotrab.ReadOnly = true;
             this.txt_caminhotrab.Size = new System.Drawing.Size(343, 22);
@@ -867,7 +922,7 @@
             // btnSelecionarPastaTrab
             // 
             this.btnSelecionarPastaTrab.Font = new System.Drawing.Font("Calibri", 9F);
-            this.btnSelecionarPastaTrab.Location = new System.Drawing.Point(424, 338);
+            this.btnSelecionarPastaTrab.Location = new System.Drawing.Point(424, 367);
             this.btnSelecionarPastaTrab.Name = "btnSelecionarPastaTrab";
             this.btnSelecionarPastaTrab.Size = new System.Drawing.Size(34, 22);
             this.btnSelecionarPastaTrab.TabIndex = 192;
@@ -878,7 +933,7 @@
             // checkBox18
             // 
             this.checkBox18.AutoSize = true;
-            this.checkBox18.Location = new System.Drawing.Point(296, 475);
+            this.checkBox18.Location = new System.Drawing.Point(296, 504);
             this.checkBox18.Name = "checkBox18";
             this.checkBox18.Size = new System.Drawing.Size(15, 14);
             this.checkBox18.TabIndex = 185;
@@ -887,7 +942,7 @@
             // button18
             // 
             this.button18.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button18.Location = new System.Drawing.Point(256, 472);
+            this.button18.Location = new System.Drawing.Point(256, 501);
             this.button18.Name = "button18";
             this.button18.Size = new System.Drawing.Size(34, 22);
             this.button18.TabIndex = 184;
@@ -897,7 +952,7 @@
             // checkBox17
             // 
             this.checkBox17.AutoSize = true;
-            this.checkBox17.Location = new System.Drawing.Point(296, 450);
+            this.checkBox17.Location = new System.Drawing.Point(296, 479);
             this.checkBox17.Name = "checkBox17";
             this.checkBox17.Size = new System.Drawing.Size(15, 14);
             this.checkBox17.TabIndex = 183;
@@ -906,7 +961,7 @@
             // button17
             // 
             this.button17.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button17.Location = new System.Drawing.Point(256, 447);
+            this.button17.Location = new System.Drawing.Point(256, 476);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(34, 22);
             this.button17.TabIndex = 182;
@@ -916,7 +971,7 @@
             // checkBox16
             // 
             this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(296, 422);
+            this.checkBox16.Location = new System.Drawing.Point(296, 451);
             this.checkBox16.Name = "checkBox16";
             this.checkBox16.Size = new System.Drawing.Size(15, 14);
             this.checkBox16.TabIndex = 181;
@@ -925,7 +980,7 @@
             // button16
             // 
             this.button16.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button16.Location = new System.Drawing.Point(256, 419);
+            this.button16.Location = new System.Drawing.Point(256, 448);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(34, 22);
             this.button16.TabIndex = 180;
@@ -935,7 +990,7 @@
             // checkBox15
             // 
             this.checkBox15.AutoSize = true;
-            this.checkBox15.Location = new System.Drawing.Point(296, 395);
+            this.checkBox15.Location = new System.Drawing.Point(296, 424);
             this.checkBox15.Name = "checkBox15";
             this.checkBox15.Size = new System.Drawing.Size(15, 14);
             this.checkBox15.TabIndex = 179;
@@ -944,7 +999,7 @@
             // button15
             // 
             this.button15.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button15.Location = new System.Drawing.Point(256, 392);
+            this.button15.Location = new System.Drawing.Point(256, 421);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(34, 22);
             this.button15.TabIndex = 178;
@@ -954,7 +1009,7 @@
             // checkBox14
             // 
             this.checkBox14.AutoSize = true;
-            this.checkBox14.Location = new System.Drawing.Point(296, 369);
+            this.checkBox14.Location = new System.Drawing.Point(296, 398);
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(15, 14);
             this.checkBox14.TabIndex = 177;
@@ -963,7 +1018,7 @@
             // button14
             // 
             this.button14.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button14.Location = new System.Drawing.Point(256, 366);
+            this.button14.Location = new System.Drawing.Point(256, 395);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(34, 22);
             this.button14.TabIndex = 176;
@@ -973,7 +1028,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 475);
+            this.label13.Location = new System.Drawing.Point(6, 504);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(147, 13);
             this.label13.TabIndex = 16;
@@ -982,7 +1037,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 447);
+            this.label12.Location = new System.Drawing.Point(6, 476);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(126, 13);
             this.label12.TabIndex = 15;
@@ -991,7 +1046,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 419);
+            this.label11.Location = new System.Drawing.Point(6, 448);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(110, 13);
             this.label11.TabIndex = 14;
@@ -1000,7 +1055,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 392);
+            this.label10.Location = new System.Drawing.Point(6, 421);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(194, 13);
             this.label10.TabIndex = 13;
@@ -1009,7 +1064,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 366);
+            this.label9.Location = new System.Drawing.Point(6, 395);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(160, 13);
             this.label9.TabIndex = 12;
@@ -1081,7 +1136,7 @@
             // 
             // bt_remover
             // 
-            this.bt_remover.Location = new System.Drawing.Point(114, 520);
+            this.bt_remover.Location = new System.Drawing.Point(114, 549);
             this.bt_remover.Name = "bt_remover";
             this.bt_remover.Size = new System.Drawing.Size(75, 38);
             this.bt_remover.TabIndex = 3;
@@ -1092,7 +1147,7 @@
             // 
             // vt_adcionar
             // 
-            this.vt_adcionar.Location = new System.Drawing.Point(16, 520);
+            this.vt_adcionar.Location = new System.Drawing.Point(16, 549);
             this.vt_adcionar.Name = "vt_adcionar";
             this.vt_adcionar.Size = new System.Drawing.Size(92, 38);
             this.vt_adcionar.TabIndex = 2;
@@ -1141,6 +1196,116 @@
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
+            // Nome
+            // 
+            this.Nome.HeaderText = "Nome";
+            this.Nome.Name = "Nome";
+            this.Nome.ReadOnly = true;
+            // 
+            // Categoria
+            // 
+            this.Categoria.HeaderText = "Categoria";
+            this.Categoria.Name = "Categoria";
+            this.Categoria.ReadOnly = true;
+            // 
+            // Contribuinte
+            // 
+            this.Contribuinte.HeaderText = "Contribuinte";
+            this.Contribuinte.Name = "Contribuinte";
+            this.Contribuinte.ReadOnly = true;
+            // 
+            // SSocial
+            // 
+            this.SSocial.HeaderText = "S.Social";
+            this.SSocial.Name = "SSocial";
+            this.SSocial.ReadOnly = true;
+            // 
+            // AnexoCC
+            // 
+            this.AnexoCC.HeaderText = "Anexo C.C.";
+            this.AnexoCC.Name = "AnexoCC";
+            this.AnexoCC.ReadOnly = true;
+            // 
+            // AnexoFM
+            // 
+            this.AnexoFM.HeaderText = "Anexo F.M.";
+            this.AnexoFM.Name = "AnexoFM";
+            this.AnexoFM.ReadOnly = true;
+            // 
+            // AnexoCT
+            // 
+            this.AnexoCT.HeaderText = "Anexo C.T.";
+            this.AnexoCT.Name = "AnexoCT";
+            this.AnexoCT.ReadOnly = true;
+            // 
+            // AnexoTE
+            // 
+            this.AnexoTE.HeaderText = "Anexo T.E.";
+            this.AnexoTE.Name = "AnexoTE";
+            this.AnexoTE.ReadOnly = true;
+            // 
+            // AnexoEPI
+            // 
+            this.AnexoEPI.HeaderText = "Anexo EPI";
+            this.AnexoEPI.Name = "AnexoEPI";
+            this.AnexoEPI.ReadOnly = true;
+            // 
+            // caminho1
+            // 
+            this.caminho1.HeaderText = "caminho1";
+            this.caminho1.Name = "caminho1";
+            this.caminho1.ReadOnly = true;
+            this.caminho1.Visible = false;
+            // 
+            // caminho2
+            // 
+            this.caminho2.HeaderText = "caminho2";
+            this.caminho2.Name = "caminho2";
+            this.caminho2.ReadOnly = true;
+            this.caminho2.Visible = false;
+            // 
+            // caminho3
+            // 
+            this.caminho3.HeaderText = "caminho3";
+            this.caminho3.Name = "caminho3";
+            this.caminho3.ReadOnly = true;
+            this.caminho3.Visible = false;
+            // 
+            // caminho4
+            // 
+            this.caminho4.HeaderText = "caminho4";
+            this.caminho4.Name = "caminho4";
+            this.caminho4.ReadOnly = true;
+            this.caminho4.Visible = false;
+            // 
+            // caminho5
+            // 
+            this.caminho5.HeaderText = "caminho5";
+            this.caminho5.Name = "caminho5";
+            this.caminho5.ReadOnly = true;
+            this.caminho5.Visible = false;
+            // 
+            // CBFormacaoProfissional
+            // 
+            this.CBFormacaoProfissional.HeaderText = "CBFormacaoProfissional";
+            this.CBFormacaoProfissional.Name = "CBFormacaoProfissional";
+            this.CBFormacaoProfissional.ReadOnly = true;
+            this.CBFormacaoProfissional.Visible = false;
+            // 
+            // CBespecializados
+            // 
+            this.CBespecializados.HeaderText = "CBespecializados";
+            this.CBespecializados.Name = "CBespecializados";
+            this.CBespecializados.ReadOnly = true;
+            this.CBespecializados.Visible = false;
+            // 
+            // DataNasc
+            // 
+            this.DataNasc.HeaderText = "DataNasc";
+            this.DataNasc.Name = "DataNasc";
+            this.DataNasc.ReadOnly = true;
+            this.DataNasc.Visible = false;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.cb_ConformidadeCE);
@@ -1185,6 +1350,50 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Equipamentos";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // cb_ConformidadeCE
+            // 
+            this.cb_ConformidadeCE.FormattingEnabled = true;
+            this.cb_ConformidadeCE.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_ConformidadeCE.Location = new System.Drawing.Point(285, 326);
+            this.cb_ConformidadeCE.Name = "cb_ConformidadeCE";
+            this.cb_ConformidadeCE.Size = new System.Drawing.Size(43, 21);
+            this.cb_ConformidadeCE.TabIndex = 207;
+            // 
+            // cb_Decreto_Lei
+            // 
+            this.cb_Decreto_Lei.FormattingEnabled = true;
+            this.cb_Decreto_Lei.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_Decreto_Lei.Location = new System.Drawing.Point(285, 353);
+            this.cb_Decreto_Lei.Name = "cb_Decreto_Lei";
+            this.cb_Decreto_Lei.Size = new System.Drawing.Size(43, 21);
+            this.cb_Decreto_Lei.TabIndex = 206;
+            // 
+            // cb_Manutencao
+            // 
+            this.cb_Manutencao.FormattingEnabled = true;
+            this.cb_Manutencao.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_Manutencao.Location = new System.Drawing.Point(285, 379);
+            this.cb_Manutencao.Name = "cb_Manutencao";
+            this.cb_Manutencao.Size = new System.Drawing.Size(43, 21);
+            this.cb_Manutencao.TabIndex = 205;
+            // 
+            // cb_ManualInstrucoes
+            // 
+            this.cb_ManualInstrucoes.FormattingEnabled = true;
+            this.cb_ManualInstrucoes.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_ManualInstrucoes.Location = new System.Drawing.Point(285, 408);
+            this.cb_ManualInstrucoes.Name = "cb_ManualInstrucoes";
+            this.cb_ManualInstrucoes.Size = new System.Drawing.Size(43, 21);
+            this.cb_ManualInstrucoes.TabIndex = 204;
             // 
             // cb_seguro
             // 
@@ -1490,6 +1699,124 @@
             this.dataGridView2.TabIndex = 3;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
             // 
+            // marca
+            // 
+            this.marca.HeaderText = "Marca / Modelo";
+            this.marca.Name = "marca";
+            this.marca.ReadOnly = true;
+            // 
+            // Tipo
+            // 
+            this.Tipo.HeaderText = "Tipo de Máquina";
+            this.Tipo.Name = "Tipo";
+            this.Tipo.ReadOnly = true;
+            // 
+            // Serieeq
+            // 
+            this.Serieeq.HeaderText = "Número de Série";
+            this.Serieeq.Name = "Serieeq";
+            this.Serieeq.ReadOnly = true;
+            // 
+            // Anexo1
+            // 
+            this.Anexo1.HeaderText = "Anexo C.E.";
+            this.Anexo1.Name = "Anexo1";
+            this.Anexo1.ReadOnly = true;
+            // 
+            // Anexo2
+            // 
+            this.Anexo2.HeaderText = "Anexo C/D";
+            this.Anexo2.Name = "Anexo2";
+            this.Anexo2.ReadOnly = true;
+            // 
+            // Anexo3
+            // 
+            this.Anexo3.HeaderText = "Anexo R.M.";
+            this.Anexo3.Name = "Anexo3";
+            this.Anexo3.ReadOnly = true;
+            // 
+            // Anexo4
+            // 
+            this.Anexo4.HeaderText = "Anexo M.U.";
+            this.Anexo4.Name = "Anexo4";
+            this.Anexo4.ReadOnly = true;
+            // 
+            // Anexo5
+            // 
+            this.Anexo5.HeaderText = "Anexo S.";
+            this.Anexo5.Name = "Anexo5";
+            this.Anexo5.ReadOnly = true;
+            // 
+            // caminho6
+            // 
+            this.caminho6.HeaderText = "caminho6";
+            this.caminho6.Name = "caminho6";
+            this.caminho6.ReadOnly = true;
+            this.caminho6.Visible = false;
+            // 
+            // caminho7
+            // 
+            this.caminho7.HeaderText = "caminho7";
+            this.caminho7.Name = "caminho7";
+            this.caminho7.ReadOnly = true;
+            this.caminho7.Visible = false;
+            // 
+            // caminho8
+            // 
+            this.caminho8.HeaderText = "caminho8";
+            this.caminho8.Name = "caminho8";
+            this.caminho8.ReadOnly = true;
+            this.caminho8.Visible = false;
+            // 
+            // caminho9
+            // 
+            this.caminho9.HeaderText = "caminho9";
+            this.caminho9.Name = "caminho9";
+            this.caminho9.ReadOnly = true;
+            this.caminho9.Visible = false;
+            // 
+            // caminho10
+            // 
+            this.caminho10.HeaderText = "caminho10";
+            this.caminho10.Name = "caminho10";
+            this.caminho10.ReadOnly = true;
+            this.caminho10.Visible = false;
+            // 
+            // CBSeguro
+            // 
+            this.CBSeguro.HeaderText = "CBSeguro";
+            this.CBSeguro.Name = "CBSeguro";
+            this.CBSeguro.ReadOnly = true;
+            this.CBSeguro.Visible = false;
+            // 
+            // CBManualInstrucoes
+            // 
+            this.CBManualInstrucoes.HeaderText = "CBManualInstrucoes";
+            this.CBManualInstrucoes.Name = "CBManualInstrucoes";
+            this.CBManualInstrucoes.ReadOnly = true;
+            this.CBManualInstrucoes.Visible = false;
+            // 
+            // CBManutencao
+            // 
+            this.CBManutencao.HeaderText = "CBManutencao";
+            this.CBManutencao.Name = "CBManutencao";
+            this.CBManutencao.ReadOnly = true;
+            this.CBManutencao.Visible = false;
+            // 
+            // CBDecreto_Lei
+            // 
+            this.CBDecreto_Lei.HeaderText = "CBDecreto_Lei";
+            this.CBDecreto_Lei.Name = "CBDecreto_Lei";
+            this.CBDecreto_Lei.ReadOnly = true;
+            this.CBDecreto_Lei.Visible = false;
+            // 
+            // CBConformidadeCE
+            // 
+            this.CBConformidadeCE.HeaderText = "CBConformidadeCE";
+            this.CBConformidadeCE.Name = "CBConformidadeCE";
+            this.CBConformidadeCE.ReadOnly = true;
+            this.CBConformidadeCE.Visible = false;
+            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -1539,6 +1866,34 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Autorizar Entrada Em Obra";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(330, 489);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(15, 14);
+            this.checkBox12.TabIndex = 224;
+            this.checkBox12.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            this.button11.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button11.Location = new System.Drawing.Point(290, 489);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(34, 22);
+            this.button11.TabIndex = 223;
+            this.button11.Text = "...";
+            this.button11.UseVisualStyleBackColor = true;
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(18, 489);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(225, 13);
+            this.label52.TabIndex = 222;
+            this.label52.Text = "Declaração relativa a trabalhadores imigrantes";
             // 
             // checkBox27
             // 
@@ -1763,6 +2118,97 @@
             this.dataGridView3.Size = new System.Drawing.Size(659, 150);
             this.dataGridView3.TabIndex = 7;
             this.dataGridView3.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellClick);
+            // 
+            // Obra
+            // 
+            this.Obra.HeaderText = "Obra";
+            this.Obra.Name = "Obra";
+            this.Obra.ReadOnly = true;
+            // 
+            // DataEntrada
+            // 
+            this.DataEntrada.HeaderText = "Data de Entrada";
+            this.DataEntrada.Name = "DataEntrada";
+            this.DataEntrada.ReadOnly = true;
+            // 
+            // DataSaida
+            // 
+            this.DataSaida.HeaderText = "Data de Saida";
+            this.DataSaida.Name = "DataSaida";
+            this.DataSaida.ReadOnly = true;
+            // 
+            // AnexoC
+            // 
+            this.AnexoC.HeaderText = "Anexo C./N.E.";
+            this.AnexoC.Name = "AnexoC";
+            this.AnexoC.ReadOnly = true;
+            // 
+            // AnexoHTE
+            // 
+            this.AnexoHTE.HeaderText = "Anexo H.T.E.";
+            this.AnexoHTE.Name = "AnexoHTE";
+            this.AnexoHTE.ReadOnly = true;
+            // 
+            // AnexoAPSS
+            // 
+            this.AnexoAPSS.HeaderText = "Anexo PSS";
+            this.AnexoAPSS.Name = "AnexoAPSS";
+            this.AnexoAPSS.ReadOnly = true;
+            // 
+            // AnexoDRE
+            // 
+            this.AnexoDRE.HeaderText = "Anexo D.R.E.";
+            this.AnexoDRE.Name = "AnexoDRE";
+            this.AnexoDRE.ReadOnly = true;
+            // 
+            // AnexoDRTI
+            // 
+            this.AnexoDRTI.HeaderText = "Anexo D.R.T.I.";
+            this.AnexoDRTI.Name = "AnexoDRTI";
+            this.AnexoDRTI.ReadOnly = true;
+            // 
+            // Autorizada
+            // 
+            this.Autorizada.HeaderText = "Autorizada";
+            this.Autorizada.Name = "Autorizada";
+            this.Autorizada.ReadOnly = true;
+            // 
+            // caminho11
+            // 
+            this.caminho11.HeaderText = "caminho11";
+            this.caminho11.Name = "caminho11";
+            this.caminho11.Visible = false;
+            // 
+            // caminho12
+            // 
+            this.caminho12.HeaderText = "caminho12";
+            this.caminho12.Name = "caminho12";
+            this.caminho12.Visible = false;
+            // 
+            // caminho13
+            // 
+            this.caminho13.HeaderText = "caminho13";
+            this.caminho13.Name = "caminho13";
+            this.caminho13.Visible = false;
+            // 
+            // caminho14
+            // 
+            this.caminho14.HeaderText = "caminho14";
+            this.caminho14.Name = "caminho14";
+            this.caminho14.Visible = false;
+            // 
+            // caminho15
+            // 
+            this.caminho15.HeaderText = "caminho15";
+            this.caminho15.Name = "caminho15";
+            this.caminho15.Visible = false;
+            // 
+            // codigoobra
+            // 
+            this.codigoobra.HeaderText = "codigoobra";
+            this.codigoobra.Name = "codigoobra";
+            this.codigoobra.ReadOnly = true;
+            this.codigoobra.Visible = false;
             // 
             // cb_obras
             // 
@@ -2099,447 +2545,21 @@
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
-            // checkBox12
-            // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(330, 489);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(15, 14);
-            this.checkBox12.TabIndex = 224;
-            this.checkBox12.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            this.button11.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button11.Location = new System.Drawing.Point(290, 489);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(34, 22);
-            this.button11.TabIndex = 223;
-            this.button11.Text = "...";
-            this.button11.UseVisualStyleBackColor = true;
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(18, 489);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(225, 13);
-            this.label52.TabIndex = 222;
-            this.label52.Text = "Declaração relativa a trabalhadores imigrantes";
-            // 
-            // checkBox13
-            // 
-            this.checkBox13.AutoSize = true;
-            this.checkBox13.Enabled = false;
-            this.checkBox13.Location = new System.Drawing.Point(325, 341);
-            this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(15, 14);
-            this.checkBox13.TabIndex = 192;
-            this.checkBox13.UseVisualStyleBackColor = true;
-            // 
-            // button12
-            // 
-            this.button12.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button12.Location = new System.Drawing.Point(285, 341);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(34, 22);
-            this.button12.TabIndex = 191;
-            this.button12.Text = "...";
-            this.button12.UseVisualStyleBackColor = true;
-            // 
-            // label53
-            // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(13, 341);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(231, 14);
-            this.label53.TabIndex = 190;
-            this.label53.Text = "Condições do seguro de responsabilidade civil";
-            // 
-            // Obra
-            // 
-            this.Obra.HeaderText = "Obra";
-            this.Obra.Name = "Obra";
-            this.Obra.ReadOnly = true;
-            // 
-            // DataEntrada
-            // 
-            this.DataEntrada.HeaderText = "Data de Entrada";
-            this.DataEntrada.Name = "DataEntrada";
-            this.DataEntrada.ReadOnly = true;
-            // 
-            // DataSaida
-            // 
-            this.DataSaida.HeaderText = "Data de Saida";
-            this.DataSaida.Name = "DataSaida";
-            this.DataSaida.ReadOnly = true;
-            // 
-            // AnexoC
-            // 
-            this.AnexoC.HeaderText = "Anexo C./N.E.";
-            this.AnexoC.Name = "AnexoC";
-            this.AnexoC.ReadOnly = true;
-            // 
-            // AnexoHTE
-            // 
-            this.AnexoHTE.HeaderText = "Anexo H.T.E.";
-            this.AnexoHTE.Name = "AnexoHTE";
-            this.AnexoHTE.ReadOnly = true;
-            // 
-            // AnexoAPSS
-            // 
-            this.AnexoAPSS.HeaderText = "Anexo PSS";
-            this.AnexoAPSS.Name = "AnexoAPSS";
-            this.AnexoAPSS.ReadOnly = true;
-            // 
-            // AnexoDRE
-            // 
-            this.AnexoDRE.HeaderText = "Anexo D.R.E.";
-            this.AnexoDRE.Name = "AnexoDRE";
-            this.AnexoDRE.ReadOnly = true;
-            // 
-            // AnexoDRTI
-            // 
-            this.AnexoDRTI.HeaderText = "Anexo D.R.T.I.";
-            this.AnexoDRTI.Name = "AnexoDRTI";
-            this.AnexoDRTI.ReadOnly = true;
-            // 
-            // Autorizada
-            // 
-            this.Autorizada.HeaderText = "Autorizada";
-            this.Autorizada.Name = "Autorizada";
-            this.Autorizada.ReadOnly = true;
-            // 
-            // caminho11
-            // 
-            this.caminho11.HeaderText = "caminho11";
-            this.caminho11.Name = "caminho11";
-            this.caminho11.Visible = false;
-            // 
-            // caminho12
-            // 
-            this.caminho12.HeaderText = "caminho12";
-            this.caminho12.Name = "caminho12";
-            this.caminho12.Visible = false;
-            // 
-            // caminho13
-            // 
-            this.caminho13.HeaderText = "caminho13";
-            this.caminho13.Name = "caminho13";
-            this.caminho13.Visible = false;
-            // 
-            // caminho14
-            // 
-            this.caminho14.HeaderText = "caminho14";
-            this.caminho14.Name = "caminho14";
-            this.caminho14.Visible = false;
-            // 
-            // caminho15
-            // 
-            this.caminho15.HeaderText = "caminho15";
-            this.caminho15.Name = "caminho15";
-            this.caminho15.Visible = false;
-            // 
-            // codigoobra
-            // 
-            this.codigoobra.HeaderText = "codigoobra";
-            this.codigoobra.Name = "codigoobra";
-            this.codigoobra.ReadOnly = true;
-            this.codigoobra.Visible = false;
-            // 
-            // cb_ManualInstrucoes
-            // 
-            this.cb_ManualInstrucoes.FormattingEnabled = true;
-            this.cb_ManualInstrucoes.Items.AddRange(new object[] {
-            "NA",
-            "A"});
-            this.cb_ManualInstrucoes.Location = new System.Drawing.Point(285, 408);
-            this.cb_ManualInstrucoes.Name = "cb_ManualInstrucoes";
-            this.cb_ManualInstrucoes.Size = new System.Drawing.Size(43, 21);
-            this.cb_ManualInstrucoes.TabIndex = 204;
-            // 
-            // cb_Manutencao
-            // 
-            this.cb_Manutencao.FormattingEnabled = true;
-            this.cb_Manutencao.Items.AddRange(new object[] {
-            "NA",
-            "A"});
-            this.cb_Manutencao.Location = new System.Drawing.Point(285, 379);
-            this.cb_Manutencao.Name = "cb_Manutencao";
-            this.cb_Manutencao.Size = new System.Drawing.Size(43, 21);
-            this.cb_Manutencao.TabIndex = 205;
-            // 
-            // cb_Decreto_Lei
-            // 
-            this.cb_Decreto_Lei.FormattingEnabled = true;
-            this.cb_Decreto_Lei.Items.AddRange(new object[] {
-            "NA",
-            "A"});
-            this.cb_Decreto_Lei.Location = new System.Drawing.Point(285, 353);
-            this.cb_Decreto_Lei.Name = "cb_Decreto_Lei";
-            this.cb_Decreto_Lei.Size = new System.Drawing.Size(43, 21);
-            this.cb_Decreto_Lei.TabIndex = 206;
-            // 
-            // cb_ConformidadeCE
-            // 
-            this.cb_ConformidadeCE.FormattingEnabled = true;
-            this.cb_ConformidadeCE.Items.AddRange(new object[] {
-            "NA",
-            "A"});
-            this.cb_ConformidadeCE.Location = new System.Drawing.Point(285, 326);
-            this.cb_ConformidadeCE.Name = "cb_ConformidadeCE";
-            this.cb_ConformidadeCE.Size = new System.Drawing.Size(43, 21);
-            this.cb_ConformidadeCE.TabIndex = 207;
-            // 
-            // marca
-            // 
-            this.marca.HeaderText = "Marca / Modelo";
-            this.marca.Name = "marca";
-            this.marca.ReadOnly = true;
-            // 
-            // Tipo
-            // 
-            this.Tipo.HeaderText = "Tipo de Máquina";
-            this.Tipo.Name = "Tipo";
-            this.Tipo.ReadOnly = true;
-            // 
-            // Serieeq
-            // 
-            this.Serieeq.HeaderText = "Número de Série";
-            this.Serieeq.Name = "Serieeq";
-            this.Serieeq.ReadOnly = true;
-            // 
-            // Anexo1
-            // 
-            this.Anexo1.HeaderText = "Anexo C.E.";
-            this.Anexo1.Name = "Anexo1";
-            this.Anexo1.ReadOnly = true;
-            // 
-            // Anexo2
-            // 
-            this.Anexo2.HeaderText = "Anexo C/D";
-            this.Anexo2.Name = "Anexo2";
-            this.Anexo2.ReadOnly = true;
-            // 
-            // Anexo3
-            // 
-            this.Anexo3.HeaderText = "Anexo R.M.";
-            this.Anexo3.Name = "Anexo3";
-            this.Anexo3.ReadOnly = true;
-            // 
-            // Anexo4
-            // 
-            this.Anexo4.HeaderText = "Anexo M.U.";
-            this.Anexo4.Name = "Anexo4";
-            this.Anexo4.ReadOnly = true;
-            // 
-            // Anexo5
-            // 
-            this.Anexo5.HeaderText = "Anexo S.";
-            this.Anexo5.Name = "Anexo5";
-            this.Anexo5.ReadOnly = true;
-            // 
-            // caminho6
-            // 
-            this.caminho6.HeaderText = "caminho6";
-            this.caminho6.Name = "caminho6";
-            this.caminho6.ReadOnly = true;
-            this.caminho6.Visible = false;
-            // 
-            // caminho7
-            // 
-            this.caminho7.HeaderText = "caminho7";
-            this.caminho7.Name = "caminho7";
-            this.caminho7.ReadOnly = true;
-            this.caminho7.Visible = false;
-            // 
-            // caminho8
-            // 
-            this.caminho8.HeaderText = "caminho8";
-            this.caminho8.Name = "caminho8";
-            this.caminho8.ReadOnly = true;
-            this.caminho8.Visible = false;
-            // 
-            // caminho9
-            // 
-            this.caminho9.HeaderText = "caminho9";
-            this.caminho9.Name = "caminho9";
-            this.caminho9.ReadOnly = true;
-            this.caminho9.Visible = false;
-            // 
-            // caminho10
-            // 
-            this.caminho10.HeaderText = "caminho10";
-            this.caminho10.Name = "caminho10";
-            this.caminho10.ReadOnly = true;
-            this.caminho10.Visible = false;
-            // 
-            // CBSeguro
-            // 
-            this.CBSeguro.HeaderText = "CBSeguro";
-            this.CBSeguro.Name = "CBSeguro";
-            this.CBSeguro.ReadOnly = true;
-            this.CBSeguro.Visible = false;
-            // 
-            // CBManualInstrucoes
-            // 
-            this.CBManualInstrucoes.HeaderText = "CBManualInstrucoes";
-            this.CBManualInstrucoes.Name = "CBManualInstrucoes";
-            this.CBManualInstrucoes.ReadOnly = true;
-            this.CBManualInstrucoes.Visible = false;
-            // 
-            // CBManutencao
-            // 
-            this.CBManutencao.HeaderText = "CBManutencao";
-            this.CBManutencao.Name = "CBManutencao";
-            this.CBManutencao.ReadOnly = true;
-            this.CBManutencao.Visible = false;
-            // 
-            // CBDecreto_Lei
-            // 
-            this.CBDecreto_Lei.HeaderText = "CBDecreto_Lei";
-            this.CBDecreto_Lei.Name = "CBDecreto_Lei";
-            this.CBDecreto_Lei.ReadOnly = true;
-            this.CBDecreto_Lei.Visible = false;
-            // 
-            // CBConformidadeCE
-            // 
-            this.CBConformidadeCE.HeaderText = "CBConformidadeCE";
-            this.CBConformidadeCE.Name = "CBConformidadeCE";
-            this.CBConformidadeCE.ReadOnly = true;
-            this.CBConformidadeCE.Visible = false;
-            // 
-            // cb_especializados
-            // 
-            this.cb_especializados.FormattingEnabled = true;
-            this.cb_especializados.Items.AddRange(new object[] {
-            "NA",
-            "A"});
-            this.cb_especializados.Location = new System.Drawing.Point(207, 447);
-            this.cb_especializados.Name = "cb_especializados";
-            this.cb_especializados.Size = new System.Drawing.Size(43, 21);
-            this.cb_especializados.TabIndex = 207;
-            // 
-            // cb_FormacaoProfissional
-            // 
-            this.cb_FormacaoProfissional.FormattingEnabled = true;
-            this.cb_FormacaoProfissional.Items.AddRange(new object[] {
-            "NA",
-            "A"});
-            this.cb_FormacaoProfissional.Location = new System.Drawing.Point(207, 420);
-            this.cb_FormacaoProfissional.Name = "cb_FormacaoProfissional";
-            this.cb_FormacaoProfissional.Size = new System.Drawing.Size(43, 21);
-            this.cb_FormacaoProfissional.TabIndex = 208;
-            // 
-            // Nome
-            // 
-            this.Nome.HeaderText = "Nome";
-            this.Nome.Name = "Nome";
-            this.Nome.ReadOnly = true;
-            // 
-            // Categoria
-            // 
-            this.Categoria.HeaderText = "Categoria";
-            this.Categoria.Name = "Categoria";
-            this.Categoria.ReadOnly = true;
-            // 
-            // Contribuinte
-            // 
-            this.Contribuinte.HeaderText = "Contribuinte";
-            this.Contribuinte.Name = "Contribuinte";
-            this.Contribuinte.ReadOnly = true;
-            // 
-            // SSocial
-            // 
-            this.SSocial.HeaderText = "S.Social";
-            this.SSocial.Name = "SSocial";
-            this.SSocial.ReadOnly = true;
-            // 
-            // AnexoCC
-            // 
-            this.AnexoCC.HeaderText = "Anexo C.C.";
-            this.AnexoCC.Name = "AnexoCC";
-            this.AnexoCC.ReadOnly = true;
-            // 
-            // AnexoFM
-            // 
-            this.AnexoFM.HeaderText = "Anexo F.M.";
-            this.AnexoFM.Name = "AnexoFM";
-            this.AnexoFM.ReadOnly = true;
-            // 
-            // AnexoCT
-            // 
-            this.AnexoCT.HeaderText = "Anexo C.T.";
-            this.AnexoCT.Name = "AnexoCT";
-            this.AnexoCT.ReadOnly = true;
-            // 
-            // AnexoTE
-            // 
-            this.AnexoTE.HeaderText = "Anexo T.E.";
-            this.AnexoTE.Name = "AnexoTE";
-            this.AnexoTE.ReadOnly = true;
-            // 
-            // AnexoEPI
-            // 
-            this.AnexoEPI.HeaderText = "Anexo EPI";
-            this.AnexoEPI.Name = "AnexoEPI";
-            this.AnexoEPI.ReadOnly = true;
-            // 
-            // caminho1
-            // 
-            this.caminho1.HeaderText = "caminho1";
-            this.caminho1.Name = "caminho1";
-            this.caminho1.ReadOnly = true;
-            this.caminho1.Visible = false;
-            // 
-            // caminho2
-            // 
-            this.caminho2.HeaderText = "caminho2";
-            this.caminho2.Name = "caminho2";
-            this.caminho2.ReadOnly = true;
-            this.caminho2.Visible = false;
-            // 
-            // caminho3
-            // 
-            this.caminho3.HeaderText = "caminho3";
-            this.caminho3.Name = "caminho3";
-            this.caminho3.ReadOnly = true;
-            this.caminho3.Visible = false;
-            // 
-            // caminho4
-            // 
-            this.caminho4.HeaderText = "caminho4";
-            this.caminho4.Name = "caminho4";
-            this.caminho4.ReadOnly = true;
-            this.caminho4.Visible = false;
-            // 
-            // caminho5
-            // 
-            this.caminho5.HeaderText = "caminho5";
-            this.caminho5.Name = "caminho5";
-            this.caminho5.ReadOnly = true;
-            this.caminho5.Visible = false;
-            // 
-            // CBFormacaoProfissional
-            // 
-            this.CBFormacaoProfissional.HeaderText = "CBFormacaoProfissional";
-            this.CBFormacaoProfissional.Name = "CBFormacaoProfissional";
-            this.CBFormacaoProfissional.ReadOnly = true;
-            this.CBFormacaoProfissional.Visible = false;
-            // 
-            // CBespecializados
-            // 
-            this.CBespecializados.HeaderText = "CBespecializados";
-            this.CBespecializados.Name = "CBespecializados";
-            this.CBespecializados.ReadOnly = true;
-            this.CBespecializados.Visible = false;
-            // 
-            // DataNasc
-            // 
-            this.DataNasc.HeaderText = "DataNasc";
-            this.DataNasc.Name = "DataNasc";
-            this.DataNasc.ReadOnly = true;
-            this.DataNasc.Visible = false;
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(6, 334);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(35, 13);
+            this.label54.TabIndex = 209;
+            this.label54.Text = "Email:";
+            // 
+            // rxt_emailTrabalhador
+            // 
+            this.rxt_emailTrabalhador.Location = new System.Drawing.Point(114, 331);
+            this.rxt_emailTrabalhador.Name = "rxt_emailTrabalhador";
+            this.rxt_emailTrabalhador.Size = new System.Drawing.Size(559, 20);
+            this.rxt_emailTrabalhador.TabIndex = 210;
             // 
             // GestaoSubempreitada
             // 
@@ -2814,5 +2834,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CBFormacaoProfissional;
         private System.Windows.Forms.DataGridViewTextBoxColumn CBespecializados;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataNasc;
+        private System.Windows.Forms.TextBox rxt_emailTrabalhador;
+        private System.Windows.Forms.Label label54;
     }
 }
