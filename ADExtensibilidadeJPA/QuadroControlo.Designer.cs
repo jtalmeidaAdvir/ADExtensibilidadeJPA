@@ -37,6 +37,7 @@
             this.f4TabelaSQL1 = new PRISDK100.F4TabelaSQL();
             this.label1 = new System.Windows.Forms.Label();
             this.BT_ImprimirJPA = new System.Windows.Forms.Button();
+            this.BT_CriarTrabalhadores = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,8 +45,8 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -110,7 +111,7 @@
             // f4TabelaSQL1
             // 
             this.f4TabelaSQL1.AliasCampoChave = "";
-            this.f4TabelaSQL1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.f4TabelaSQL1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.f4TabelaSQL1.CampoChave = "";
             this.f4TabelaSQL1.CampoDescricao = "";
@@ -145,7 +146,7 @@
             // 
             // BT_ImprimirJPA
             // 
-            this.BT_ImprimirJPA.Location = new System.Drawing.Point(780, 4);
+            this.BT_ImprimirJPA.Location = new System.Drawing.Point(650, 4);
             this.BT_ImprimirJPA.Name = "BT_ImprimirJPA";
             this.BT_ImprimirJPA.Size = new System.Drawing.Size(75, 23);
             this.BT_ImprimirJPA.TabIndex = 11;
@@ -153,10 +154,21 @@
             this.BT_ImprimirJPA.UseVisualStyleBackColor = true;
             this.BT_ImprimirJPA.Click += new System.EventHandler(this.BT_ImprimirJPA_Click);
             // 
+            // BT_CriarTrabalhadores
+            // 
+            this.BT_CriarTrabalhadores.Location = new System.Drawing.Point(731, 4);
+            this.BT_CriarTrabalhadores.Name = "BT_CriarTrabalhadores";
+            this.BT_CriarTrabalhadores.Size = new System.Drawing.Size(120, 23);
+            this.BT_CriarTrabalhadores.TabIndex = 12;
+            this.BT_CriarTrabalhadores.Text = "Criar Trabalhadores";
+            this.BT_CriarTrabalhadores.UseVisualStyleBackColor = true;
+            this.BT_CriarTrabalhadores.Click += new System.EventHandler(this.BT_CriarTrabalhadores_Click);
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BT_CriarTrabalhadores);
             this.Controls.Add(this.BT_ImprimirJPA);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.f4TabelaSQL1);
@@ -188,5 +200,6 @@
         private PRISDK100.F4TabelaSQL f4TabelaSQL1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button BT_ImprimirJPA;
+        private System.Windows.Forms.Button BT_CriarTrabalhadores;
     }
 }
