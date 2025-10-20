@@ -38,6 +38,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.BT_ImprimirJPA = new System.Windows.Forms.Button();
             this.BT_CriarTrabalhadores = new System.Windows.Forms.Button();
+            this.Bt_imprimir2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -156,6 +157,7 @@
             // 
             // BT_CriarTrabalhadores
             // 
+            this.BT_CriarTrabalhadores.Enabled = false;
             this.BT_CriarTrabalhadores.Location = new System.Drawing.Point(731, 4);
             this.BT_CriarTrabalhadores.Name = "BT_CriarTrabalhadores";
             this.BT_CriarTrabalhadores.Size = new System.Drawing.Size(120, 23);
@@ -164,10 +166,20 @@
             this.BT_CriarTrabalhadores.UseVisualStyleBackColor = true;
             this.BT_CriarTrabalhadores.Click += new System.EventHandler(this.BT_CriarTrabalhadores_Click);
             // 
+            // Bt_imprimir2
+            // 
+            this.Bt_imprimir2.Location = new System.Drawing.Point(427, 4);
+            this.Bt_imprimir2.Name = "Bt_imprimir2";
+            this.Bt_imprimir2.Size = new System.Drawing.Size(75, 23);
+            this.Bt_imprimir2.TabIndex = 13;
+            this.Bt_imprimir2.Text = "Imprimir";
+            this.Bt_imprimir2.UseVisualStyleBackColor = true;
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Bt_imprimir2);
             this.Controls.Add(this.BT_CriarTrabalhadores);
             this.Controls.Add(this.BT_ImprimirJPA);
             this.Controls.Add(this.label1);
@@ -201,5 +213,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button BT_ImprimirJPA;
         private System.Windows.Forms.Button BT_CriarTrabalhadores;
+        private System.Windows.Forms.Button Bt_imprimir2;
     }
 }
