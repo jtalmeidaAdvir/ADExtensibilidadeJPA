@@ -174,6 +174,7 @@
             this.Bt_imprimir2.TabIndex = 13;
             this.Bt_imprimir2.Text = "Imprimir";
             this.Bt_imprimir2.UseVisualStyleBackColor = true;
+            this.Bt_imprimir2.Click += new System.EventHandler(this.Bt_imprimir2_Click);
             // 
             // QuadroControlo
             // 

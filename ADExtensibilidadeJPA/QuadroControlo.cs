@@ -2713,29 +2713,49 @@ WHERE
 
                 ws.Cells[1, 4] = "Controlo de Documentos de Empresas, Trabalhadores e Máquinas/Equipamentos";
                 var rTitulo = R(1, 4, 1, 23); rTitulo.Merge(); Negrito(rTitulo); Centro(rTitulo);
-
+       
+                codigoObra = f4TabelaSQL1.Text;
                 var querydadosObra = $@"
-                    SELECT CO.Codigo FROM Geral_Entidade AS GE
-                    INNER JOIN TDU_AD_Autorizacoes AS A ON GE.ID = A.ID_Entidade
-                    INNER JOIN COP_Obras AS CO ON A.Codigo_Obra = CO.Codigo
-                    WHEre GE.ID = '{idsSelecionados[1]}'";
-                var dadosObraSB = BSO.Consulta(querydadosObra);
+SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
+                    ";
 
-                var obrapaid = $"SELECT ObraPaiID FROM COP_Obras WHERE Codigo = '{dadosObraSB.DaValor<string>("Codigo")}'";
 
-                var dadosObraPaiId = BSO.Consulta(obrapaid);
 
-                var querydadosObraPai = $@"SELECT * FROM COP_Obras WHERE ID = '{dadosObraPaiId.DaValor<string>("ObraPaiID")}'";
-                var dadosObra = BSO.Consulta(querydadosObraPai);
+                var dadosObra = BSO.Consulta(querydadosObra);
+                dadosObra.NumLinhas();
+                string entidadeIdA = "";
+                if (dadosObra.NumLinhas() == 0)
+                {
+                    return;
+                }
+                else
+                {
+                     entidadeIdA = dadosObra.DaValor<string>("EntidadeIDA");
+                }
 
-                var querydonoObra = $"SELECT * fROM Geral_Entidade WHERE EntidadeId = '{dadosObra.DaValor<string>("EntidadeIDA")}'";
-                var dadosDonoObra = BSO.Consulta(querydonoObra);
 
-                // Blocos topo (esquerda)
+                var dadosDonoObra = default(StdBELista);
                 int ln = 3;
-                R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Designação da Empreitada: {dadosObra.DaValor<string>("Codigo")}"; Borda(R(ln, 2, ln, 4)); ln++;
-                R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Dono de Obra: {dadosDonoObra.DaValor<string>("Nome")}"; Borda(R(ln, 2, ln, 4)); ln++;
-                R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Entidade Executante: {dadosDonoObra.DaValor<string>("Nome")}"; Borda(R(ln, 2, ln, 4));
+                string donoObra = "";
+                if (!string.IsNullOrEmpty(entidadeIdA))
+                {
+                    var queryDonoObra = $"SELECT * FROM Geral_Entidade WHERE EntidadeId = '{entidadeIdA}'";
+                     dadosDonoObra = BSO.Consulta(queryDonoObra);
+                    R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Designação da Empreitada: {dadosObra.DaValor<string>("Codigo")}"; Borda(R(ln, 2, ln, 4)); ln++;
+                    R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Dono de Obra: {dadosDonoObra.DaValor<string>("Nome")}"; Borda(R(ln, 2, ln, 4)); ln++;
+                    R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Entidade Executante: {dadosDonoObra.DaValor<string>("Nome")}"; Borda(R(ln, 2, ln, 4));
+                    donoObra = dadosDonoObra.DaValor<string>("Nome");
+                }
+                else
+                {
+                    R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Designação da Empreitada: "; Borda(R(ln, 2, ln, 4)); ln++;
+                    R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Dono de Obra: "; Borda(R(ln, 2, ln, 4)); ln++;
+                    R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Entidade Executante: "; Borda(R(ln, 2, ln, 4));
+                    donoObra = "";
+                }
+                // Blocos topo (esquerda)
+              
+    
 
                 // Elaborado por
                 int lnQas = 3;
@@ -2917,6 +2937,40 @@ WHERE
 
                     if (numlinhas < 1)
                     {
+                        ws.Cells[row, 1] = i + 1; // N.º
+                        ws.Cells[row, 2] = "JOAQUIM PEIXOTO AZEVEDO & FILHOS, LDA"; // Designação Social
+                        ws.Cells[row, 3] = "RUA DE LONGRAS Nº 44"; // Sede
+                        ws.Cells[row, 4] = "Empreiteiro Geral";// Atividade desenvolvida em Obra
+                        ws.Cells[row, 5] = "502244585"; // Contribuinte
+                        ws.Cells[row, 6] = ""; // N.º Alvará
+                        ws.Cells[row, 7] = "PAR"; // PUB/PRIV
+                        ws.Cells[row, 8] = "C";
+                        ws.Cells[row, 9] = ""; // Cert. ND Finanças
+                        ws.Cells[row, 10] = ""; // Decl. ND Seg. Social
+                        ws.Cells[row, 11] = "";// Folha Pag. Seg. Social
+                        ws.Cells[row, 12] = "C"; // sem valor
+                        ws.Cells[row, 13] = ""; // Apólice AT
+                        ws.Cells[row, 14] = ""; // Fixo?
+                        ws.Cells[row, 15] = ""; // Prémio Variável?
+                        ws.Cells[row, 16] = ""; // Recibo Apólice AT
+                        ws.Cells[row, 17] = ""; // Apólice RC
+                        ws.Cells[row, 18] = ""; 
+                        ws.Cells[row, 19] = "C";
+                        ws.Cells[row, 20] = "C";
+                        ws.Cells[row, 21] = "C";
+                        ws.Cells[row, 22] = "C";
+                        ws.Cells[row, 23] = "C";
+                        ws.Cells[row, 24] = "";
+                        ws.Cells[row, 27] = "Sim";
+
+                        // 🔹 Cria um range que abrange todas as células dessa linha
+                        Excel.Range linhaRange = ws.Range[ws.Cells[row, 1], ws.Cells[row, 27]];
+
+                        // 🔹 Aplica centralização e borda
+                        Centro(linhaRange);
+                        Borda(linhaRange);
+
+                        row++;
                         continue;
                     }
 
@@ -2931,11 +2985,28 @@ WHERE
                     ws.Cells[row, 6] = dadosEmpresa.DaValor<string>("AlvaraNumero"); // N.º Alvará
                     ws.Cells[row, 7] = "PÚB";       // PUB/PRIV
            
-                    ws.Cells[row, 8] = ""; 
+                    ws.Cells[row, 8] = "";
 
-                    ws.Cells[row, 9] = dadosEmpresa.DaValor<string>("CDU_ValidadeFinancas"); // Cert. ND Finanças
-                    ws.Cells[row, 10] = dadosEmpresa.DaValor<string>("CDU_ValidadeSegSocial"); // Decl. ND Seg. Social
-                    ws.Cells[row, 11] = dadosEmpresa.DaValor<string>("CDU_ValidadeFolhaPag"); // Folha Pag. Seg. Social
+                    // Cert. ND Finanças
+                    if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeFinancas"), out DateTime data))
+                        ws.Cells[row, 9] = data.ToString("dd/MM/yyyy");
+                    else
+                        ws.Cells[row, 9] = "";
+
+                    // Decl. ND Seg. Social
+                    if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeSegSocial"), out data))
+                        ws.Cells[row, 10] = data.ToString("dd/MM/yyyy");
+                    else
+                        ws.Cells[row, 10] = "";
+
+                    // Folha Pag. Seg. Social
+                    if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeFolhaPag"), out data))
+                        ws.Cells[row, 11] = data.ToString("dd/MM/yyyy");
+                    else
+                        ws.Cells[row, 11] = "";
+
+
+
                     string valFolha = dadosEmpresa.DaValor<string>("CDU_ValidadeComprovativoPagamento");
                     DateTime validade;
 
@@ -2956,9 +3027,17 @@ WHERE
                     ws.Cells[row, 13] = "";         // Apólice AT
                     ws.Cells[row, 14] = "";       // Fixo?
                     ws.Cells[row, 15] = "";       // Prémio Variável?
-                    ws.Cells[row, 16] = dadosEmpresa.DaValor<string>("CDU_ValidadeReciboSeguroAT"); // Recibo Apólice AT CDU_ValidadeReciboSeguroAT
+                  
+                    if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeReciboSeguroAT"), out data))
+                        ws.Cells[row, 16] = data.ToString("dd/MM/yyyy");
+                    else
+                        ws.Cells[row, 16] = "";
+
                     ws.Cells[row, 17] = "";  // Apólice RC
-                    ws.Cells[row, 18] = dadosEmpresa.DaValor<string>("CDU_ValidadeSeguroRC");  // Recibo RC
+                    if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeSeguroRC"), out data))
+                        ws.Cells[row, 18] = data.ToString("dd/MM/yyyy");
+                    else
+                        ws.Cells[row, 18] = "";
                     ws.Cells[row, 19] = "C";         // Registo(s) Criminal(ais) 
 
                     string valor = dadosEmpresa.DaValor<string>("caminho2");
@@ -2978,6 +3057,8 @@ WHERE
                     ws.Cells[row, 23] = resultado4;         // Dec. Ades. PSS
 
                     ws.Cells[row, 24] = ""; // Contrato Subempreitada (Com)
+
+
                     string dataEntradaStr = dadosEmpresa.DaValor<string>("Data_Entrada");
                     string dataSaidaStr = dadosEmpresa.DaValor<string>("Data_Saida");
 
@@ -2987,7 +3068,8 @@ WHERE
                     bool temSaida = DateTime.TryParse(dataSaidaStr, out dataSaida);
 
                     // Se a data de saída for 01/01/1900, considera como vazia
-                    if (temSaida && dataSaida == new DateTime(1900, 1, 1))
+                    if (temSaida &&
+                    (dataSaida == new DateTime(1900, 1, 1) || dataSaida == new DateTime(1753, 1, 1)))
                     {
                         temSaida = false;
                     }
@@ -3014,19 +3096,18 @@ WHERE
                     }
 
                     // Grava na célula
-                    ws.Cells[row, 27] = autorizacao;
+                    ws.Cells[row, 27] = "Sim";
 
                     // Se quiser gravar apenas a parte da data (sem horas) nas colunas 25 e 26:
                     ws.Cells[row, 25] = temEntrada ? dataEntrada.ToString("dd/MM/yyyy") : "";
                     ws.Cells[row, 26] = temSaida ? dataSaida.ToString("dd/MM/yyyy") : "";
-
 
                     // Formatação básica da linha
                     var linhaExemplo = R(row, 1, row, 27);
                     Centro(linhaExemplo);
                     Borda(linhaExemplo);
                     linhaExemplo.RowHeight = 22;
-
+                    row++;
                     // ===== Fim da linha de exemplo =====
                 }
 
@@ -3068,7 +3149,7 @@ WHERE
 
                 // === Criar nova folha ===
 
-                Criar2Pagina(workbook, excelApp, codigoObra, idsSelecionados, dadosObra, dadosDonoObra);
+                Criar2Pagina(workbook, excelApp, codigoObra, idsSelecionados, dadosObra, dadosDonoObra, donoObra);
 
             }
             catch (System.Exception ex)
@@ -3084,7 +3165,7 @@ WHERE
             }
         }
 
-        private void Criar2Pagina(Excel.Workbook workbook, Excel.Application excelApp, string codigoObra, List<string> idsSelecionados, StdBELista dadosObra, StdBELista dadosDonoObra)
+        private void Criar2Pagina(Excel.Workbook workbook, Excel.Application excelApp, string codigoObra, List<string> idsSelecionados, StdBELista dadosObra, StdBELista dadosDonoObra, string DonoObra)
         {
             Excel.Worksheet ws2 = null;
 
@@ -3135,7 +3216,7 @@ WHERE
                 rDonoObra.Merge();
                 rDonoObra.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                 rDonoObra.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
-                ws2.Cells[5, 4] = dadosDonoObra.DaValor<string>("Nome");
+                ws2.Cells[5, 4] = DonoObra;
 
                 // Linha 6
                 ws2.Cells[6, 3] = "Entidade Executante:";
@@ -3143,7 +3224,7 @@ WHERE
                 rEntidade.Merge();
                 rEntidade.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                 rEntidade.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
-                ws2.Cells[6, 4] = dadosDonoObra.DaValor<string>("Nome");
+                ws2.Cells[6, 4] = DonoObra;
 
                 ws2.Range[ws2.Cells[4, 3], ws2.Cells[6, 3]].Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                 ws2.Range[ws2.Cells[4, 3], ws2.Cells[6, 3]].Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
@@ -4421,7 +4502,7 @@ WHERE
                 ws2.PageSetup.FitToPagesWide = 1;
                 ws2.PageSetup.FitToPagesTall = false;
 
-                CriarPaginasPorIds(workbook, excelApp, codigoObra, idsSelecionados, dadosObra, dadosDonoObra);
+                CriarPaginasPorIds(workbook, excelApp, codigoObra, idsSelecionados, dadosObra, dadosDonoObra, DonoObra);
 
                 }
             catch (System.Exception ex)
@@ -4437,7 +4518,7 @@ WHERE
 
         }
 
-        private void CriarPaginasPorIds(Excel.Workbook workbook, Excel.Application excelApp, string codigoObra, List<string> idsSelecionados, StdBELista dadosObra, StdBELista dadosDonoObra)
+        private void CriarPaginasPorIds(Excel.Workbook workbook, Excel.Application excelApp, string codigoObra, List<string> idsSelecionados, StdBELista dadosObra, StdBELista dadosDonoObra, string DonoObra)
         {
             var index = 2;
             foreach (var id in idsSelecionados.Skip(1))
@@ -4449,7 +4530,7 @@ WHERE
                     var queryNomeEntidade = $"SELECT Nome FROM  Geral_Entidade WHERE ID = '{id}'";
                     var nomeEnti = BSO.Consulta(queryNomeEntidade).DaValor<string>("Nome");
                     ws2 = (Excel.Worksheet)workbook.Worksheets.Add();
-                    ws2.Name = index + " - " + nomeEnti;
+                    ws2.Name = index.ToString();
                     index++;
 
                     // Helpers
@@ -4493,7 +4574,7 @@ WHERE
                     rDonoObra.Merge();
                     rDonoObra.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                     rDonoObra.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
-                    ws2.Cells[5, 4] = $"{dadosDonoObra.DaValor<string>("Nome")}";
+                    ws2.Cells[5, 4] = DonoObra;
 
                     // Linha 6
                     ws2.Cells[6, 3] = "Entidade Executante:";
@@ -4501,7 +4582,7 @@ WHERE
                     rEntidade.Merge();
                     rEntidade.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                     rEntidade.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
-                    ws2.Cells[6, 4] = $"{dadosDonoObra.DaValor<string>("Nome")}";
+                    ws2.Cells[6, 4] = DonoObra;
 
                     ws2.Range[ws2.Cells[4, 3], ws2.Cells[6, 3]].Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                     ws2.Range[ws2.Cells[4, 3], ws2.Cells[6, 3]].Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
@@ -6301,7 +6382,5 @@ WHERE
                 return false;
             }
         }
-
-
     }
 }
