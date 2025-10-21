@@ -3769,30 +3769,8 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                 ws2.Cells[16, 23] = "C";
                 ws2.Cells[16, 24] = "C";
                 ws2.Cells[16, 25] = "Sim";
-
-                var query = $"SELECT * FROM TDU_AD_Autorizacoes WHERE ID_Entidade = '{idsSelecionados[1]}'";
-                var dadosentrada = BSO.Consulta(query);
-
-                var dataEntradaStr = dadosentrada.DaValor<string>("Data_Entrada");
-
-                if (DateTime.TryParse(dataEntradaStr, out DateTime dataEntrada))
-                {
-                    ws2.Cells[16, 26] = dataEntrada.ToString("dd-MM-yyyy");
-                }
-                else
-                {
-                    ws2.Cells[16, 26] = ""; // Ou algum valor padrão se a data for inválida
-                }
-                var dataSaidaStr = dadosentrada.DaValor<string>("Data_Saida");
-
-                if (DateTime.TryParse(dataSaidaStr, out DateTime dataSaida) && dataSaida != new DateTime(1900, 1, 1))
-                {
-                    ws2.Cells[16, 27] = dataSaida.ToString("dd-MM-yyyy");
-                }
-                else
-                {
-                    ws2.Cells[16, 27] = "";
-                }
+                ws2.Cells[16, 26] = ""; 
+                ws2.Cells[16, 27] = "";
                 ws2.Cells[16, 28] = "Sim";
 
                 //*************************************
@@ -4150,23 +4128,15 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                 //DADOS NAS LINHAS //********************************************************************** TRABALHADORES JPA
          
                 var queryObraPAITrabalhadores = $@"SELECT 
-                    f.*,
-                    g.IDOperador,
-                    g.Operador,
-                    p.ColaboradorID,
-                    oPai.ID AS ObraPaiID,
-                    oPai.Codigo AS CodigoObraPai,
-                    o.Codigo AS CodigoObraFilha
-                FROM COP_Obras o
-                JOIN COP_Obras oPai 
-                    ON oPai.ID = o.ObraPaiID
-                JOIN COP_Obras_Pessoal p 
-                    ON p.ObraID = oPai.ID
-                JOIN GPR_Operadores g 
-                    ON g.IDOperador = p.ColaboradorID
-                JOIN Funcionarios f 
-                    ON f.Codigo = g.Operador
-                WHERE o.Codigo = '{codigoObra}';";
+    f.*, 
+    p.Descricao AS ProfissaoDescricao
+FROM COP_Obras o
+JOIN COP_Obras_Pessoal op ON op.obraId = o.id
+JOIN GPR_Operadores g ON g.idOperador = op.colaboradorID
+JOIN Funcionarios f ON f.codigo = g.Operador
+LEFT JOIN Profissoes p ON f.Profissao = p.Profissao
+WHERE o.Codigo = '{codigoObra}';
+;";
                 var dadosTrabalhadores = BSO.Consulta(queryObraPAITrabalhadores);
 
                 var numregistos = dadosTrabalhadores.NumLinhas();
@@ -4180,12 +4150,16 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     ws2.Cells[linhaAtual, 2] = dadosTrabalhadores.DaValor<string>("Nome"); // Nome Completo
                     ws2.Cells[linhaAtual, 3] = dadosTrabalhadores.DaValor<string>("Morada"); // Residência Habitual
                     ws2.Cells[linhaAtual, 4] = dadosTrabalhadores.DaValor<string>("Nacionalidade"); // Nacionalidade
-                   // ws2.Cells[linhaAtual, 5] = dadosTrabalhadores.DaValor<string>("Funcao", i); // Categoria / Função
+                    ws2.Cells[linhaAtual, 5] = dadosTrabalhadores.DaValor<string>("ProfissaoDescricao"); // Categoria / Função
                     //ws2.Cells[linhaAtual, 6] = dadosTrabalhadores.DaValor<string>("CAP", i); // CAP (se aplicável)
                     ws2.Cells[linhaAtual, 7] = dadosTrabalhadores.DaValor<string>("NumContr"); // Contribuinte
-                    ws2.Cells[linhaAtual, 8] = dadosTrabalhadores.DaValor<string>("NumBI"); // Segurança Social
-                  //  ws2.Cells[linhaAtual, 9] = dadosTrabalhadores.DaValor<string>("CartaoCidadao", i); // Cartão de Cidadão
-                    ws2.Cells[linhaAtual, 10] = dadosTrabalhadores.DaValor<string>("DataValidadeBI"); // Validade CC
+                    ws2.Cells[linhaAtual, 8] = dadosTrabalhadores.DaValor<string>("NumBeneficiario"); // Segurança Social
+                    ws2.Cells[linhaAtual, 9] = dadosTrabalhadores.DaValor<string>("NumBI"); // Cartão de Cidadão
+                    if (DateTime.TryParse(dadosTrabalhadores.DaValor<string>("DataValidadeBI"), out DateTime data))
+                        ws2.Cells[linhaAtual, 10] = data.ToString("dd/MM/yyyy");
+                    else
+                        ws2.Cells[linhaAtual, 10] = "";
+
                     ws2.Cells[linhaAtual, 11] = "C"; // Conforme Cat. Prof.?
                     ws2.Cells[linhaAtual, 12] = ""; // Validade Ficha de Aptidão Médica
                     ws2.Cells[linhaAtual, 13] = "C"; // Ficha de Distribuição de EPI
@@ -4205,7 +4179,7 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     ws2.Cells[linhaAtual, 27] = ""; // Saída Obra
                     ws2.Cells[linhaAtual, 28] = "Sim"; // Autorização de Entrada em Obra
 
-                    linhaAtual = linhaAtual++;    // Começa na linha 22
+                    linhaAtual++;    // Começa na linha 22
                     dadosTrabalhadores.Seguinte();
                 }
                 //MÁQUINAS E EQUIPAMENTOS
@@ -4491,6 +4465,60 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                 Borda(rSimNao3);
 
                 //Linhas dos equipamentos da JPA TODO
+                var queryEquipamentos = $@"
+SELECT DISTINCT
+    fei.ClasseID,
+    gc.Descricao AS ClasseDescricao,
+    pc.*  
+FROM COP_Obras o
+JOIN COP_FichasEquipamento fe ON fe.ObraID = o.id
+JOIN COP_FichasEquipamentoItems fei ON fei.FichasEquipamentoID = fe.id
+JOIN Precos_Componente pc ON pc.ComponenteID = fei.ComponenteID
+LEFT JOIN Geral_Classe gc ON gc.ClasseID = fei.ClasseID
+WHERE o.Codigo = '{codigoObra}';
+";
+                var dadosEquipamentos = BSO.Consulta(queryEquipamentos);
+                var numRegistosEquipamentos = dadosEquipamentos.NumLinhas();
+                dadosEquipamentos.Inicio();
+                int equipamentoLinhaAtual = linhaAtual + 1;
+                for (int i = 0; i < numRegistosEquipamentos; i++)
+                {
+                    ws2.Cells[equipamentoLinhaAtual, 1] = (i + 1).ToString(); // N.º
+                    ws2.Cells[equipamentoLinhaAtual, 2] = dadosEquipamentos.DaValor<string>("Desig"); // Marca/ Modelo
+                    ws2.Cells[equipamentoLinhaAtual, 3] = dadosEquipamentos.DaValor<string>("ClasseDescricao"); // Tipo de Máquina
+                    ws2.Cells[equipamentoLinhaAtual, 5] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 6] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 7] = "C";
+                    ws2.Cells[equipamentoLinhaAtual, 8] = "C";
+                    ws2.Cells[equipamentoLinhaAtual, 9] = "C"; 
+                    ws2.Cells[equipamentoLinhaAtual, 10] = "C"; 
+                    ws2.Cells[equipamentoLinhaAtual, 11] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 12] = "C";
+                    ws2.Cells[equipamentoLinhaAtual, 13] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 14] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 15] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 16] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 17] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 18] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 19] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 20] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 21] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 22] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 23] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 24] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 25] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 26] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 27] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 28] = ""; 
+
+                    // As restantes células ficam vazias para serem preenchidas manualmente
+
+                    equipamentoLinhaAtual++;
+                    dadosEquipamentos.Seguinte();
+                }
+
+
+
 
                 // Page setup
                 ws2.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
