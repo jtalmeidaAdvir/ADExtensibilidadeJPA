@@ -416,7 +416,7 @@ END;
             Bt_Validades.Location = new System.Drawing.Point(330, 9);
             Bt_Avisos.Location = new System.Drawing.Point(170, 9);
             Bt_imprimir.Location = new System.Drawing.Point(490, 9);
-            Bt_imprimir2.Location = new System.Drawing.Point(980, 9);
+            Bt_imprimir2.Location = new System.Drawing.Point(490, 9);
             BT_ImprimirJPA.Location = new System.Drawing.Point(650, 9);
             BT_CriarTrabalhadores.Location = new System.Drawing.Point(810, 9);
 
@@ -538,7 +538,7 @@ END;
             EstilizarBotao(Bt_Validades, "Consulta");
             EstilizarBotao(Bt_Avisos, "Alerta de Caducidade");
             EstilizarBotao(Bt_imprimir, "Exportar");
-            EstilizarBotao(Bt_imprimir2, "Exportar TESTE");
+            EstilizarBotao(Bt_imprimir2, "Exportar");
             EstilizarBotao(BT_ImprimirJPA, "Exportar JPA");
             EstilizarBotao(BT_CriarTrabalhadores, "Criar Trabalhadores");
 
@@ -3025,7 +3025,7 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                         ws.Cells[row, 12] = "N/A";
                     } // Recibo Pag. Seg. Social
 
-                    ws.Cells[row, 13] = "";         // Apólice AT
+                    ws.Cells[row, 13] = dadosEmpresa.DaValor<string>("CDU_NumApoliceAt");
                     ws.Cells[row, 14] = "";       // Fixo?
                     ws.Cells[row, 15] = "";       // Prémio Variável?
                   
@@ -3034,7 +3034,7 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     else
                         ws.Cells[row, 16] = "";
 
-                    ws.Cells[row, 17] = "";  // Apólice RC
+                    ws.Cells[row, 17] = dadosEmpresa.DaValor<string>("CDU_NumApoliceRc");
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeSeguroRC"), out data))
                         ws.Cells[row, 18] = data.ToString("dd/MM/yyyy");
                     else
@@ -5174,7 +5174,7 @@ WHERE o.Codigo = '{codigoObra}';
                     var valor2 = dadosEntidade.DaValor<string>("CDU_ValidadeComprovativoPagamento");
                     ws2.Cells[16, 13] = !string.IsNullOrEmpty(valor2) ? "C" : "N/C"; //dadosEntidade.DaValor<string>("CDU_ValidadeComprovativoPagamento");  se tiver preenchido colo
 
-                    ws2.Cells[16, 14] = "";
+                    ws2.Cells[16, 14] = dadosEntidade.DaValor<string>("CDU_NumApoliceAt");
                     ws2.Cells[16, 15] = "";
                     ws2.Cells[16, 16] = "";
                     // Lista de novas colunas e campos correspondentes
@@ -5201,8 +5201,8 @@ WHERE o.Codigo = '{codigoObra}';
                         }
                     }
 
-                    ws2.Cells[16, 18] = "TODO RC";
-                    ws2.Cells[16, 20] = "TODO";
+                    ws2.Cells[16, 18] = dadosEntidade.DaValor<string>("CDU_NumApoliceRc");
+                    ws2.Cells[16, 20] = "";
                     var querydadosAutorizacoesEntidades = $"SELECT * fROM TDU_AD_Autorizacoes WHERE ID_Entidade = '{id}'";
                     var dadosAutorizacoesEntidades = BSO.Consulta(querydadosAutorizacoesEntidades);
                     var validadeCaminho2 = dadosAutorizacoesEntidades.DaValor<string>("caminho2");
@@ -5609,13 +5609,13 @@ WHERE o.Codigo = '{codigoObra}';
                         
                         ws2.Cells[linhaAtual, 1] = (i + 1).ToString(); // N.º
                         ws2.Cells[linhaAtual, 2] = dadosTrabalhadoresEntidades.DaValor<string>("nome"); // Nome Completo
-                        ws2.Cells[linhaAtual, 3] = "Todo"; // Residência Habitual
-                        ws2.Cells[linhaAtual, 4] = "TODO"; // Nacionalidade
-                                                          
-                        ws2.Cells[linhaAtual, 6] = "TODO";                                                                              
+                        ws2.Cells[linhaAtual, 3] = ""; // Residência Habitual
+                        ws2.Cells[linhaAtual, 4] = ""; // Nacionalidade
+                        ws2.Cells[linhaAtual, 5] = dadosTrabalhadoresEntidades.DaValor<string>("categoria");
+                        ws2.Cells[linhaAtual, 6] = "";                                                                              
                         ws2.Cells[linhaAtual, 7] = dadosTrabalhadoresEntidades.DaValor<string>("contribuinte"); // Contribuinte
                         ws2.Cells[linhaAtual, 8] = dadosTrabalhadoresEntidades.DaValor<string>("seguranca_social"); // Segurança Social
-                        ws2.Cells[linhaAtual, 9] = "TODO";
+                        ws2.Cells[linhaAtual, 9] = dadosTrabalhadoresEntidades.DaValor<string>("Nm_CC");
                         string caminho1 = dadosTrabalhadoresEntidades.DaValor<string>("caminho1");
 
                         // Regex para pegar a data no formato dd/MM/yyyy
@@ -5629,16 +5629,16 @@ WHERE o.Codigo = '{codigoObra}';
                         {
                             ws2.Cells[linhaAtual, 10] = "";
                         }
-                        ws2.Cells[linhaAtual, 11] = "TODO"; 
-                        ws2.Cells[linhaAtual, 12] = "TODO";
+                        ws2.Cells[linhaAtual, 11] = ""; 
+                        ws2.Cells[linhaAtual, 12] = "";
 
                         string valorCaminho5 = dadosTrabalhadoresEntidades.DaValor<string>("caminho5");
 
                         ws2.Cells[linhaAtual, 13] = string.IsNullOrWhiteSpace(valorCaminho5) ? "N/C" : "C";
 
 
-                        ws2.Cells[linhaAtual, 14] = "TODO"; // Consta no Mapa  SS / Inscrito?
-                        ws2.Cells[linhaAtual, 15] = "TODO"; // Admissão na SS (caso não conste no Mapa da SS)
+                        ws2.Cells[linhaAtual, 14] = ""; // Consta no Mapa  SS / Inscrito?
+                        ws2.Cells[linhaAtual, 15] = ""; // Admissão na SS (caso não conste no Mapa da SS)
                         ws2.Cells[linhaAtual, 16] = ""; // Admissão na SS (caso não conste no Mapa da SS)
                         ws2.Cells[linhaAtual, 17] = ""; // Passaporte c/visto / Titulo de Residência
                         ws2.Cells[linhaAtual, 18] = ""; // Validade
@@ -5987,18 +5987,18 @@ WHERE o.Codigo = '{codigoObra}';
 
                         string valorAnexo2 = dadosEquipamentosEntidades.DaValor<string>("anexo2");
                         ws2.Cells[linhaAtual, 11] = valorAnexo2 == "True" ? "C" : "N/C";
-                        ws2.Cells[linhaAtual, 12] = "TODO"; // Validade
+                        ws2.Cells[linhaAtual, 12] = ""; // Validade
                         string valorAnexo3 = dadosEquipamentosEntidades.DaValor<string>("anexo3");
                         ws2.Cells[linhaAtual, 13] = valorAnexo3 == "True" ? "C" : "N/C";
-                        ws2.Cells[linhaAtual, 14] = "TODO"; // N.º Horas (à entrada em Obra)
-                        ws2.Cells[linhaAtual, 15] = "TODO"; // Validade
-                        ws2.Cells[linhaAtual, 17] = "TODO"; // Seguradora
-                        ws2.Cells[linhaAtual, 19] = "TODO"; // N.º Apólice
+                        ws2.Cells[linhaAtual, 14] = ""; // N.º Horas (à entrada em Obra)
+                        ws2.Cells[linhaAtual, 15] = ""; // Validade
+                        ws2.Cells[linhaAtual, 17] = ""; // Seguradora
+                        ws2.Cells[linhaAtual, 19] = ""; // N.º Apólice
                         string valorAnexo5 = dadosEquipamentosEntidades.DaValor<string>("anexo5");
                         ws2.Cells[linhaAtual, 20] = valorAnexo5 == "True" ? "C" : "N/C";
-                        ws2.Cells[linhaAtual, 21] = "TODO"; // Validade
-                        ws2.Cells[linhaAtual, 23] = "TODO"; // Tipo
-                        ws2.Cells[linhaAtual, 24] = "TODO"; // C ; N/C ; N/A
+                        ws2.Cells[linhaAtual, 21] = ""; // Validade
+                        ws2.Cells[linhaAtual, 23] = ""; // Tipo
+                        ws2.Cells[linhaAtual, 24] = ""; // C ; N/C ; N/A
 
 
 

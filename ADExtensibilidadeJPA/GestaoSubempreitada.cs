@@ -960,14 +960,16 @@ namespace ADExtensibilidadeJPA
                         return;
                     }
 
-                    // Solicitar data de validade
+                    // Solicitar data de validade e número de CC (se for Cartão de Cidadão)
                     DateTime dataValidade;
+                    string numeroCC = "";
+
                     using (Form formValidade = new Form())
                     {
-                        formValidade.Text = "Data de Validade";
+                        formValidade.Text = tipoDocumento == "CartaoCidadao" ? "Dados do Cartão de Cidadão" : "Data de Validade";
                         formValidade.StartPosition = FormStartPosition.CenterParent;
                         formValidade.Width = 320;
-                        formValidade.Height = 150;
+                        formValidade.Height = tipoDocumento == "CartaoCidadao" ? 230 : 170;
                         formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
                         formValidade.MaximizeBox = false;
                         formValidade.MinimizeBox = false;
@@ -985,14 +987,33 @@ namespace ADExtensibilidadeJPA
                         dtpValidade.Format = DateTimePickerFormat.Short;
                         dtpValidade.Value = DateTime.Now.AddMonths(1); // Um mês à frente como padrão
 
+                        formValidade.Controls.Add(lblInfo);
+                        formValidade.Controls.Add(dtpValidade);
+
+                        TextBox txtNumeroCC = null;
+                        if (tipoDocumento == "CartaoCidadao")
+                        {
+                            Label lblNumeroCC = new Label();
+                            lblNumeroCC.Text = "Número do Cartão de Cidadão:";
+                            lblNumeroCC.Left = 20;
+                            lblNumeroCC.Top = 90;
+                            lblNumeroCC.Width = 250;
+
+                            txtNumeroCC = new TextBox();
+                            txtNumeroCC.Left = 20;
+                            txtNumeroCC.Top = 110;
+                            txtNumeroCC.Width = 250;
+
+                            formValidade.Controls.Add(lblNumeroCC);
+                            formValidade.Controls.Add(txtNumeroCC);
+                        }
+
                         Button btnOk = new Button();
                         btnOk.Text = "OK";
                         btnOk.DialogResult = DialogResult.OK;
                         btnOk.Left = 110;
-                        btnOk.Top = 80;
+                        btnOk.Top = tipoDocumento == "CartaoCidadao" ? 140 : 80;
 
-                        formValidade.Controls.Add(lblInfo);
-                        formValidade.Controls.Add(dtpValidade);
                         formValidade.Controls.Add(btnOk);
                         formValidade.AcceptButton = btnOk;
 
@@ -1002,6 +1023,10 @@ namespace ADExtensibilidadeJPA
                         }
 
                         dataValidade = dtpValidade.Value;
+                        if (tipoDocumento == "CartaoCidadao" && txtNumeroCC != null)
+                        {
+                            numeroCC = txtNumeroCC.Text;
+                        }
                     }
 
                     // Abre o diálogo para selecionar o arquivo
@@ -1058,14 +1083,29 @@ namespace ADExtensibilidadeJPA
                             // Copia o arquivo para a pasta de destino
                             System.IO.File.Copy(sourceFile, destFile, true);
 
-                            // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
-                            // AtualizarStatusDocumentotrabalhdor(tipoDocumento, destFile, dataValidade);
+                            // Se for Cartão de Cidadão, atualizar o número de CC na base de dados
+                            if (tipoDocumento == "CartaoCidadao" && !string.IsNullOrEmpty(numeroCC))
+                            {
+                                // Verificar e criar a coluna Nm_CC se não existir
+                                string checkColumnQuery = @"
+                                    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                                                   WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'Nm_CC')
+                                    BEGIN
+                                        ALTER TABLE TDU_AD_Trabalhadores ADD Nm_CC NVARCHAR(50) NULL
+                                    END";
+                                _BSO.DSO.ExecuteSQL(checkColumnQuery);
+
+                                // Atualizar o número de CC
+                                string updateNumCCQuery = $@"
+                                    UPDATE TDU_AD_Trabalhadores 
+                                    SET Nm_CC = '{numeroCC}'
+                                    WHERE contribuinte = '{txt_contribuintetrab.Text}' 
+                                    AND id_empresa = '{_idSelecionado}'";
+                                _BSO.DSO.ExecuteSQL(updateNumCCQuery);
+                            }
 
                             // Atualizar o checkbox correspondente
                             AtualizarCheckboxtrabalhador(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
-
-                            // Recarregar os dados para garantir exibição correta
-                            // CarregarStatusDocumentos();
 
                             MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
                                 "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1271,19 +1311,21 @@ namespace ADExtensibilidadeJPA
                     return;
                 }
                 DateTime dataValidade;
+                string numeroApoliceAt = "";
+                string numeroApoliceRc = "";
+
                 if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil" || tipoDocumento == "AnexoD")
                 {
                     dataValidade = DateTime.Today;
                 }
                 else
                 {
-
                     using (Form formValidade = new Form())
                     {
-                        formValidade.Text = "Data de Validade";
+                        formValidade.Text = (tipoDocumento == "ReciboSeguroAT" || tipoDocumento == "SeguroRC") ? "Dados do Recibo de Seguro" : "Data de Validade";
                         formValidade.StartPosition = FormStartPosition.CenterParent;
                         formValidade.Width = 320;
-                        formValidade.Height = 150;
+                        formValidade.Height = (tipoDocumento == "ReciboSeguroAT" || tipoDocumento == "SeguroRC") ? 230 : 170;
                         formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
                         formValidade.MaximizeBox = false;
                         formValidade.MinimizeBox = false;
@@ -1301,14 +1343,49 @@ namespace ADExtensibilidadeJPA
                         dtpValidade.Format = DateTimePickerFormat.Short;
                         dtpValidade.Value = DateTime.Now.AddMonths(1); // Um mês à frente como padrão
 
+                        formValidade.Controls.Add(lblInfo);
+                        formValidade.Controls.Add(dtpValidade);
+
+                        TextBox txtNumeroApolice = null;
+                        if (tipoDocumento == "ReciboSeguroAT")
+                        {
+                            Label lblNumeroApolice = new Label();
+                            lblNumeroApolice.Text = "Número da Apólice AT:";
+                            lblNumeroApolice.Left = 20;
+                            lblNumeroApolice.Top = 90;
+                            lblNumeroApolice.Width = 250;
+
+                            txtNumeroApolice = new TextBox();
+                            txtNumeroApolice.Left = 20;
+                            txtNumeroApolice.Top = 110;
+                            txtNumeroApolice.Width = 250;
+
+                            formValidade.Controls.Add(lblNumeroApolice);
+                            formValidade.Controls.Add(txtNumeroApolice);
+                        }
+                        else if (tipoDocumento == "SeguroRC")
+                        {
+                            Label lblNumeroApolice = new Label();
+                            lblNumeroApolice.Text = "Número da Apólice RC:";
+                            lblNumeroApolice.Left = 20;
+                            lblNumeroApolice.Top = 90;
+                            lblNumeroApolice.Width = 250;
+
+                            txtNumeroApolice = new TextBox();
+                            txtNumeroApolice.Left = 20;
+                            txtNumeroApolice.Top = 110;
+                            txtNumeroApolice.Width = 250;
+
+                            formValidade.Controls.Add(lblNumeroApolice);
+                            formValidade.Controls.Add(txtNumeroApolice);
+                        }
+
                         Button btnOk = new Button();
                         btnOk.Text = "OK";
                         btnOk.DialogResult = DialogResult.OK;
                         btnOk.Left = 110;
-                        btnOk.Top = 80;
+                        btnOk.Top = (tipoDocumento == "ReciboSeguroAT" || tipoDocumento == "SeguroRC") ? 150 : 80;
 
-                        formValidade.Controls.Add(lblInfo);
-                        formValidade.Controls.Add(dtpValidade);
                         formValidade.Controls.Add(btnOk);
                         formValidade.AcceptButton = btnOk;
 
@@ -1318,6 +1395,14 @@ namespace ADExtensibilidadeJPA
                         }
 
                         dataValidade = dtpValidade.Value;
+                        if (tipoDocumento == "ReciboSeguroAT" && txtNumeroApolice != null)
+                        {
+                            numeroApoliceAt = txtNumeroApolice.Text;
+                        }
+                        else if (tipoDocumento == "SeguroRC" && txtNumeroApolice != null)
+                        {
+                            numeroApoliceRc = txtNumeroApolice.Text;
+                        }
                     }
                 }
                 // Solicitar data de validade
@@ -1370,6 +1455,46 @@ namespace ADExtensibilidadeJPA
 
                         // Copia o arquivo para a pasta de destino
                         System.IO.File.Copy(sourceFile, destFile, true);
+
+                        // Se for Recibo de Seguro AT, atualizar o número de Apólice AT na base de dados
+                        if (tipoDocumento == "ReciboSeguroAT" && !string.IsNullOrEmpty(numeroApoliceAt))
+                        {
+                            // Verificar e criar a coluna CDU_NumApoliceAt se não existir
+                            string checkColumnQuery = @"
+                                IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                                               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_NumApoliceAt')
+                                BEGIN
+                                    ALTER TABLE Geral_Entidade ADD CDU_NumApoliceAt NVARCHAR(50) NULL
+                                END";
+                            _BSO.DSO.ExecuteSQL(checkColumnQuery);
+
+                            // Atualizar o número de Apólice AT
+                            string updateNumApoliceQuery = $@"
+                                UPDATE Geral_Entidade 
+                                SET CDU_NumApoliceAt = '{numeroApoliceAt}'
+                                WHERE ID = '{_idSelecionado}'";
+                            _BSO.DSO.ExecuteSQL(updateNumApoliceQuery);
+                        }
+
+                        // Se for Seguro RC, atualizar o número de Apólice RC na base de dados
+                        if (tipoDocumento == "SeguroRC" && !string.IsNullOrEmpty(numeroApoliceRc))
+                        {
+                            // Verificar e criar a coluna CDU_NumApoliceRc se não existir
+                            string checkColumnQuery = @"
+                                IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                                               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_NumApoliceRc')
+                                BEGIN
+                                    ALTER TABLE Geral_Entidade ADD CDU_NumApoliceRc NVARCHAR(50) NULL
+                                END";
+                            _BSO.DSO.ExecuteSQL(checkColumnQuery);
+
+                            // Atualizar o número de Apólice RC
+                            string updateNumApoliceQuery = $@"
+                                UPDATE Geral_Entidade 
+                                SET CDU_NumApoliceRc = '{numeroApoliceRc}'
+                                WHERE ID = '{_idSelecionado}'";
+                            _BSO.DSO.ExecuteSQL(updateNumApoliceQuery);
+                        }
 
                         // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
                         AtualizarStatusDocumento(tipoDocumento, destFile, dataValidade);
@@ -2201,7 +2326,7 @@ namespace ADExtensibilidadeJPA
                     row.Cells["nome"].Value = nome;
                     row.Cells["categoria"].Value = categoriatrab;
                     row.Cells["SSocial"].Value = segurancasocialtrab;
-           
+
                     row.Cells["AnexoCC"].Value = anexo1;
                     row.Cells["AnexoFM"].Value = anexo2;
                     row.Cells["AnexoCT"].Value = anexo3;
@@ -2680,7 +2805,7 @@ END
                 }
                 else
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab,  anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
 
                 }
 

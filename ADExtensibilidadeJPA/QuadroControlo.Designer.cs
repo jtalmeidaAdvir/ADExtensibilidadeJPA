@@ -107,6 +107,7 @@
             this.Bt_imprimir.TabIndex = 5;
             this.Bt_imprimir.Text = "Imprimir";
             this.Bt_imprimir.UseVisualStyleBackColor = true;
+            this.Bt_imprimir.Visible = false;
             this.Bt_imprimir.Click += new System.EventHandler(this.Bt_imprimir_Click);
             // 
             // f4TabelaSQL1
@@ -153,6 +154,7 @@
             this.BT_ImprimirJPA.TabIndex = 11;
             this.BT_ImprimirJPA.Text = "Imprimir JPA";
             this.BT_ImprimirJPA.UseVisualStyleBackColor = true;
+            this.BT_ImprimirJPA.Visible = false;
             this.BT_ImprimirJPA.Click += new System.EventHandler(this.BT_ImprimirJPA_Click);
             // 
             // BT_CriarTrabalhadores
