@@ -91,7 +91,7 @@ namespace ADExtensibilidadeJPA
                     CDU_AnexoCertidaoPermanente, CDU_ValidadeCertidaoPermanente,
                     CDU_AnexoContrato, CDU_ValidadeContrato,
                     CDU_AnexoDeclaracaoPSS, CDU_ValidadeDeclaracaoPSS,
-                    CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro,CDU_AnexoSeguroResposabilidadeCivil,
+                    CDU_AnexoResponsavelEstaleiro, CDU_ValidadeResponsavelEstaleiro,CDU_AnexoSeguroResposabilidadeCivil,CDU_AnexoAnexoD,
                     CDU_ValidadeSeguroResposabilidadeCivil,ID
                     FROM Geral_Entidade WHERE id = '{_idSelecionado}'";
 
@@ -113,6 +113,7 @@ namespace ADExtensibilidadeJPA
                         SeguroUpdateCheckboxFromDB(checkBox9, dados, "CDU_AnexoAlvara", "Alvará", "CDU_ValidadeAlvara");
                         SeguroUpdateCheckboxFromDB(checkBox10, dados, "CDU_AnexoCertidaoPermanente", "Certidão Permanente", "CDU_ValidadeCertidaoPermanente");
                         SeguroUpdateCheckboxFromDB(checkBox13, dados, "CDU_AnexoSeguroResposabilidadeCivil", "Condições Seguro RC", "CDU_ValidadeSeguroResposabilidadeCivil");
+                        SeguroUpdateCheckboxFromDB(checkBox28, dados, "CDU_AnexoAnexoD", "AnexoD", "CDU_ValidadeAnexoD");
                     }
                     catch (FormatException fex)
                     {
@@ -618,6 +619,10 @@ namespace ADExtensibilidadeJPA
             button10.Click += (sender, e) => AnexarDocumento("CertidaoPermanente");
 
             button12.Click += (sender, e) => AnexarDocumento("SeguroResposabilidadeCivil"); // NOVO
+            button13.Click += (sender, e) => AnexarDocumento("AnexoD"); // NOVO
+
+
+
             button11.Click += (sender, e) => AnexarDocumentoAutorizar("Trabalhadores_Imigrantes"); // NOVO
 
             button14.Click += (sender, e) => AnexarDocumentoTrabalhador("CartaoCidadao");
@@ -1266,7 +1271,7 @@ namespace ADExtensibilidadeJPA
                     return;
                 }
                 DateTime dataValidade;
-                if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil")
+                if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil" || tipoDocumento == "AnexoD")
                 {
                     dataValidade = DateTime.Today;
                 }
@@ -1375,7 +1380,7 @@ namespace ADExtensibilidadeJPA
                         // Recarregar os dados para garantir exibição correta
                         // CarregarStatusDocumentos();
 
-                        if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil")
+                        if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil" || tipoDocumento == "AnexoD")
                         {
                             MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!",
                                 "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1443,8 +1448,12 @@ namespace ADExtensibilidadeJPA
                     checkBox = checkBox13;
                     nomeDocumento = "Condições Seguro RC";
                     break;
+                case "AnexoD":
+                    checkBox = checkBox28;
+                    nomeDocumento = "AnexoD";
+                    break;
             }
-            if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil")
+            if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil" || tipoDocumento == "AnexoD")
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
@@ -1502,7 +1511,7 @@ namespace ADExtensibilidadeJPA
                         colunaAnexo = "CDU_AnexoFolhaPag";
                         colunaValidade = "CDU_ValidadeFolhaPag";
                         break;
-                    case "ComprovativoPagamento":
+                    case "TSU":
                         colunaAnexo = "CDU_AnexoComprovativoPagamento";
                         colunaValidade = "CDU_ValidadeComprovativoPagamento";
                         break;
@@ -1545,6 +1554,10 @@ namespace ADExtensibilidadeJPA
                     case "SeguroResposabilidadeCivil":
                         colunaAnexo = "CDU_AnexoSeguroResposabilidadeCivil";
                         colunaValidade = "CDU_ValidadeSeguroResposabilidadeCivil";
+                        break;
+                    case "AnexoD":
+                        colunaAnexo = "CDU_AnexoAnexoD";
+                        colunaValidade = "CDU_ValidadeAnexoD";
                         break;
                     default:
                         // Caso não mapeado, usar o nome do tipo como parte do nome da coluna

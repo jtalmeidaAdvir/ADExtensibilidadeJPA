@@ -1619,6 +1619,7 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
         }
         private void Bt_imprimir2_Click(object sender, EventArgs e)
         {
+
             try
             {
                 List<string> idsSelecionados = new List<string>();
@@ -2984,9 +2985,9 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     ws.Cells[row, 5] = dadosEmpresa.DaValor<string>("NIPC"); // Contribuinte
                     ws.Cells[row, 6] = dadosEmpresa.DaValor<string>("AlvaraNumero"); // N.º Alvará
                     ws.Cells[row, 7] = "PÚB";       // PUB/PRIV
-           
-                    ws.Cells[row, 8] = "";
 
+                    var valor = dadosEmpresa.DaValor<string>("CDU_AnexoAnexoD");
+                    ws.Cells[row, 8] = !string.IsNullOrEmpty(valor) ? "C" : "N/C";
                     // Cert. ND Finanças
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeFinancas"), out DateTime data))
                         ws.Cells[row, 9] = data.ToString("dd/MM/yyyy");
@@ -3040,8 +3041,8 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                         ws.Cells[row, 18] = "";
                     ws.Cells[row, 19] = "C";         // Registo(s) Criminal(ais) 
 
-                    string valor = dadosEmpresa.DaValor<string>("caminho2");
-                    string resultado = VerificaValidade(valor);
+                    string valor01 = dadosEmpresa.DaValor<string>("caminho2");
+                    string resultado = VerificaValidade(valor01);
                     ws.Cells[row, 20] = resultado;
 
                     string valor2 = dadosEmpresa.DaValor<string>("caminho5");
@@ -4466,17 +4467,17 @@ WHERE o.Codigo = '{codigoObra}';
 
                 //Linhas dos equipamentos da JPA TODO
                 var queryEquipamentos = $@"
-SELECT DISTINCT
-    fei.ClasseID,
-    gc.Descricao AS ClasseDescricao,
-    pc.*  
-FROM COP_Obras o
-JOIN COP_FichasEquipamento fe ON fe.ObraID = o.id
-JOIN COP_FichasEquipamentoItems fei ON fei.FichasEquipamentoID = fe.id
-JOIN Precos_Componente pc ON pc.ComponenteID = fei.ComponenteID
-LEFT JOIN Geral_Classe gc ON gc.ClasseID = fei.ClasseID
-WHERE o.Codigo = '{codigoObra}';
-";
+                SELECT DISTINCT
+                    fei.ClasseID,
+                    gc.Descricao AS ClasseDescricao,
+                    pc.*  
+                FROM COP_Obras o
+                JOIN COP_FichasEquipamento fe ON fe.ObraID = o.id
+                JOIN COP_FichasEquipamentoItems fei ON fei.FichasEquipamentoID = fe.id
+                JOIN Precos_Componente pc ON pc.ComponenteID = fei.ComponenteID
+                LEFT JOIN Geral_Classe gc ON gc.ClasseID = fei.ClasseID
+                WHERE o.Codigo = '{codigoObra}';
+                ";
                 var dadosEquipamentos = BSO.Consulta(queryEquipamentos);
                 var numRegistosEquipamentos = dadosEquipamentos.NumLinhas();
                 dadosEquipamentos.Inicio();
@@ -5142,7 +5143,11 @@ WHERE o.Codigo = '{codigoObra}';
                     ws2.Cells[16, 6] = dadosEntidade.DaValor<string>("NIPC");
                     ws2.Cells[16, 7] = dadosEntidade.DaValor<string>("AlvaraNumero");
                     ws2.Cells[16, 8] = "PAR";
-                    ws2.Cells[16, 9] = "TODO";
+
+
+                    var valor = dadosEntidade.DaValor<string>("CDU_AnexoAnexoD");
+                    ws2.Cells[16, 9] = !string.IsNullOrEmpty(valor) ? "C" : "N/C";
+                 
                     // Lista de colunas e campos correspondentes
                     var colunas = new int[] { 10, 11, 12 };
                     var campos = new string[] { "CDU_validadeFinancas", "CDU_ValidadeSegSocial", "CDU_ValidadeFolhaPag" };
@@ -5166,7 +5171,9 @@ WHERE o.Codigo = '{codigoObra}';
                             ws2.Cells[16, colunas[i]] = "";
                         }
                     }
-                    ws2.Cells[16, 13] = "TODO";
+                    var valor2 = dadosEntidade.DaValor<string>("CDU_ValidadeComprovativoPagamento");
+                    ws2.Cells[16, 13] = !string.IsNullOrEmpty(valor2) ? "C" : "N/C"; //dadosEntidade.DaValor<string>("CDU_ValidadeComprovativoPagamento");  se tiver preenchido colo
+
                     ws2.Cells[16, 14] = "";
                     ws2.Cells[16, 15] = "";
                     ws2.Cells[16, 16] = "";

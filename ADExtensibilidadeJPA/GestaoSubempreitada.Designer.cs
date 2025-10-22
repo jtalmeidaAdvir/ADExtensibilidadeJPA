@@ -77,6 +77,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.rxt_emailTrabalhador = new System.Windows.Forms.TextBox();
+            this.label54 = new System.Windows.Forms.Label();
             this.cb_FormacaoProfissional = new System.Windows.Forms.ComboBox();
             this.cb_especializados = new System.Windows.Forms.ComboBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
@@ -257,8 +259,9 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Bt_Caducado = new System.Windows.Forms.Button();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
-            this.label54 = new System.Windows.Forms.Label();
-            this.rxt_emailTrabalhador = new System.Windows.Forms.TextBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.checkBox28 = new System.Windows.Forms.CheckBox();
+            this.button13 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -336,6 +339,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox28);
+            this.groupBox1.Controls.Add(this.button13);
+            this.groupBox1.Controls.Add(this.label55);
             this.groupBox1.Controls.Add(this.checkBox13);
             this.groupBox1.Controls.Add(this.button12);
             this.groupBox1.Controls.Add(this.label53);
@@ -827,6 +833,22 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // rxt_emailTrabalhador
+            // 
+            this.rxt_emailTrabalhador.Location = new System.Drawing.Point(114, 331);
+            this.rxt_emailTrabalhador.Name = "rxt_emailTrabalhador";
+            this.rxt_emailTrabalhador.Size = new System.Drawing.Size(559, 20);
+            this.rxt_emailTrabalhador.TabIndex = 210;
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(6, 334);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(35, 13);
+            this.label54.TabIndex = 209;
+            this.label54.Text = "Email:";
             // 
             // cb_FormacaoProfissional
             // 
@@ -2545,21 +2567,34 @@
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
-            // label54
+            // label55
             // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(6, 334);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(35, 13);
-            this.label54.TabIndex = 209;
-            this.label54.Text = "Email:";
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(13, 373);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(49, 14);
+            this.label55.TabIndex = 193;
+            this.label55.Text = "Anexo D";
             // 
-            // rxt_emailTrabalhador
+            // checkBox28
             // 
-            this.rxt_emailTrabalhador.Location = new System.Drawing.Point(114, 331);
-            this.rxt_emailTrabalhador.Name = "rxt_emailTrabalhador";
-            this.rxt_emailTrabalhador.Size = new System.Drawing.Size(559, 20);
-            this.rxt_emailTrabalhador.TabIndex = 210;
+            this.checkBox28.AutoSize = true;
+            this.checkBox28.Enabled = false;
+            this.checkBox28.Location = new System.Drawing.Point(325, 369);
+            this.checkBox28.Name = "checkBox28";
+            this.checkBox28.Size = new System.Drawing.Size(15, 14);
+            this.checkBox28.TabIndex = 195;
+            this.checkBox28.UseVisualStyleBackColor = true;
+            // 
+            // button13
+            // 
+            this.button13.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button13.Location = new System.Drawing.Point(285, 369);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(34, 22);
+            this.button13.TabIndex = 194;
+            this.button13.Text = "...";
+            this.button13.UseVisualStyleBackColor = true;
             // 
             // GestaoSubempreitada
             // 
@@ -2836,5 +2871,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DataNasc;
         private System.Windows.Forms.TextBox rxt_emailTrabalhador;
         private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.CheckBox checkBox28;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Label label55;
     }
 }
