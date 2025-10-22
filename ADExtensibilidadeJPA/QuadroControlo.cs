@@ -409,6 +409,7 @@ END;
             panelFiltro.Controls.Add(Bt_Avisos);
             panelFiltro.Controls.Add(Bt_imprimir);
             panelFiltro.Controls.Add(Bt_imprimir2);
+            panelFiltro.Controls.Add(bt_dadosJPAa);
             panelFiltro.Controls.Add(BT_ImprimirJPA);
             panelFiltro.Controls.Add(BT_CriarTrabalhadores);
             BT_Editar.Location = new System.Drawing.Point(10, 9);
@@ -417,6 +418,7 @@ END;
             Bt_Avisos.Location = new System.Drawing.Point(170, 9);
             Bt_imprimir.Location = new System.Drawing.Point(490, 9);
             Bt_imprimir2.Location = new System.Drawing.Point(490, 9);
+            bt_dadosJPAa.Location = new System.Drawing.Point(650, 9);
             BT_ImprimirJPA.Location = new System.Drawing.Point(650, 9);
             BT_CriarTrabalhadores.Location = new System.Drawing.Point(810, 9);
 
@@ -539,6 +541,7 @@ END;
             EstilizarBotao(Bt_Avisos, "Alerta de Caducidade");
             EstilizarBotao(Bt_imprimir, "Exportar");
             EstilizarBotao(Bt_imprimir2, "Exportar");
+            EstilizarBotao(bt_dadosJPAa, "Dados JPA");
             EstilizarBotao(BT_ImprimirJPA, "Exportar JPA");
             EstilizarBotao(BT_CriarTrabalhadores, "Criar Trabalhadores");
 
@@ -549,6 +552,7 @@ END;
             toolTip.SetToolTip(Bt_Avisos, "Clique aqui para alertar sobre documentos caducados das subempreitadas selecionadas, por email.");
             toolTip.SetToolTip(Bt_imprimir, "Clique aqui para Imprimir das subempreitadas selecionadas.");
             toolTip.SetToolTip(Bt_imprimir2, "Clique aqui para Imprimir das subempreitadas selecionadas.");
+            toolTip.SetToolTip(bt_dadosJPAa, "Clique aqui para Inserir os Dados da JPA");
             toolTip.SetToolTip(BT_ImprimirJPA, "Clique aqui para Imprimir das subempreitadas selecionadas.");
 
             // Adicionar painel inferior com informações ou estatísticas
@@ -6433,6 +6437,19 @@ WHERE o.Codigo ='{codigoObra}';
             {
                 MessageBox.Show($"Erro ao enviar trabalhador {nome}: {ex.Message}", "Erro API", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+            }
+        }
+
+        private void bt_dadosJPAa_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DadosJPA dadosJPAForm = new DadosJPA(BSO, PSO);
+                dadosJPAForm.ShowDialog();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Erro ao abrir Dados JPA: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

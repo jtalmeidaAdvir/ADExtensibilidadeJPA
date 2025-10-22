@@ -6,6 +6,7 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Button BT_DadosJPA;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -39,6 +40,7 @@
             this.BT_ImprimirJPA = new System.Windows.Forms.Button();
             this.BT_CriarTrabalhadores = new System.Windows.Forms.Button();
             this.Bt_imprimir2 = new System.Windows.Forms.Button();
+            this.bt_dadosJPAa = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -178,10 +180,21 @@
             this.Bt_imprimir2.UseVisualStyleBackColor = true;
             this.Bt_imprimir2.Click += new System.EventHandler(this.Bt_imprimir2_Click);
             // 
+            // bt_dadosJPAa
+            // 
+            this.bt_dadosJPAa.Location = new System.Drawing.Point(346, 4);
+            this.bt_dadosJPAa.Name = "bt_dadosJPAa";
+            this.bt_dadosJPAa.Size = new System.Drawing.Size(75, 23);
+            this.bt_dadosJPAa.TabIndex = 14;
+            this.bt_dadosJPAa.Text = "dados JPA";
+            this.bt_dadosJPAa.UseVisualStyleBackColor = true;
+            this.bt_dadosJPAa.Click += new System.EventHandler(this.bt_dadosJPAa_Click);
+            // 
             // QuadroControlo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.bt_dadosJPAa);
             this.Controls.Add(this.Bt_imprimir2);
             this.Controls.Add(this.BT_CriarTrabalhadores);
             this.Controls.Add(this.BT_ImprimirJPA);
@@ -217,5 +230,6 @@
         private System.Windows.Forms.Button BT_ImprimirJPA;
         private System.Windows.Forms.Button BT_CriarTrabalhadores;
         private System.Windows.Forms.Button Bt_imprimir2;
+        private System.Windows.Forms.Button bt_dadosJPAa;
     }
 }

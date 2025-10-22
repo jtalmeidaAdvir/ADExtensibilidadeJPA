@@ -191,6 +191,12 @@
     <Compile Include="CriarEmail.Designer.cs">
       <DependentUpon>CriarEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="DadosJPA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DadosJPA.Designer.cs">
+      <DependentUpon>DadosJPA.cs</DependentUpon>
+    </Compile>
     <Compile Include="Disposable\DisposableBase.cs" />
     <Compile Include="Entidades.cs">
       <SubType>UserControl</SubType>
