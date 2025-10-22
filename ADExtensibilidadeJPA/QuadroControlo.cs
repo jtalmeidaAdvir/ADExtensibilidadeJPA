@@ -2555,12 +2555,14 @@ WHERE
 
 
 
-                var queryTrabalhadoresJPA = $@"SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario  FROM COP_Obras AS COP
+                var queryTrabalhadoresJPA = $@"
+SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AMF.Data  FROM COP_Obras AS COP
    INNER JOIN COP_Obras_Pessoal AS COP_P ON COP.id = COP_P.ObraID 
    INNER JOIN GPR_Operadores AS O ON COP_P.ColaboradorID = O.IDOperador
    INNER JOIN Funcionarios AS F ON O.Funcionario = F.Codigo
    INNER JOIN Categorias AS C ON F.Categoria = C.Categoria
-   WHERe COP.Codigo = '{codigoObra}'
+   LEFT JOIN ActividadesMedicasFunc AS AMF ON F.Codigo = AMF.Funcionario
+   WHERe COP.Codigo =  '{codigoObra}'
 ";
                 StdBELista dtTrabalhadoresJPA = BSO.Consulta(queryTrabalhadoresJPA);
                 dtTrabalhadoresJPA.Inicio();
@@ -4128,15 +4130,18 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
 
                 //DADOS NAS LINHAS //********************************************************************** TRABALHADORES JPA
          
-                var queryObraPAITrabalhadores = $@"SELECT 
+                var queryObraPAITrabalhadores = $@"   
+SELECT 
     f.*, 
-    p.Descricao AS ProfissaoDescricao
+    p.Descricao AS ProfissaoDescricao,
+	AMF.Data AS 'DataFichaMedica'
 FROM COP_Obras o
 JOIN COP_Obras_Pessoal op ON op.obraId = o.id
 JOIN GPR_Operadores g ON g.idOperador = op.colaboradorID
 JOIN Funcionarios f ON f.codigo = g.Operador
 LEFT JOIN Profissoes p ON f.Profissao = p.Profissao
-WHERE o.Codigo = '{codigoObra}';
+LEFT JOIN ActividadesMedicasFunc AS AMF ON F.Codigo = AMF.Funcionario
+WHERE o.Codigo ='{codigoObra}';
 ;";
                 var dadosTrabalhadores = BSO.Consulta(queryObraPAITrabalhadores);
 
@@ -4161,8 +4166,21 @@ WHERE o.Codigo = '{codigoObra}';
                     else
                         ws2.Cells[linhaAtual, 10] = "";
 
-                    ws2.Cells[linhaAtual, 11] = "C"; // Conforme Cat. Prof.?
-                    ws2.Cells[linhaAtual, 12] = ""; // Validade Ficha de Aptidão Médica
+                    var dataFichaMedica = dadosTrabalhadores.DaValor<string>("DataFichaMedica");
+
+                    ws2.Cells[linhaAtual, 11] = !string.IsNullOrWhiteSpace(dataFichaMedica) ? "C" : "N/C";
+
+                    var dataFichaMedicaStr = dadosTrabalhadores.DaValor<string>("DataFichaMedica");
+
+                    if (DateTime.TryParse(dataFichaMedicaStr, out DateTime dataFichaMedica2))
+                    {
+                        ws2.Cells[linhaAtual, 12] = dataFichaMedica2.ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        ws2.Cells[linhaAtual, 12] = ""; // ou "N/C", se preferir
+                    }
+
                     ws2.Cells[linhaAtual, 13] = "C"; // Ficha de Distribuição de EPI
                     ws2.Cells[linhaAtual, 14] = "C"; // Consta no Mapa  SS / Inscrito?
                     ws2.Cells[linhaAtual, 15] = ""; // Admissão na SS (caso não conste no Mapa da SS)
@@ -5139,7 +5157,6 @@ WHERE o.Codigo = '{codigoObra}';
                     ws2.Cells[16, 3] = dadosEntidade.DaValor<string>("Morada");
                     var rSedeJPA = ws2.Range[ws2.Cells[16, 3], ws2.Cells[16, 5]];
                     rSedeJPA.Merge();
-
                     ws2.Cells[16, 6] = dadosEntidade.DaValor<string>("NIPC");
                     ws2.Cells[16, 7] = dadosEntidade.DaValor<string>("AlvaraNumero");
                     ws2.Cells[16, 8] = "PAR";
@@ -5607,10 +5624,11 @@ WHERE o.Codigo = '{codigoObra}';
                     for (int i = 0; i < numregistos; i++)
                     {
                         
+
                         ws2.Cells[linhaAtual, 1] = (i + 1).ToString(); // N.º
                         ws2.Cells[linhaAtual, 2] = dadosTrabalhadoresEntidades.DaValor<string>("nome"); // Nome Completo
                         ws2.Cells[linhaAtual, 3] = ""; // Residência Habitual
-                        ws2.Cells[linhaAtual, 4] = ""; // Nacionalidade
+                        ws2.Cells[linhaAtual, 4] = dadosTrabalhadoresEntidades.DaValor<string>("nacionalidade"); // Nacionalidade
                         ws2.Cells[linhaAtual, 5] = dadosTrabalhadoresEntidades.DaValor<string>("categoria");
                         ws2.Cells[linhaAtual, 6] = "";                                                                              
                         ws2.Cells[linhaAtual, 7] = dadosTrabalhadoresEntidades.DaValor<string>("contribuinte"); // Contribuinte

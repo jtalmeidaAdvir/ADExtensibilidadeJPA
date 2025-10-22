@@ -35,6 +35,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox28 = new System.Windows.Forms.CheckBox();
+            this.button13 = new System.Windows.Forms.Button();
+            this.label55 = new System.Windows.Forms.Label();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
             this.button12 = new System.Windows.Forms.Button();
             this.label53 = new System.Windows.Forms.Label();
@@ -259,9 +262,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Bt_Caducado = new System.Windows.Forms.Button();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
-            this.label55 = new System.Windows.Forms.Label();
-            this.checkBox28 = new System.Windows.Forms.CheckBox();
-            this.button13 = new System.Windows.Forms.Button();
+            this.label56 = new System.Windows.Forms.Label();
+            this.txt_nacionalidade = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -383,6 +385,35 @@
             this.groupBox1.TabIndex = 75;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Documentos";
+            // 
+            // checkBox28
+            // 
+            this.checkBox28.AutoSize = true;
+            this.checkBox28.Enabled = false;
+            this.checkBox28.Location = new System.Drawing.Point(325, 369);
+            this.checkBox28.Name = "checkBox28";
+            this.checkBox28.Size = new System.Drawing.Size(15, 14);
+            this.checkBox28.TabIndex = 195;
+            this.checkBox28.UseVisualStyleBackColor = true;
+            // 
+            // button13
+            // 
+            this.button13.Font = new System.Drawing.Font("Calibri", 9F);
+            this.button13.Location = new System.Drawing.Point(285, 369);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(34, 22);
+            this.button13.TabIndex = 194;
+            this.button13.Text = "...";
+            this.button13.UseVisualStyleBackColor = true;
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(13, 373);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(49, 14);
+            this.label55.TabIndex = 193;
+            this.label55.Text = "Anexo D";
             // 
             // checkBox13
             // 
@@ -787,6 +818,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.txt_nacionalidade);
+            this.tabPage2.Controls.Add(this.label56);
             this.tabPage2.Controls.Add(this.rxt_emailTrabalhador);
             this.tabPage2.Controls.Add(this.label54);
             this.tabPage2.Controls.Add(this.cb_FormacaoProfissional);
@@ -1103,7 +1136,7 @@
             // 
             this.txt_contribuintetrab.Location = new System.Drawing.Point(114, 242);
             this.txt_contribuintetrab.Name = "txt_contribuintetrab";
-            this.txt_contribuintetrab.Size = new System.Drawing.Size(559, 20);
+            this.txt_contribuintetrab.Size = new System.Drawing.Size(220, 20);
             this.txt_contribuintetrab.TabIndex = 10;
             // 
             // label8
@@ -2567,34 +2600,21 @@
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
             // 
-            // label55
+            // label56
             // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(13, 373);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(49, 14);
-            this.label55.TabIndex = 193;
-            this.label55.Text = "Anexo D";
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(352, 245);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(78, 13);
+            this.label56.TabIndex = 211;
+            this.label56.Text = "Nacionalidade:";
             // 
-            // checkBox28
+            // txt_nacionalidade
             // 
-            this.checkBox28.AutoSize = true;
-            this.checkBox28.Enabled = false;
-            this.checkBox28.Location = new System.Drawing.Point(325, 369);
-            this.checkBox28.Name = "checkBox28";
-            this.checkBox28.Size = new System.Drawing.Size(15, 14);
-            this.checkBox28.TabIndex = 195;
-            this.checkBox28.UseVisualStyleBackColor = true;
-            // 
-            // button13
-            // 
-            this.button13.Font = new System.Drawing.Font("Calibri", 9F);
-            this.button13.Location = new System.Drawing.Point(285, 369);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(34, 22);
-            this.button13.TabIndex = 194;
-            this.button13.Text = "...";
-            this.button13.UseVisualStyleBackColor = true;
+            this.txt_nacionalidade.Location = new System.Drawing.Point(435, 242);
+            this.txt_nacionalidade.Name = "txt_nacionalidade";
+            this.txt_nacionalidade.Size = new System.Drawing.Size(238, 20);
+            this.txt_nacionalidade.TabIndex = 212;
             // 
             // GestaoSubempreitada
             // 
@@ -2874,5 +2894,7 @@
         private System.Windows.Forms.CheckBox checkBox28;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.TextBox txt_nacionalidade;
+        private System.Windows.Forms.Label label56;
     }
 }

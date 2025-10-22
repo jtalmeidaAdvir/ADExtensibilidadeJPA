@@ -1313,19 +1313,104 @@ namespace ADExtensibilidadeJPA
                 DateTime dataValidade;
                 string numeroApoliceAt = "";
                 string numeroApoliceRc = "";
-
-                if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil" || tipoDocumento == "AnexoD")
+                if (tipoDocumento == "AnexoD")
                 {
                     dataValidade = DateTime.Today;
+                }
+                else if (tipoDocumento == "SeguroResposabilidadeCivil")
+                {
+                    dataValidade = DateTime.Today;
+                    using (Form formApolice = new Form())
+                    {
+                        formApolice.Text = "Número da Apólice RC";
+                        formApolice.StartPosition = FormStartPosition.CenterParent;
+                        formApolice.Width = 320;
+                        formApolice.Height = 150;
+                        formApolice.FormBorderStyle = FormBorderStyle.FixedDialog;
+                        formApolice.MaximizeBox = false;
+                        formApolice.MinimizeBox = false;
+
+                        Label lblNumeroApolice = new Label();
+                        lblNumeroApolice.Text = "Número da Apólice RC:";
+                        lblNumeroApolice.Left = 20;
+                        lblNumeroApolice.Top = 20;
+                        lblNumeroApolice.Width = 250;
+
+                        TextBox txtNumeroApolice = new TextBox();
+                        txtNumeroApolice.Left = 20;
+                        txtNumeroApolice.Top = 50;
+                        txtNumeroApolice.Width = 250;
+
+                        Button btnOk = new Button();
+                        btnOk.Text = "OK";
+                        btnOk.DialogResult = DialogResult.OK;
+                        btnOk.Left = 110;
+                        btnOk.Top = 80;
+
+                        formApolice.Controls.Add(lblNumeroApolice);
+                        formApolice.Controls.Add(txtNumeroApolice);
+                        formApolice.Controls.Add(btnOk);
+                        formApolice.AcceptButton = btnOk;
+
+                        if (formApolice.ShowDialog() != DialogResult.OK)
+                        {
+                            return; // Usuário cancelou
+                        }
+
+                        numeroApoliceRc = txtNumeroApolice.Text;
+                    }
+                }
+                else if (tipoDocumento == "SeguroAT")
+                {
+                    dataValidade = DateTime.Today;
+                    using (Form formApolice = new Form())
+                    {
+                        formApolice.Text = "Número da Apólice AT";
+                        formApolice.StartPosition = FormStartPosition.CenterParent;
+                        formApolice.Width = 320;
+                        formApolice.Height = 150;
+                        formApolice.FormBorderStyle = FormBorderStyle.FixedDialog;
+                        formApolice.MaximizeBox = false;
+                        formApolice.MinimizeBox = false;
+
+                        Label lblNumeroApolice = new Label();
+                        lblNumeroApolice.Text = "Número da Apólice AT:";
+                        lblNumeroApolice.Left = 20;
+                        lblNumeroApolice.Top = 20;
+                        lblNumeroApolice.Width = 250;
+
+                        TextBox txtNumeroApolice = new TextBox();
+                        txtNumeroApolice.Left = 20;
+                        txtNumeroApolice.Top = 50;
+                        txtNumeroApolice.Width = 250;
+
+                        Button btnOk = new Button();
+                        btnOk.Text = "OK";
+                        btnOk.DialogResult = DialogResult.OK;
+                        btnOk.Left = 110;
+                        btnOk.Top = 80;
+
+                        formApolice.Controls.Add(lblNumeroApolice);
+                        formApolice.Controls.Add(txtNumeroApolice);
+                        formApolice.Controls.Add(btnOk);
+                        formApolice.AcceptButton = btnOk;
+
+                        if (formApolice.ShowDialog() != DialogResult.OK)
+                        {
+                            return; // Usuário cancelou
+                        }
+
+                        numeroApoliceAt = txtNumeroApolice.Text;
+                    }
                 }
                 else
                 {
                     using (Form formValidade = new Form())
                     {
-                        formValidade.Text = (tipoDocumento == "ReciboSeguroAT" || tipoDocumento == "SeguroRC") ? "Dados do Recibo de Seguro" : "Data de Validade";
+                        formValidade.Text = "Data de Validade";
                         formValidade.StartPosition = FormStartPosition.CenterParent;
                         formValidade.Width = 320;
-                        formValidade.Height = (tipoDocumento == "ReciboSeguroAT" || tipoDocumento == "SeguroRC") ? 230 : 170;
+                        formValidade.Height = 170;
                         formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
                         formValidade.MaximizeBox = false;
                         formValidade.MinimizeBox = false;
@@ -1346,45 +1431,13 @@ namespace ADExtensibilidadeJPA
                         formValidade.Controls.Add(lblInfo);
                         formValidade.Controls.Add(dtpValidade);
 
-                        TextBox txtNumeroApolice = null;
-                        if (tipoDocumento == "ReciboSeguroAT")
-                        {
-                            Label lblNumeroApolice = new Label();
-                            lblNumeroApolice.Text = "Número da Apólice AT:";
-                            lblNumeroApolice.Left = 20;
-                            lblNumeroApolice.Top = 90;
-                            lblNumeroApolice.Width = 250;
 
-                            txtNumeroApolice = new TextBox();
-                            txtNumeroApolice.Left = 20;
-                            txtNumeroApolice.Top = 110;
-                            txtNumeroApolice.Width = 250;
-
-                            formValidade.Controls.Add(lblNumeroApolice);
-                            formValidade.Controls.Add(txtNumeroApolice);
-                        }
-                        else if (tipoDocumento == "SeguroRC")
-                        {
-                            Label lblNumeroApolice = new Label();
-                            lblNumeroApolice.Text = "Número da Apólice RC:";
-                            lblNumeroApolice.Left = 20;
-                            lblNumeroApolice.Top = 90;
-                            lblNumeroApolice.Width = 250;
-
-                            txtNumeroApolice = new TextBox();
-                            txtNumeroApolice.Left = 20;
-                            txtNumeroApolice.Top = 110;
-                            txtNumeroApolice.Width = 250;
-
-                            formValidade.Controls.Add(lblNumeroApolice);
-                            formValidade.Controls.Add(txtNumeroApolice);
-                        }
 
                         Button btnOk = new Button();
                         btnOk.Text = "OK";
                         btnOk.DialogResult = DialogResult.OK;
                         btnOk.Left = 110;
-                        btnOk.Top = (tipoDocumento == "ReciboSeguroAT" || tipoDocumento == "SeguroRC") ? 150 : 80;
+                        btnOk.Top = 80;
 
                         formValidade.Controls.Add(btnOk);
                         formValidade.AcceptButton = btnOk;
@@ -1395,14 +1448,7 @@ namespace ADExtensibilidadeJPA
                         }
 
                         dataValidade = dtpValidade.Value;
-                        if (tipoDocumento == "ReciboSeguroAT" && txtNumeroApolice != null)
-                        {
-                            numeroApoliceAt = txtNumeroApolice.Text;
-                        }
-                        else if (tipoDocumento == "SeguroRC" && txtNumeroApolice != null)
-                        {
-                            numeroApoliceRc = txtNumeroApolice.Text;
-                        }
+
                     }
                 }
                 // Solicitar data de validade
@@ -1456,28 +1502,8 @@ namespace ADExtensibilidadeJPA
                         // Copia o arquivo para a pasta de destino
                         System.IO.File.Copy(sourceFile, destFile, true);
 
-                        // Se for Recibo de Seguro AT, atualizar o número de Apólice AT na base de dados
-                        if (tipoDocumento == "ReciboSeguroAT" && !string.IsNullOrEmpty(numeroApoliceAt))
-                        {
-                            // Verificar e criar a coluna CDU_NumApoliceAt se não existir
-                            string checkColumnQuery = @"
-                                IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
-                                               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_NumApoliceAt')
-                                BEGIN
-                                    ALTER TABLE Geral_Entidade ADD CDU_NumApoliceAt NVARCHAR(50) NULL
-                                END";
-                            _BSO.DSO.ExecuteSQL(checkColumnQuery);
-
-                            // Atualizar o número de Apólice AT
-                            string updateNumApoliceQuery = $@"
-                                UPDATE Geral_Entidade 
-                                SET CDU_NumApoliceAt = '{numeroApoliceAt}'
-                                WHERE ID = '{_idSelecionado}'";
-                            _BSO.DSO.ExecuteSQL(updateNumApoliceQuery);
-                        }
-
-                        // Se for Seguro RC, atualizar o número de Apólice RC na base de dados
-                        if (tipoDocumento == "SeguroRC" && !string.IsNullOrEmpty(numeroApoliceRc))
+                        // Se for Seguro Responsabilidade Civil, atualizar o número de Apólice RC na base de dados
+                        if (tipoDocumento == "SeguroResposabilidadeCivil" && !string.IsNullOrEmpty(numeroApoliceRc))
                         {
                             // Verificar e criar a coluna CDU_NumApoliceRc se não existir
                             string checkColumnQuery = @"
@@ -1492,6 +1518,26 @@ namespace ADExtensibilidadeJPA
                             string updateNumApoliceQuery = $@"
                                 UPDATE Geral_Entidade 
                                 SET CDU_NumApoliceRc = '{numeroApoliceRc}'
+                                WHERE ID = '{_idSelecionado}'";
+                            _BSO.DSO.ExecuteSQL(updateNumApoliceQuery);
+                        }
+
+                        // Se for Seguro AT, atualizar o número de Apólice AT na base de dados
+                        if (tipoDocumento == "SeguroAT" && !string.IsNullOrEmpty(numeroApoliceAt))
+                        {
+                            // Verificar e criar a coluna CDU_NumApoliceAt se não existir
+                            string checkColumnQuery = @"
+                                IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                                               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_NumApoliceAt')
+                                BEGIN
+                                    ALTER TABLE Geral_Entidade ADD CDU_NumApoliceAt NVARCHAR(50) NULL
+                                END";
+                            _BSO.DSO.ExecuteSQL(checkColumnQuery);
+
+                            // Atualizar o número de Apólice AT
+                            string updateNumApoliceQuery = $@"
+                                UPDATE Geral_Entidade 
+                                SET CDU_NumApoliceAt = '{numeroApoliceAt}'
                                 WHERE ID = '{_idSelecionado}'";
                             _BSO.DSO.ExecuteSQL(updateNumApoliceQuery);
                         }
