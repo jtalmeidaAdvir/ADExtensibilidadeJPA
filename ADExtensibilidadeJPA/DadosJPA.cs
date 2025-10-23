@@ -112,7 +112,7 @@ namespace ADExtensibilidadeJPA
 
             int yPos = 25;
             int xPosCheck = 20;
-            int xPosButton = 350;
+            int xPosButton = 330;
 
             // Criar checkboxes e botões para cada documento
             checkBox1 = CriarCheckboxDocumento("DND-Finanças", xPosCheck, yPos);
@@ -139,8 +139,8 @@ namespace ADExtensibilidadeJPA
             button6 = CriarBotaoAnexar(xPosButton, yPos);
 
             yPos = 25;
-            int xPosCheck2 = 500;
-            int xPosButton2 = 730;
+            int xPosCheck2 = 450;
+            int xPosButton2 = 760;
 
             checkBox8 = CriarCheckboxDocumento("Condições Seguro AT", xPosCheck2, yPos);
             button8 = CriarBotaoAnexar(xPosButton2, yPos);
@@ -181,7 +181,8 @@ namespace ADExtensibilidadeJPA
             {
                 Text = texto,
                 Location = new Point(x, y),
-                AutoSize = true,
+                AutoSize = false,
+                Size = new Size(300, 20),
                 Enabled = false
             };
         }

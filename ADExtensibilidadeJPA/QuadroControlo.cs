@@ -21,6 +21,7 @@ using PrimaveraSDK;
 using PRISDK100;
 using PriTextBoxF4100;
 using System.Runtime.InteropServices;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ADExtensibilidadeJPA
 {
@@ -1950,14 +1951,14 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                         worksheet.Cells[linhaAtual, 3] = morada;
                         worksheet.Cells[linhaAtual, 4] = alvara;
                         worksheet.Cells[linhaAtual, 5] = nif;
-                        worksheet.Cells[linhaAtual, 6] = validadeAlvara.Year > 1 ? validadeAlvara.ToString("dd/MM/yyyy") : "NC";
-                        worksheet.Cells[linhaAtual, 7] = validadeFinancas.Year > 1 ? validadeFinancas.ToString("dd/MM/yyyy") : "NC";
-                        worksheet.Cells[linhaAtual, 8] = validadeSegSocial.Year > 1 ? validadeSegSocial.ToString("dd/MM/yyyy") : "NC";
-                        worksheet.Cells[linhaAtual, 9] = validadeFolhaPag.Year > 1 ? validadeFolhaPag.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 6] = validadeAlvara.Year > 1 ? validadeAlvara.ToString("yyyy-MM-dd") : "NC";
+                        worksheet.Cells[linhaAtual, 7] = validadeFinancas.Year > 1 ? validadeFinancas.ToString("yyyy-MM-dd") : "NC";
+                        worksheet.Cells[linhaAtual, 8] = validadeSegSocial.Year > 1 ? validadeSegSocial.ToString("yyyy-MM-dd") : "NC";
+                        worksheet.Cells[linhaAtual, 9] = validadeFolhaPag.Year > 1 ? validadeFolhaPag.ToString("yyyy-MM-dd") : "NC";
                         worksheet.Cells[linhaAtual, 10] = validadeComprovativoPagamento.Year > 1 ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 11] = validadeSeguroAT.Year > 1 ? validadeSeguroAT.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 11] = validadeSeguroAT.Year > 1 ? validadeSeguroAT.ToString("yyyy-MM-dd") : "NC";
                         worksheet.Cells[linhaAtual, 12] = validadeReciboSeguroAT.Year > 1 ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 13] = validadeSeguroRC.Year > 1 ? validadeSeguroRC.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 13] = validadeSeguroRC.Year > 1 ? validadeSeguroRC.ToString("yyyy-MM-dd") : "NC";
                         worksheet.Cells[linhaAtual, 14] = validadeHorarioTrabalho.Year > 1 ? "C" : "NC";
                         worksheet.Cells[linhaAtual, 15] = ValidadeSeguroResposabilidadeCivil.Year > 1 ? "C" : "NC";
 
@@ -2508,14 +2509,14 @@ WHERE
                         worksheet.Cells[linhaAtual, 3] = morada;
                         worksheet.Cells[linhaAtual, 4] = alvara;
                         worksheet.Cells[linhaAtual, 5] = nif;
-                        worksheet.Cells[linhaAtual, 6] = validadeAlvara.Year > 1 ? validadeAlvara.ToString("dd/MM/yyyy") : "NC";
-                        worksheet.Cells[linhaAtual, 7] = validadeFinancas.Year > 1 ? validadeFinancas.ToString("dd/MM/yyyy") : "NC";
-                        worksheet.Cells[linhaAtual, 8] = validadeSegSocial.Year > 1 ? validadeSegSocial.ToString("dd/MM/yyyy") : "NC";
-                        worksheet.Cells[linhaAtual, 9] = validadeFolhaPag.Year > 1 ? validadeFolhaPag.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 6] = validadeAlvara.Year > 1 ? validadeAlvara.ToString("yyyy-MM-dd") : "NC";
+                        worksheet.Cells[linhaAtual, 7] = validadeFinancas.Year > 1 ? validadeFinancas.ToString("yyyy-MM-dd") : "NC";
+                        worksheet.Cells[linhaAtual, 8] = validadeSegSocial.Year > 1 ? validadeSegSocial.ToString("yyyy-MM-dd") : "NC";
+                        worksheet.Cells[linhaAtual, 9] = validadeFolhaPag.Year > 1 ? validadeFolhaPag.ToString("yyyy-MM-dd") : "NC";
                         worksheet.Cells[linhaAtual, 10] = validadeComprovativoPagamento.Year > 1 ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 11] = validadeSeguroAT.Year > 1 ? validadeSeguroAT.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 11] = validadeSeguroAT.Year > 1 ? validadeSeguroAT.ToString("yyyy-MM-dd") : "NC";
                         worksheet.Cells[linhaAtual, 12] = validadeReciboSeguroAT.Year > 1 ? "C" : "NC";
-                        worksheet.Cells[linhaAtual, 13] = validadeSeguroRC.Year > 1 ? validadeSeguroRC.ToString("dd/MM/yyyy") : "NC";
+                        worksheet.Cells[linhaAtual, 13] = validadeSeguroRC.Year > 1 ? validadeSeguroRC.ToString("yyyy-MM-dd") : "NC";
                         worksheet.Cells[linhaAtual, 14] = validadeHorarioTrabalho.Year > 1 ? "C" : "NC";
 
                         linhaAtual++;
@@ -2723,7 +2724,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
        
                 codigoObra = f4TabelaSQL1.Text;
                 var querydadosObra = $@"
-SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
+                SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     ";
 
 
@@ -2944,24 +2945,52 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
 
                     if (numlinhas < 1)
                     {
+
+                        var dadosJPA = $@"SELECT * FROM Geral_Entidade WHERE id = '2A8C7ECD-309B-49F9-A337-203B45CED948'";
+                        var dadosEmpresaJPAs = BSO.Consulta(dadosJPA);
+
+
                         ws.Cells[row, 1] = i + 1; // N.º
                         ws.Cells[row, 2] = "JOAQUIM PEIXOTO AZEVEDO & FILHOS, LDA"; // Designação Social
-                        ws.Cells[row, 3] = "RUA DE LONGRAS Nº 44"; // Sede
+                        ws.Cells[row, 3] = "Vila Verde"; // Sede
                         ws.Cells[row, 4] = "Empreiteiro Geral";// Atividade desenvolvida em Obra
                         ws.Cells[row, 5] = "502244585"; // Contribuinte
-                        ws.Cells[row, 6] = ""; // N.º Alvará
+                        ws.Cells[row, 6] = "44085";
                         ws.Cells[row, 7] = "PAR"; // PUB/PRIV
                         ws.Cells[row, 8] = "C";
-                        ws.Cells[row, 9] = ""; // Cert. ND Finanças
-                        ws.Cells[row, 10] = ""; // Decl. ND Seg. Social
-                        ws.Cells[row, 11] = "";// Folha Pag. Seg. Social
+                        var data2 = DateTime.MinValue;
+                   
+
+
+                      
+                            ws.Cells[row, 9] = dadosEmpresaJPAs.DaValor<DateTime>("CDU_ValidadeFinancas").ToString("yyyy-MM-dd");            // Guarda a data real
+                   
+
+
+                        if (DateTime.TryParse(dadosEmpresaJPAs.DaValor<string>("CDU_ValidadeSegSocial"), out data2))
+                            ws.Cells[row, 10] = data2.ToString("yyyy-MM-dd");
+                        else
+                            ws.Cells[row, 10] = "";
+
+                        if (DateTime.TryParse(dadosEmpresaJPAs.DaValor<string>("CDU_ValidadeFolhaPag"), out data2))
+                            ws.Cells[row, 11] = data2.ToString("yyyy-MM-dd");
+                        else
+                            ws.Cells[row, 11] = "";
+
+
                         ws.Cells[row, 12] = "C"; // sem valor
-                        ws.Cells[row, 13] = ""; // Apólice AT
+                        ws.Cells[row, 13] = dadosEmpresaJPAs.DaValor<string>("CDU_NumApoliceAt");
                         ws.Cells[row, 14] = ""; // Fixo?
-                        ws.Cells[row, 15] = ""; // Prémio Variável?
-                        ws.Cells[row, 16] = ""; // Recibo Apólice AT
-                        ws.Cells[row, 17] = ""; // Apólice RC
-                        ws.Cells[row, 18] = ""; 
+                        ws.Cells[row, 15] = "X"; // Prémio Variável?
+                        if (DateTime.TryParse(dadosEmpresaJPAs.DaValor<string>("CDU_ValidadeReciboSeguroAT"), out data2))
+                            ws.Cells[row, 16] = data2.ToString("yyyy-MM-dd");
+                        else
+                            ws.Cells[row, 16] = "";
+                        ws.Cells[row, 17] = dadosEmpresaJPAs.DaValor<string>("CDU_NumApoliceRc");
+                        if (DateTime.TryParse(dadosEmpresaJPAs.DaValor<string>("CDU_ValidadeSeguroRC"), out data2))
+                            ws.Cells[row, 18] = data2.ToString("yyyy-MM-dd");
+                        else
+                            ws.Cells[row, 18] = "";
                         ws.Cells[row, 19] = "C";
                         ws.Cells[row, 20] = "C";
                         ws.Cells[row, 21] = "C";
@@ -2984,31 +3013,31 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     // Colunas 1–4: dados da empresa
                     ws.Cells[row, 1] = i + 1; // N.º
                     ws.Cells[row, 2] = dadosEmpresa.DaValor<string>("Nome"); // Designação Social
-                    ws.Cells[row, 3] = "Lisboa"; // Sede
-                    ws.Cells[row, 4] = "Trabalhos de construção civil"; // Atividade desenvolvida em Obra
+                    ws.Cells[row, 3] = dadosEmpresa.DaValor<string>("CodPostalLocal"); // Sede
+                    ws.Cells[row, 4] = ""; // Atividade desenvolvida em Obra
 
                     // Colunas 5–27: documentos e campos
                     ws.Cells[row, 5] = dadosEmpresa.DaValor<string>("NIPC"); // Contribuinte
                     ws.Cells[row, 6] = dadosEmpresa.DaValor<string>("AlvaraNumero"); // N.º Alvará
-                    ws.Cells[row, 7] = "PÚB";       // PUB/PRIV
+                    ws.Cells[row, 7] = "";       // PUB/PRIV
 
                     var valor = dadosEmpresa.DaValor<string>("CDU_AnexoAnexoD");
                     ws.Cells[row, 8] = !string.IsNullOrEmpty(valor) ? "C" : "N/C";
                     // Cert. ND Finanças
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeFinancas"), out DateTime data))
-                        ws.Cells[row, 9] = data.ToString("dd/MM/yyyy");
+                        ws.Cells[row, 9] = data.ToString("yyyy-MM-dd");
                     else
                         ws.Cells[row, 9] = "";
 
                     // Decl. ND Seg. Social
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeSegSocial"), out data))
-                        ws.Cells[row, 10] = data.ToString("dd/MM/yyyy");
+                        ws.Cells[row, 10] = data.ToString("yyyy-MM-dd");
                     else
                         ws.Cells[row, 10] = "";
 
                     // Folha Pag. Seg. Social
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeFolhaPag"), out data))
-                        ws.Cells[row, 11] = data.ToString("dd/MM/yyyy");
+                        ws.Cells[row, 11] = data.ToString("yyyy-MM-dd");
                     else
                         ws.Cells[row, 11] = "";
 
@@ -3036,13 +3065,13 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     ws.Cells[row, 15] = "";       // Prémio Variável?
                   
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeReciboSeguroAT"), out data))
-                        ws.Cells[row, 16] = data.ToString("dd/MM/yyyy");
+                        ws.Cells[row, 16] = data.ToString("yyyy-MM-dd");
                     else
                         ws.Cells[row, 16] = "";
 
                     ws.Cells[row, 17] = dadosEmpresa.DaValor<string>("CDU_NumApoliceRc");
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeSeguroRC"), out data))
-                        ws.Cells[row, 18] = data.ToString("dd/MM/yyyy");
+                        ws.Cells[row, 18] = data.ToString("yyyy-MM-dd");
                     else
                         ws.Cells[row, 18] = "";
                     ws.Cells[row, 19] = "C";         // Registo(s) Criminal(ais) 
@@ -3106,8 +3135,8 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                     ws.Cells[row, 27] = "Sim";
 
                     // Se quiser gravar apenas a parte da data (sem horas) nas colunas 25 e 26:
-                    ws.Cells[row, 25] = temEntrada ? dataEntrada.ToString("dd/MM/yyyy") : "";
-                    ws.Cells[row, 26] = temSaida ? dataSaida.ToString("dd/MM/yyyy") : "";
+                    ws.Cells[row, 25] = temEntrada ? dataEntrada.ToString("yyyy-MM-dd") : "";
+                    ws.Cells[row, 26] = temSaida ? dataSaida.ToString("yyyy-MM-dd") : "";
 
                     // Formatação básica da linha
                     var linhaExemplo = R(row, 1, row, 27);
@@ -3745,31 +3774,56 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
 
                 // Linha 16 Dados Jpa
 
+                var querydadosjpa = $@"SELECT * FROM Geral_Entidade WHERE id = '2A8C7ECD-309B-49F9-A337-203B45CED948'";
+                var dadosJPA = BSO.Consulta(querydadosjpa); 
+
                 ws2.Cells[16, 1] = "1";
                 var rNumJPA = ws2.Cells[16, 1];
                 Centro(rNumJPA);
 
                 ws2.Cells[16, 2] = "JOAQUIM PEIXOTO AZEVEDO & FILHOS, LDA";
 
-                ws2.Cells[16, 3] = "RUA DE LONGRAS Nº 44";
+                ws2.Cells[16, 3] = "Vila Verde";
                 var rSedeJPA = ws2.Range[ws2.Cells[16, 3], ws2.Cells[16, 5]];
                 rSedeJPA.Merge();
 
                 ws2.Cells[16, 6] = "502244585";
 
-                ws2.Cells[16, 7] = "";
+                ws2.Cells[16, 7] = "44085";
                 ws2.Cells[16, 8] = "PAR";
                 ws2.Cells[16, 9] = "C";
-                ws2.Cells[16, 10] = "";
-                ws2.Cells[16, 11] = "";
-                ws2.Cells[16, 12] = "";
+
+                if (DateTime.TryParse(dadosJPA.DaValor<string>("CDU_ValidadeFinancas"), out DateTime datae))
+                    ws2.Cells[16, 10] = datae.ToString("yyyy-MM-dd");
+                else
+                    ws2.Cells[16, 10] = "";
+
+                if (DateTime.TryParse(dadosJPA.DaValor<string>("CDU_ValidadeSegSocial"), out datae))
+                    ws2.Cells[16, 11] = datae.ToString("yyyy-MM-dd");
+                else
+                    ws2.Cells[16, 11] = "";
+
+                if (DateTime.TryParse(dadosJPA.DaValor<string>("CDU_ValidadeFolhaPag"), out datae))
+                    ws2.Cells[16, 12] = datae.ToString("yyyy-MM-dd");
+                else
+                    ws2.Cells[16, 12] = "";
+
+
+
                 ws2.Cells[16, 13] = "C";
-                ws2.Cells[16, 14] = "";
+                ws2.Cells[16, 14] = dadosJPA.DaValor<string>("CDU_NumApoliceAt");
                 ws2.Cells[16, 15] = "";
-                ws2.Cells[16, 16] = "";
-                ws2.Cells[16, 17] = "";
-                ws2.Cells[16, 18] = "";
-                ws2.Cells[16, 19] = "";
+                ws2.Cells[16, 16] = "X";
+                if (DateTime.TryParse(dadosJPA.DaValor<string>("CDU_ValidadeReciboSeguroAT"), out datae))
+                    ws2.Cells[16, 17] = datae.ToString("yyyy-MM-dd");
+                else
+                    ws2.Cells[16, 17] = "";
+
+                ws2.Cells[16, 18] = dadosJPA.DaValor<string>("CDU_NumApoliceRc");
+                if (DateTime.TryParse(dadosJPA.DaValor<string>("CDU_ValidadeSeguroRC"), out datae))
+                    ws2.Cells[16, 19] = datae.ToString("yyyy-MM-dd");
+                else
+                    ws2.Cells[16, 19] = "";
                 ws2.Cells[16, 20] = "C";
                 ws2.Cells[16, 21] = "C";
                 ws2.Cells[16, 22] = "C";
@@ -4135,17 +4189,36 @@ SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
                 //DADOS NAS LINHAS //********************************************************************** TRABALHADORES JPA
          
                 var queryObraPAITrabalhadores = $@"   
+
+
 SELECT 
     f.*, 
     p.Descricao AS ProfissaoDescricao,
-	AMF.Data AS 'DataFichaMedica'
+    AMF.Actividade,
+    A.Accao,
+    A.Descricao AS AccaoDescricao,
+    AMF.Data AS DataAtividade,
+    AM.Estado
 FROM COP_Obras o
-JOIN COP_Obras_Pessoal op ON op.obraId = o.id
-JOIN GPR_Operadores g ON g.idOperador = op.colaboradorID
-JOIN Funcionarios f ON f.codigo = g.Operador
-LEFT JOIN Profissoes p ON f.Profissao = p.Profissao
-LEFT JOIN ActividadesMedicasFunc AS AMF ON F.Codigo = AMF.Funcionario
-WHERE o.Codigo ='{codigoObra}';
+JOIN COP_Obras_Pessoal op 
+    ON op.obraId = o.id
+JOIN GPR_Operadores g 
+    ON g.idOperador = op.colaboradorID
+JOIN Funcionarios f 
+    ON f.codigo = g.Operador
+LEFT JOIN Profissoes p 
+    ON f.Profissao = p.Profissao
+LEFT JOIN ActividadesMedicasFunc AMF 
+    ON AMF.Funcionario = f.Codigo
+LEFT JOIN ActividadesMedicas AM 
+    ON AM.Actividade = AMF.Actividade
+LEFT JOIN AccoesMedicas A 
+    ON A.Accao = AM.Accao
+WHERE 
+    o.Codigo = '{codigoObra}'
+    AND (AM.Estado IN (0, 1) OR AM.Estado IS NULL)
+    AND (AMF.Data IS NULL OR DATEDIFF(DAY, AMF.Data, GETDATE()) <= 0);
+
 ;";
                 var dadosTrabalhadores = BSO.Consulta(queryObraPAITrabalhadores);
 
@@ -4166,19 +4239,19 @@ WHERE o.Codigo ='{codigoObra}';
                     ws2.Cells[linhaAtual, 8] = dadosTrabalhadores.DaValor<string>("NumBeneficiario"); // Segurança Social
                     ws2.Cells[linhaAtual, 9] = dadosTrabalhadores.DaValor<string>("NumBI"); // Cartão de Cidadão
                     if (DateTime.TryParse(dadosTrabalhadores.DaValor<string>("DataValidadeBI"), out DateTime data))
-                        ws2.Cells[linhaAtual, 10] = data.ToString("dd/MM/yyyy");
+                        ws2.Cells[linhaAtual, 10] = data.ToString("yyyy-MM-dd");
                     else
                         ws2.Cells[linhaAtual, 10] = "";
 
-                    var dataFichaMedica = dadosTrabalhadores.DaValor<string>("DataFichaMedica");
+                    var dataFichaMedica = dadosTrabalhadores.DaValor<string>("DataAtividade");
 
                     ws2.Cells[linhaAtual, 11] = !string.IsNullOrWhiteSpace(dataFichaMedica) ? "C" : "N/C";
 
-                    var dataFichaMedicaStr = dadosTrabalhadores.DaValor<string>("DataFichaMedica");
+                    var dataFichaMedicaStr = dadosTrabalhadores.DaValor<string>("DataAtividade");
 
                     if (DateTime.TryParse(dataFichaMedicaStr, out DateTime dataFichaMedica2))
                     {
-                        ws2.Cells[linhaAtual, 12] = dataFichaMedica2.ToString("dd/MM/yyyy");
+                        ws2.Cells[linhaAtual, 12] = dataFichaMedica2.ToString("yyyy-MM-dd");
                     }
                     else
                     {
@@ -4511,13 +4584,13 @@ WHERE o.Codigo ='{codigoObra}';
                     ws2.Cells[equipamentoLinhaAtual, 3] = dadosEquipamentos.DaValor<string>("ClasseDescricao"); // Tipo de Máquina
                     ws2.Cells[equipamentoLinhaAtual, 5] = ""; 
                     ws2.Cells[equipamentoLinhaAtual, 6] = "";
-                    ws2.Cells[equipamentoLinhaAtual, 7] = "C";
+                    ws2.Cells[equipamentoLinhaAtual, 7] = "";
                     ws2.Cells[equipamentoLinhaAtual, 8] = "C";
                     ws2.Cells[equipamentoLinhaAtual, 9] = "C"; 
                     ws2.Cells[equipamentoLinhaAtual, 10] = "C"; 
-                    ws2.Cells[equipamentoLinhaAtual, 11] = "";
-                    ws2.Cells[equipamentoLinhaAtual, 12] = "C";
-                    ws2.Cells[equipamentoLinhaAtual, 13] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 11] = "C";
+                    ws2.Cells[equipamentoLinhaAtual, 12] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 13] = "C";
                     ws2.Cells[equipamentoLinhaAtual, 14] = ""; 
                     ws2.Cells[equipamentoLinhaAtual, 15] = ""; 
                     ws2.Cells[equipamentoLinhaAtual, 16] = ""; 
@@ -5158,7 +5231,7 @@ WHERE o.Codigo ='{codigoObra}';
 
                     ws2.Cells[16, 2] = dadosEntidade.DaValor<string>("Nome");
 
-                    ws2.Cells[16, 3] = dadosEntidade.DaValor<string>("Morada");
+                    ws2.Cells[16, 3] = dadosEntidade.DaValor<string>("CodPostalLocal");
                     var rSedeJPA = ws2.Range[ws2.Cells[16, 3], ws2.Cells[16, 5]];
                     rSedeJPA.Merge();
                     ws2.Cells[16, 6] = dadosEntidade.DaValor<string>("NIPC");
@@ -6091,7 +6164,7 @@ WHERE o.Codigo ='{codigoObra}';
             string dataStr = match.Value;
             DateTime dataValidade;
 
-            if (DateTime.TryParseExact(dataStr, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out dataValidade))
+            if (DateTime.TryParseExact(dataStr, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out dataValidade))
             {
                 if (dataValidade < DateTime.Today)
                     return "N/C"; // vencido
