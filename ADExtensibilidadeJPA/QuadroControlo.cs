@@ -546,7 +546,7 @@ END;
             EstilizarBotao(Bt_imprimir2, "Exportar");
             EstilizarBotao(bt_dadosJPAa, "Dados JPA");
             EstilizarBotao(BT_ImprimirJPA, "Exportar JPA");
-            EstilizarBotao(BT_CriarTrabalhadores, "Criar Trabalhadores");
+            EstilizarBotao(BT_CriarTrabalhadores, "Criar QrCodes");
 
 
             // Adicionar ToolTip nos botões
@@ -6504,6 +6504,7 @@ private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
 
                     trabalhadores.Seguinte();
                 }
+
 
 
                 // 8️⃣ Abrir Outlook e criar e-mail com anexos
