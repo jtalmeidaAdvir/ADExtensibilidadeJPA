@@ -22,6 +22,8 @@ using PRISDK100;
 using PriTextBoxF4100;
 using System.Runtime.InteropServices;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.IO;
+using QRCoder;
 
 namespace ADExtensibilidadeJPA
 {
@@ -6379,80 +6381,119 @@ WHERE
             }
         }
 
-        private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
+
+private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
+    {
+        try
         {
-            try
+            // 1️⃣ Verificar seleção de empresa
+            List<string> idsSelecionados = new List<string>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                // Verificar se há linhas selecionadas
-                List<string> idsSelecionados = new List<string>();
-
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                if (row.Cells[" "].Value != null && (bool)row.Cells[" "].Value)
                 {
-                    if (row.Cells[" "].Value != null && (bool)row.Cells[" "].Value)
-                    {
-                        string id = row.Cells["ID"].Value?.ToString();
-                        if (!string.IsNullOrEmpty(id))
-                            idsSelecionados.Add(id);
-                    }
+                    string id = row.Cells["ID"].Value?.ToString();
+                    if (!string.IsNullOrEmpty(id))
+                        idsSelecionados.Add(id);
                 }
+            }
 
-                if (idsSelecionados.Count == 0)
-                {
-                    MessageBox.Show("Por favor, selecione pelo menos uma empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+            if (idsSelecionados.Count == 0)
+            {
+                MessageBox.Show("Por favor, selecione pelo menos uma empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (idsSelecionados.Count > 1)
-                {
-                    MessageBox.Show("Por favor, selecione apenas uma empresa de cada vez.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+            if (idsSelecionados.Count > 1)
+            {
+                MessageBox.Show("Por favor, selecione apenas uma empresa de cada vez.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                string idEmpresa = idsSelecionados[0];
+            string idEmpresa = idsSelecionados[0];
 
-                // Buscar código da empresa
-                string queryEmpresa = $"SELECT ID, Nome FROM Geral_Entidade WHERE ID = '{idEmpresa}'";
-                var dadosEmpresa = BSO.Consulta(queryEmpresa);
+            // 2️⃣ Buscar nome da empresa
+            string queryEmpresa = $"SELECT ID, Nome FROM Geral_Entidade WHERE ID = '{idEmpresa}'";
+            var dadosEmpresa = BSO.Consulta(queryEmpresa);
 
-                if (dadosEmpresa.Vazia())
-                {
-                    MessageBox.Show("Empresa não encontrada.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            if (dadosEmpresa.Vazia())
+            {
+                MessageBox.Show("Empresa não encontrada.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                dadosEmpresa.Inicio();
-                string codigoEmpresa = dadosEmpresa.Valor("ID")?.ToString() ?? "";
-                string nomeEmpresa = dadosEmpresa.Valor("Nome")?.ToString() ?? "";
+            dadosEmpresa.Inicio();
+            string nomeEmpresa = dadosEmpresa.Valor("Nome")?.ToString() ?? "";
 
-                // Buscar trabalhadores da empresa
-                string queryTrabalhadores = $@"
-                    SELECT nome 
-                    FROM TDU_AD_Trabalhadores 
-                    WHERE id_empresa = '{idEmpresa}'";
+            // 3️⃣ Buscar trabalhadores da empresa
+            string queryTrabalhadores = $@"
+            SELECT id, nome 
+            FROM TDU_AD_Trabalhadores 
+            WHERE id_empresa = '{idEmpresa}'";
 
-                var trabalhadores = BSO.Consulta(queryTrabalhadores);
+            var trabalhadores = BSO.Consulta(queryTrabalhadores);
 
-                if (trabalhadores.Vazia())
-                {
-                    MessageBox.Show("Nenhum trabalhador encontrado para esta empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+            if (trabalhadores.Vazia())
+            {
+                MessageBox.Show("Nenhum trabalhador encontrado para esta empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                int totalEnviados = 0;
-                int totalErros = 0;
-                trabalhadores.Inicio();
+            int totalEnviados = 0;
+            int totalErros = 0;
+            trabalhadores.Inicio();
+
+            // Pasta temporária para os QR Codes
+            string pastaTemp = Path.Combine(Path.GetTempPath(), "QRCodes_Trabalhadores");
+            Directory.CreateDirectory(pastaTemp);
+            List<string> anexos = new List<string>();
 
                 while (!trabalhadores.NoFim())
                 {
                     string nomeTrabalhador = trabalhadores.Valor("nome")?.ToString() ?? "";
+                    string idTrabalhador = trabalhadores.Valor("id")?.ToString() ?? "";
 
                     if (!string.IsNullOrEmpty(nomeTrabalhador))
                     {
-                        // Gerar QR Code único
-                        string qrCode = GerarQRCode();
+                        // 🔹 1️⃣ Buscar se já existe QRCode no banco
+                        string queryQRCode = $@"SELECT QRCode FROM TDU_AD_Trabalhadores WHERE id = '{idTrabalhador}'";
+                        var dadosQRCode = BSO.Consulta(queryQRCode);
 
-                        // Enviar para API - agora enviando o nome da empresa
-                        bool sucesso = await EnviarTrabalhadorParaAPI(nomeTrabalhador, qrCode, nomeEmpresa);
+                        string qrCodeExistente = "";
+                        if (!dadosQRCode.Vazia())
+                        {
+                            dadosQRCode.Inicio();
+                            qrCodeExistente = dadosQRCode.Valor("QRCode")?.ToString() ?? "";
+                        }
+
+                        string qrCode = qrCodeExistente;
+                        bool sucesso = true; // assume sucesso se não for necessário reenviar
+
+                        // 🔹 2️⃣ Se não existir, gera e envia à API
+                        if (string.IsNullOrEmpty(qrCode))
+                        {
+                            qrCode = GerarQRCode();
+
+                            sucesso = await EnviarTrabalhadorParaAPI(nomeTrabalhador, qrCode, nomeEmpresa);
+
+                            var queryInsertQrcode = $@"
+                UPDATE TDU_AD_Trabalhadores 
+                SET qrcode = '{qrCode}' 
+                WHERE id = '{idTrabalhador}'";
+                            BSO.DSO.ExecuteSQL(queryInsertQrcode);
+                        }
+
+                        // 🔹 3️⃣ Gerar imagem do QRCode (seja novo ou existente)
+                        string caminhoImagem = Path.Combine(pastaTemp, $"{nomeTrabalhador}.png");
+                        using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+                        using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrCode, QRCodeGenerator.ECCLevel.Q))
+                        using (QRCode qrCodeObj = new QRCode(qrCodeData))
+                        using (Bitmap qrCodeImage = qrCodeObj.GetGraphic(20))
+                        {
+                            qrCodeImage.Save(caminhoImagem);
+
+                        }
+                        anexos.Add(caminhoImagem);
 
                         if (sucesso)
                             totalEnviados++;
@@ -6460,22 +6501,41 @@ WHERE
                             totalErros++;
                     }
 
+
                     trabalhadores.Seguinte();
                 }
 
-                string mensagem = $"Processo concluído!\n\n" +
-                                 $"Trabalhadores enviados com sucesso: {totalEnviados}\n" +
-                                 $"Erros: {totalErros}";
 
-                MessageBox.Show(mensagem, "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (System.Exception ex)
+                // 8️⃣ Abrir Outlook e criar e-mail com anexos
+                Outlook.Application outlookApp = new Outlook.Application();
+            Outlook.MailItem mail = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
+
+            mail.Subject = $"QR Codes dos Trabalhadores - {nomeEmpresa}";
+            mail.BodyFormat = Outlook.OlBodyFormat.olFormatHTML;
+            mail.HTMLBody = $"<h3>QR Codes - {nomeEmpresa}</h3><p>Segue em anexo os códigos de acesso dos trabalhadores.</p>";
+
+            foreach (string anexo in anexos)
             {
-                MessageBox.Show($"Erro ao criar trabalhadores: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                mail.Attachments.Add(anexo, Outlook.OlAttachmentType.olByValue, Type.Missing, Path.GetFileName(anexo));
             }
-        }
 
-        private string GerarQRCode()
+            mail.Display(); // Abre o Outlook com o e-mail pronto para envio
+
+            // 9️⃣ Mostrar resumo
+            string mensagem = $"Processo concluído!\n\n" +
+                             $"Trabalhadores enviados com sucesso: {totalEnviados}\n" +
+                             $"Erros: {totalErros}";
+            MessageBox.Show(mensagem, "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        catch (System.Exception ex)
+        {
+            MessageBox.Show($"Erro ao criar trabalhadores: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+
+
+    private string GerarQRCode()
         {
             // Gerar um código único usando timestamp e GUID
             string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");

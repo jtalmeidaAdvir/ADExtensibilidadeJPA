@@ -161,7 +161,6 @@
             // 
             // BT_CriarTrabalhadores
             // 
-            this.BT_CriarTrabalhadores.Enabled = false;
             this.BT_CriarTrabalhadores.Location = new System.Drawing.Point(731, 4);
             this.BT_CriarTrabalhadores.Name = "BT_CriarTrabalhadores";
             this.BT_CriarTrabalhadores.Size = new System.Drawing.Size(120, 23);

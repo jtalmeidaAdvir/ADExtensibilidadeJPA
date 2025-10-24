@@ -198,3 +198,5 @@ C:\Users\jtalm\Desktop\JPA\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\A
 C:\Users\jtalm\Desktop\JPA\ADExtensibilidadeJPA\ADExtensibilidadeJPA\obj\Debug\ADExtensibilidadeJPA.pdb
 C:\Users\jtalm\Desktop\jpa\ADExtensibilidadeJPA\ADExtensibilidadeJPA\bin\Debug\Newtonsoft.Json.dll
 C:\Users\jtalm\Desktop\jpa\ADExtensibilidadeJPA\ADExtensibilidadeJPA\bin\Debug\Newtonsoft.Json.xml
+C:\Users\jtalm\Desktop\jpa\ADExtensibilidadeJPA\ADExtensibilidadeJPA\bin\Debug\QRCoder.dll
+C:\Users\jtalm\Desktop\jpa\ADExtensibilidadeJPA\ADExtensibilidadeJPA\bin\Debug\QRCoder.xml
