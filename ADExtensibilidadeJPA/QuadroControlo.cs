@@ -1,4 +1,7 @@
-﻿using Microsoft.Office.Interop.Outlook;  // Para o Outlook
+﻿
+using System.IO;
+
+using Microsoft.Office.Interop.Outlook;  // Para o Outlook
 using Microsoft.Office.Interop;
 using Primavera.Extensibility.CustomForm;
 using StdBE100;
@@ -1010,6 +1013,8 @@ FROM DataExtraida
                             // Iniciando o Outlook
                             Microsoft.Office.Interop.Outlook.Application outlookApp = new Microsoft.Office.Interop.Outlook.Application();
                             MailItem emailItem = (MailItem)outlookApp.CreateItem(OlItemType.olMailItem);
+
+
 
 
                             // Definindo o assunto e o corpo do e-mail
@@ -2723,7 +2728,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
 
                 ws.Cells[1, 4] = "Controlo de Documentos de Empresas, Trabalhadores e Máquinas/Equipamentos";
                 var rTitulo = R(1, 4, 1, 23); rTitulo.Merge(); Negrito(rTitulo); Centro(rTitulo);
-       
+
                 codigoObra = f4TabelaSQL1.Text;
                 var querydadosObra = $@"
                 SELECT * frOM COP_Obras WHERE Codigo = '{codigoObra}'
@@ -2740,7 +2745,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 }
                 else
                 {
-                     entidadeIdA = dadosObra.DaValor<string>("EntidadeIDA");
+                    entidadeIdA = dadosObra.DaValor<string>("EntidadeIDA");
                 }
 
 
@@ -2750,7 +2755,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 if (!string.IsNullOrEmpty(entidadeIdA))
                 {
                     var queryDonoObra = $"SELECT * FROM Geral_Entidade WHERE EntidadeId = '{entidadeIdA}'";
-                     dadosDonoObra = BSO.Consulta(queryDonoObra);
+                    dadosDonoObra = BSO.Consulta(queryDonoObra);
                     R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Designação da Empreitada: {dadosObra.DaValor<string>("Codigo")}"; Borda(R(ln, 2, ln, 4)); ln++;
                     R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Dono de Obra: {dadosDonoObra.DaValor<string>("Nome")}"; Borda(R(ln, 2, ln, 4)); ln++;
                     R(ln, 2, ln, 4).Merge(); ws.Cells[ln, 2] = $"Entidade Executante: {dadosDonoObra.DaValor<string>("Nome")}"; Borda(R(ln, 2, ln, 4));
@@ -2764,8 +2769,8 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                     donoObra = "";
                 }
                 // Blocos topo (esquerda)
-              
-    
+
+
 
                 // Elaborado por
                 int lnQas = 3;
@@ -2930,14 +2935,14 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 int row = firstDataRow;
 
                 //mostrar os ids no message box
-              
-                
+
+
 
                 var numIds = idsSelecionados.Count;
 
                 for (int i = 0; i < numIds; i++)
                 {
-                 
+
                     var queryDadosEmpresa = $@"SELECT * FROM Geral_Entidade AS GE
                                             INNER JOIN TDU_AD_Autorizacoes AS A ON GE.ID = A.ID_Entidade
                                             WHEre GE.ID = '{idsSelecionados[i]}'";
@@ -2961,12 +2966,12 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                         ws.Cells[row, 7] = "PAR"; // PUB/PRIV
                         ws.Cells[row, 8] = "C";
                         var data2 = DateTime.MinValue;
-                   
 
 
-                      
-                            ws.Cells[row, 9] = dadosEmpresaJPAs.DaValor<DateTime>("CDU_ValidadeFinancas").ToString("yyyy-MM-dd");            // Guarda a data real
-                   
+
+
+                        ws.Cells[row, 9] = dadosEmpresaJPAs.DaValor<DateTime>("CDU_ValidadeFinancas").ToString("yyyy-MM-dd");            // Guarda a data real
+
 
 
                         if (DateTime.TryParse(dadosEmpresaJPAs.DaValor<string>("CDU_ValidadeSegSocial"), out data2))
@@ -3065,7 +3070,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                     ws.Cells[row, 13] = dadosEmpresa.DaValor<string>("CDU_NumApoliceAt");
                     ws.Cells[row, 14] = "";       // Fixo?
                     ws.Cells[row, 15] = "";       // Prémio Variável?
-                  
+
                     if (DateTime.TryParse(dadosEmpresa.DaValor<string>("CDU_ValidadeReciboSeguroAT"), out data))
                         ws.Cells[row, 16] = data.ToString("yyyy-MM-dd");
                     else
@@ -3533,7 +3538,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 Centro(rAnexo);
 
                 ws2.Cells[14, 10] = "Cert. ND Finanças";
-                var rNDFinanças = ws2.Cells[14, 10] ;
+                var rNDFinanças = ws2.Cells[14, 10];
                 Negrito(rNDFinanças);
                 Borda(rNDFinanças);
                 Centro(rNDFinanças);
@@ -3777,7 +3782,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 // Linha 16 Dados Jpa
 
                 var querydadosjpa = $@"SELECT * FROM Geral_Entidade WHERE id = '2A8C7ECD-309B-49F9-A337-203B45CED948'";
-                var dadosJPA = BSO.Consulta(querydadosjpa); 
+                var dadosJPA = BSO.Consulta(querydadosjpa);
 
                 ws2.Cells[16, 1] = "1";
                 var rNumJPA = ws2.Cells[16, 1];
@@ -3832,7 +3837,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 ws2.Cells[16, 23] = "C";
                 ws2.Cells[16, 24] = "C";
                 ws2.Cells[16, 25] = "Sim";
-                ws2.Cells[16, 26] = ""; 
+                ws2.Cells[16, 26] = "";
                 ws2.Cells[16, 27] = "";
                 ws2.Cells[16, 28] = "Sim";
 
@@ -3857,14 +3862,15 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 for (int c = 5, n = 1; c <= lastCol2 && n <= 23; n++)
                 {
                     Microsoft.Office.Interop.Excel.Range r;
-                  
-                    if (n == 5   || n == 12 || n == 6 || n == 13 || n == 9)
+
+                    if (n == 5 || n == 12 || n == 6 || n == 13 || n == 9)
                     {
                         r = ws2.Range[ws2.Cells[numRow2, c], ws2.Cells[numRow2, c + 1]];
                         r.Merge();
                         ws2.Cells[numRow2, c] = n.ToString();
                         c += 2; // avança duas colunas
-                    }else if(n == 10)// n== 10 ocupa 3 colunas
+                    }
+                    else if (n == 10)// n== 10 ocupa 3 colunas
                     {
                         r = ws2.Range[ws2.Cells[numRow2, c], ws2.Cells[numRow2, c + 2]];
                         r.Merge();
@@ -3909,7 +3915,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 Negrito(rCAP);
                 Borda(rCAP);
                 Centro(rCAP);
-               
+
                 ws2.Cells[19, 7] = "Contribuinte";
                 var rContribuinte2 = ws2.Range[ws2.Cells[19, 7], ws2.Cells[20, 7]];
                 rContribuinte2.Merge();
@@ -3925,7 +3931,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 Centro(rSegurancaSocial);
 
                 ws2.Cells[19, 9] = "Cartão de Cidadão";
-                var rFichaAptidaoMedica = ws2.Range[ws2.Cells[19, 9], ws2.Cells[20,10]];
+                var rFichaAptidaoMedica = ws2.Range[ws2.Cells[19, 9], ws2.Cells[20, 10]];
                 rFichaAptidaoMedica.Merge();
                 Negrito(rFichaAptidaoMedica);
                 Borda(rFichaAptidaoMedica);
@@ -3939,14 +3945,14 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 Centro(rFichaDistribuicaoEPI);
 
                 ws2.Cells[19, 13] = "Ficha de Distribuição de EPI";
-                var rConstaMapaSS = ws2.Range[ws2.Cells[19, 13], ws2.Cells[20,13]];
+                var rConstaMapaSS = ws2.Range[ws2.Cells[19, 13], ws2.Cells[20, 13]];
                 rConstaMapaSS.Merge();
                 Negrito(rConstaMapaSS);
                 Borda(rConstaMapaSS);
                 Centro(rConstaMapaSS);
 
                 ws2.Cells[19, 14] = "Consta no Mapa  SS / Inscrito?";
-                var rValidade6 = ws2.Range[ws2.Cells[19,14], ws2.Cells[20,14]];
+                var rValidade6 = ws2.Range[ws2.Cells[19, 14], ws2.Cells[20, 14]];
                 rValidade6.Merge();
                 Negrito(rValidade6);
                 Borda(rValidade6);
@@ -4123,7 +4129,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 Borda(rCNCNA10);
 
                 ws2.Cells[21, 15] = "Data";
-                var rData5 =  ws2.Range[ws2.Cells[21, 15], ws2.Cells[21, 16]];
+                var rData5 = ws2.Range[ws2.Cells[21, 15], ws2.Cells[21, 16]];
                 rData5.Merge();
                 Centro(rData5);
                 Borda(rData5);
@@ -4189,7 +4195,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 Borda(rSimNao2);
 
                 //DADOS NAS LINHAS //********************************************************************** TRABALHADORES JPA
-         
+
                 var queryObraPAITrabalhadores = $@"   
 
 
@@ -4230,7 +4236,7 @@ WHERE
                 dadosTrabalhadores.Inicio();
                 for (int i = 0; i < numregistos; i++)
                 {
-                  
+
                     ws2.Cells[linhaAtual, 1] = (i + 1).ToString(); // N.º
                     ws2.Cells[linhaAtual, 2] = dadosTrabalhadores.DaValor<string>("Nome"); // Nome Completo
                     ws2.Cells[linhaAtual, 3] = dadosTrabalhadores.DaValor<string>("Morada"); // Residência Habitual
@@ -4385,7 +4391,7 @@ WHERE
                 Centro(rSeguroCasco);
 
                 ws2.Cells[linhaAtual, 22] = "Manobrador (Se Aplicável)";
-                var rManobrador = ws2.Range[ws2.Cells[linhaAtual, 22], ws2.Cells[linhaAtual , 24]];
+                var rManobrador = ws2.Range[ws2.Cells[linhaAtual, 22], ws2.Cells[linhaAtual, 24]];
                 rManobrador.Merge();
                 Negrito(rManobrador);
                 Borda(rManobrador);
@@ -4423,7 +4429,7 @@ WHERE
                 //
                 linhaAtual = linhaAtual + 1;
                 //coluna 11
-                
+
                 ws2.Cells[linhaAtual, 11] = "Possui?";
                 var rPossui = ws2.Cells[linhaAtual, 11];
                 Negrito(rPossui);
@@ -4437,7 +4443,7 @@ WHERE
                 Centro(rValidade10);
 
                 ws2.Cells[linhaAtual, 22] = "Nome";
-                var rNomeManobrador = ws2.Range[ws2.Cells[linhaAtual, 22], ws2.Cells[linhaAtual +1, 22]];
+                var rNomeManobrador = ws2.Range[ws2.Cells[linhaAtual, 22], ws2.Cells[linhaAtual + 1, 22]];
                 rNomeManobrador.Merge();
                 Negrito(rNomeManobrador);
                 Borda(rNomeManobrador);
@@ -4451,7 +4457,7 @@ WHERE
                 Centro(rHabilitacoes);
 
 
-               //
+                //
                 linhaAtual = linhaAtual + 1;
                 ws2.Cells[linhaAtual, 1] = "N.º";
                 var rNumEquipamento = ws2.Cells[linhaAtual, 1];
@@ -4584,30 +4590,30 @@ WHERE
                     ws2.Cells[equipamentoLinhaAtual, 1] = (i + 1).ToString(); // N.º
                     ws2.Cells[equipamentoLinhaAtual, 2] = dadosEquipamentos.DaValor<string>("Desig"); // Marca/ Modelo
                     ws2.Cells[equipamentoLinhaAtual, 3] = dadosEquipamentos.DaValor<string>("ClasseDescricao"); // Tipo de Máquina
-                    ws2.Cells[equipamentoLinhaAtual, 5] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 5] = "";
                     ws2.Cells[equipamentoLinhaAtual, 6] = "";
                     ws2.Cells[equipamentoLinhaAtual, 7] = "";
                     ws2.Cells[equipamentoLinhaAtual, 8] = "C";
-                    ws2.Cells[equipamentoLinhaAtual, 9] = "C"; 
-                    ws2.Cells[equipamentoLinhaAtual, 10] = "C"; 
+                    ws2.Cells[equipamentoLinhaAtual, 9] = "C";
+                    ws2.Cells[equipamentoLinhaAtual, 10] = "C";
                     ws2.Cells[equipamentoLinhaAtual, 11] = "C";
                     ws2.Cells[equipamentoLinhaAtual, 12] = "";
                     ws2.Cells[equipamentoLinhaAtual, 13] = "C";
-                    ws2.Cells[equipamentoLinhaAtual, 14] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 15] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 16] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 17] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 18] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 19] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 14] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 15] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 16] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 17] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 18] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 19] = "";
                     ws2.Cells[equipamentoLinhaAtual, 20] = "";
-                    ws2.Cells[equipamentoLinhaAtual, 21] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 22] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 21] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 22] = "";
                     ws2.Cells[equipamentoLinhaAtual, 23] = "";
-                    ws2.Cells[equipamentoLinhaAtual, 24] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 25] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 24] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 25] = "";
                     ws2.Cells[equipamentoLinhaAtual, 26] = "";
-                    ws2.Cells[equipamentoLinhaAtual, 27] = ""; 
-                    ws2.Cells[equipamentoLinhaAtual, 28] = ""; 
+                    ws2.Cells[equipamentoLinhaAtual, 27] = "";
+                    ws2.Cells[equipamentoLinhaAtual, 28] = "";
 
                     // As restantes células ficam vazias para serem preenchidas manualmente
 
@@ -4630,7 +4636,7 @@ WHERE
 
                 CriarPaginasPorIds(workbook, excelApp, codigoObra, idsSelecionados, dadosObra, dadosDonoObra, DonoObra);
 
-                }
+            }
             catch (System.Exception ex)
             {
                 MessageBox.Show("Erro ao criar segunda folha Excel: " + ex.Message, "Erro",
@@ -5243,7 +5249,7 @@ WHERE
 
                     var valor = dadosEntidade.DaValor<string>("CDU_AnexoAnexoD");
                     ws2.Cells[16, 9] = !string.IsNullOrEmpty(valor) ? "C" : "N/C";
-                 
+
                     // Lista de colunas e campos correspondentes
                     var colunas = new int[] { 10, 11, 12 };
                     var campos = new string[] { "CDU_validadeFinancas", "CDU_ValidadeSegSocial", "CDU_ValidadeFolhaPag" };
@@ -5702,14 +5708,14 @@ WHERE
                     dadosTrabalhadoresEntidades.Inicio();
                     for (int i = 0; i < numregistos; i++)
                     {
-                        
+
 
                         ws2.Cells[linhaAtual, 1] = (i + 1).ToString(); // N.º
                         ws2.Cells[linhaAtual, 2] = dadosTrabalhadoresEntidades.DaValor<string>("nome"); // Nome Completo
                         ws2.Cells[linhaAtual, 3] = ""; // Residência Habitual
                         ws2.Cells[linhaAtual, 4] = dadosTrabalhadoresEntidades.DaValor<string>("nacionalidade"); // Nacionalidade
                         ws2.Cells[linhaAtual, 5] = dadosTrabalhadoresEntidades.DaValor<string>("categoria");
-                        ws2.Cells[linhaAtual, 6] = "";                                                                              
+                        ws2.Cells[linhaAtual, 6] = "";
                         ws2.Cells[linhaAtual, 7] = dadosTrabalhadoresEntidades.DaValor<string>("contribuinte"); // Contribuinte
                         ws2.Cells[linhaAtual, 8] = dadosTrabalhadoresEntidades.DaValor<string>("seguranca_social"); // Segurança Social
                         ws2.Cells[linhaAtual, 9] = dadosTrabalhadoresEntidades.DaValor<string>("Nm_CC");
@@ -5726,7 +5732,7 @@ WHERE
                         {
                             ws2.Cells[linhaAtual, 10] = "";
                         }
-                        ws2.Cells[linhaAtual, 11] = ""; 
+                        ws2.Cells[linhaAtual, 11] = "";
                         ws2.Cells[linhaAtual, 12] = "";
 
                         string valorCaminho5 = dadosTrabalhadoresEntidades.DaValor<string>("caminho5");
@@ -5770,7 +5776,7 @@ WHERE
                         }
 
                         //ws2.Cells[linhaAtual, 26] = ""; // Entrada Obra
-                       //ws2.Cells[linhaAtual, 27] = ""; // Saída Obra
+                        //ws2.Cells[linhaAtual, 27] = ""; // Saída Obra
                         ws2.Cells[linhaAtual, 28] = "Sim"; // Autorização de Entrada em Obra
 
                         linhaAtual++;    // Começa na linha 22
@@ -6064,7 +6070,7 @@ WHERE
                     var dadosEquipamentosEntidades = BSO.Consulta(queryEquipamentosEntidade);
                     var numregistosEquipamentos = dadosEquipamentosEntidades.NumLinhas();
                     dadosEquipamentosEntidades.Inicio();
-                   
+
                     for (int i = 0; i < numregistosEquipamentos; i++)
                     {
                         linhaAtual++;
@@ -6159,7 +6165,7 @@ WHERE
 
             // Procura data no formato dd/MM/yyyy
             Match match = Regex.Match(valor, @"\b\d{2}/\d{2}/\d{4}\b");
-       
+
             if (!match.Success)
                 return "N/A";
 
@@ -6382,71 +6388,71 @@ WHERE
         }
 
 
-private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
-    {
-        try
+        private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
         {
-            // 1️⃣ Verificar seleção de empresa
-            List<string> idsSelecionados = new List<string>();
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            try
             {
-                if (row.Cells[" "].Value != null && (bool)row.Cells[" "].Value)
+                // 1️⃣ Verificar seleção de empresa
+                List<string> idsSelecionados = new List<string>();
+                foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
-                    string id = row.Cells["ID"].Value?.ToString();
-                    if (!string.IsNullOrEmpty(id))
-                        idsSelecionados.Add(id);
+                    if (row.Cells[" "].Value != null && (bool)row.Cells[" "].Value)
+                    {
+                        string id = row.Cells["ID"].Value?.ToString();
+                        if (!string.IsNullOrEmpty(id))
+                            idsSelecionados.Add(id);
+                    }
                 }
-            }
 
-            if (idsSelecionados.Count == 0)
-            {
-                MessageBox.Show("Por favor, selecione pelo menos uma empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                if (idsSelecionados.Count == 0)
+                {
+                    MessageBox.Show("Por favor, selecione pelo menos uma empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            if (idsSelecionados.Count > 1)
-            {
-                MessageBox.Show("Por favor, selecione apenas uma empresa de cada vez.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                if (idsSelecionados.Count > 1)
+                {
+                    MessageBox.Show("Por favor, selecione apenas uma empresa de cada vez.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            string idEmpresa = idsSelecionados[0];
+                string idEmpresa = idsSelecionados[0];
 
-            // 2️⃣ Buscar nome da empresa
-            string queryEmpresa = $"SELECT ID, Nome FROM Geral_Entidade WHERE ID = '{idEmpresa}'";
-            var dadosEmpresa = BSO.Consulta(queryEmpresa);
+                // 2️⃣ Buscar nome da empresa
+                string queryEmpresa = $"SELECT ID, Nome FROM Geral_Entidade WHERE ID = '{idEmpresa}'";
+                var dadosEmpresa = BSO.Consulta(queryEmpresa);
 
-            if (dadosEmpresa.Vazia())
-            {
-                MessageBox.Show("Empresa não encontrada.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                if (dadosEmpresa.Vazia())
+                {
+                    MessageBox.Show("Empresa não encontrada.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-            dadosEmpresa.Inicio();
-            string nomeEmpresa = dadosEmpresa.Valor("Nome")?.ToString() ?? "";
+                dadosEmpresa.Inicio();
+                string nomeEmpresa = dadosEmpresa.Valor("Nome")?.ToString() ?? "";
 
-            // 3️⃣ Buscar trabalhadores da empresa
-            string queryTrabalhadores = $@"
+                // 3️⃣ Buscar trabalhadores da empresa
+                string queryTrabalhadores = $@"
             SELECT id, nome 
             FROM TDU_AD_Trabalhadores 
             WHERE id_empresa = '{idEmpresa}'";
 
-            var trabalhadores = BSO.Consulta(queryTrabalhadores);
+                var trabalhadores = BSO.Consulta(queryTrabalhadores);
 
-            if (trabalhadores.Vazia())
-            {
-                MessageBox.Show("Nenhum trabalhador encontrado para esta empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                if (trabalhadores.Vazia())
+                {
+                    MessageBox.Show("Nenhum trabalhador encontrado para esta empresa.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            int totalEnviados = 0;
-            int totalErros = 0;
-            trabalhadores.Inicio();
+                int totalEnviados = 0;
+                int totalErros = 0;
+                trabalhadores.Inicio();
 
-            // Pasta temporária para os QR Codes
-            string pastaTemp = Path.Combine(Path.GetTempPath(), "QRCodes_Trabalhadores");
-            Directory.CreateDirectory(pastaTemp);
-            List<string> anexos = new List<string>();
+                // Pasta temporária para os QR Codes
+                string pastaTemp = Path.Combine(Path.GetTempPath(), "QRCodes_Trabalhadores");
+                Directory.CreateDirectory(pastaTemp);
+                List<string> anexos = new List<string>();
 
                 while (!trabalhadores.NoFim())
                 {
@@ -6455,7 +6461,7 @@ private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
 
                     if (!string.IsNullOrEmpty(nomeTrabalhador))
                     {
-                        // 🔹 1️⃣ Buscar se já existe QRCode no banco
+                        // 🔹 Buscar QR Code existente
                         string queryQRCode = $@"SELECT QRCode FROM TDU_AD_Trabalhadores WHERE id = '{idTrabalhador}'";
                         var dadosQRCode = BSO.Consulta(queryQRCode);
 
@@ -6467,9 +6473,9 @@ private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
                         }
 
                         string qrCode = qrCodeExistente;
-                        bool sucesso = true; // assume sucesso se não for necessário reenviar
+                        bool sucesso = true;
 
-                        // 🔹 2️⃣ Se não existir, gera e envia à API
+                        // 🔹 Gerar QR Code se não existir
                         if (string.IsNullOrEmpty(qrCode))
                         {
                             qrCode = GerarQRCode();
@@ -6477,13 +6483,13 @@ private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
                             sucesso = await EnviarTrabalhadorParaAPI(nomeTrabalhador, qrCode, nomeEmpresa);
 
                             var queryInsertQrcode = $@"
-                UPDATE TDU_AD_Trabalhadores 
-                SET qrcode = '{qrCode}' 
-                WHERE id = '{idTrabalhador}'";
+                        UPDATE TDU_AD_Trabalhadores 
+                        SET qrcode = '{qrCode}' 
+                        WHERE id = '{idTrabalhador}'";
                             BSO.DSO.ExecuteSQL(queryInsertQrcode);
                         }
 
-                        // 🔹 3️⃣ Gerar imagem do QRCode (seja novo ou existente)
+                        // 🔹 Gerar imagem do QR Code
                         string caminhoImagem = Path.Combine(pastaTemp, $"{nomeTrabalhador}.png");
                         using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
                         using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrCode, QRCodeGenerator.ECCLevel.Q))
@@ -6491,8 +6497,8 @@ private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
                         using (Bitmap qrCodeImage = qrCodeObj.GetGraphic(20))
                         {
                             qrCodeImage.Save(caminhoImagem);
-
                         }
+
                         anexos.Add(caminhoImagem);
 
                         if (sucesso)
@@ -6501,27 +6507,19 @@ private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
                             totalErros++;
                     }
 
-
                     trabalhadores.Seguinte();
                 }
 
-
-
-                // 8️⃣ Abrir Outlook e criar e-mail com anexos
+                // 4️⃣ Criar e-mail no Outlook
                 Outlook.Application outlookApp = new Outlook.Application();
-            Outlook.MailItem mail = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
+                Outlook.MailItem mail = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
 
-            mail.Subject = $"Termo de Consentimento para registo ponto digital";
-            mail.BodyFormat = Outlook.OlBodyFormat.olFormatHTML;
-                mail.HTMLBody = $@"
+                mail.Subject = $"Termo de Consentimento para registo ponto digital";
+                mail.BodyFormat = Outlook.OlBodyFormat.olFormatHTML;
+                mail.HTMLBody = @"
 <p>Ex.mo(s) Sr.(s),</p>
 
-<p>
-Sendo objetivo da <strong>JPA-Construtora</strong> o integral cumprimento de requisitos legais no que respeita ao 
-registo de presenças dos seus trabalhadores em estaleiro de obra, incluindo a cadeia de subcontratação, 
-e antevendo a aproximação da era digital, o controlo de acessos passará a realizar-se através de uma 
-aplicação - <strong>Projeto LINK – Registo de Ponto Integrado</strong>, onde estão definidos os seguintes objetivos:
-</p>
+<p>Sendo objetivo da <strong>JPA-Construtora</strong> o integral cumprimento de requisitos legais no que respeita ao registo de presenças dos seus trabalhadores em estaleiro de obra, incluindo a cadeia de subcontratação, e antevendo a aproximação da era digital, o controlo de acessos passará a realizar-se através de uma aplicação - <strong>projeto LINK – Registo de Ponto Integrado</strong>, onde estão definidos os seguintes objetivos:</p>
 
 <ul>
 <li>Registar entradas e saídas em obra (assiduidade);</li>
@@ -6529,45 +6527,62 @@ aplicação - <strong>Projeto LINK – Registo de Ponto Integrado</strong>, onde
 <li>Cumprir obrigações legais e contratuais em matéria laboral e de segurança.</li>
 </ul>
 
-<p>
-Certos da colaboração plena da parte de V.a(s) Ex.a(s), seguem em anexo o Termo de Consentimento e os 
-respetivos códigos QR para os Trabalhadores já registados, que deverão ser distribuídos, de forma impressa 
-ou por via digital (email, WhatsApp) aos Trabalhadores, sendo que cada um terá um Termo de Consentimento 
-e um Código QR próprio.
-</p>
+<p>Certos da colaboração plena da parte de V.a(s) Ex.a(s), seguem em anexo o Termo de Consentimento e os respetivos códigos QR para os Trabalhadores já registados, que deverão ser distribuídos, de forma impressa ou por via digital (email, WhatsApp) aos Trabalhadores, sendo que cada um terá um Termo de Consentimento e um Código QR próprio.</p>
 
-<p>
-Deverão ser impressos/preenchidos tantos Termos de Consentimento, quantos Trabalhadores afetos à Empreitada 
-correspondente.
-</p>
+<p>Deverão ser impressos/preenchidos tantos Termos de Consentimento, quantos Trabalhadores afetos à Empreitada correspondente.</p>
 
-<p>
-Para eventuais esclarecimentos, não hesite(m) em contactar.
-</p>
+<p>Para eventuais esclarecimentos, não hesite(m) em contactar.</p>
 ";
 
+
+                // 5️⃣ Anexar QR Codes
                 foreach (string anexo in anexos)
-            {
-                mail.Attachments.Add(anexo, Outlook.OlAttachmentType.olByValue, Type.Missing, Path.GetFileName(anexo));
+                {
+                    mail.Attachments.Add(anexo, Outlook.OlAttachmentType.olByValue, Type.Missing, Path.GetFileName(anexo));
+                }
+
+                // 6️⃣ Anexar Termo de Consentimento Word
+                string caminhoTermo = Path.Combine(
+             @"C:\Program Files\PRIMAVERA\SG100\attached_assets",
+             "JPA 186 0 - Termo de Consentimento p Reg Ponto Digital.docx"
+         );
+                //MessageBox.Show($"Verificando arquivo:\n{caminhoTermo}\nExiste? {File.Exists(caminhoTermo)}", "DEBUG - TERMO");
+
+                // Debug: mostra caminho do arquivo
+                //MessageBox.Show($"Caminho do termo:\n{caminhoTermo}", "DEBUG - TERMO");
+
+                if (File.Exists(caminhoTermo))
+                {
+                    mail.Attachments.Add(
+                        caminhoTermo,
+                        Outlook.OlAttachmentType.olByValue,
+                        Type.Missing,
+                        "Termo de Consentimento"
+                    );
+                }
+                else
+                {
+                    MessageBox.Show("O ficheiro do Termo de Consentimento não foi encontrado!",
+                        "Erro ao anexar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                // 7️⃣ Exibir e-mail no Outlook
+                mail.Display();
+
+                // 8️⃣ Resumo final
+                string mensagem = $"Processo concluído!\n\n" +
+                                 $"Trabalhadores enviados com sucesso: {totalEnviados}\n" +
+                                 $"Erros: {totalErros}";
+                MessageBox.Show(mensagem, "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            mail.Display(); // Abre o Outlook com o e-mail pronto para envio
-
-            // 9️⃣ Mostrar resumo
-            string mensagem = $"Processo concluído!\n\n" +
-                             $"Trabalhadores enviados com sucesso: {totalEnviados}\n" +
-                             $"Erros: {totalErros}";
-            MessageBox.Show(mensagem, "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Erro ao criar trabalhadores: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-        catch (System.Exception ex)
-        {
-            MessageBox.Show($"Erro ao criar trabalhadores: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
 
 
-
-    private string GerarQRCode()
+        private string GerarQRCode()
         {
             // Gerar um código único usando timestamp e GUID
             string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
