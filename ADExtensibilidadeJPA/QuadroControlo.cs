@@ -6511,11 +6511,42 @@ private async void BT_CriarTrabalhadores_Click(object sender, EventArgs e)
                 Outlook.Application outlookApp = new Outlook.Application();
             Outlook.MailItem mail = (Outlook.MailItem)outlookApp.CreateItem(Outlook.OlItemType.olMailItem);
 
-            mail.Subject = $"QR Codes dos Trabalhadores - {nomeEmpresa}";
+            mail.Subject = $"Termo de Consentimento para registo ponto digital";
             mail.BodyFormat = Outlook.OlBodyFormat.olFormatHTML;
-            mail.HTMLBody = $"<h3>QR Codes - {nomeEmpresa}</h3><p>Segue em anexo os códigos de acesso dos trabalhadores.</p>";
+                mail.HTMLBody = $@"
+<p>Ex.mo(s) Sr.(s),</p>
 
-            foreach (string anexo in anexos)
+<p>
+Sendo objetivo da <strong>JPA-Construtora</strong> o integral cumprimento de requisitos legais no que respeita ao 
+registo de presenças dos seus trabalhadores em estaleiro de obra, incluindo a cadeia de subcontratação, 
+e antevendo a aproximação da era digital, o controlo de acessos passará a realizar-se através de uma 
+aplicação - <strong>Projeto LINK – Registo de Ponto Integrado</strong>, onde estão definidos os seguintes objetivos:
+</p>
+
+<ul>
+<li>Registar entradas e saídas em obra (assiduidade);</li>
+<li>Assegurar a rastreabilidade e segurança do local de trabalho;</li>
+<li>Cumprir obrigações legais e contratuais em matéria laboral e de segurança.</li>
+</ul>
+
+<p>
+Certos da colaboração plena da parte de V.a(s) Ex.a(s), seguem em anexo o Termo de Consentimento e os 
+respetivos códigos QR para os Trabalhadores já registados, que deverão ser distribuídos, de forma impressa 
+ou por via digital (email, WhatsApp) aos Trabalhadores, sendo que cada um terá um Termo de Consentimento 
+e um Código QR próprio.
+</p>
+
+<p>
+Deverão ser impressos/preenchidos tantos Termos de Consentimento, quantos Trabalhadores afetos à Empreitada 
+correspondente.
+</p>
+
+<p>
+Para eventuais esclarecimentos, não hesite(m) em contactar.
+</p>
+";
+
+                foreach (string anexo in anexos)
             {
                 mail.Attachments.Add(anexo, Outlook.OlAttachmentType.olByValue, Type.Missing, Path.GetFileName(anexo));
             }
