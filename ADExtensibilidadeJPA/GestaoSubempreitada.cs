@@ -588,14 +588,18 @@ namespace ADExtensibilidadeJPA
 
         private void btnSelecionarPasta_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                folderDialog.Description = "Selecione a pasta para os documentos";
-                folderDialog.ShowNewFolderButton = true;
+                openFileDialog.Title = "Selecione a pasta para os documentos";
+                openFileDialog.ValidateNames = false;
+                openFileDialog.CheckFileExists = false;
+                openFileDialog.CheckPathExists = true;
+                openFileDialog.FileName = "Selecione a Pasta";
 
-                if (folderDialog.ShowDialog() == DialogResult.OK)
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    txtCaminhoPasta.Text = folderDialog.SelectedPath;
+                    string selectedPath = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+                    txtCaminhoPasta.Text = selectedPath;
                     var update = $@"UPDATE Geral_Entidade
                                 set CDU_Caminho = '{txtCaminhoPasta.Text}'
                                 WHERE ID = '{_idSelecionado}'";
@@ -2202,11 +2206,13 @@ namespace ADExtensibilidadeJPA
 
         private void btnSelecionarPastaTrab_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                folderDialog.Description = "Selecione a pasta para os documentos";
-                folderDialog.ShowNewFolderButton = true;
-
+                openFileDialog.Title = "Selecione a pasta para os documentos";
+                openFileDialog.ValidateNames = false;
+                openFileDialog.CheckFileExists = false;
+                openFileDialog.CheckPathExists = true;
+                openFileDialog.FileName = "Selecione a Pasta";
 
                 string checkColumnQuery = @"
     SELECT * 
@@ -2218,9 +2224,10 @@ namespace ADExtensibilidadeJPA
 
                 if (columnExists.NumLinhas() > 0)
                 {
-                    if (folderDialog.ShowDialog() == DialogResult.OK)
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        txt_caminhotrab.Text = folderDialog.SelectedPath;
+                        string selectedPath = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+                        txt_caminhotrab.Text = selectedPath;
                         var update = $@"UPDATE Geral_Entidade
                                 set CDU_CaminhoTRab = '{txt_caminhotrab.Text}'
                                 WHERE ID = '{_idSelecionado}'";
@@ -2257,46 +2264,44 @@ namespace ADExtensibilidadeJPA
                 MessageBox.Show("O caminho da pasta não é válido.");
             }
         }
-
         private void btnSelecionarPastaEqui_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                folderDialog.Description = "Selecione a pasta para os documentos";
-                folderDialog.ShowNewFolderButton = true;
-
+                openFileDialog.Title = "Selecione a pasta para os documentos";
+                openFileDialog.ValidateNames = false; // Permite selecionar pastas ao invés de arquivos
+                openFileDialog.CheckFileExists = false; // Não verifica a existência de arquivos
+                openFileDialog.CheckPathExists = true; // Verifica se o caminho da pasta existe
+                openFileDialog.FileName = "Selecione a Pasta"; // Nome padrão para exibição
 
                 string checkColumnQuery = @"
-    SELECT * 
-    FROM INFORMATION_SCHEMA.COLUMNS 
-    WHERE TABLE_NAME = 'Geral_Entidade' 
-    AND COLUMN_NAME = 'CDU_CaminhoEqui'";
+        SELECT * 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE TABLE_NAME = 'Geral_Entidade' 
+        AND COLUMN_NAME = 'CDU_CaminhoEqui'";
                 var columnExists = _BSO.Consulta(checkColumnQuery);
-
 
                 if (columnExists.NumLinhas() > 0)
                 {
-                    if (folderDialog.ShowDialog() == DialogResult.OK)
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        txt_caminhoequi.Text = folderDialog.SelectedPath;
+                        string selectedPath = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+                        txt_caminhoequi.Text = selectedPath;
                         var update = $@"UPDATE Geral_Entidade
-                                set CDU_CaminhoEqui = '{txt_caminhoequi.Text}'
+                                SET CDU_CaminhoEqui = '{txt_caminhoequi.Text}'
                                 WHERE ID = '{_idSelecionado}'";
                         _BSO.DSO.ExecuteSQL(update);
-
                     }
                 }
                 else
                 {
                     // Cria a coluna se não existir
                     string alterTableQuery = @"
-                    ALTER TABLE Geral_Entidade 
-                    ADD CDU_CaminhoEqui NVARCHAR(500)"; // Ajuste o tipo de dado conforme necessário
+            ALTER TABLE Geral_Entidade 
+            ADD CDU_CaminhoEqui NVARCHAR(500)"; // Ajuste o tipo de dado conforme necessário
 
                     _BSO.DSO.ExecuteSQL(alterTableQuery);
                 }
-
-
             }
         }
 
@@ -2842,16 +2847,16 @@ END
                 var caminho5 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho5"));
 
                 var cBFormacaoProfissional = trabalhadores.DaValor<string>("cBFormacaoProfissional");
-                var cBespecializados = trabalhadores.DaValor<string>("cBespecializados");
+                var cBespecializados = trabalhadores.DaValor<string>("cBEspecializados");
 
                 var datanascimento = trabalhadores.DaValor<string>("data_nascimento");
                 if (trabalhadores.DaValor<string>("data_nascimento").ToString() == "01/01/1753 00:00:00")
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, "");
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, email, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, "");
                 }
                 else
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, email, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
 
                 }
 
@@ -3698,45 +3703,49 @@ END;";
 
         private void button34_Click(object sender, EventArgs e)
         {
-
             if (cb_obras.Text == null) // Verifica se algum item está selecionado
             {
                 MessageBox.Show("Por favor, selecione uma obra antes de escolher a pasta.", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Interrompe a execução se nada estiver selecionadoNovoCodigoSelecionado
+                return; // Interrompe a execução se nada estiver selecionado
             }
+
             string codigoSelecionado = NovoCodigoSelecionado;
-            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                folderDialog.Description = "Selecione a pasta para os documentos";
-                folderDialog.ShowNewFolderButton = true;
+                openFileDialog.Title = "Selecione a pasta para os documentos";
+                openFileDialog.ValidateNames = false; // Permite selecionar pastas
+                openFileDialog.CheckFileExists = false; // Não verifica a existência de arquivos
+                openFileDialog.CheckPathExists = true; // Verifica se o caminho da pasta existe
+                openFileDialog.FileName = "Selecione a Pasta"; // Nome padrão para exibição
+
                 string checkColumnQuery = @"
-                                        SELECT * 
-                                        FROM INFORMATION_SCHEMA.COLUMNS 
-                                        WHERE TABLE_NAME = 'COP_Obras' 
-                                        AND COLUMN_NAME = 'CDU_CaminhoAuto'";
+        SELECT * 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE TABLE_NAME = 'COP_Obras' 
+        AND COLUMN_NAME = 'CDU_CaminhoAuto'";
+
                 var columnExists = _BSO.Consulta(checkColumnQuery);
                 if (columnExists.NumLinhas() > 0)
                 {
-                    if (folderDialog.ShowDialog() == DialogResult.OK)
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        txtcaminhoAuto.Text = folderDialog.SelectedPath;
+                        string selectedPath = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+                        txtcaminhoAuto.Text = selectedPath;
                         var update = $@"UPDATE COP_Obras
-                                set CDU_CaminhoAuto = '{txtcaminhoAuto.Text}'
+                                SET CDU_CaminhoAuto = '{txtcaminhoAuto.Text}'
                                 WHERE Codigo = '{codigoSelecionado}'";
                         _BSO.DSO.ExecuteSQL(update);
-
                     }
                 }
                 else
                 {
                     // Cria a coluna se não existir
                     string alterTableQuery = @"
-                    ALTER TABLE COP_Obras 
-                    ADD CDU_CaminhoAuto NVARCHAR(500)"; // Ajuste o tipo de dado conforme necessário
+            ALTER TABLE COP_Obras 
+            ADD CDU_CaminhoAuto NVARCHAR(500)"; // Ajuste o tipo de dado conforme necessário
 
                     _BSO.DSO.ExecuteSQL(alterTableQuery);
                 }
-
             }
         }
 
