@@ -2541,11 +2541,11 @@ namespace ADExtensibilidadeJPA
             string contribuintetrab = txt_contribuintetrab.Text;
             string segurancasocialtrab = txt_segurancasocialtrab.Text;
             string emailTrab = rxt_emailTrabalhador.Text;
-            int anexo1 = checkBox14.Checked ? 1 : 0;
-            int anexo2 = checkBox15.Checked ? 1 : 0;
-            int anexo3 = checkBox16.Checked ? 1 : 0;
-            int anexo4 = checkBox17.Checked ? 1 : 0;
-            int anexo5 = checkBox18.Checked ? 1 : 0;
+            bool anexo1 = checkBox14.Checked ? true : false;
+            bool anexo2 = checkBox15.Checked ? true : false;
+            bool anexo3 = checkBox16.Checked ? true : false;
+            bool anexo4 = checkBox17.Checked ? true : false;
+            bool anexo5 = checkBox18.Checked ? true : false;
 
             var cBFormacaoProfissional = cb_FormacaoProfissional.Text;
             var cBespecializados = cb_especializados.Text;
@@ -2565,7 +2565,7 @@ namespace ADExtensibilidadeJPA
             SELECT * FROM TDU_AD_Trabalhadores 
             WHERE contribuinte = '{contribuintetrab}' AND id_empresa = '{_idSelecionado}'
         ";
-
+           
             var contribuinteExistente = _BSO.Consulta(checkContribuinteQuery);
 
             if (contribuinteExistente.NumLinhas() > 0)
@@ -2574,75 +2574,13 @@ namespace ADExtensibilidadeJPA
                 return; // Se já existe, não prossegue com a inserção
             }
 
-            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, emailTrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, cBFormacaoProfissional, cBespecializados, datanasci);
-
+            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, cBFormacaoProfissional, cBespecializados, datanasci);
+            
             // Aqui, você pode ocultar a coluna do checkBox Text (opcionalmente)
             int lastColumnIndex = dataGridView1.Columns.Count - 1; // Última coluna (onde você adicionou checkBox14.Text)
             dataGridView1.Columns[lastColumnIndex].Visible = false;
             // adcionar no sql
-            string checkAndCreateColumnsQuery = $@"
-            -- Verificar e criar a coluna 'id_empresa'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'id_empresa')
-                ALTER TABLE TDU_AD_Trabalhadores ADD id_empresa NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'nome'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'nome')
-                ALTER TABLE TDU_AD_Trabalhadores ADD nome NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'data_nascimento'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'data_nascimento')
-                ALTER TABLE TDU_AD_Trabalhadores ADD data_nascimento NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'categoria'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'categoria')
-                ALTER TABLE TDU_AD_Trabalhadores ADD categoria NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'contribuinte'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'contribuinte')
-                ALTER TABLE TDU_AD_Trabalhadores ADD contribuinte NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'seguranca_social'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'seguranca_social')
-                ALTER TABLE TDU_AD_Trabalhadores ADD seguranca_social NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'email'
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'email')
-                ALTER TABLE TDU_AD_Trabalhadores ADD email NVARCHAR(255);
-
-            -- Verificar e criar a coluna 'anexo1' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo1')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo1 BIT;
-
-            -- Verificar e criar a coluna 'anexo2' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo2')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo2 BIT;
-
-            -- Verificar e criar a coluna 'anexo3' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo3')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo3 BIT;
-
-            -- Verificar e criar a coluna 'anexo4' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo4')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo4 BIT;
-
-            -- Verificar e criar a coluna 'anexo5' (booleano)
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo5')
-                ALTER TABLE TDU_AD_Trabalhadores ADD anexo5 BIT;
-
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho1')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho1 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho2')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho2 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho3')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho3 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho4')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho4 NVARCHAR(255);
-            IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho5')
-                ALTER TABLE TDU_AD_Trabalhadores ADD caminho5 NVARCHAR(255);
-            ";
-
-            // Executa a query de verificação e criação das colunas
-            _BSO.DSO.ExecuteSQL(checkAndCreateColumnsQuery);
+  
 
             // Fazendo uma substituição para caracteres especiais
             string caminho1 = SanitizeString(checkBox14.Text);
@@ -2650,11 +2588,19 @@ namespace ADExtensibilidadeJPA
             string caminho3 = SanitizeString(checkBox16.Text);
             string caminho4 = SanitizeString(checkBox17.Text);
             string caminho5 = SanitizeString(checkBox18.Text);
+
+            int anexo1int = checkBox14.Checked ? 1 : 0;
+            int anexo2int = checkBox15.Checked ? 1 : 0;
+            int anexo3int = checkBox16.Checked ? 1 : 0;
+            int anexo4int = checkBox17.Checked ? 1 : 0;
+            int anexo5int = checkBox18.Checked ? 1 : 0;
+
+
             string query = $@"
                 INSERT INTO TDU_AD_Trabalhadores 
             (id_empresa, nome, categoria, contribuinte, seguranca_social, email, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5,cBFormacaoProfissional,cBespecializados,data_nascimento) 
             VALUES 
-            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', '{emailTrab}', {anexo1}, {anexo2}, {anexo3}, {anexo4}, {anexo5}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{cBFormacaoProfissional}','{cBespecializados}','{datanasci}')
+            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', '{emailTrab}', {anexo1int}, {anexo2int}, {anexo3int}, {anexo4int}, {anexo5int}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{cBFormacaoProfissional}','{cBespecializados}','{datanasci}')
             ";
 
             _BSO.DSO.ExecuteSQL(query);
@@ -2835,11 +2781,11 @@ END
                 var contribuintetrab = trabalhadores.DaValor<string>("contribuinte");
                 var segurancasocialtrab = trabalhadores.DaValor<string>("seguranca_social");
                 var email = trabalhadores.DaValor<string>("email"); // Captura o email
-                var anexo1 = trabalhadores.DaValor<bool>("anexo1");
-                var anexo2 = trabalhadores.DaValor<bool>("anexo2");
-                var anexo3 = trabalhadores.DaValor<bool>("anexo3");
-                var anexo4 = trabalhadores.DaValor<bool>("anexo4");
-                var anexo5 = trabalhadores.DaValor<bool>("anexo5");
+                var anexo1 = trabalhadores.DaValor<bool>("anexo1")? true : false;
+                var anexo2 = trabalhadores.DaValor<bool>("anexo2") ? true : false; 
+                var anexo3 = trabalhadores.DaValor<bool>("anexo3") ? true : false;
+                var anexo4 = trabalhadores.DaValor<bool>("anexo4") ? true : false;
+                var anexo5 = trabalhadores.DaValor<bool>("anexo5") ? true : false;
                 var caminho1 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho1"));
                 var caminho2 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho2"));
                 var caminho3 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho3"));
@@ -2852,11 +2798,11 @@ END
                 var datanascimento = trabalhadores.DaValor<string>("data_nascimento");
                 if (trabalhadores.DaValor<string>("data_nascimento").ToString() == "01/01/1753 00:00:00")
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, email, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, "");
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, "");
                 }
                 else
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, email, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
 
                 }
 

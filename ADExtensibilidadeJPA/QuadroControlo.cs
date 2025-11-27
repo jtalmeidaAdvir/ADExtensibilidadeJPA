@@ -4573,7 +4573,7 @@ WHERE
                 SELECT DISTINCT
                     fei.ClasseID,
                     gc.Descricao AS ClasseDescricao,
-                    pc.*  
+                    pc.Desig
                 FROM COP_Obras o
                 JOIN COP_FichasEquipamento fe ON fe.ObraID = o.id
                 JOIN COP_FichasEquipamentoItems fei ON fei.FichasEquipamentoID = fe.id
