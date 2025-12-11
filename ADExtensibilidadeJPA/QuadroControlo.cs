@@ -1360,10 +1360,10 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
             // Reutilizar a lógica da tua função anterior, mas guardar os nomes dos documentos caducados
             var campos = new Dictionary<string, string>()
             {
-                {"CDU_ValidadeFinancas", "Finanças"},
-                {"CDU_ValidadeSegSocial", "Segurança Social"},
-                {"CDU_ValidadeFolhaPag", "Folha de Pagamento"},
-                {"CDU_ValidadeComprovativoPagamento", "Comprovativo de Pagamento"},
+                {"CDU_ValidadeFinancas", "DND-Finanças"},
+                {"CDU_ValidadeSegSocial", "DND-Segurança Social"},
+                {"CDU_ValidadeFolhaPag", "Mapa de Rem.- SS"},
+                {"CDU_ValidadeComprovativoPagamento", "TSU"},
                 {"CDU_ValidadeReciboSeguroAT", "Seguro AT"},
                 {"CDU_ValidadeSeguroRC", "Seguro RC"},
                 {"CDU_ValidadeSeguroAT", "condições Seguro AT"},
