@@ -80,6 +80,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TXT_Contribuinte = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txt_nacionalidade = new System.Windows.Forms.TextBox();
+            this.label56 = new System.Windows.Forms.Label();
             this.rxt_emailTrabalhador = new System.Windows.Forms.TextBox();
             this.label54 = new System.Windows.Forms.Label();
             this.cb_FormacaoProfissional = new System.Windows.Forms.ComboBox();
@@ -262,8 +264,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Bt_Caducado = new System.Windows.Forms.Button();
             this.Bt_Nuvem = new System.Windows.Forms.Button();
-            this.label56 = new System.Windows.Forms.Label();
-            this.txt_nacionalidade = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -866,6 +866,22 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // txt_nacionalidade
+            // 
+            this.txt_nacionalidade.Location = new System.Drawing.Point(435, 242);
+            this.txt_nacionalidade.Name = "txt_nacionalidade";
+            this.txt_nacionalidade.Size = new System.Drawing.Size(238, 20);
+            this.txt_nacionalidade.TabIndex = 212;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(352, 245);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(78, 13);
+            this.label56.TabIndex = 211;
+            this.label56.Text = "Nacionalidade:";
             // 
             // rxt_emailTrabalhador
             // 
@@ -2497,6 +2513,7 @@
             this.TXTOP_linknuvem.Name = "TXTOP_linknuvem";
             this.TXTOP_linknuvem.Size = new System.Drawing.Size(504, 26);
             this.TXTOP_linknuvem.TabIndex = 1;
+            this.TXTOP_linknuvem.Visible = false;
             // 
             // label29
             // 
@@ -2507,6 +2524,7 @@
             this.label29.Size = new System.Drawing.Size(105, 18);
             this.label29.TabIndex = 0;
             this.label29.Text = "Link da Partilha:";
+            this.label29.Visible = false;
             // 
             // tabPage7
             // 
@@ -2599,22 +2617,6 @@
             this.Bt_Nuvem.TabIndex = 7;
             this.Bt_Nuvem.UseVisualStyleBackColor = false;
             this.Bt_Nuvem.Click += new System.EventHandler(this.Bt_Nuvem_Click);
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(352, 245);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(78, 13);
-            this.label56.TabIndex = 211;
-            this.label56.Text = "Nacionalidade:";
-            // 
-            // txt_nacionalidade
-            // 
-            this.txt_nacionalidade.Location = new System.Drawing.Point(435, 242);
-            this.txt_nacionalidade.Name = "txt_nacionalidade";
-            this.txt_nacionalidade.Size = new System.Drawing.Size(238, 20);
-            this.txt_nacionalidade.TabIndex = 212;
             // 
             // GestaoSubempreitada
             // 
