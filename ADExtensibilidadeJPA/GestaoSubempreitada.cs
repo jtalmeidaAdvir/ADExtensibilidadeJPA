@@ -2792,6 +2792,7 @@ END
                 var caminho4 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho4"));
                 var caminho5 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho5"));
 
+
                 var cBFormacaoProfissional = trabalhadores.DaValor<string>("cBFormacaoProfissional");
                 var cBespecializados = trabalhadores.DaValor<string>("cBEspecializados");
 

@@ -4662,8 +4662,16 @@ WHERE
                     var queryNomeEntidade = $"SELECT Nome FROM  Geral_Entidade WHERE ID = '{id}'";
                     var nomeEnti = BSO.Consulta(queryNomeEntidade).DaValor<string>("Nome");
                     ws2 = (Excel.Worksheet)workbook.Worksheets.Add();
-                    ws2.Name = index.ToString();
+
+                    var namesheet = index.ToString() + " " +
+    new string(nomeEnti.Where(c => !":\\/?*[]".Contains(c)).ToArray());
+
+                    // Limita a 31 caracteres
+                    namesheet = namesheet.Length > 31 ? namesheet.Substring(0, 31) : namesheet;
+
+                    ws2.Name = namesheet;
                     index++;
+
 
                     // Helpers
                     int ToOle(System.Drawing.Color c) => ColorTranslator.ToOle(c);
@@ -5274,7 +5282,7 @@ WHERE
                         }
                     }
                     var valor2 = dadosEntidade.DaValor<string>("CDU_ValidadeComprovativoPagamento");
-                    ws2.Cells[16, 13] = !string.IsNullOrEmpty(valor2) ? "C" : "N/C"; //dadosEntidade.DaValor<string>("CDU_ValidadeComprovativoPagamento");  se tiver preenchido colo
+                    ws2.Cells[16, 13] = !string.IsNullOrEmpty(valor2) ? "C" : "N/C"; 
 
                     ws2.Cells[16, 14] = dadosEntidade.DaValor<string>("CDU_NumApoliceAt");
                     ws2.Cells[16, 15] = "";
@@ -5732,8 +5740,22 @@ WHERE
                         {
                             ws2.Cells[linhaAtual, 10] = "";
                         }
-                        ws2.Cells[linhaAtual, 11] = "";
-                        ws2.Cells[linhaAtual, 12] = "";
+                        string caminho2 = dadosTrabalhadoresEntidades.DaValor<string>("caminho2");
+                        match = Regex.Match(caminho2, @"\d{2}/\d{2}/\d{4}");
+                        if (match.Success)
+                        {
+                            ws2.Cells[linhaAtual, 12] = match.Value;
+                            ws2.Cells[linhaAtual, 11] = "C";
+                        }
+                        else
+                        {
+                            ws2.Cells[linhaAtual, 12] = "";
+                            ws2.Cells[linhaAtual, 11] = "N/C";
+                        }
+                        //ws2.Cells[linhaAtual, 11] = "";
+                        //C;NC;N/A
+                        
+
 
                         string valorCaminho5 = dadosTrabalhadoresEntidades.DaValor<string>("caminho5");
 
