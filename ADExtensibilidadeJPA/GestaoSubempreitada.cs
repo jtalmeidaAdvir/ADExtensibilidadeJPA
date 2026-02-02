@@ -28,6 +28,7 @@ namespace ADExtensibilidadeJPA
         private string Caminhoequi = "";
         private string Caminhoauto = "";
         private string SerieEqui = "";
+        private string _numPassaporte = "";
         private readonly ErpBS _BSO;
         private readonly StdBSInterfPub _PSO;
         private readonly string _idSelecionado;
@@ -48,13 +49,8 @@ namespace ADExtensibilidadeJPA
             ObterObras();
 
             GetValoresAutorizarObras();
-            _ = InicializarAsync();
-        }
-        private async Task InicializarAsync()
-        {
-            Task tarefaTrabalhadores = Task.Run(() => CarregarTrabalhadores());
-            Task tarefaEquipamentos = Task.Run(() => CarregarEquipamentos());
-            await Task.WhenAll(tarefaTrabalhadores, tarefaEquipamentos);
+            try { CarregarTrabalhadores(); } catch (Exception ex) { MessageBox.Show("Erro ao carregar trabalhadores: " + ex.Message + "\n" + ex.StackTrace); }
+            try { CarregarEquipamentos(); } catch (Exception ex) { MessageBox.Show("Erro ao carregar equipamentos: " + ex.Message + "\n" + ex.StackTrace); }
         }
 
 
@@ -634,6 +630,7 @@ namespace ADExtensibilidadeJPA
             button16.Click += (sender, e) => AnexarDocumentoTrabalhador("FormacaoProfissional");
             button17.Click += (sender, e) => AnexarDocumentoTrabalhador("Trabalhosespecializados");
             button18.Click += (sender, e) => AnexarDocumentoTrabalhador("FichaDistribuicao");
+            buttonPassaporte.Click += (sender, e) => AnexarDocumentoTrabalhador("Passaporte");
             button20.Click += (sender, e) => AnexarDocumentoEquipamento("ConformidadeCE");
             button21.Click += (sender, e) => AnexarDocumentoEquipamento("Decreto-Lei");
             button22.Click += (sender, e) => AnexarDocumentoEquipamento("RegistoManutencao");
@@ -968,12 +965,15 @@ namespace ADExtensibilidadeJPA
                     DateTime dataValidade;
                     string numeroCC = "";
 
+                    bool pedirNumero = (tipoDocumento == "CartaoCidadao" || tipoDocumento == "Passaporte");
+
                     using (Form formValidade = new Form())
                     {
-                        formValidade.Text = tipoDocumento == "CartaoCidadao" ? "Dados do Cartão de Cidadão" : "Data de Validade";
+                        formValidade.Text = tipoDocumento == "CartaoCidadao" ? "Dados do Cartão de Cidadão" :
+                                            tipoDocumento == "Passaporte" ? "Dados do Passaporte" : "Data de Validade";
                         formValidade.StartPosition = FormStartPosition.CenterParent;
                         formValidade.Width = 320;
-                        formValidade.Height = tipoDocumento == "CartaoCidadao" ? 230 : 170;
+                        formValidade.Height = pedirNumero ? 230 : 170;
                         formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
                         formValidade.MaximizeBox = false;
                         formValidade.MinimizeBox = false;
@@ -995,10 +995,10 @@ namespace ADExtensibilidadeJPA
                         formValidade.Controls.Add(dtpValidade);
 
                         TextBox txtNumeroCC = null;
-                        if (tipoDocumento == "CartaoCidadao")
+                        if (pedirNumero)
                         {
                             Label lblNumeroCC = new Label();
-                            lblNumeroCC.Text = "Número do Cartão de Cidadão:";
+                            lblNumeroCC.Text = tipoDocumento == "Passaporte" ? "Número do Passaporte:" : "Número do Cartão de Cidadão:";
                             lblNumeroCC.Left = 20;
                             lblNumeroCC.Top = 90;
                             lblNumeroCC.Width = 250;
@@ -1016,7 +1016,7 @@ namespace ADExtensibilidadeJPA
                         btnOk.Text = "OK";
                         btnOk.DialogResult = DialogResult.OK;
                         btnOk.Left = 110;
-                        btnOk.Top = tipoDocumento == "CartaoCidadao" ? 140 : 80;
+                        btnOk.Top = pedirNumero ? 140 : 80;
 
                         formValidade.Controls.Add(btnOk);
                         formValidade.AcceptButton = btnOk;
@@ -1027,7 +1027,7 @@ namespace ADExtensibilidadeJPA
                         }
 
                         dataValidade = dtpValidade.Value;
-                        if (tipoDocumento == "CartaoCidadao" && txtNumeroCC != null)
+                        if (pedirNumero && txtNumeroCC != null)
                         {
                             numeroCC = txtNumeroCC.Text;
                         }
@@ -1092,7 +1092,7 @@ namespace ADExtensibilidadeJPA
                             {
                                 // Verificar e criar a coluna Nm_CC se não existir
                                 string checkColumnQuery = @"
-                                    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+                                    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
                                                    WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'Nm_CC')
                                     BEGIN
                                         ALTER TABLE TDU_AD_Trabalhadores ADD Nm_CC NVARCHAR(50) NULL
@@ -1101,11 +1101,34 @@ namespace ADExtensibilidadeJPA
 
                                 // Atualizar o número de CC
                                 string updateNumCCQuery = $@"
-                                    UPDATE TDU_AD_Trabalhadores 
+                                    UPDATE TDU_AD_Trabalhadores
                                     SET Nm_CC = '{numeroCC}'
-                                    WHERE contribuinte = '{txt_contribuintetrab.Text}' 
+                                    WHERE contribuinte = '{txt_contribuintetrab.Text}'
                                     AND id_empresa = '{_idSelecionado}'";
                                 _BSO.DSO.ExecuteSQL(updateNumCCQuery);
+                            }
+
+                            // Se for Passaporte, guardar o número e atualizar na base de dados
+                            if (tipoDocumento == "Passaporte" && !string.IsNullOrEmpty(numeroCC))
+                            {
+                                _numPassaporte = numeroCC;
+
+                                // Verificar e criar a coluna NumPassaporte se não existir
+                                string checkColumnQuery = @"
+                                    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+                                                   WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'NumPassaporte')
+                                    BEGIN
+                                        ALTER TABLE TDU_AD_Trabalhadores ADD NumPassaporte NVARCHAR(50) NULL
+                                    END";
+                                _BSO.DSO.ExecuteSQL(checkColumnQuery);
+
+                                // Tentar atualizar (funciona se o registo já existir)
+                                string updateNumPassQuery = $@"
+                                    UPDATE TDU_AD_Trabalhadores
+                                    SET NumPassaporte = '{numeroCC}'
+                                    WHERE contribuinte = '{txt_contribuintetrab.Text}'
+                                    AND id_empresa = '{_idSelecionado}'";
+                                _BSO.DSO.ExecuteSQL(updateNumPassQuery);
                             }
 
                             // Atualizar o checkbox correspondente
@@ -1274,6 +1297,10 @@ namespace ADExtensibilidadeJPA
                     checkBox = checkBox18;
                     nomeDocumento = "FichaDistribuicao";
                     break;
+                case "Passaporte":
+                    checkBox = checkBoxPassaporte;
+                    nomeDocumento = "Passaporte";
+                    break;
             }
 
             // Se encontrou o checkbox, atualiza seu estado e texto
@@ -1317,6 +1344,7 @@ namespace ADExtensibilidadeJPA
                 DateTime dataValidade;
                 string numeroApoliceAt = "";
                 string numeroApoliceRc = "";
+                string numeroAlvara = "";
                 if (tipoDocumento == "AnexoD")
                 {
                     dataValidade = DateTime.Today;
@@ -1405,6 +1433,49 @@ namespace ADExtensibilidadeJPA
                         }
 
                         numeroApoliceAt = txtNumeroApolice.Text;
+                    }
+                }
+                else if (tipoDocumento == "Alvara")
+                {
+                    dataValidade = DateTime.Today;
+                    using (Form formAlvara = new Form())
+                    {
+                        formAlvara.Text = "Número do Alvará";
+                        formAlvara.StartPosition = FormStartPosition.CenterParent;
+                        formAlvara.Width = 320;
+                        formAlvara.Height = 150;
+                        formAlvara.FormBorderStyle = FormBorderStyle.FixedDialog;
+                        formAlvara.MaximizeBox = false;
+                        formAlvara.MinimizeBox = false;
+
+                        Label lblNumAlvara = new Label();
+                        lblNumAlvara.Text = "Número do Alvará:";
+                        lblNumAlvara.Left = 20;
+                        lblNumAlvara.Top = 20;
+                        lblNumAlvara.Width = 250;
+
+                        TextBox txtNumAlvara = new TextBox();
+                        txtNumAlvara.Left = 20;
+                        txtNumAlvara.Top = 50;
+                        txtNumAlvara.Width = 250;
+
+                        Button btnOk = new Button();
+                        btnOk.Text = "OK";
+                        btnOk.DialogResult = DialogResult.OK;
+                        btnOk.Left = 110;
+                        btnOk.Top = 80;
+
+                        formAlvara.Controls.Add(lblNumAlvara);
+                        formAlvara.Controls.Add(txtNumAlvara);
+                        formAlvara.Controls.Add(btnOk);
+                        formAlvara.AcceptButton = btnOk;
+
+                        if (formAlvara.ShowDialog() != DialogResult.OK)
+                        {
+                            return;
+                        }
+
+                        numeroAlvara = txtNumAlvara.Text;
                     }
                 }
                 else
@@ -1544,6 +1615,24 @@ namespace ADExtensibilidadeJPA
                                 SET CDU_NumApoliceAt = '{numeroApoliceAt}'
                                 WHERE ID = '{_idSelecionado}'";
                             _BSO.DSO.ExecuteSQL(updateNumApoliceQuery);
+                        }
+
+                        // Se for Alvará, atualizar o número do Alvará na base de dados
+                        if (tipoDocumento == "Alvara" && !string.IsNullOrEmpty(numeroAlvara))
+                        {
+                            string checkColumnQuery = @"
+                                IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+                                               WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_NumAlvara')
+                                BEGIN
+                                    ALTER TABLE Geral_Entidade ADD CDU_NumAlvara NVARCHAR(50) NULL
+                                END";
+                            _BSO.DSO.ExecuteSQL(checkColumnQuery);
+
+                            string updateNumAlvaraQuery = $@"
+                                UPDATE Geral_Entidade
+                                SET CDU_NumAlvara = '{numeroAlvara}'
+                                WHERE ID = '{_idSelecionado}'";
+                            _BSO.DSO.ExecuteSQL(updateNumAlvaraQuery);
                         }
 
                         // Atualizar o banco de dados ou alguma propriedade para indicar que o documento foi anexado
@@ -2036,15 +2125,19 @@ namespace ADExtensibilidadeJPA
             checkBox16.Checked = false;
             checkBox17.Checked = false;
             checkBox18.Checked = false;
+            checkBoxPassaporte.Checked = false;
 
             checkBox14.Text = "";
             checkBox15.Text = "";
             checkBox16.Text = "";
             checkBox17.Text = "";
             checkBox18.Text = "";
+            checkBoxPassaporte.Text = "";
 
             cb_FormacaoProfissional.SelectedIndex = 0;
             cb_especializados.SelectedIndex = 0;
+            cb_Passaporte.SelectedIndex = 0;
+            _numPassaporte = "";
             txt_contribuintetrab.Enabled = true;
             dtpnascimento.Value = DateTime.Now;
             bt_remover.Visible = false;
@@ -2078,19 +2171,21 @@ namespace ADExtensibilidadeJPA
                 txt_contribuintetrab.Enabled = false;
                 txt_segurancasocialtrab.Text = row.Cells["SSocial"].Value.ToString();
 
-                // Buscar email da base de dados
+                // Buscar email e NumPassaporte da base de dados
                 string contribuinte = row.Cells["Contribuinte"].Value.ToString();
-                string queryEmail = $@"SELECT email FROM TDU_AD_Trabalhadores 
+                string queryEmail = $@"SELECT email, NumPassaporte FROM TDU_AD_Trabalhadores
                                       WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuinte}'";
                 var dadosEmail = _BSO.Consulta(queryEmail);
                 if (dadosEmail.NumLinhas() > 0)
                 {
                     dadosEmail.Inicio();
                     rxt_emailTrabalhador.Text = dadosEmail.DaValor<string>("email") ?? "";
+                    _numPassaporte = dadosEmail.DaValor<string>("NumPassaporte") ?? "";
                 }
                 else
                 {
                     rxt_emailTrabalhador.Text = "";
+                    _numPassaporte = "";
                 }
 
                 checkBox14.Checked = ConvertToBool(row.Cells["AnexoCC"].Value);
@@ -2098,15 +2193,18 @@ namespace ADExtensibilidadeJPA
                 checkBox16.Checked = ConvertToBool(row.Cells["AnexoCT"].Value);
                 checkBox17.Checked = ConvertToBool(row.Cells["AnexoTE"].Value);
                 checkBox18.Checked = ConvertToBool(row.Cells["AnexoEPI"].Value);
+                checkBoxPassaporte.Checked = ConvertToBool(row.Cells["AnexoPass"].Value);
 
                 VerificarEColorirCheckBox(checkBox14, row.Cells["caminho1"].Value);
                 VerificarEColorirCheckBox(checkBox15, row.Cells["caminho2"].Value);
                 VerificarEColorirCheckBox(checkBox16, row.Cells["caminho3"].Value);
                 VerificarEColorirCheckBox(checkBox17, row.Cells["caminho4"].Value);
                 VerificarEColorirCheckBox(checkBox18, row.Cells["caminho5"].Value);
+                VerificarEColorirCheckBox(checkBoxPassaporte, row.Cells["caminhoPassaporte"].Value);
 
                 cb_FormacaoProfissional.Text = row.Cells["CBFormacaoProfissional"].Value.ToString();
                 cb_especializados.Text = row.Cells["CBespecializados"].Value.ToString();
+                cb_Passaporte.Text = row.Cells["CBPassaporte"].Value != null ? row.Cells["CBPassaporte"].Value.ToString() : "NA";
 
                 var datanascimento = row.Cells["DataNasc"].Value.ToString();
                 DateTime dataNasc;
@@ -2198,6 +2296,8 @@ namespace ADExtensibilidadeJPA
 
         private string RestoreSanitizedString(string input)
         {
+            if (string.IsNullOrEmpty(input))
+                return "";
             // Restaurar os caracteres escapados para os seus valores originais
             return input.Replace("&#40;", "(")
                         .Replace("&#41;", ")")
@@ -2353,9 +2453,11 @@ namespace ADExtensibilidadeJPA
             int anexo3 = checkBox16.Checked ? 1 : 0;
             int anexo4 = checkBox17.Checked ? 1 : 0;
             int anexo5 = checkBox18.Checked ? 1 : 0;
+            int anexo6 = checkBoxPassaporte.Checked ? 1 : 0;
 
             var cBFormacaoProfissional = cb_FormacaoProfissional.Text;
             var cBespecializados = cb_especializados.Text;
+            var cBPassaporte = cb_Passaporte.Text;
 
             string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
             var datanasci = $"";
@@ -2383,6 +2485,7 @@ namespace ADExtensibilidadeJPA
                     row.Cells["AnexoCT"].Value = anexo3;
                     row.Cells["AnexoTE"].Value = anexo4;
                     row.Cells["AnexoEPI"].Value = anexo5;
+                    row.Cells["AnexoPass"].Value = anexo6;
 
                     // Atualiza as labels de texto no DataGridView
                     row.Cells["caminho1"].Value = checkBox14.Text;
@@ -2390,9 +2493,11 @@ namespace ADExtensibilidadeJPA
                     row.Cells["caminho3"].Value = checkBox16.Text;
                     row.Cells["caminho4"].Value = checkBox17.Text;
                     row.Cells["caminho5"].Value = checkBox18.Text;
+                    row.Cells["caminhoPassaporte"].Value = checkBoxPassaporte.Text;
 
                     row.Cells["CBFormacaoProfissional"].Value = cBFormacaoProfissional;
                     row.Cells["CBespecializados"].Value = cBespecializados;
+                    row.Cells["CBPassaporte"].Value = cBPassaporte;
 
                     row.Cells["DataNasc"].Value = datanasci;
 
@@ -2404,27 +2509,32 @@ namespace ADExtensibilidadeJPA
             string caminho3 = SanitizeString(checkBox16.Text);
             string caminho4 = SanitizeString(checkBox17.Text);
             string caminho5 = SanitizeString(checkBox18.Text);
+            string caminho6 = SanitizeString(checkBoxPassaporte.Text);
             // Atualiza os dados na base de dados com o filtro no "contribuinte"
             string queryUpdate = $@"
         UPDATE TDU_AD_Trabalhadores
         SET nome = '{nome}',
-            categoria = '{categoriatrab}', 
-            contribuinte = '{contribuintetrab}', 
+            categoria = '{categoriatrab}',
+            contribuinte = '{contribuintetrab}',
             seguranca_social = '{segurancasocialtrab}',
-            email = '{emailTrab}', 
-            anexo1 = {anexo1}, 
-            anexo2 = {anexo2}, 
-            anexo3 = {anexo3}, 
-            anexo4 = {anexo4}, 
+            email = '{emailTrab}',
+            anexo1 = {anexo1},
+            anexo2 = {anexo2},
+            anexo3 = {anexo3},
+            anexo4 = {anexo4},
             anexo5 = {anexo5},
+            anexo6 = {anexo6},
             caminho1 = '{caminho1}',
             caminho2 = '{caminho2}',
             caminho3 = '{caminho3}',
             caminho4 = '{caminho4}',
             caminho5 = '{caminho5}',
+            caminho6 = '{caminho6}',
 
-            cBFormacaoProfissional = '{cBFormacaoProfissional}', 
-            cBespecializados = '{cBespecializados}', 
+            cBFormacaoProfissional = '{cBFormacaoProfissional}',
+            cBespecializados = '{cBespecializados}',
+            cBPassaporte = '{cBPassaporte}',
+            NumPassaporte = '{_numPassaporte}',
 
             data_nascimento = '{datanasci}'
         WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuintetrab}';
@@ -2546,9 +2656,11 @@ namespace ADExtensibilidadeJPA
             bool anexo3 = checkBox16.Checked ? true : false;
             bool anexo4 = checkBox17.Checked ? true : false;
             bool anexo5 = checkBox18.Checked ? true : false;
+            bool anexo6 = checkBoxPassaporte.Checked ? true : false;
 
             var cBFormacaoProfissional = cb_FormacaoProfissional.Text;
             var cBespecializados = cb_especializados.Text;
+            var cBPassaporte = cb_Passaporte.Text;
 
             string dtpnascimento2 = dtpnascimento.Value == DateTime.MinValue ? "NULL" : $"'{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}'";
             var datanasci = $"";
@@ -2574,13 +2686,13 @@ namespace ADExtensibilidadeJPA
                 return; // Se já existe, não prossegue com a inserção
             }
 
-            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, cBFormacaoProfissional, cBespecializados, datanasci);
-            
+            dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, checkBox14.Text, checkBox15.Text, checkBox16.Text, checkBox17.Text, checkBox18.Text, cBFormacaoProfissional, cBespecializados, datanasci, anexo6, checkBoxPassaporte.Text, cBPassaporte);
+
             // Aqui, você pode ocultar a coluna do checkBox Text (opcionalmente)
             int lastColumnIndex = dataGridView1.Columns.Count - 1; // Última coluna (onde você adicionou checkBox14.Text)
             dataGridView1.Columns[lastColumnIndex].Visible = false;
             // adcionar no sql
-  
+
 
             // Fazendo uma substituição para caracteres especiais
             string caminho1 = SanitizeString(checkBox14.Text);
@@ -2588,19 +2700,21 @@ namespace ADExtensibilidadeJPA
             string caminho3 = SanitizeString(checkBox16.Text);
             string caminho4 = SanitizeString(checkBox17.Text);
             string caminho5 = SanitizeString(checkBox18.Text);
+            string caminho6 = SanitizeString(checkBoxPassaporte.Text);
 
             int anexo1int = checkBox14.Checked ? 1 : 0;
             int anexo2int = checkBox15.Checked ? 1 : 0;
             int anexo3int = checkBox16.Checked ? 1 : 0;
             int anexo4int = checkBox17.Checked ? 1 : 0;
             int anexo5int = checkBox18.Checked ? 1 : 0;
+            int anexo6int = checkBoxPassaporte.Checked ? 1 : 0;
 
 
             string query = $@"
-                INSERT INTO TDU_AD_Trabalhadores 
-            (id_empresa, nome, categoria, contribuinte, seguranca_social, email, anexo1, anexo2, anexo3, anexo4, anexo5,caminho1,caminho2,caminho3,caminho4,caminho5,cBFormacaoProfissional,cBespecializados,data_nascimento) 
-            VALUES 
-            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', '{emailTrab}', {anexo1int}, {anexo2int}, {anexo3int}, {anexo4int}, {anexo5int}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}','{cBFormacaoProfissional}','{cBespecializados}','{datanasci}')
+                INSERT INTO TDU_AD_Trabalhadores
+            (id_empresa, nome, categoria, contribuinte, seguranca_social, email, anexo1, anexo2, anexo3, anexo4, anexo5, anexo6, caminho1, caminho2, caminho3, caminho4, caminho5, caminho6, cBFormacaoProfissional, cBespecializados, cBPassaporte, NumPassaporte, data_nascimento)
+            VALUES
+            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', '{emailTrab}', {anexo1int}, {anexo2int}, {anexo3int}, {anexo4int}, {anexo5int}, {anexo6int}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}', '{caminho6}', '{cBFormacaoProfissional}', '{cBespecializados}', '{cBPassaporte}', '{_numPassaporte}', '{datanasci}')
             ";
 
             _BSO.DSO.ExecuteSQL(query);
@@ -2743,24 +2857,27 @@ END
 
             // Consulta para buscar os trabalhadores na base de dados
             var query = $@"
-            SELECT 
-                nome, 
-                categoria, 
-                contribuinte, 
+            SELECT
+                nome,
+                categoria,
+                contribuinte,
                 seguranca_social,
                 email,
-                anexo1, 
-                anexo2, 
-                anexo3, 
-                anexo4, 
+                anexo1,
+                anexo2,
+                anexo3,
+                anexo4,
                 anexo5,
+                anexo6,
                 caminho1,
                 caminho2,
                 caminho3,
                 caminho4,
                 caminho5,
+                caminho6,
                 cBFormacaoProfissional,
                 cBEspecializados,
+                cBPassaporte,
                 data_nascimento
             FROM TDU_AD_Trabalhadores
             WHERE id_empresa = '{_idSelecionado}';
@@ -2770,7 +2887,6 @@ END
             var trabalhadores = _BSO.Consulta(query);
 
             dataGridView1.Rows.Clear();
-
 
             var numtrabalhadores = trabalhadores.NumLinhas();
             trabalhadores.Inicio();
@@ -2782,38 +2898,37 @@ END
                 var segurancasocialtrab = trabalhadores.DaValor<string>("seguranca_social");
                 var email = trabalhadores.DaValor<string>("email"); // Captura o email
                 var anexo1 = trabalhadores.DaValor<bool>("anexo1")? true : false;
-                var anexo2 = trabalhadores.DaValor<bool>("anexo2") ? true : false; 
+                var anexo2 = trabalhadores.DaValor<bool>("anexo2") ? true : false;
                 var anexo3 = trabalhadores.DaValor<bool>("anexo3") ? true : false;
                 var anexo4 = trabalhadores.DaValor<bool>("anexo4") ? true : false;
                 var anexo5 = trabalhadores.DaValor<bool>("anexo5") ? true : false;
+                var anexo6 = trabalhadores.DaValor<bool>("anexo6") ? true : false;
                 var caminho1 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho1"));
                 var caminho2 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho2"));
                 var caminho3 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho3"));
                 var caminho4 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho4"));
                 var caminho5 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho5"));
-
+                var caminho6 = RestoreSanitizedString(trabalhadores.DaValor<string>("caminho6"));
 
                 var cBFormacaoProfissional = trabalhadores.DaValor<string>("cBFormacaoProfissional");
                 var cBespecializados = trabalhadores.DaValor<string>("cBEspecializados");
+                var cBPassaporte = trabalhadores.DaValor<string>("cBPassaporte");
 
                 var datanascimento = trabalhadores.DaValor<string>("data_nascimento");
                 if (trabalhadores.DaValor<string>("data_nascimento").ToString() == "01/01/1753 00:00:00")
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, "");
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, "", anexo6, caminho6, cBPassaporte);
                 }
                 else
                 {
-                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento);
-
+                    dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBFormacaoProfissional, cBespecializados, datanascimento, anexo6, caminho6, cBPassaporte);
                 }
 
-
-
-                //dataGridView1.Rows.Add(nome, categoriatrab, contribuintetrab, segurancasocialtrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5);
                 trabalhadores.Seguinte();
             }
             cb_FormacaoProfissional.SelectedIndex = 0;
             cb_especializados.SelectedIndex = 0;
+            cb_Passaporte.SelectedIndex = 0;
 
 
         }
@@ -2897,8 +3012,7 @@ END
             // Execute a consulta e recupere os dados
             var equipamentos = _BSO.Consulta(query);
 
-            dataGridView1.Rows.Clear();
-
+            dataGridView2.Rows.Clear();
 
             var numtrabalhadores = equipamentos.NumLinhas();
             equipamentos.Inicio();
@@ -2922,7 +3036,6 @@ END
                 var cBManutencao = equipamentos.DaValor<string>("cBManutencao");
                 var cBDecreto_Lei = equipamentos.DaValor<string>("cBDecreto_Lei");
                 var cBConformidadeCE = equipamentos.DaValor<string>("cBConformidadeCE");
-
 
                 dataGridView2.Rows.Add(nome, categoriatrab, contribuintetrab, anexo1, anexo2, anexo3, anexo4, anexo5, caminho1, caminho2, caminho3, caminho4, caminho5, cBSeguro, cBManualInstrucoes, cBManutencao, cBDecreto_Lei, cBConformidadeCE);
                 equipamentos.Seguinte();
@@ -4091,7 +4204,8 @@ END;";
         {"caminho2", "Ficha Medica"},
         {"caminho3", "FormacaoProfissional"},
         {"caminho4", "Trabalhoss especializados"},
-        {"caminho5", "Ficha Destribuiçao"}
+        {"caminho5", "Ficha Destribuiçao"},
+        {"caminho6", "Passaporte"}
     };
 
             // Supondo que tens um campo com o nome ou identificador do trabalhador

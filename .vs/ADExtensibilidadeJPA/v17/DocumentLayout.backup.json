@@ -11,12 +11,16 @@
       "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\quadrocontrolo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\adextensibilidadejpa\\gestaosubempreitada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\gestaosubempreitada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\adextensibilidadejpa\\gestaosubempreitada.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\gestaosubempreitada.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\adextensibilidadejpa\\gestaosubempreitada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\gestaosubempreitada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\adextensibilidadejpa\\gestaosubempreitada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\gestaosubempreitada.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\adextensibilidadejpa\\addlinkform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -42,16 +46,28 @@
               "Title": "QuadroControlo.cs",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\QuadroControlo.cs",
-              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs*",
-              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs*",
-              "ViewState": "AgIAAGkWAAAAAAAAAAAcwH0WAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "ViewState": "AgIAAI0UAAAAAAAAAADwv58UAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-17T14:07:53.138Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "GestaoSubempreitada.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\GestaoSubempreitada.Designer.cs",
+              "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\GestaoSubempreitada.Designer.cs",
+              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\GestaoSubempreitada.Designer.cs",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\GestaoSubempreitada.Designer.cs",
+              "ViewState": "AgIAAJQLAAAAAAAAAAAiwKULAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T09:29:20.041Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "AddLinkForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\AddLinkForm.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\AddLinkForm.cs",
@@ -73,7 +89,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "GestaoSubempreitada.cs",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\GestaoSubempreitada.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\GestaoSubempreitada.cs",

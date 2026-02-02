@@ -86,6 +86,10 @@
             this.label54 = new System.Windows.Forms.Label();
             this.cb_FormacaoProfissional = new System.Windows.Forms.ComboBox();
             this.cb_especializados = new System.Windows.Forms.ComboBox();
+            this.cb_Passaporte = new System.Windows.Forms.ComboBox();
+            this.labelPassaporte = new System.Windows.Forms.Label();
+            this.buttonPassaporte = new System.Windows.Forms.Button();
+            this.checkBoxPassaporte = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.dtpnascimento = new System.Windows.Forms.DateTimePicker();
             this.label28 = new System.Windows.Forms.Label();
@@ -138,6 +142,9 @@
             this.CBFormacaoProfissional = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CBespecializados = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataNasc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnexoPass = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.caminhoPassaporte = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CBPassaporte = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cb_ConformidadeCE = new System.Windows.Forms.ComboBox();
             this.cb_Decreto_Lei = new System.Windows.Forms.ComboBox();
@@ -324,7 +331,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 58);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(718, 617);
+            this.tabControl1.Size = new System.Drawing.Size(718, 647);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -824,6 +831,10 @@
             this.tabPage2.Controls.Add(this.label54);
             this.tabPage2.Controls.Add(this.cb_FormacaoProfissional);
             this.tabPage2.Controls.Add(this.cb_especializados);
+            this.tabPage2.Controls.Add(this.cb_Passaporte);
+            this.tabPage2.Controls.Add(this.labelPassaporte);
+            this.tabPage2.Controls.Add(this.buttonPassaporte);
+            this.tabPage2.Controls.Add(this.checkBoxPassaporte);
             this.tabPage2.Controls.Add(this.checkBox11);
             this.tabPage2.Controls.Add(this.dtpnascimento);
             this.tabPage2.Controls.Add(this.label28);
@@ -862,7 +873,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(710, 591);
+            this.tabPage2.Size = new System.Drawing.Size(710, 621);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Trabalhadores";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -920,7 +931,46 @@
             this.cb_especializados.Name = "cb_especializados";
             this.cb_especializados.Size = new System.Drawing.Size(43, 21);
             this.cb_especializados.TabIndex = 207;
-            // 
+            //
+            // labelPassaporte
+            //
+            this.labelPassaporte.AutoSize = true;
+            this.labelPassaporte.Location = new System.Drawing.Point(6, 531);
+            this.labelPassaporte.Name = "labelPassaporte";
+            this.labelPassaporte.Size = new System.Drawing.Size(62, 13);
+            this.labelPassaporte.TabIndex = 209;
+            this.labelPassaporte.Text = "Passaporte";
+            //
+            // cb_Passaporte
+            //
+            this.cb_Passaporte.FormattingEnabled = true;
+            this.cb_Passaporte.Items.AddRange(new object[] {
+            "NA",
+            "A"});
+            this.cb_Passaporte.Location = new System.Drawing.Point(207, 528);
+            this.cb_Passaporte.Name = "cb_Passaporte";
+            this.cb_Passaporte.Size = new System.Drawing.Size(43, 21);
+            this.cb_Passaporte.TabIndex = 210;
+            //
+            // buttonPassaporte
+            //
+            this.buttonPassaporte.Font = new System.Drawing.Font("Calibri", 9F);
+            this.buttonPassaporte.Location = new System.Drawing.Point(256, 528);
+            this.buttonPassaporte.Name = "buttonPassaporte";
+            this.buttonPassaporte.Size = new System.Drawing.Size(34, 22);
+            this.buttonPassaporte.TabIndex = 211;
+            this.buttonPassaporte.Text = "...";
+            this.buttonPassaporte.UseVisualStyleBackColor = true;
+            //
+            // checkBoxPassaporte
+            //
+            this.checkBoxPassaporte.AutoSize = true;
+            this.checkBoxPassaporte.Location = new System.Drawing.Point(296, 531);
+            this.checkBoxPassaporte.Name = "checkBoxPassaporte";
+            this.checkBoxPassaporte.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxPassaporte.TabIndex = 212;
+            this.checkBoxPassaporte.UseVisualStyleBackColor = true;
+            //
             // checkBox11
             // 
             this.checkBox11.AutoSize = true;
@@ -1207,7 +1257,7 @@
             // 
             // bt_remover
             // 
-            this.bt_remover.Location = new System.Drawing.Point(114, 549);
+            this.bt_remover.Location = new System.Drawing.Point(114, 576);
             this.bt_remover.Name = "bt_remover";
             this.bt_remover.Size = new System.Drawing.Size(75, 38);
             this.bt_remover.TabIndex = 3;
@@ -1218,7 +1268,7 @@
             // 
             // vt_adcionar
             // 
-            this.vt_adcionar.Location = new System.Drawing.Point(16, 549);
+            this.vt_adcionar.Location = new System.Drawing.Point(16, 576);
             this.vt_adcionar.Name = "vt_adcionar";
             this.vt_adcionar.Size = new System.Drawing.Size(92, 38);
             this.vt_adcionar.TabIndex = 2;
@@ -1259,7 +1309,10 @@
             this.caminho5,
             this.CBFormacaoProfissional,
             this.CBespecializados,
-            this.DataNasc});
+            this.DataNasc,
+            this.AnexoPass,
+            this.caminhoPassaporte,
+            this.CBPassaporte});
             this.dataGridView1.Location = new System.Drawing.Point(9, 29);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -1376,7 +1429,27 @@
             this.DataNasc.Name = "DataNasc";
             this.DataNasc.ReadOnly = true;
             this.DataNasc.Visible = false;
-            // 
+            //
+            // AnexoPass
+            //
+            this.AnexoPass.HeaderText = "Anexo Pass.";
+            this.AnexoPass.Name = "AnexoPass";
+            this.AnexoPass.ReadOnly = true;
+            //
+            // caminhoPassaporte
+            //
+            this.caminhoPassaporte.HeaderText = "caminhoPassaporte";
+            this.caminhoPassaporte.Name = "caminhoPassaporte";
+            this.caminhoPassaporte.ReadOnly = true;
+            this.caminhoPassaporte.Visible = false;
+            //
+            // CBPassaporte
+            //
+            this.CBPassaporte.HeaderText = "CBPassaporte";
+            this.CBPassaporte.Name = "CBPassaporte";
+            this.CBPassaporte.ReadOnly = true;
+            this.CBPassaporte.Visible = false;
+            //
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.cb_ConformidadeCE);
@@ -2622,7 +2695,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(741, 687);
+            this.ClientSize = new System.Drawing.Size(741, 717);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lblSelecionar);
             this.Controls.Add(this.TXT_Codigo);
@@ -2898,5 +2971,12 @@
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.TextBox txt_nacionalidade;
         private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.Label labelPassaporte;
+        private System.Windows.Forms.ComboBox cb_Passaporte;
+        private System.Windows.Forms.Button buttonPassaporte;
+        private System.Windows.Forms.CheckBox checkBoxPassaporte;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn AnexoPass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn caminhoPassaporte;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CBPassaporte;
     }
 }

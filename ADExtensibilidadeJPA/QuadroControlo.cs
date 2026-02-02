@@ -261,7 +261,31 @@ BEGIN
 END
 
 
-IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'anexo6')
+BEGIN
+    ALTER TABLE TDU_AD_Trabalhadores ADD anexo6 BIT NULL;
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'caminho6')
+BEGIN
+    ALTER TABLE TDU_AD_Trabalhadores ADD caminho6 NVARCHAR(255) NULL;
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'cBPassaporte')
+BEGIN
+    ALTER TABLE TDU_AD_Trabalhadores ADD cBPassaporte NVARCHAR(50) NULL;
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'NumPassaporte')
+BEGIN
+    ALTER TABLE TDU_AD_Trabalhadores ADD NumPassaporte NVARCHAR(50) NULL;
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
                WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_Link')
 BEGIN
     -- Caso a coluna não exista, cria a coluna CDU_Link com o tipo nvarchar(max)
@@ -1404,7 +1428,8 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
         {"caminho2", "Ficha Medica"},
         {"caminho3", "Credenciacao"},
         {"caminho4", "Trabalhoss especializados"},
-        {"caminho5", "Ficha Destribuiçao"}
+        {"caminho5", "Ficha Destribuiçao"},
+        {"caminho6", "Passaporte"}
     };
 
             // Supondo que tens um campo com o nome ou identificador do trabalhador
@@ -4202,30 +4227,34 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
 SELECT 
     f.*, 
     p.Descricao AS ProfissaoDescricao,
-    AMF.Actividade,
+    AMF_Recent.Actividade,
     A.Accao,
     A.Descricao AS AccaoDescricao,
-    AMF.Data AS DataAtividade,
+    AMF_Recent.Data AS DataAtividade,
     AM.Estado
-FROM COP_Obras o
-JOIN COP_Obras_Pessoal op 
-    ON op.obraId = o.id
-JOIN GPR_Operadores g 
-    ON g.idOperador = op.colaboradorID
-JOIN Funcionarios f 
-    ON f.codigo = g.Operador
-LEFT JOIN Profissoes p 
-    ON f.Profissao = p.Profissao
-LEFT JOIN ActividadesMedicasFunc AMF 
-    ON AMF.Funcionario = f.Codigo
-LEFT JOIN ActividadesMedicas AM 
-    ON AM.Actividade = AMF.Actividade
-LEFT JOIN AccoesMedicas A 
-    ON A.Accao = AM.Accao
-WHERE 
-    o.Codigo = '{codigoObra}'
-    AND (AM.Estado IN (0, 1) OR AM.Estado IS NULL)
-    AND (AMF.Data IS NULL OR DATEDIFF(DAY, AMF.Data, GETDATE()) <= 0);
+FROM (
+    SELECT 
+        f.*,
+        ROW_NUMBER() OVER (PARTITION BY f.Codigo ORDER BY f.Codigo) as rn
+    FROM COP_Obras o
+    LEFT JOIN COP_Obras_Pessoal op ON op.obraId = o.id
+    LEFT JOIN GPR_Operadores g ON g.idOperador = op.colaboradorID
+    LEFT JOIN Funcionarios f ON f.codigo = g.Operador
+    WHERE o.Codigo = '24.2738'
+) f
+LEFT JOIN Profissoes p ON f.Profissao = p.Profissao
+LEFT JOIN (
+    SELECT 
+        Funcionario,
+        Actividade,
+        Data,
+        ROW_NUMBER() OVER (PARTITION BY Funcionario ORDER BY Data DESC) as rn
+    FROM ActividadesMedicasFunc
+) AMF_Recent ON AMF_Recent.Funcionario = f.Codigo AND AMF_Recent.rn = 1
+LEFT JOIN ActividadesMedicas AM ON AM.Actividade = AMF_Recent.Actividade
+LEFT JOIN AccoesMedicas A ON A.Accao = AM.Accao
+WHERE f.rn = 1
+ORDER BY f.Nome
 
 ;";
                 var dadosTrabalhadores = BSO.Consulta(queryObraPAITrabalhadores);
@@ -5251,7 +5280,7 @@ WHERE
                     var rSedeJPA = ws2.Range[ws2.Cells[16, 3], ws2.Cells[16, 5]];
                     rSedeJPA.Merge();
                     ws2.Cells[16, 6] = dadosEntidade.DaValor<string>("NIPC");
-                    ws2.Cells[16, 7] = dadosEntidade.DaValor<string>("AlvaraNumero");
+                    ws2.Cells[16, 7] = dadosEntidade.DaValor<string>("CDU_NumAlvara");
                     ws2.Cells[16, 8] = "PAR";
 
 
@@ -5762,14 +5791,18 @@ WHERE
                         ws2.Cells[linhaAtual, 13] = string.IsNullOrWhiteSpace(valorCaminho5) ? "N/C" : "C";
 
 
-                        ws2.Cells[linhaAtual, 14] = ""; // Consta no Mapa  SS / Inscrito?
-                        ws2.Cells[linhaAtual, 15] = ""; // Admissão na SS (caso não conste no Mapa da SS)
-                        ws2.Cells[linhaAtual, 16] = ""; // Admissão na SS (caso não conste no Mapa da SS)
-                        ws2.Cells[linhaAtual, 17] = ""; // Passaporte c/visto / Titulo de Residência
-                        ws2.Cells[linhaAtual, 18] = ""; // Validade
-                        ws2.Cells[linhaAtual, 19] = ""; // Data
-                        ws2.Cells[linhaAtual, 20] = ""; // Acolhimento
-                        ws2.Cells[linhaAtual, 21] = ""; // Específica 1
+                        ws2.Cells[linhaAtual, 14] = ""; 
+                        ws2.Cells[linhaAtual, 15] = ""; 
+
+                        ws2.Cells[linhaAtual, 16] = "";
+                        string numPassaporte = dadosTrabalhadoresEntidades.DaValor<string>("NumPassaporte");
+                        string caminho6 = dadosTrabalhadoresEntidades.DaValor<string>("caminho6");
+                        Match matchPass = Regex.Match(caminho6 ?? "", @"\d{2}/\d{2}/\d{4}");
+                        ws2.Cells[linhaAtual, 17] = string.IsNullOrWhiteSpace(numPassaporte) ? "" : "Passaporte";
+                        ws2.Cells[linhaAtual, 18] = numPassaporte ?? "";
+                        ws2.Cells[linhaAtual, 19] = matchPass.Success ? matchPass.Value : ""; 
+                        ws2.Cells[linhaAtual, 20] = ""; 
+                        ws2.Cells[linhaAtual, 21] = ""; 
                         ws2.Cells[linhaAtual, 22] = ""; // Específica 2
                         ws2.Cells[linhaAtual, 23] = ""; // Específica 3
                         ws2.Cells[linhaAtual, 24] = ""; // 1.º Aviso
