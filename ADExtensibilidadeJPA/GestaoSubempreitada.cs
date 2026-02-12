@@ -29,6 +29,7 @@ namespace ADExtensibilidadeJPA
         private string Caminhoauto = "";
         private string SerieEqui = "";
         private string _numPassaporte = "";
+        private string _contribuinteOriginal = "";
         private readonly ErpBS _BSO;
         private readonly StdBSInterfPub _PSO;
         private readonly string _idSelecionado;
@@ -106,7 +107,36 @@ namespace ADExtensibilidadeJPA
                         SeguroUpdateCheckboxFromDB(checkBox5, dados, "CDU_AnexoReciboSeguroAT", "Seguro AT", "CDU_ValidadeReciboSeguroAT");
                         SeguroUpdateCheckboxFromDB(checkBox6, dados, "CDU_AnexoSeguroRC", "Seguro RC", "CDU_ValidadeSeguroRC");
                         SeguroUpdateCheckboxFromDB(checkBox8, dados, "CDU_AnexoSeguroAT", "Condições Seguro AT", "CDU_ValidadeSeguroAT");
-                        SeguroUpdateCheckboxFromDB(checkBox9, dados, "CDU_AnexoAlvara", "Alvará", "CDU_ValidadeAlvara");
+                        // Alvará: mostrar apenas o estado (sem data de validade, pois é um número fixo)
+                        try
+                        {
+                            var valorAlvara = dados.Valor("CDU_AnexoAlvara");
+                            int anexadoAlvara = 0;
+                            if (valorAlvara is bool bAlv) anexadoAlvara = bAlv ? 1 : 0;
+                            else if (valorAlvara is int iAlv) anexadoAlvara = iAlv;
+                            else if (valorAlvara != null) anexadoAlvara = 1;
+
+                            if (anexadoAlvara == 1)
+                            {
+                                checkBox9.Checked = true;
+                                checkBox9.Enabled = true;
+                                checkBox9.Text = "Alvará";
+                                checkBox9.ForeColor = SystemColors.ControlText;
+                            }
+                            else
+                            {
+                                checkBox9.Text = "Alvará";
+                                checkBox9.Checked = false;
+                                checkBox9.ForeColor = SystemColors.ControlText;
+                            }
+                            checkBox9.AutoSize = true;
+                        }
+                        catch
+                        {
+                            checkBox9.Text = "Alvará";
+                            checkBox9.ForeColor = SystemColors.ControlText;
+                            checkBox9.AutoSize = true;
+                        }
                         SeguroUpdateCheckboxFromDB(checkBox10, dados, "CDU_AnexoCertidaoPermanente", "Certidão Permanente", "CDU_ValidadeCertidaoPermanente");
                         SeguroUpdateCheckboxFromDB(checkBox13, dados, "CDU_AnexoSeguroResposabilidadeCivil", "Condições Seguro RC", "CDU_ValidadeSeguroResposabilidadeCivil");
                         SeguroUpdateCheckboxFromDB(checkBox28, dados, "CDU_AnexoAnexoD", "AnexoD", "CDU_ValidadeAnexoD");
@@ -1352,130 +1382,178 @@ namespace ADExtensibilidadeJPA
                 else if (tipoDocumento == "SeguroResposabilidadeCivil")
                 {
                     dataValidade = DateTime.Today;
-                    using (Form formApolice = new Form())
+                    // Verificar se já existe número de apólice RC na base de dados
+                    try
                     {
-                        formApolice.Text = "Número da Apólice RC";
-                        formApolice.StartPosition = FormStartPosition.CenterParent;
-                        formApolice.Width = 320;
-                        formApolice.Height = 150;
-                        formApolice.FormBorderStyle = FormBorderStyle.FixedDialog;
-                        formApolice.MaximizeBox = false;
-                        formApolice.MinimizeBox = false;
-
-                        Label lblNumeroApolice = new Label();
-                        lblNumeroApolice.Text = "Número da Apólice RC:";
-                        lblNumeroApolice.Left = 20;
-                        lblNumeroApolice.Top = 20;
-                        lblNumeroApolice.Width = 250;
-
-                        TextBox txtNumeroApolice = new TextBox();
-                        txtNumeroApolice.Left = 20;
-                        txtNumeroApolice.Top = 50;
-                        txtNumeroApolice.Width = 250;
-
-                        Button btnOk = new Button();
-                        btnOk.Text = "OK";
-                        btnOk.DialogResult = DialogResult.OK;
-                        btnOk.Left = 110;
-                        btnOk.Top = 80;
-
-                        formApolice.Controls.Add(lblNumeroApolice);
-                        formApolice.Controls.Add(txtNumeroApolice);
-                        formApolice.Controls.Add(btnOk);
-                        formApolice.AcceptButton = btnOk;
-
-                        if (formApolice.ShowDialog() != DialogResult.OK)
+                        string checkQuery = $"SELECT CDU_NumApoliceRc FROM Geral_Entidade WHERE ID = '{_idSelecionado}'";
+                        var resultado = _BSO.Consulta(checkQuery);
+                        if (resultado != null && resultado.NumLinhas() > 0)
                         {
-                            return; // Usuário cancelou
+                            resultado.Inicio();
+                            numeroApoliceRc = resultado.DaValor<string>("CDU_NumApoliceRc") ?? "";
                         }
+                    }
+                    catch { }
 
-                        numeroApoliceRc = txtNumeroApolice.Text;
+                    if (string.IsNullOrEmpty(numeroApoliceRc))
+                    {
+                        using (Form formApolice = new Form())
+                        {
+                            formApolice.Text = "Número da Apólice RC";
+                            formApolice.StartPosition = FormStartPosition.CenterParent;
+                            formApolice.Width = 320;
+                            formApolice.Height = 150;
+                            formApolice.FormBorderStyle = FormBorderStyle.FixedDialog;
+                            formApolice.MaximizeBox = false;
+                            formApolice.MinimizeBox = false;
+
+                            Label lblNumeroApolice = new Label();
+                            lblNumeroApolice.Text = "Número da Apólice RC:";
+                            lblNumeroApolice.Left = 20;
+                            lblNumeroApolice.Top = 20;
+                            lblNumeroApolice.Width = 250;
+
+                            TextBox txtNumeroApolice = new TextBox();
+                            txtNumeroApolice.Left = 20;
+                            txtNumeroApolice.Top = 50;
+                            txtNumeroApolice.Width = 250;
+
+                            Button btnOk = new Button();
+                            btnOk.Text = "OK";
+                            btnOk.DialogResult = DialogResult.OK;
+                            btnOk.Left = 110;
+                            btnOk.Top = 80;
+
+                            formApolice.Controls.Add(lblNumeroApolice);
+                            formApolice.Controls.Add(txtNumeroApolice);
+                            formApolice.Controls.Add(btnOk);
+                            formApolice.AcceptButton = btnOk;
+
+                            if (formApolice.ShowDialog() != DialogResult.OK)
+                            {
+                                return;
+                            }
+
+                            numeroApoliceRc = txtNumeroApolice.Text;
+                        }
                     }
                 }
                 else if (tipoDocumento == "SeguroAT")
                 {
                     dataValidade = DateTime.Today;
-                    using (Form formApolice = new Form())
+                    // Verificar se já existe número de apólice AT na base de dados
+                    try
                     {
-                        formApolice.Text = "Número da Apólice AT";
-                        formApolice.StartPosition = FormStartPosition.CenterParent;
-                        formApolice.Width = 320;
-                        formApolice.Height = 150;
-                        formApolice.FormBorderStyle = FormBorderStyle.FixedDialog;
-                        formApolice.MaximizeBox = false;
-                        formApolice.MinimizeBox = false;
-
-                        Label lblNumeroApolice = new Label();
-                        lblNumeroApolice.Text = "Número da Apólice AT:";
-                        lblNumeroApolice.Left = 20;
-                        lblNumeroApolice.Top = 20;
-                        lblNumeroApolice.Width = 250;
-
-                        TextBox txtNumeroApolice = new TextBox();
-                        txtNumeroApolice.Left = 20;
-                        txtNumeroApolice.Top = 50;
-                        txtNumeroApolice.Width = 250;
-
-                        Button btnOk = new Button();
-                        btnOk.Text = "OK";
-                        btnOk.DialogResult = DialogResult.OK;
-                        btnOk.Left = 110;
-                        btnOk.Top = 80;
-
-                        formApolice.Controls.Add(lblNumeroApolice);
-                        formApolice.Controls.Add(txtNumeroApolice);
-                        formApolice.Controls.Add(btnOk);
-                        formApolice.AcceptButton = btnOk;
-
-                        if (formApolice.ShowDialog() != DialogResult.OK)
+                        string checkQuery = $"SELECT CDU_NumApoliceAt FROM Geral_Entidade WHERE ID = '{_idSelecionado}'";
+                        var resultado = _BSO.Consulta(checkQuery);
+                        if (resultado != null && resultado.NumLinhas() > 0)
                         {
-                            return; // Usuário cancelou
+                            resultado.Inicio();
+                            numeroApoliceAt = resultado.DaValor<string>("CDU_NumApoliceAt") ?? "";
                         }
+                    }
+                    catch { }
 
-                        numeroApoliceAt = txtNumeroApolice.Text;
+                    if (string.IsNullOrEmpty(numeroApoliceAt))
+                    {
+                        using (Form formApolice = new Form())
+                        {
+                            formApolice.Text = "Número da Apólice AT";
+                            formApolice.StartPosition = FormStartPosition.CenterParent;
+                            formApolice.Width = 320;
+                            formApolice.Height = 150;
+                            formApolice.FormBorderStyle = FormBorderStyle.FixedDialog;
+                            formApolice.MaximizeBox = false;
+                            formApolice.MinimizeBox = false;
+
+                            Label lblNumeroApolice = new Label();
+                            lblNumeroApolice.Text = "Número da Apólice AT:";
+                            lblNumeroApolice.Left = 20;
+                            lblNumeroApolice.Top = 20;
+                            lblNumeroApolice.Width = 250;
+
+                            TextBox txtNumeroApolice = new TextBox();
+                            txtNumeroApolice.Left = 20;
+                            txtNumeroApolice.Top = 50;
+                            txtNumeroApolice.Width = 250;
+
+                            Button btnOk = new Button();
+                            btnOk.Text = "OK";
+                            btnOk.DialogResult = DialogResult.OK;
+                            btnOk.Left = 110;
+                            btnOk.Top = 80;
+
+                            formApolice.Controls.Add(lblNumeroApolice);
+                            formApolice.Controls.Add(txtNumeroApolice);
+                            formApolice.Controls.Add(btnOk);
+                            formApolice.AcceptButton = btnOk;
+
+                            if (formApolice.ShowDialog() != DialogResult.OK)
+                            {
+                                return;
+                            }
+
+                            numeroApoliceAt = txtNumeroApolice.Text;
+                        }
                     }
                 }
                 else if (tipoDocumento == "Alvara")
                 {
                     dataValidade = DateTime.Today;
-                    using (Form formAlvara = new Form())
+                    // Verificar se já existe número do alvará na base de dados
+                    try
                     {
-                        formAlvara.Text = "Número do Alvará";
-                        formAlvara.StartPosition = FormStartPosition.CenterParent;
-                        formAlvara.Width = 320;
-                        formAlvara.Height = 150;
-                        formAlvara.FormBorderStyle = FormBorderStyle.FixedDialog;
-                        formAlvara.MaximizeBox = false;
-                        formAlvara.MinimizeBox = false;
-
-                        Label lblNumAlvara = new Label();
-                        lblNumAlvara.Text = "Número do Alvará:";
-                        lblNumAlvara.Left = 20;
-                        lblNumAlvara.Top = 20;
-                        lblNumAlvara.Width = 250;
-
-                        TextBox txtNumAlvara = new TextBox();
-                        txtNumAlvara.Left = 20;
-                        txtNumAlvara.Top = 50;
-                        txtNumAlvara.Width = 250;
-
-                        Button btnOk = new Button();
-                        btnOk.Text = "OK";
-                        btnOk.DialogResult = DialogResult.OK;
-                        btnOk.Left = 110;
-                        btnOk.Top = 80;
-
-                        formAlvara.Controls.Add(lblNumAlvara);
-                        formAlvara.Controls.Add(txtNumAlvara);
-                        formAlvara.Controls.Add(btnOk);
-                        formAlvara.AcceptButton = btnOk;
-
-                        if (formAlvara.ShowDialog() != DialogResult.OK)
+                        string checkQuery = $"SELECT CDU_NumAlvara FROM Geral_Entidade WHERE ID = '{_idSelecionado}'";
+                        var resultado = _BSO.Consulta(checkQuery);
+                        if (resultado != null && resultado.NumLinhas() > 0)
                         {
-                            return;
+                            resultado.Inicio();
+                            numeroAlvara = resultado.DaValor<string>("CDU_NumAlvara") ?? "";
                         }
+                    }
+                    catch { }
 
-                        numeroAlvara = txtNumAlvara.Text;
+                    if (string.IsNullOrEmpty(numeroAlvara))
+                    {
+                        using (Form formAlvara = new Form())
+                        {
+                            formAlvara.Text = "Número do Alvará";
+                            formAlvara.StartPosition = FormStartPosition.CenterParent;
+                            formAlvara.Width = 320;
+                            formAlvara.Height = 150;
+                            formAlvara.FormBorderStyle = FormBorderStyle.FixedDialog;
+                            formAlvara.MaximizeBox = false;
+                            formAlvara.MinimizeBox = false;
+
+                            Label lblNumAlvara = new Label();
+                            lblNumAlvara.Text = "Número do Alvará:";
+                            lblNumAlvara.Left = 20;
+                            lblNumAlvara.Top = 20;
+                            lblNumAlvara.Width = 250;
+
+                            TextBox txtNumAlvara = new TextBox();
+                            txtNumAlvara.Left = 20;
+                            txtNumAlvara.Top = 50;
+                            txtNumAlvara.Width = 250;
+
+                            Button btnOk = new Button();
+                            btnOk.Text = "OK";
+                            btnOk.DialogResult = DialogResult.OK;
+                            btnOk.Left = 110;
+                            btnOk.Top = 80;
+
+                            formAlvara.Controls.Add(lblNumAlvara);
+                            formAlvara.Controls.Add(txtNumAlvara);
+                            formAlvara.Controls.Add(btnOk);
+                            formAlvara.AcceptButton = btnOk;
+
+                            if (formAlvara.ShowDialog() != DialogResult.OK)
+                            {
+                                return;
+                            }
+
+                            numeroAlvara = txtNumAlvara.Text;
+                        }
                     }
                 }
                 else
@@ -1717,11 +1795,13 @@ namespace ADExtensibilidadeJPA
                     nomeDocumento = "AnexoD";
                     break;
             }
-            if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil" || tipoDocumento == "AnexoD")
+            if (tipoDocumento == "SeguroAT" || tipoDocumento == "SeguroResposabilidadeCivil" || tipoDocumento == "AnexoD" || tipoDocumento == "Alvara")
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
                 checkBox.Text = $"{nomeDocumento}";
+                checkBox.ForeColor = SystemColors.ControlText;
+                checkBox.AutoSize = true;
             }
             else
             {
@@ -2119,6 +2199,7 @@ namespace ADExtensibilidadeJPA
             txt_contribuintetrab.Text = "";
             txt_segurancasocialtrab.Text = "";
             rxt_emailTrabalhador.Text = "";
+            txt_nacionalidade.Text = "";
 
             checkBox14.Checked = false;
             checkBox15.Checked = false;
@@ -2138,6 +2219,7 @@ namespace ADExtensibilidadeJPA
             cb_especializados.SelectedIndex = 0;
             cb_Passaporte.SelectedIndex = 0;
             _numPassaporte = "";
+            _contribuinteOriginal = "";
             txt_contribuintetrab.Enabled = true;
             dtpnascimento.Value = DateTime.Now;
             bt_remover.Visible = false;
@@ -2167,13 +2249,13 @@ namespace ADExtensibilidadeJPA
                 txt_nometrab.Text = row.Cells["Nome"].Value.ToString();
                 txt_categoriatrab.Text = row.Cells["Categoria"].Value.ToString();
                 txt_contribuintetrab.Text = row.Cells["Contribuinte"].Value.ToString();
-
-                txt_contribuintetrab.Enabled = false;
+                _contribuinteOriginal = txt_contribuintetrab.Text;
+                txt_contribuintetrab.Enabled = true;
                 txt_segurancasocialtrab.Text = row.Cells["SSocial"].Value.ToString();
 
                 // Buscar email e NumPassaporte da base de dados
                 string contribuinte = row.Cells["Contribuinte"].Value.ToString();
-                string queryEmail = $@"SELECT email, NumPassaporte FROM TDU_AD_Trabalhadores
+                string queryEmail = $@"SELECT email, NumPassaporte, nacionalidade FROM TDU_AD_Trabalhadores
                                       WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuinte}'";
                 var dadosEmail = _BSO.Consulta(queryEmail);
                 if (dadosEmail.NumLinhas() > 0)
@@ -2181,11 +2263,13 @@ namespace ADExtensibilidadeJPA
                     dadosEmail.Inicio();
                     rxt_emailTrabalhador.Text = dadosEmail.DaValor<string>("email") ?? "";
                     _numPassaporte = dadosEmail.DaValor<string>("NumPassaporte") ?? "";
+                    txt_nacionalidade.Text = dadosEmail.DaValor<string>("nacionalidade") ?? "";
                 }
                 else
                 {
                     rxt_emailTrabalhador.Text = "";
                     _numPassaporte = "";
+                    txt_nacionalidade.Text = "";
                 }
 
                 checkBox14.Checked = ConvertToBool(row.Cells["AnexoCC"].Value);
@@ -2448,6 +2532,7 @@ namespace ADExtensibilidadeJPA
             string contribuintetrab = txt_contribuintetrab.Text;
             string segurancasocialtrab = txt_segurancasocialtrab.Text;
             string emailTrab = rxt_emailTrabalhador.Text;
+            string nacionalidadeTrab = txt_nacionalidade.Text;
             int anexo1 = checkBox14.Checked ? 1 : 0;
             int anexo2 = checkBox15.Checked ? 1 : 0;
             int anexo3 = checkBox16.Checked ? 1 : 0;
@@ -2470,14 +2555,18 @@ namespace ADExtensibilidadeJPA
             {
                 datanasci = $"{dtpnascimento.Value:yyyy-MM-dd HH:mm:ss}";
             }
+            // Usar o contribuinte original para encontrar o registo a atualizar
+            string contribuinteWhere = !string.IsNullOrEmpty(_contribuinteOriginal) ? _contribuinteOriginal : contribuintetrab;
+
             // Encontre a linha selecionada no DataGridView para atualização, usando o 'contribuinte' como filtro
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.Cells["contribuinte"].Value != null && row.Cells["contribuinte"].Value.ToString() == contribuintetrab) // Verifica o contribuinte
+                if (row.Cells["contribuinte"].Value != null && row.Cells["contribuinte"].Value.ToString() == contribuinteWhere) // Verifica o contribuinte
                 {
                     // Atualiza os valores na linha
                     row.Cells["nome"].Value = nome;
                     row.Cells["categoria"].Value = categoriatrab;
+                    row.Cells["Contribuinte"].Value = contribuintetrab;
                     row.Cells["SSocial"].Value = segurancasocialtrab;
 
                     row.Cells["AnexoCC"].Value = anexo1;
@@ -2536,8 +2625,9 @@ namespace ADExtensibilidadeJPA
             cBPassaporte = '{cBPassaporte}',
             NumPassaporte = '{_numPassaporte}',
 
-            data_nascimento = '{datanasci}'
-        WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuintetrab}';
+            data_nascimento = '{datanasci}',
+            nacionalidade = '{nacionalidadeTrab}'
+        WHERE id_empresa = '{_idSelecionado}' AND contribuinte = '{contribuinteWhere}';
     ";
 
             // Executa a query de atualização no banco de dados
@@ -2651,6 +2741,7 @@ namespace ADExtensibilidadeJPA
             string contribuintetrab = txt_contribuintetrab.Text;
             string segurancasocialtrab = txt_segurancasocialtrab.Text;
             string emailTrab = rxt_emailTrabalhador.Text;
+            string nacionalidadeTrab = txt_nacionalidade.Text;
             bool anexo1 = checkBox14.Checked ? true : false;
             bool anexo2 = checkBox15.Checked ? true : false;
             bool anexo3 = checkBox16.Checked ? true : false;
@@ -2712,9 +2803,9 @@ namespace ADExtensibilidadeJPA
 
             string query = $@"
                 INSERT INTO TDU_AD_Trabalhadores
-            (id_empresa, nome, categoria, contribuinte, seguranca_social, email, anexo1, anexo2, anexo3, anexo4, anexo5, anexo6, caminho1, caminho2, caminho3, caminho4, caminho5, caminho6, cBFormacaoProfissional, cBespecializados, cBPassaporte, NumPassaporte, data_nascimento)
+            (id_empresa, nome, categoria, contribuinte, seguranca_social, email, anexo1, anexo2, anexo3, anexo4, anexo5, anexo6, caminho1, caminho2, caminho3, caminho4, caminho5, caminho6, cBFormacaoProfissional, cBespecializados, cBPassaporte, NumPassaporte, data_nascimento, nacionalidade)
             VALUES
-            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', '{emailTrab}', {anexo1int}, {anexo2int}, {anexo3int}, {anexo4int}, {anexo5int}, {anexo6int}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}', '{caminho6}', '{cBFormacaoProfissional}', '{cBespecializados}', '{cBPassaporte}', '{_numPassaporte}', '{datanasci}')
+            ('{_idSelecionado}', '{nome}', '{categoriatrab}', '{contribuintetrab}', '{segurancasocialtrab}', '{emailTrab}', {anexo1int}, {anexo2int}, {anexo3int}, {anexo4int}, {anexo5int}, {anexo6int}, '{caminho1}', '{caminho2}', '{caminho3}', '{caminho4}', '{caminho5}', '{caminho6}', '{cBFormacaoProfissional}', '{cBespecializados}', '{cBPassaporte}', '{_numPassaporte}', '{datanasci}', '{nacionalidadeTrab}')
             ";
 
             _BSO.DSO.ExecuteSQL(query);

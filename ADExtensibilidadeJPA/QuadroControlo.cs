@@ -286,6 +286,12 @@ BEGIN
 END
 
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'TDU_AD_Trabalhadores' AND COLUMN_NAME = 'nacionalidade')
+BEGIN
+    ALTER TABLE TDU_AD_Trabalhadores ADD nacionalidade NVARCHAR(255) NULL;
+END
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS
                WHERE TABLE_NAME = 'Geral_Entidade' AND COLUMN_NAME = 'CDU_Link')
 BEGIN
     -- Caso a coluna não exista, cria a coluna CDU_Link com o tipo nvarchar(max)

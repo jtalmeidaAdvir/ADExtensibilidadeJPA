@@ -341,7 +341,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(710, 591);
+            this.tabPage1.Size = new System.Drawing.Size(710, 621);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Empresa";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -931,18 +931,9 @@
             this.cb_especializados.Name = "cb_especializados";
             this.cb_especializados.Size = new System.Drawing.Size(43, 21);
             this.cb_especializados.TabIndex = 207;
-            //
-            // labelPassaporte
-            //
-            this.labelPassaporte.AutoSize = true;
-            this.labelPassaporte.Location = new System.Drawing.Point(6, 531);
-            this.labelPassaporte.Name = "labelPassaporte";
-            this.labelPassaporte.Size = new System.Drawing.Size(62, 13);
-            this.labelPassaporte.TabIndex = 209;
-            this.labelPassaporte.Text = "Passaporte";
-            //
+            // 
             // cb_Passaporte
-            //
+            // 
             this.cb_Passaporte.FormattingEnabled = true;
             this.cb_Passaporte.Items.AddRange(new object[] {
             "NA",
@@ -951,9 +942,18 @@
             this.cb_Passaporte.Name = "cb_Passaporte";
             this.cb_Passaporte.Size = new System.Drawing.Size(43, 21);
             this.cb_Passaporte.TabIndex = 210;
-            //
+            // 
+            // labelPassaporte
+            // 
+            this.labelPassaporte.AutoSize = true;
+            this.labelPassaporte.Location = new System.Drawing.Point(6, 531);
+            this.labelPassaporte.Name = "labelPassaporte";
+            this.labelPassaporte.Size = new System.Drawing.Size(60, 13);
+            this.labelPassaporte.TabIndex = 209;
+            this.labelPassaporte.Text = "Passaporte";
+            // 
             // buttonPassaporte
-            //
+            // 
             this.buttonPassaporte.Font = new System.Drawing.Font("Calibri", 9F);
             this.buttonPassaporte.Location = new System.Drawing.Point(256, 528);
             this.buttonPassaporte.Name = "buttonPassaporte";
@@ -961,16 +961,16 @@
             this.buttonPassaporte.TabIndex = 211;
             this.buttonPassaporte.Text = "...";
             this.buttonPassaporte.UseVisualStyleBackColor = true;
-            //
+            // 
             // checkBoxPassaporte
-            //
+            // 
             this.checkBoxPassaporte.AutoSize = true;
             this.checkBoxPassaporte.Location = new System.Drawing.Point(296, 531);
             this.checkBoxPassaporte.Name = "checkBoxPassaporte";
             this.checkBoxPassaporte.Size = new System.Drawing.Size(15, 14);
             this.checkBoxPassaporte.TabIndex = 212;
             this.checkBoxPassaporte.UseVisualStyleBackColor = true;
-            //
+            // 
             // checkBox11
             // 
             this.checkBox11.AutoSize = true;
@@ -1001,7 +1001,7 @@
             // 
             // button28
             // 
-            this.button28.Location = new System.Drawing.Point(195, 549);
+            this.button28.Location = new System.Drawing.Point(195, 576);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(75, 38);
             this.button28.TabIndex = 203;
@@ -1429,27 +1429,27 @@
             this.DataNasc.Name = "DataNasc";
             this.DataNasc.ReadOnly = true;
             this.DataNasc.Visible = false;
-            //
+            // 
             // AnexoPass
-            //
+            // 
             this.AnexoPass.HeaderText = "Anexo Pass.";
             this.AnexoPass.Name = "AnexoPass";
             this.AnexoPass.ReadOnly = true;
-            //
+            // 
             // caminhoPassaporte
-            //
+            // 
             this.caminhoPassaporte.HeaderText = "caminhoPassaporte";
             this.caminhoPassaporte.Name = "caminhoPassaporte";
             this.caminhoPassaporte.ReadOnly = true;
             this.caminhoPassaporte.Visible = false;
-            //
+            // 
             // CBPassaporte
-            //
+            // 
             this.CBPassaporte.HeaderText = "CBPassaporte";
             this.CBPassaporte.Name = "CBPassaporte";
             this.CBPassaporte.ReadOnly = true;
             this.CBPassaporte.Visible = false;
-            //
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.cb_ConformidadeCE);
@@ -1490,7 +1490,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(710, 591);
+            this.tabPage3.Size = new System.Drawing.Size(710, 621);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Equipamentos";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -2006,7 +2006,7 @@
             this.tabPage4.Controls.Add(this.label38);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(710, 591);
+            this.tabPage4.Size = new System.Drawing.Size(710, 621);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Autorizar Entrada Em Obra";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -2424,7 +2424,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(710, 591);
+            this.tabPage5.Size = new System.Drawing.Size(710, 621);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Link";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2473,7 +2473,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(710, 591);
+            this.tabPage6.Size = new System.Drawing.Size(710, 621);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Opções";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -2607,7 +2607,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(710, 591);
+            this.tabPage7.Size = new System.Drawing.Size(710, 621);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Alertas";
             this.tabPage7.UseVisualStyleBackColor = true;
