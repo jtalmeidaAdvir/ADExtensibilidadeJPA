@@ -4226,7 +4226,7 @@ SELECT COP.codigo ,COP_P.Funcionario,C.Descricao,F.NumContr,F.NumBeneficiario,AM
                 Borda(rSimNao2);
 
                 //DADOS NAS LINHAS //********************************************************************** TRABALHADORES JPA
-
+ 
                 var queryObraPAITrabalhadores = $@"   
 
 
@@ -4246,7 +4246,7 @@ FROM (
     LEFT JOIN COP_Obras_Pessoal op ON op.obraId = o.id
     LEFT JOIN GPR_Operadores g ON g.idOperador = op.colaboradorID
     LEFT JOIN Funcionarios f ON f.codigo = g.Operador
-    WHERE o.Codigo = '24.2738'
+    WHERE o.Codigo = '{codigoObra}'
 ) f
 LEFT JOIN Profissoes p ON f.Profissao = p.Profissao
 LEFT JOIN (
@@ -4266,7 +4266,7 @@ ORDER BY f.Nome
                 var dadosTrabalhadores = BSO.Consulta(queryObraPAITrabalhadores);
 
                 var numregistos = dadosTrabalhadores.NumLinhas();
-
+               // MessageBox.Show(numregistos.ToString());
                 int linhaAtual = 22;
                 dadosTrabalhadores.Inicio();
                 for (int i = 0; i < numregistos; i++)
@@ -5769,6 +5769,7 @@ ORDER BY f.Nome
 
                         if (match.Success)
                         {
+                            ((Excel.Range)ws2.Cells[linhaAtual, 10]).NumberFormat = "@";
                             ws2.Cells[linhaAtual, 10] = match.Value;
                         }
                         else
@@ -5779,6 +5780,7 @@ ORDER BY f.Nome
                         match = Regex.Match(caminho2, @"\d{2}/\d{2}/\d{4}");
                         if (match.Success)
                         {
+                            ((Excel.Range)ws2.Cells[linhaAtual, 12]).NumberFormat = "@";
                             ws2.Cells[linhaAtual, 12] = match.Value;
                             ws2.Cells[linhaAtual, 11] = "C";
                         }
