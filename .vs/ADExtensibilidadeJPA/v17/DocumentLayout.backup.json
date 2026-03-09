@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|c:\\users\\jtalm\\desktop\\new folder (2)\\adextensibilidadejpa\\adextensibilidadejpa\\dadosjpa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\dadosjpa.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|c:\\users\\jtalm\\desktop\\new folder (2)\\adextensibilidadejpa\\adextensibilidadejpa\\quadrocontrolo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{98F4AEE1-88E2-47BF-950C-A61039B8E02D}|ADExtensibilidadeJPA\\ADExtensibilidadeJPA.csproj|solutionrelative:adextensibilidadejpa\\quadrocontrolo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -43,19 +47,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DadosJPA.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\DadosJPA.cs",
+              "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\DadosJPA.cs",
+              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\DadosJPA.cs [Design]",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\DadosJPA.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T11:00:42.184Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "QuadroControlo.cs",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\QuadroControlo.cs",
-              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs*",
-              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs*",
-              "ViewState": "AgIAAJwQAAAAAAAAAAAQwKwQAAARAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs",
+              "ViewState": "AgIAAI4QAAAAAAAAAAAUwJAQAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-17T14:07:53.138Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "AddLinkForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\AddLinkForm.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\AddLinkForm.cs",
@@ -66,7 +82,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "GestaoSubempreitada.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\GestaoSubempreitada.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\GestaoSubempreitada.cs",
@@ -77,7 +93,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "GestaoSubempreitada.cs",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\GestaoSubempreitada.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\GestaoSubempreitada.cs",
@@ -89,19 +105,18 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "QuadroControlo.cs [Design]",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\QuadroControlo.cs",
-              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs [Design]*",
-              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs [Design]*",
+              "ToolTip": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\QuadroControlo.cs [Design]",
+              "RelativeToolTip": "ADExtensibilidadeJPA\\QuadroControlo.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T14:07:43.919Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-11-17T14:07:43.919Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GestaoSubempreitada.Designer.cs",
               "DocumentMoniker": "C:\\Users\\jtalm\\Desktop\\New folder (2)\\ADExtensibilidadeJPA\\ADExtensibilidadeJPA\\GestaoSubempreitada.Designer.cs",
               "RelativeDocumentMoniker": "ADExtensibilidadeJPA\\GestaoSubempreitada.Designer.cs",
@@ -109,8 +124,7 @@
               "RelativeToolTip": "ADExtensibilidadeJPA\\GestaoSubempreitada.Designer.cs",
               "ViewState": "AgIAAIkLAAAAAAAAAAAAAKULAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-30T09:29:20.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-30T09:29:20.041Z"
             }
           ]
         }

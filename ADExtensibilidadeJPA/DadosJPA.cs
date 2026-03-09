@@ -277,10 +277,24 @@ namespace ADExtensibilidadeJPA
                     UpdateCheckboxFromDB(checkBox4, dados, "CDU_AnexoComprovativoPagamento", "TSU", "CDU_ValidadeComprovativoPagamento");
                     UpdateCheckboxFromDB(checkBox5, dados, "CDU_AnexoReciboSeguroAT", "Seguro AT", "CDU_ValidadeReciboSeguroAT");
                     UpdateCheckboxFromDB(checkBox6, dados, "CDU_AnexoSeguroRC", "Seguro RC", "CDU_ValidadeSeguroRC");
-                    UpdateCheckboxFromDB(checkBox8, dados, "CDU_AnexoSeguroAT", "Condições Seguro AT", "CDU_ValidadeSeguroAT");
+                    UpdateCheckboxFromDB(checkBox8, dados, "CDU_AnexoSeguroAT", "Condições Seguro AT", "");
+                    if (checkBox8.Checked)
+                    {
+                        var numAt = dados.Valor("CDU_NumApoliceAt")?.ToString();
+                        checkBox8.Text = string.IsNullOrEmpty(numAt)
+                            ? "Condições Seguro AT"
+                            : $"Condições Seguro AT (Apólice: {numAt})";
+                    }
                     UpdateCheckboxFromDB(checkBox9, dados, "CDU_AnexoAlvara", "Alvará", "CDU_ValidadeAlvara");
                     UpdateCheckboxFromDB(checkBox10, dados, "CDU_AnexoCertidaoPermanente", "Certidão Permanente", "CDU_ValidadeCertidaoPermanente");
-                    UpdateCheckboxFromDB(checkBox13, dados, "CDU_AnexoSeguroResposabilidadeCivil", "Condições Seguro RC", "CDU_ValidadeSeguroResposabilidadeCivil");
+                    UpdateCheckboxFromDB(checkBox13, dados, "CDU_AnexoSeguroResposabilidadeCivil", "Condições Seguro RC", "");
+                    if (checkBox13.Checked)
+                    {
+                        var numRc = dados.Valor("CDU_NumApoliceRc")?.ToString();
+                        checkBox13.Text = string.IsNullOrEmpty(numRc)
+                            ? "Condições Seguro RC"
+                            : $"Condições Seguro RC (Apólice: {numRc})";
+                    }
                     UpdateCheckboxFromDB(checkBox28, dados, "CDU_AnexoAnexoD", "Anexo D", "CDU_ValidadeAnexoD");
                 }
             }
@@ -429,7 +443,7 @@ namespace ADExtensibilidadeJPA
                     return;
                 }
 
-                DateTime dataValidade;
+                DateTime? dataValidade = null;
                 string numeroApoliceAt = "";
                 string numeroApoliceRc = "";
 
@@ -439,8 +453,6 @@ namespace ADExtensibilidadeJPA
                 }
                 else if (tipoDocumento == "SeguroResposabilidadeCivil")
                 {
-                    dataValidade = DateTime.Today;
-
                     using (Form formApolice = new Form())
                     {
                         formApolice.Text = "Número da Apólice RC";
@@ -489,8 +501,6 @@ namespace ADExtensibilidadeJPA
                 }
                 else if (tipoDocumento == "SeguroAT")
                 {
-                    dataValidade = DateTime.Today;
-
                     using (Form formApolice = new Form())
                     {
                         formApolice.Text = "Número da Apólice AT";
@@ -672,7 +682,7 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        private void AtualizarStatusDocumento(string tipoDocumento, string caminho, DateTime dataValidade)
+        private void AtualizarStatusDocumento(string tipoDocumento, string caminho, DateTime? dataValidade)
         {
             try
             {
@@ -727,10 +737,9 @@ namespace ADExtensibilidadeJPA
                         break;
                 }
 
-                string query = $@"UPDATE Geral_Entidade SET 
-                            {colunaAnexo} = 1,
-                            {colunaValidade} = '{dataValidade:yyyy-MM-dd}'
-                            WHERE Id = '{_idJPA}'";
+                string query = dataValidade.HasValue
+                    ? $@"UPDATE Geral_Entidade SET {colunaAnexo} = 1, {colunaValidade} = '{dataValidade.Value:yyyy-MM-dd}' WHERE Id = '{_idJPA}'"
+                    : $@"UPDATE Geral_Entidade SET {colunaAnexo} = 1 WHERE Id = '{_idJPA}'";
                 _BSO.DSO.ExecuteSQL(query);
             }
             catch (Exception ex)
