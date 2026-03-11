@@ -690,50 +690,6 @@ namespace ADExtensibilidadeJPA
                     return;
                 }
 
-                // Solicitar data de validade
-                DateTime dataValidade;
-                using (Form formValidade = new Form())
-                {
-                    formValidade.Text = "Data de Validade";
-                    formValidade.StartPosition = FormStartPosition.CenterParent;
-                    formValidade.Width = 320;
-                    formValidade.Height = 150;
-                    formValidade.FormBorderStyle = FormBorderStyle.FixedDialog;
-                    formValidade.MaximizeBox = false;
-                    formValidade.MinimizeBox = false;
-
-                    Label lblInfo = new Label();
-                    lblInfo.Text = "Informe a data de validade do documento:";
-                    lblInfo.Left = 20;
-                    lblInfo.Top = 20;
-                    lblInfo.Width = 250;
-
-                    DateTimePicker dtpValidade = new DateTimePicker();
-                    dtpValidade.Left = 20;
-                    dtpValidade.Top = 50;
-                    dtpValidade.Width = 250;
-                    dtpValidade.Format = DateTimePickerFormat.Short;
-                    dtpValidade.Value = DateTime.Now.AddMonths(1); // Um mês à frente como padrão
-
-                    Button btnOk = new Button();
-                    btnOk.Text = "OK";
-                    btnOk.DialogResult = DialogResult.OK;
-                    btnOk.Left = 110;
-                    btnOk.Top = 80;
-
-                    formValidade.Controls.Add(lblInfo);
-                    formValidade.Controls.Add(dtpValidade);
-                    formValidade.Controls.Add(btnOk);
-                    formValidade.AcceptButton = btnOk;
-
-                    if (formValidade.ShowDialog() != DialogResult.OK)
-                    {
-                        return; // Usuário cancelou
-                    }
-
-                    dataValidade = dtpValidade.Value;
-                }
-
                 // Abre o diálogo para selecionar o arquivo
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
@@ -798,12 +754,12 @@ namespace ADExtensibilidadeJPA
                         // AtualizarStatusDocumentotrabalhdor(tipoDocumento, destFile, dataValidade);
 
                         // Atualizar o checkbox correspondente
-                        AtualizarCheckboxautorizacoes(tipoDocumento, System.IO.Path.GetFileName(sourceFile), dataValidade);
+                        AtualizarCheckboxautorizacoes(tipoDocumento, System.IO.Path.GetFileName(sourceFile));
 
                         // Recarregar os dados para garantir exibição correta
                         // CarregarStatusDocumentos();
 
-                        MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!\nValidade: {dataValidade.ToShortDateString()}",
+                        MessageBox.Show($"Documento '{tipoDocumento}' anexado com sucesso!",
                             "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -1181,58 +1137,35 @@ namespace ADExtensibilidadeJPA
             }
         }
 
-        private void AtualizarCheckboxautorizacoes(string tipoDocumento, string nomeArquivo, DateTime dataValidade)
+        private void AtualizarCheckboxautorizacoes(string tipoDocumento, string nomeArquivo)
         {
             CheckBox checkBox = null;
-            string nomeDocumento = "";
             // Identificar qual checkbox deve ser atualizado com base no tipo de documento
             switch (tipoDocumento)
             {
                 case "contrato":
                     checkBox = checkBox27;
-                    nomeDocumento = "contrato";
                     break;
                 case "Horario":
                     checkBox = checkBox25;
-                    nomeDocumento = "Horario";
                     break;
                 case "Declaracao_PSS":
                     checkBox = checkBox26;
-                    nomeDocumento = "Declaracao_PSS";
                     break;
                 case "Declaracao_Estaleiro":
                     checkBox = checkBox7;
-                    nomeDocumento = "Declaracao_Estaleiro";
                     break;
-
                 case "Trabalhadores_Imigrantes":
                     checkBox = checkBox12;
-                    nomeDocumento = "Trabalhadores_Imigrantes";
                     break;
             }
 
-            // Se encontrou o checkbox, atualiza seu estado e texto
+            // Se encontrou o checkbox, atualiza seu estado
             if (checkBox != null)
             {
                 checkBox.Enabled = true;
                 checkBox.Checked = true;
-                checkBox.Text = $"{nomeDocumento} (Válido até: {dataValidade.ToShortDateString()})";
-
-                // Verificar se a data está expirada
-                bool dataExpirada = dataValidade < DateTime.Today;
-
-                // Atualizar a cor do texto baseado na validade
-                if (dataExpirada)
-                {
-                    checkBox.ForeColor = Color.Red;
-                }
-                else
-                {
-                    checkBox.ForeColor = SystemColors.ControlText; // Cor de texto padrão
-                }
-
-                // Ajustar a largura do checkbox para mostrar o texto completo
-                checkBox.AutoSize = true;
+                checkBox.ForeColor = SystemColors.ControlText;
             }
         }
         private void AtualizarCheckboxequipamento(string tipoDocumento, string nomeArquivo, DateTime dataValidade)
@@ -3713,11 +3646,11 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @tabl
                 checkBox7.Checked = ConvertToBool(row.Cells["AnexoDRE"].Value);
                 checkBox12.Checked = ConvertToBool(row.Cells["AnexoDRTI"].Value);
 
-                VerificarEColorirCheckBox(checkBox27, row.Cells["caminho11"].Value);
-                VerificarEColorirCheckBox(checkBox25, row.Cells["caminho12"].Value);
-                VerificarEColorirCheckBox(checkBox26, row.Cells["caminho13"].Value);
-                VerificarEColorirCheckBox(checkBox7, row.Cells["caminho14"].Value);
-                VerificarEColorirCheckBox(checkBox12, row.Cells["caminho15"].Value);
+                checkBox27.ForeColor = SystemColors.ControlText;
+                checkBox25.ForeColor = SystemColors.ControlText;
+                checkBox26.ForeColor = SystemColors.ControlText;
+                checkBox7.ForeColor = SystemColors.ControlText;
+                checkBox12.ForeColor = SystemColors.ControlText;
 
 
                 button30.Visible = true;
