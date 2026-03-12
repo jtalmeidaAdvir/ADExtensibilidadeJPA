@@ -1616,13 +1616,12 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
 
 
 
+                string idPadrao = "2A8C7ECD-309B-49F9-A337-203B45CED948";
                 if (idsSelecionados.Count > 0)
                 {
-
-
                     // 1. Cria uma cópia da lista original para verificação de autorização
                     var idsParaVerificacao = new List<string>(idsSelecionados);
-                    idsParaVerificacao.Remove("2A8C7ECD-309B-49F9-A337-203B45CED948"); // remove se estiver por algum motivo
+                    idsParaVerificacao.Remove(idPadrao); // remove se estiver por algum motivo
 
                     // 2. Verifica autorização sem o id padrão
                     Dictionary<string, List<string>> autorizacoes;
@@ -1634,14 +1633,12 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                     }
 
                     // 3. Adiciona o ID padrão no início da lista (se ainda não estiver)
-                    string idPadrao = "2A8C7ECD-309B-49F9-A337-203B45CED948";
                     if (!idsSelecionados.Contains(idPadrao))
                     {
                         idsSelecionados.Insert(0, idPadrao); // insere na primeira posição
                     }
                     else
                     {
-                        // opcional: move para o início se já existir em outra posição
                         idsSelecionados.Remove(idPadrao);
                         idsSelecionados.Insert(0, idPadrao);
                     }
@@ -1652,7 +1649,10 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                 }
                 else
                 {
-                    MessageBox.Show("Por favor, selecione pelo menos uma empresa com a caixa marcada.");
+                    // Exportar sem subempreiteiros selecionados: usa apenas o ID padrão com a obra do filtro
+                    string obraComum = f4TabelaSQL1.Text;
+                    idsSelecionados.Add(idPadrao);
+                    ExportarParaExcel(idsSelecionados, obraComum);
                 }
             }
             catch (System.Exception ex)
@@ -1679,13 +1679,12 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
 
 
 
+                string idPadrao2 = "2A8C7ECD-309B-49F9-A337-203B45CED948";
                 if (idsSelecionados.Count > 0)
                 {
-
-
                     // 1. Cria uma cópia da lista original para verificação de autorização
                     var idsParaVerificacao = new List<string>(idsSelecionados);
-                    idsParaVerificacao.Remove("2A8C7ECD-309B-49F9-A337-203B45CED948"); // remove se estiver por algum motivo
+                    idsParaVerificacao.Remove(idPadrao2); // remove se estiver por algum motivo
 
                     // 2. Verifica autorização sem o id padrão
                     Dictionary<string, List<string>> autorizacoes;
@@ -1697,16 +1696,14 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                     }
 
                     // 3. Adiciona o ID padrão no início da lista (se ainda não estiver)
-                    string idPadrao = "2A8C7ECD-309B-49F9-A337-203B45CED948";
-                    if (!idsSelecionados.Contains(idPadrao))
+                    if (!idsSelecionados.Contains(idPadrao2))
                     {
-                        idsSelecionados.Insert(0, idPadrao); // insere na primeira posição
+                        idsSelecionados.Insert(0, idPadrao2); // insere na primeira posição
                     }
                     else
                     {
-                        // opcional: move para o início se já existir em outra posição
-                        idsSelecionados.Remove(idPadrao);
-                        idsSelecionados.Insert(0, idPadrao);
+                        idsSelecionados.Remove(idPadrao2);
+                        idsSelecionados.Insert(0, idPadrao2);
                     }
 
                     // 4. Continua com a exportação
@@ -1715,7 +1712,10 @@ Caso existam trabalhadores independentes, aplica-se igualmente o Artigo 23.º do
                 }
                 else
                 {
-                    MessageBox.Show("Por favor, selecione pelo menos uma empresa com a caixa marcada.");
+                    // Exportar sem subempreiteiros selecionados: usa apenas o ID padrão com a obra do filtro
+                    string obraComum = f4TabelaSQL1.Text;
+                    idsSelecionados.Add(idPadrao2);
+                    ExportarParaExcelNovo(idsSelecionados, obraComum);
                 }
             }
             catch (System.Exception ex)

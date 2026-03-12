@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:\\\\Users\\\\jtalm\\\\Desktop\\\\New folder \\(2\\)\\\\ADExtensibilidadeJPA\" -name \"*.cs\" -type f)"
+    ]
+  }
+}
